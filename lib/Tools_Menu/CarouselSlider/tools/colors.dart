@@ -19,3 +19,22 @@ class ColorsClass extends GetxController {
     }
   }
 }
+
+class ThemeController extends GetxController {
+  RxBool isDarkMode = false.obs;
+  Rx<Color> backgroundColor = Color.fromRGBO(245, 245, 220, 1).obs;
+
+  // Define your light theme here
+  ThemeData lightTheme = ThemeData.light().copyWith(
+    primaryColor: Colors.pink,
+  );
+
+  void toggleTheme() async {
+    isDarkMode.toggle();
+    Get.changeThemeMode(isDarkMode.value ? ThemeMode.dark : ThemeMode.light);
+
+    // Update background color based on the current theme
+    backgroundColor.value =
+        isDarkMode.value ? Colors.black : Color.fromRGBO(245, 245, 220, 1);
+  }
+}

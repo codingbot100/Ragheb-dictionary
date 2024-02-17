@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 
 import 'package:ragheb_dictionary/HomePage/bottoNavigation.dart';
 import 'package:ragheb_dictionary/HomePage/searchPage/InformationPage.dart';
-import 'package:ragheb_dictionary/searchDB.dart/DbFavorite.dart';
 
 class CardItem {
   late final String title;
@@ -88,171 +87,7 @@ class _ListbarState extends State<Listbar> {
         description: "خداوند متعال اشخاص با اخلاص را دوست دارد ",
         inititle: "ص 2",
         iconState: false),
-    CardItem(
-        title: 'شکر',
-        description: "باید در هر حال شکر گذار باشیم",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'پاکی',
-        description: "اشخاص پاک دامن در نزد الله گرانقدر هستند",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'خلافت',
-        description: "خلافت یک امر فرض است",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'تقوا',
-        description: "یک از صفات مومنان است",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'اخلاص',
-        description: "خداوند متعال اشخاص با اخلاص را دوست دارد ",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'شکر',
-        description: "باید در هر حال شکر گذار باشیم",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'پاکی',
-        description: "اشخاص پاک دامن در نزد الله گرانقدر هستند",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'خلافت',
-        description: "خلافت یک امر فرض است",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'تقوا',
-        description: "یک از صفات مومنان است",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'اخلاص',
-        description: "خداوند متعال اشخاص با اخلاص را دوست دارد ",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'شکر',
-        description: "باید در هر حال شکر گذار باشیم",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'پاکی',
-        description: "اشخاص پاک دامن در نزد الله گرانقدر هستند",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'خلافت',
-        description: "خلافت یک امر فرض است",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'تقوا',
-        description: "یک از صفات مومنان است",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'اخلاص',
-        description: "خداوند متعال اشخاص با اخلاص را دوست دارد ",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'شکر',
-        description: "باید در هر حال شکر گذار باشیم",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'پاکی',
-        description: "اشخاص پاک دامن در نزد الله گرانقدر هستند",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'خلافت',
-        description: "خلافت یک امر فرض است",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'تقوا',
-        description: "یک از صفات مومنان است",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'اخلاص',
-        description: "خداوند متعال اشخاص با اخلاص را دوست دارد ",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'شکر',
-        description: "باید در هر حال شکر گذار باشیم",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'پاکی',
-        description: "اشخاص پاک دامن در نزد الله گرانقدر هستند",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'خلافت',
-        description: "خلافت یک امر فرض است",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'تقوا',
-        description: "یک از صفات مومنان است",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'اخلاص',
-        description: "خداوند متعال اشخاص با اخلاص را دوست دارد ",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'شکر',
-        description: "باید در هر حال شکر گذار باشیم",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'پاکی',
-        description: "اشخاص پاک دامن در نزد الله گرانقدر هستند",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'خلافت',
-        description: "خلافت یک امر فرض است",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'تقوا',
-        description: "یک از صفات مومنان است",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'اخلاص',
-        description: "خداوند متعال اشخاص با اخلاص را دوست دارد ",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'شکر',
-        description: "باید در هر حال شکر گذار باشیم",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'پاکی',
-        description: "اشخاص پاک دامن در نزد الله گرانقدر هستند",
-        inititle: "ص 2",
-        iconState: false),
-    CardItem(
-        title: 'خلافت',
-        description: "خلافت یک امر فرض است",
-        inititle: "ص 2",
-        iconState: false),
+   
   ];
 
   void message2() {
@@ -279,12 +114,7 @@ class _ListbarState extends State<Listbar> {
     filteredInfo = allInfo;
     super.initState();
 
-    PreferencesHelper.getFavorites().then((favorites) {
-      setState(() {
-        allInfo = filteredInfo;
-        message2();
-      });
-    });
+    
   }
 
   double width = 280.0;

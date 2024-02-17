@@ -6,8 +6,8 @@ import 'package:ragheb_dictionary/HomePage/MessagePage.dart';
 import 'package:ragheb_dictionary/HomePage/SettingPage.dart';
 
 import 'package:ragheb_dictionary/HomePage/menu.dart';
-import 'package:ragheb_dictionary/HomePage/searchPage/searchPage.dart';
-import 'package:ragheb_dictionary/searchDB.dart/favoitPage3.dart';
+import 'package:ragheb_dictionary/search_Page/favorite_page.dart';
+import 'package:ragheb_dictionary/search_Page/search_Page.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -30,7 +30,7 @@ class _bottmState extends State<bottm> {
     _pages = [
       {'Page': Home()},
       {'Page': message()},
-      {'Page': FavoritePage32()},
+      {'Page': FavoritePage()},
       {'Page': MySettingsPage()},
     ];
     super.initState();
@@ -50,7 +50,7 @@ class _bottmState extends State<bottm> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Get.to(
-            () => Listbar(),
+            () => MyHomePage_search(),
             curve: Curves.fastEaseInToSlowEaseOut,
             transition: Transition.downToUp,
             // duration: Duration(milliseconds: 900)

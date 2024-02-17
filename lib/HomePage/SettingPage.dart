@@ -30,6 +30,8 @@ class MySettingsPage extends StatefulWidget {
 }
 
 class _MySettingsPageState extends State<MySettingsPage> {
+  final ThemeController _themeController = Get.put(ThemeController());
+
   final CAD = Get.put(ColorsClass());
   String fontFamile = 'Yekan';
   var them1 = new MyTheme();
@@ -236,11 +238,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                 curve: Curves.easeInBack,
                                 child: IconButton(
                                     onPressed: () {
-                                      setState(() {
-                                        CAD.toggleDarkMode();
-                                      });
-
-                                      // CAD.dartMode = !CAD.dartMode.;
+                                      _themeController.toggleTheme();
                                     },
                                     icon: theme.isDarkMode
                                         ? Icon(Icons.wb_sunny_outlined)

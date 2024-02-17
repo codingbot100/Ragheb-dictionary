@@ -1,6 +1,6 @@
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/CarouselSlider.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/colors.dart';
-import 'package:ragheb_dictionary/HomePage/FavoritePage2.dart';
+import 'package:ragheb_dictionary/search_Page/favorite_page.dart';
 
 import 'searchPage/searchPage.dart';
 import 'package:flutter/material.dart';
@@ -75,8 +75,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   Container(
                     width: 350,
                     height: 188,
-                    child: FavoritesPage2(
-                      favorites: [],
+                    child: FavoritePage(
+                      
                     ),
                   )
                   // Other widgets...
@@ -85,8 +85,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               Container(
                 width: 350,
                 height: 188,
-                child: FavoritesPage2(
-                  favorites: [],
+                child: FavoritePage(
+                  
                 ),
               )
             ]))));

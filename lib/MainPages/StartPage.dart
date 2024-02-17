@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ragheb_dictionary/MainPages/EnterAnimation.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/colors.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-main() {
+main() async {
+  await Hive.initFlutter();
   runApp(start());
 }
 
@@ -12,14 +14,11 @@ class start extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      return GetMaterialApp(
-        theme: ThemeData(
-          primaryColor: CAD.colorBackground.value,
-        ),
-        debugShowCheckedModeBanner: false,
-        home: enteringPage(),
-      );
-    });
+    return GetMaterialApp(
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      debugShowCheckedModeBanner: false,
+      home: enteringPage(),
+    );
   }
 }
