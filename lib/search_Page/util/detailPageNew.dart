@@ -4,8 +4,9 @@ import "package:flutter/material.dart";
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/fonts.dart';
-import 'package:ragheb_dictionary/new_csv/search_pageMe.dart';
 import 'package:ragheb_dictionary/search_Page/data/database.dart';
+import 'package:ragheb_dictionary/search_Page/data/sharedPrefernces.dart';
+import 'package:ragheb_dictionary/search_Page/util/search_pageMe.dart';
 
 class DetailPage12 extends StatefulWidget {
   final String name;
@@ -32,6 +33,7 @@ class _DetailPage12State extends State<DetailPage12> {
   late PageController _pageController;
   var _currentPageIndex = 0;
   bool isFavorite = false;
+  SharedPreferencesHelper shareddb = SharedPreferencesHelper();
 
   @override
   void initState() {
@@ -46,6 +48,24 @@ class _DetailPage12State extends State<DetailPage12> {
     });
 
     super.initState();
+  }
+
+  void addToFavorite() {
+    setState(() {
+      if (shareddb.itemList.contains(widget.name)) {
+        shareddb.itemList.remove(widget.name);
+        shareddb.itemList.remove(widget.description);
+        shareddb.itemList.remove(widget.footnote);
+        print(
+            "remove to favorite: ${widget.name}, ${widget.description}, ${widget.footnote}");
+      } else {
+        shareddb.itemList.add(widget.name);
+        shareddb.itemList.add(widget.description);
+        shareddb.itemList.add(widget.footnote);
+        print(
+            "Adding to favorite: ${widget.name}, ${widget.description}, ${widget.footnote}");
+      }
+    });
   }
 
   void toggleFavorite() {
@@ -99,6 +119,15 @@ class _DetailPage12State extends State<DetailPage12> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          Container(
+                            child: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    print(db.favorite);
+                                  });
+                                },
+                                icon: Icon(Icons.favorite)),
+                          ),
                           Container(
                             child: IconButton(
                                 onPressed: () {

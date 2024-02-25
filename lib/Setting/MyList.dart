@@ -25,10 +25,11 @@ class Mylist extends StatelessWidget {
                 BoxShadow(
                     offset: Offset(2, 2), color: Color.fromRGBO(0, 0, 0, 0.08))
               ]),
-          height: 42,
+          height: 45,
           child: ListTile(
+            horizontalTitleGap: 20,
             trailing: Icon(
-              Icons.arrow_back_ios_new,
+              Icons.arrow_forward_ios,
               size: 17,
             ),
             leading: Text(

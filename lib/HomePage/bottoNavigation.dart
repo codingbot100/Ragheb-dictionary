@@ -4,19 +4,8 @@ import 'package:iconsax/iconsax.dart';
 import 'package:ragheb_dictionary/HomePage/WebLog.dart';
 import 'package:ragheb_dictionary/Setting/SettingPage.dart';
 import 'package:ragheb_dictionary/HomePage/menu.dart';
-import 'package:ragheb_dictionary/new_csv/search_pageMe.dart';
 import 'package:ragheb_dictionary/search_Page/FavoritePage_last.dart';
-
-class moon extends StatelessWidget {
-  const moon({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
-      home: bottm(),
-    );
-  }
-}
+import 'package:ragheb_dictionary/search_Page/util/search_pageMe.dart';
 
 class bottm extends StatefulWidget {
   @override
@@ -55,7 +44,8 @@ class _bottmState extends State<bottm> {
           Get.to(
             () => SearchPageMe(),
             curve: Curves.fastEaseInToSlowEaseOut,
-            transition: Transition.downToUp,
+            transition: Transition.rightToLeft,
+            duration: Duration(milliseconds: 500),
           );
           setState(() {
             _selectedPageIndex = 4;
@@ -76,7 +66,7 @@ class _bottmState extends State<bottm> {
           notchMargin: 8.0,
           height: 80,
           shape: CircularNotchedRectangle(),
-          color: Color.fromRGBO(224, 224, 191, 1),
+          color: Color.fromRGBO(224, 224, 191, 9),
           child: Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceAround,

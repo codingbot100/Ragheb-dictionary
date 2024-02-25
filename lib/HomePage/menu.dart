@@ -20,8 +20,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   ];
   int myCurrentIndex = 0;
 
- 
-
   final fontFamile = 'Yekan';
   final fontSizeTitle = 18.0;
   final fontSizeSubTitle = 10.0;
@@ -40,34 +38,29 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               top: 50,
             ),
             child: Column(children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 20, right: 35),
-                child: Expanded(
-                  child: Row(
-                    textDirection: TextDirection.rtl,
-                    children: [
-                      Text(
-                        'فرهنگ لغت راغب',
-                        style: TextStyle(
-                            fontFamily: fontFamile,
-                            fontSize: fontSizeTitle,
-                            fontWeight: FontWeight.w900,
-                            color: colorPrimary),
-                      ),
-                    ],
-                  ),
+              Expanded(
+                child: Row(
+                  textDirection: TextDirection.rtl,
+                  children: [
+                    Text(
+                      'فرهنگ لغت راغب',
+                      style: TextStyle(
+                          fontFamily: fontFamile,
+                          fontSize: fontSizeTitle,
+                          fontWeight: FontWeight.w900,
+                          color: colorPrimary),
+                    ),
+                  ],
                 ),
               ),
               SizedBox(
                 height: 30,
               ),
               Expanded(child: TextRow(' همه  ', 'مقالات وبلاگ')),
-              SizedBox(
-                height: 15,
-              ),
               Padding(
-                  padding: const EdgeInsets.only(top: 10, bottom: 10),
-                  child: CarouselSlider1()),
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: Expanded(
+                      child: Container(width: 1000, child: CarouselSlider1()))),
               Expanded(child: TextRow('ذخیره شده ها', 'مرور همه')),
               Column(
                 children: [

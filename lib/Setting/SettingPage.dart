@@ -1,8 +1,8 @@
 // ignore_for_file: override_on_non_overriding_member
 
 import 'package:flutter/material.dart';
-import 'package:ragheb_dictionary/HomePage/searchPage/settingsPages.dart/About_us.dart';
-import 'package:ragheb_dictionary/HomePage/searchPage/settingsPages.dart/about_ragheb_dictionary.dart';
+import 'package:ragheb_dictionary/search_Page/searchPage/settingsPages.dart/About_us.dart';
+import 'package:ragheb_dictionary/search_Page/searchPage/settingsPages.dart/about_ragheb_dictionary.dart';
 import 'package:ragheb_dictionary/HomePage/theme.dart';
 import 'package:ragheb_dictionary/Setting/CircleContainer.dart';
 import 'package:ragheb_dictionary/Setting/FontOptionButton.dart';
@@ -12,15 +12,6 @@ import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: MySettingsPage(),
-    );
-  }
-}
 
 class MySettingsPage extends StatefulWidget {
   @override

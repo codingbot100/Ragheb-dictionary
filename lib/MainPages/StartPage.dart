@@ -8,9 +8,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 
  main() async {
   await Hive.initFlutter(); 
+  WidgetsFlutterBinding.ensureInitialized();
   var box = await Hive.openBox('mybox');
-  
-
   runApp(start());
 }
 

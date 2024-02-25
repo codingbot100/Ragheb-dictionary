@@ -24,12 +24,13 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-              child: SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: SingleChildScrollView(
+              child: Container(
+                width: 2000,
                 child: CarouselSlider(
                   items: List.generate(
                     myItems.length,
@@ -52,34 +53,32 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: Container(
-                height: 9,
-                child: AnimatedSmoothIndicator(
-                  activeIndex: myCurrentIndex,
-                  count: myItems.length,
-                  effect: ExpandingDotsEffect(
-                    dotColor: colorClass1.colorPrimary.value,
-                    dotHeight: 8,
-                    dotWidth: 8,
-                    
-                  ),
-                  curve: Curves.easeInBack,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Container(
+              height: 9,
+              child: AnimatedSmoothIndicator(
+                activeIndex: myCurrentIndex,
+                count: myItems.length,
+                effect: ExpandingDotsEffect(
+                  dotColor: Color.fromARGB(255, 255, 255, 1),
+                  dotHeight: 5,
+                  dotWidth: 10,
                 ),
+                curve: Curves.easeInBack,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildImageContainer(int index) {
     return Container(
-      width: 300,
-      height: 130,
-      margin: EdgeInsets.only(right: 10),
+      width: 1000,
+      height: 80,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20.0),
         border: Border.all(
