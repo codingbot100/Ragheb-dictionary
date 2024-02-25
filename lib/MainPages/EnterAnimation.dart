@@ -25,14 +25,14 @@ class _enteringPageState extends State<enteringPage>
     // Initialize the animation controller
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: Duration(milliseconds: 500),
     );
 
     // Create an opacity animation
     _opacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: Curves.easeIn,
+        curve: Curves.fastEaseInToSlowEaseOut,
       ),
     );
 

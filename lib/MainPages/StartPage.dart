@@ -1,11 +1,16 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+// import 'package:get_storage/get_storage.dart';
 import 'package:ragheb_dictionary/MainPages/EnterAnimation.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/colors.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-main() async {
-  await Hive.initFlutter();
+void main() async {
+  await Hive.initFlutter(); 
+  var box = await Hive.openBox('mybox');
+
   runApp(start());
 }
 
@@ -15,8 +20,6 @@ class start extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
       home: enteringPage(),
     );

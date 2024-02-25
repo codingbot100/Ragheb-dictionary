@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:ragheb_dictionary/HomePage/MessagePage.dart';
-
-import 'package:ragheb_dictionary/HomePage/SettingPage.dart';
-
+import 'package:ragheb_dictionary/HomePage/WebLog.dart';
+import 'package:ragheb_dictionary/Setting/SettingPage.dart';
 import 'package:ragheb_dictionary/HomePage/menu.dart';
-import 'package:ragheb_dictionary/search_Page/favorite_page.dart';
+import 'package:ragheb_dictionary/search_Page/FavoritePage_last.dart';
 import 'package:ragheb_dictionary/search_Page/search_Page.dart';
 
-void main() {
-  runApp(MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark(),
-      home: bottm()));
+class moon extends StatelessWidget {
+  const moon({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+      home: bottm(),
+    );
+  }
 }
 
 class bottm extends StatefulWidget {
@@ -30,8 +32,9 @@ class _bottmState extends State<bottm> {
     _pages = [
       {'Page': Home()},
       {'Page': message()},
-      {'Page': FavoritePage()},
+      {'Page': message()},
       {'Page': MySettingsPage()},
+      {}
     ];
     super.initState();
   }
@@ -50,10 +53,9 @@ class _bottmState extends State<bottm> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Get.to(
-            () => MyHomePage_search(),
+            () => search_page(),
             curve: Curves.fastEaseInToSlowEaseOut,
             transition: Transition.downToUp,
-            // duration: Duration(milliseconds: 900)
           );
         },
         child: Icon(

@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
-class about_ragheb_dictionary extends StatefulWidget {
-  const about_ragheb_dictionary({super.key});
+class about_Us extends StatefulWidget {
+  const about_Us({super.key});
 
   @override
-  State<about_ragheb_dictionary> createState() =>
-      _about_ragheb_dictionaryState();
+  State<about_Us> createState() => _about_UsState();
 }
 
-class _about_ragheb_dictionaryState extends State<about_ragheb_dictionary> {
+class _about_UsState extends State<about_Us> {
   var fontFamile2 = 'YekanBakh';
+
   double fontSizeSubTitle = 10.0;
+
   final colorPrimary = Color(0xFF009688);
+
   final colorBackground = Color.fromRGBO(245, 245, 220, 1);
+
   final colorPrimary2 = Color(0xFFB0BEC5);
+
   final colorBackground2 = Color.fromARGB(255, 224, 224, 224);
+
   var TitleColor = Color.fromRGBO(0, 150, 136, 1);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +39,7 @@ class _about_ragheb_dictionaryState extends State<about_ragheb_dictionary> {
             ),
           )),
       body: Padding(
-        padding: const EdgeInsets.only(right: 30, top: 10),
+        padding: const EdgeInsets.only(right: 30, top: 50),
         child: SafeArea(
           child: Container(
             width: 400,
@@ -43,7 +49,7 @@ class _about_ragheb_dictionaryState extends State<about_ragheb_dictionary> {
               textDirection: TextDirection.rtl, // Set the text direction here
               children: [
                 Text(
-                  'درباره فرهنگ لغت راغب',
+                  'درباره ما ',
                   style: TextStyle(
                     fontFamily: fontFamile2,
                     fontSize: 20,
@@ -55,7 +61,7 @@ class _about_ragheb_dictionaryState extends State<about_ragheb_dictionary> {
                   height: 30,
                 ),
                 Text(
-                  'ترجمه لغات و اصطلاحات راغب',
+                  "گروه برنامه نویسان حدید",
                   style: TextStyle(
                     fontFamily: fontFamile2,
                     fontSize: 14,
@@ -89,4 +95,3 @@ class _about_ragheb_dictionaryState extends State<about_ragheb_dictionary> {
     );
   }
 }
-

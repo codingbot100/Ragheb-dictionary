@@ -1,8 +1,7 @@
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/CarouselSlider.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/colors.dart';
-import 'package:ragheb_dictionary/search_Page/favorite_page.dart';
+import 'package:ragheb_dictionary/search_Page/FavoritePage_last.dart';
 
-import 'searchPage/searchPage.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -21,7 +20,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   ];
   int myCurrentIndex = 0;
 
-  List<CardItem> favorites = [];
+ 
 
   final fontFamile = 'Yekan';
   final fontSizeTitle = 18.0;
@@ -75,9 +74,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   Container(
                     width: 350,
                     height: 188,
-                    child: FavoritePage(
-                      
-                    ),
+                    child: MyHomePage_search(),
                   )
                   // Other widgets...
                 ],
@@ -85,9 +82,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               Container(
                 width: 350,
                 height: 188,
-                child: FavoritePage(
-                  
-                ),
+                child: MyHomePage_search(),
               )
             ]))));
   }

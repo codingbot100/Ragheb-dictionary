@@ -5,29 +5,12 @@ import 'package:get/get.dart';
 import 'package:ragheb_dictionary/search_Page/DetailPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
+class search_page extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'Searchable List',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage_search(),
-    );
-  }
+  _search_pageState createState() => _search_pageState();
 }
 
-class MyHomePage_search extends StatefulWidget {
-  @override
-  _MyHomePage_searchState createState() => _MyHomePage_searchState();
-}
-
-class _MyHomePage_searchState extends State<MyHomePage_search> {
+class _search_pageState extends State<search_page> {
   List<Map<String, String>> dataList = [];
   List<Map<String, String>> filteredList = [];
   Set<Map<String, String>> favorites = Set();
@@ -35,14 +18,6 @@ class _MyHomePage_searchState extends State<MyHomePage_search> {
 
   TextEditingController _searchController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
-
-  @override
-  void initState() {
-    super.initState();
-    loadData();
-    loadFavorites();
-    loadRecentSearches();
-  }
 
   Future<void> loadData() async {
     String data =
@@ -60,6 +35,17 @@ class _MyHomePage_searchState extends State<MyHomePage_search> {
     }
 
     filteredList = List.from(dataList);
+  }
+
+  @override
+  void initState() {
+    loadData();
+    filteredList = List.from(dataList);
+
+    loadFavorites();
+    loadRecentSearches();
+    filteredList = List.from(dataList);
+    super.initState();
   }
 
   void loadRecentSearches() async {
@@ -140,84 +126,81 @@ class _MyHomePage_searchState extends State<MyHomePage_search> {
                         borderRadius: BorderRadius.circular(24.0),
                       ),
                       duration: Duration(milliseconds: 300),
-                      height: 45,
+                      height: 68,
                       child: Center(
-                        child: TextField(
-                          controller: _searchController,
-                          cursorColor: Color.fromRGBO(0, 150, 136, 0.5),
-                          cursorHeight: 14,
-                          cursorOpacityAnimates: true,
-                          keyboardAppearance: Brightness.dark,
-                          keyboardType: TextInputType.name,
-                          textAlignVertical: TextAlignVertical.center,
-                          style: TextStyle(
-                            fontFamily: 'Yekan',
-                            fontSize: 15,
-                            color: Color.fromRGBO(82, 82, 82, 1),
-                          ),
-                          textAlign: TextAlign.right,
-                          textDirection: TextDirection.rtl,
-                          onTap: () {
-                            setState(() {
-                              filteredList = dataList;
-                              recentSearchesVisible = true;
-                            });
-                          },
-                          onChanged: (value) {
-                            setState(() {
-                              filteredList = dataList
-                                  .where((item) =>
-                                      item['name']
-                                          ?.toLowerCase()
-                                          .contains(value.toLowerCase()) ??
-                                      false)
-                                  .toList();
-                              recentSearchesVisible = false;
-                            });
-                          },
-                          onSubmitted: (value) {
-                            saveRecentSearch(value);
-                          },
-                          decoration: InputDecoration(
-                            prefixIcon: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  _searchController.clear();
-                                });
-                              },
-                              icon: Icon(
-                                Icons.clear,
-                                size: 15,
-                                color: Color.fromRGBO(0, 0, 0, 0.5),
+                        child: SafeArea(
+                          child: TextField(
+                            controller: _searchController,
+                            cursorColor: Color.fromRGBO(0, 150, 136, 0.5),
+                            cursorHeight: 14,
+                            cursorOpacityAnimates: true,
+                            keyboardAppearance: Brightness.dark,
+                            keyboardType: TextInputType.name,
+                            textAlignVertical: TextAlignVertical.center,
+                            style: TextStyle(
+                              fontFamily: 'Yekan',
+                              fontSize: 15,
+                              color: Color.fromRGBO(82, 82, 82, 1),
+                            ),
+                            textAlign: TextAlign.right,
+                            textDirection: TextDirection.rtl,
+                            onTap: () {
+                              setState(() {
+                                filteredList = dataList;
+                                recentSearchesVisible = true;
+                              });
+                            },
+                            onChanged: (value) {
+                              setState(() {
+                                filteredList = dataList
+                                    .where((item) =>
+                                        item['name']
+                                            ?.toLowerCase()
+                                            .contains(value.toLowerCase()) ??
+                                        false)
+                                    .toList();
+                                recentSearchesVisible = false;
+                              });
+                            },
+                            onSubmitted: (value) {
+                              saveRecentSearch(value);
+                            },
+                            decoration: InputDecoration(
+                              prefixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _searchController.clear();
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.clear,
+                                  size: 15,
+                                  color: Color.fromRGBO(0, 0, 0, 0.5),
+                                ),
                               ),
-                            ),
-                            contentPadding:
-                                EdgeInsets.only(top: 10.0, right: 10.0),
-                            hintText: "  ...جستجو کنید   ",
-                            hintStyle: TextStyle(
-                              color: Color.fromRGBO(0, 150, 136, 0.5),
-                              fontSize: 10,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(25.0)),
-                              borderSide: BorderSide(
+                              contentPadding:
+                                  EdgeInsets.only(top: 10.0, right: 10.0),
+                              hintText: "  ...جستجو کنید   ",
+                              hintStyle: TextStyle(
                                 color: Color.fromRGBO(0, 150, 136, 0.5),
+                                fontSize: 10,
                               ),
-                            ),
-                            suffixIcon: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  _searchController.clear();
-                                  filteredList = dataList;
-                                  recentSearchesVisible = true;
-                                });
-                              },
-                              child: Image.asset(
-                                'icons/search.png',
-                                scale: 1.5,
-                                color: Color.fromRGBO(0, 150, 136, 1),
+                              border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(25.0)),
+                                borderSide: BorderSide(
+                                  color: Color.fromRGBO(0, 150, 136, 0.5),
+                                ),
                               ),
+                              suffixIcon: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _searchController.clear();
+                                      filteredList = dataList;
+                                      recentSearchesVisible = true;
+                                    });
+                                  },
+                                  child: Icon(Icons.search)),
                             ),
                           ),
                         ),
@@ -229,7 +212,10 @@ class _MyHomePage_searchState extends State<MyHomePage_search> {
             ),
             Padding(
               padding: const EdgeInsets.only(
-                  left: 20, top: 10, right: 28, bottom: 20),
+                left: 20,
+                top: 30,
+                right: 28,
+              ),
               child: Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -337,7 +323,6 @@ class _MyHomePage_searchState extends State<MyHomePage_search> {
                                 description: filteredList[index]
                                     ['description']!,
                                 footnote: filteredList[index]['footnote']!,
-                                isFavorite: isFavorite,
                                 onFavoriteChanged: () {
                                   setState(() {
                                     if (isFavorite) {

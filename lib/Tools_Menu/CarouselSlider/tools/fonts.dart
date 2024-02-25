@@ -1,3 +1,4 @@
+
 class fontsClass {
   List fonts = ["Yekan", 'IRANSansX', 'YekanBakh', 'Vazirmatn'];
   int index = 0;
@@ -11,4 +12,14 @@ class fontsize {
   // CarouselSlider1
   final fontSizeTitle2 = 18.0;
   final fontSizeSubTitle2 = 10.0;
-}
+
+  //DetailPage fonts
+  double description = 12;
+  double footnot = 10;
+  //Font Option Button
+  double fontSubTitle2 = 6.0;
+
+  // using Hive to store description
+  
+  }
+
