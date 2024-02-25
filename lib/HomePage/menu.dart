@@ -74,7 +74,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   Container(
                     width: 350,
                     height: 188,
-                    child: MyHomePage_search(),
+                    child: FavoritPage_Me(),
                   )
                   // Other widgets...
                 ],
@@ -82,7 +82,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               Container(
                 width: 350,
                 height: 188,
-                child: MyHomePage_search(),
+                child: FavoritPage_Me(),
               )
             ]))));
   }

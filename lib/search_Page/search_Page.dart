@@ -101,6 +101,7 @@ class _search_pageState extends State<search_page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: BottomAppBar(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
@@ -159,7 +160,6 @@ class _search_pageState extends State<search_page> {
                                             .contains(value.toLowerCase()) ??
                                         false)
                                     .toList();
-                                recentSearchesVisible = false;
                               });
                             },
                             onSubmitted: (value) {
@@ -242,108 +242,53 @@ class _search_pageState extends State<search_page> {
                 ),
               ),
             ),
-            if (recentSearchesVisible)
-              Expanded(
-                child: ListView.separated(
-                  controller: _scrollController,
-                  separatorBuilder: (context, index) {
-                    return Divider(
-                      thickness: 2,
+            Expanded(
+              child: ListView.separated(
+                controller: _scrollController,
+                separatorBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    child: Divider(
+                      thickness: 0.5,
                       color: Color.fromRGBO(0, 150, 136, 0.5),
-                    );
-                  },
-                  itemCount: recentSearches.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      trailing: Text(recentSearches[index]['name']!),
-                      leading: IconButton(
-                        icon: Icon(Icons.clear),
-                        onPressed: () {
-                          setState(() {
-                            recentSearches.removeAt(index);
-                            SharedPreferences.getInstance().then((prefs) {
-                              prefs.setStringList(
-                                'recentSearches',
-                                recentSearches
-                                    .map((search) => search['name']!)
-                                    .toList(),
-                              );
-                            });
-                          });
+                    ),
+                  );
+                },
+                itemCount: _searchController.text.isEmpty
+                    ? dataList.length
+                    : filteredList.length,
+                itemBuilder: (context, index) {
+                  final item = _searchController.text.isEmpty
+                      ? dataList[index]
+                      : filteredList[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    child: Container(
+                      height: 37,
+                      child: ListTile(
+                        trailing: Text(
+                          filteredList[index]['name']!,
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        onTap: () {
+                          Get.to(
+                            () => DetailPage(
+                              id: '',
+                              name: item['name']!,
+                              description: item['description']!,
+                              footnote: item['footnote']!,
+                              onFavoriteChanged: () {},
+                              dataList: filteredList,
+                              initialPageIndex: index,
+                            ),
+                          );
                         },
                       ),
-                      onTap: () {
-                        setState(() {
-                          _searchController.text =
-                              recentSearches[index]['name']!;
-                          filteredList = dataList
-                              .where((item) =>
-                                  item['name']?.toLowerCase().contains(
-                                      recentSearches[index]['name']!
-                                          .toLowerCase()) ??
-                                  false)
-                              .toList();
-                          recentSearchesVisible = false;
-                        });
-                      },
-                    );
-                  },
-                ),
+                    ),
+                  );
+                },
               ),
-            if (!recentSearchesVisible)
-              Expanded(
-                child: ListView.separated(
-                  controller: _scrollController,
-                  separatorBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20),
-                      child: Divider(
-                        thickness: 0.5,
-                        color: Color.fromRGBO(0, 150, 136, 0.5),
-                      ),
-                    );
-                  },
-                  itemCount: filteredList.length,
-                  itemBuilder: (context, index) {
-                    bool isFavorite = favorites.contains(filteredList[index]);
-                    return Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20),
-                      child: Container(
-                        height: 37,
-                        child: ListTile(
-                          trailing: Text(
-                            filteredList[index]['name']!,
-                            style: TextStyle(fontSize: 14),
-                          ),
-                          onTap: () {
-                            Get.to(
-                              () => DetailPage(
-                                id: '',
-                                name: filteredList[index]['name']!,
-                                description: filteredList[index]
-                                    ['description']!,
-                                footnote: filteredList[index]['footnote']!,
-                                onFavoriteChanged: () {
-                                  setState(() {
-                                    if (isFavorite) {
-                                      favorites.remove(filteredList[index]);
-                                    } else {
-                                      favorites.add(filteredList[index]);
-                                    }
-                                    saveFavorite(filteredList[index]);
-                                  });
-                                },
-                                dataList: filteredList,
-                                initialPageIndex: index,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
+            ),
           ],
         ),
       ),

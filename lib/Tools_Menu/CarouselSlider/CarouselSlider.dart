@@ -63,6 +63,7 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
                     dotColor: colorClass1.colorPrimary.value,
                     dotHeight: 8,
                     dotWidth: 8,
+                    
                   ),
                   curve: Curves.easeInBack,
                 ),

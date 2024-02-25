@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -10,7 +12,6 @@ class DetailPage extends StatefulWidget {
   final String name;
   final String description;
   final String footnote;
-  // bool isFavorite = false;
   final VoidCallback onFavoriteChanged;
   final List<Map<String, String>> dataList;
   final int initialPageIndex;
@@ -20,7 +21,6 @@ class DetailPage extends StatefulWidget {
     required this.name,
     required this.description,
     required this.footnote,
-    // required this.isFavorite,
     required this.onFavoriteChanged,
     required this.dataList,
     required this.initialPageIndex,
@@ -80,6 +80,22 @@ class _DetailPageState extends State<DetailPage> {
     });
   }
 
+  void addToFavorite() {
+    setState(() {
+      if (db.favorite.contains(widget.name)) {
+        db.favorite.remove(widget.name);
+        db.favorite.remove(widget.description);
+        db.favorite.remove(widget.footnote);
+        print("added : " + widget.name);
+      } else {
+        db.favorite.add(widget.name);
+        db.favorite.add(widget.description);
+        db.favorite.add(widget.footnote);
+        print("remove content: $widget.name");
+      }
+    });
+  }
+
   var fontsClass = fontsize();
   @override
   Widget build(BuildContext context) {
@@ -105,7 +121,8 @@ class _DetailPageState extends State<DetailPage> {
                             onTap: () {
                               // Handle favorite button tap
                               setState(() {
-                                toggleFavorite();
+                                // addToFavorite();
+                                print(db.favorite);
                               });
                             },
                             child: Container(
@@ -141,7 +158,7 @@ class _DetailPageState extends State<DetailPage> {
                             ),
                           ),
                           Text(
-                            widget.dataList[_currentPageIndex]['name']!,
+                            widget.dataList[index]['name']!,
                             style: TextStyle(
                               fontFamily: 'YekanBakh',
                               fontSize: 30,
@@ -164,7 +181,7 @@ class _DetailPageState extends State<DetailPage> {
                                     textDirection: TextDirection.rtl,
                                     textAlign: TextAlign.justify,
                                     text: TextSpan(
-                                      text: widget.dataList[_currentPageIndex]
+                                      text: widget.dataList[index]
                                           ['description']!,
                                       style: TextStyle(
                                         fontFamily: 'YekanBakh',
@@ -197,8 +214,7 @@ class _DetailPageState extends State<DetailPage> {
                                           textDirection: TextDirection.rtl,
                                           textAlign: TextAlign.justify,
                                           text: TextSpan(
-                                            text: widget
-                                                    .dataList[_currentPageIndex]
+                                            text: widget.dataList[index]
                                                 ['footnote']!,
                                             style: TextStyle(
                                               fontFamily: 'YekanBakh',

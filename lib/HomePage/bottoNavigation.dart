@@ -4,8 +4,8 @@ import 'package:iconsax/iconsax.dart';
 import 'package:ragheb_dictionary/HomePage/WebLog.dart';
 import 'package:ragheb_dictionary/Setting/SettingPage.dart';
 import 'package:ragheb_dictionary/HomePage/menu.dart';
+import 'package:ragheb_dictionary/new_csv/search_pageMe.dart';
 import 'package:ragheb_dictionary/search_Page/FavoritePage_last.dart';
-import 'package:ragheb_dictionary/search_Page/search_Page.dart';
 
 class moon extends StatelessWidget {
   const moon({super.key});
@@ -32,9 +32,9 @@ class _bottmState extends State<bottm> {
     _pages = [
       {'Page': Home()},
       {'Page': message()},
-      {'Page': message()},
+      {'Page': FavoritPage_Me()},
       {'Page': MySettingsPage()},
-      {}
+      {"page": SearchPageMe()}
     ];
     super.initState();
   }
@@ -53,10 +53,13 @@ class _bottmState extends State<bottm> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Get.to(
-            () => search_page(),
+            () => SearchPageMe(),
             curve: Curves.fastEaseInToSlowEaseOut,
             transition: Transition.downToUp,
           );
+          setState(() {
+            _selectedPageIndex = 4;
+          });
         },
         child: Icon(
           Icons.search,
