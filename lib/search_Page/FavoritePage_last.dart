@@ -38,11 +38,7 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
               title: Text("Name: ${_todoDatabase.favorite[index]['name']}"),
               subtitle: Text(
                   "Description: ${_todoDatabase.favorite[index]['description']}"),
-              trailing: TextButton(
-                  onPressed: () {
-                    print(_todoDatabase.favorite);
-                  },
-                  child: Text("print")),
+
               // You can add more Text widgets for other properties if needed
             ),
           );

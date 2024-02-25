@@ -70,25 +70,27 @@ class _DetailPage12State extends State<DetailPage12> {
 
   void toggleFavorite() {
     setState(() {
-      // Add the entire map to db.favorite
-      if (db.favorite.contains(widget.name)) {
-        db.favorite.remove(widget.name);
-        db.favorite.remove(widget.description);
-        db.favorite.remove(widget.footnote);
-        print(
-            "remove to favorite: ${widget.name}, ${widget.description}, ${widget.footnote}");
-      } else {
+      // Check if the current item is already in the list
+      bool isAlreadyFavorite = db.favorite.any((item) =>
+          item['name'] == widget.name &&
+          item['description'] == widget.description &&
+          item['footnote'] == widget.footnote);
+
+      if (!isAlreadyFavorite) {
+        // Add the item to the list only if it's not already there
         db.favorite.add({
           'name': widget.name,
           'description': widget.description,
           'footnote': widget.footnote,
         });
+
         print(
-            "Adding to favorite: ${widget.name}, ${widget.description}, ${widget.footnote}");
+            "Added to favorites: ${widget.name}, ${widget.description}, ${widget.footnote}");
+
+        // Save changes to Hive database
+        db.updateDataBase();
+        isFavorite = !isFavorite;
       }
-      // Save changes to Hive database
-      db.updateDataBase();
-      isFavorite = !isFavorite;
     });
   }
 
