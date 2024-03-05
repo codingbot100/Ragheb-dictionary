@@ -23,67 +23,65 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: SingleChildScrollView(
-              child: Container(
-                width: 2000,
-                child: CarouselSlider(
-                  items: List.generate(
-                    myItems.length,
-                    (index) => _buildImageContainer(index),
-                  ),
-                  options: CarouselOptions(
-                    autoPlayInterval: Duration(seconds: 5),
-                    autoPlayCurve: Curves.linear,
-                    animateToClosest: true,
-                    enlargeFactor: BorderSide.strokeAlignOutside,
-                    autoPlay: true,
-                    enlargeCenterPage: true,
-                    aspectRatio: 2.0,
-                    onPageChanged: (index, reason) {
-                      setState(() {
-                        myCurrentIndex = index;
-                      });
-                    },
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Center(
+          child: SingleChildScrollView(
             child: Container(
-              height: 9,
-              child: AnimatedSmoothIndicator(
-                activeIndex: myCurrentIndex,
-                count: myItems.length,
-                effect: ExpandingDotsEffect(
-                  dotColor: Color.fromARGB(255, 255, 255, 1),
-                  dotHeight: 5,
-                  dotWidth: 10,
+              child: CarouselSlider(
+                items: List.generate(
+                  myItems.length,
+                  (index) => _buildImageContainer(index),
                 ),
-                curve: Curves.easeInBack,
+                options: CarouselOptions(
+                  autoPlayInterval: Duration(seconds: 5),
+                  autoPlayCurve: Curves.linear,
+                  animateToClosest: true,
+                  enlargeFactor: BorderSide.strokeAlignOutside,
+                  autoPlay: true,
+                  enlargeCenterPage: true,
+                  aspectRatio: 2.0,
+                  
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                      myCurrentIndex = index;
+                    });
+                  },
+                ),
               ),
             ),
           ),
-        ],
-      ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Container(
+            height: 9,
+            child: AnimatedSmoothIndicator(
+              activeIndex: myCurrentIndex,
+              count: myItems.length,
+              effect: ExpandingDotsEffect(
+                dotColor: Color.fromARGB(255, 255, 255, 1),
+                dotHeight: 5,
+                dotWidth: 10,
+              ),
+              curve: Curves.easeInBack,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
   Widget _buildImageContainer(int index) {
     return Container(
-      width: 1000,
+      width: 400,
       height: 80,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20.0),
         border: Border.all(
           color: Colors.transparent,
-          width: 2.0,
+          // width: 2.0,
         ),
       ),
       child: ClipRRect(

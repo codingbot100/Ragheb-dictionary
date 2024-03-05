@@ -1,33 +1,29 @@
 // ignore_for_file: unused_field
 
 import "package:flutter/material.dart";
-import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/fonts.dart';
 import 'package:ragheb_dictionary/search_Page/data/database.dart';
 import 'package:ragheb_dictionary/search_Page/data/sharedPrefernces.dart';
-import 'package:ragheb_dictionary/search_Page/util/search_pageMe.dart';
 
-class DetailPage12 extends StatefulWidget {
+class DetailFavoirtPage extends StatefulWidget {
   final String name;
   final String description;
   final String footnote;
-  final List<Map<String, String>> dataList;
   final int initialPageIndex;
 
-  DetailPage12({
+  DetailFavoirtPage({
     super.key,
     required this.name,
     required this.description,
     required this.footnote,
-    required this.dataList,
     required this.initialPageIndex,
   });
   @override
-  State<DetailPage12> createState() => _DetailPage12State();
+  State<DetailFavoirtPage> createState() => _DetailFavoirtPageState();
 }
 
-class _DetailPage12State extends State<DetailPage12> {
+class _DetailFavoirtPageState extends State<DetailFavoirtPage> {
   final _myBox = Hive.box('mybox');
   ToDodatabase3 db = ToDodatabase3();
   late PageController _pageController;
@@ -113,17 +109,13 @@ class _DetailPage12State extends State<DetailPage12> {
   var fontsClass = fontsize();
   @override
   Widget build(BuildContext context) {
-    final bool isFootnoteNA = widget.dataList.isNotEmpty &&
-        widget.dataList[_currentPageIndex]['footnote'] == 'n/a';
+   
 
     return Scaffold(
          backgroundColor: Color(0xFFF5F5DC),
       body: SafeArea(
-        child: PageView.builder(
-            controller: _pageController,
-            itemCount: widget.dataList.length,
-            itemBuilder: (context, index) {
-              return Padding(
+       
+              child:  Padding(
                 padding: const EdgeInsets.only(top: 50),
                 child: Column(
                   children: [
@@ -156,7 +148,7 @@ class _DetailPage12State extends State<DetailPage12> {
                           Flexible(
                             child: Container(
                               child: Text(
-                                widget.dataList[index]['name']!,
+                                widget.name,
                                 style: TextStyle(
                                   fontFamily: 'YekanBakh',
                                   fontSize: 30,
@@ -182,8 +174,7 @@ class _DetailPage12State extends State<DetailPage12> {
                                   textDirection: TextDirection.rtl,
                                   textAlign: TextAlign.justify,
                                   text: TextSpan(
-                                    text: widget.dataList[index]
-                                        ['description']!,
+                                    text: widget.description,
                                     style: TextStyle(
                                       fontFamily: 'YekanBakh',
                                       fontSize: fontsClass.description,
@@ -206,15 +197,14 @@ class _DetailPage12State extends State<DetailPage12> {
                                   padding: const EdgeInsets.only(
                                       top: 15, left: 15, right: 15, bottom: 15),
                                   child: Container(
-                                    width: isFootnoteNA ? 0 : 500,
-                                    height: isFootnoteNA ? 0 : 300,
+                                    width: (widget.footnote.isEmpty && widget.footnote == 'n/a' ) ? 0 : 500,
+                                    height: (widget.footnote.isEmpty ) ? 0 : 300,
                                     child: RichText(
                                         textDirection: TextDirection.rtl,
                                         textAlign: TextAlign.justify,
                                         text: TextSpan(
                                           text:
-                                              widget.dataList[_currentPageIndex]
-                                                  ['footnote']!,
+                                              widget.footnote,
                                           style: TextStyle(
                                             fontFamily: 'YekanBakh',
                                             fontSize: fontsize().footnot,
@@ -231,65 +221,12 @@ class _DetailPage12State extends State<DetailPage12> {
                         ],
                       ),
                     ))
-                  ],
-                ),
-              );
-            }),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        clipBehavior: Clip.antiAlias,
-        height: 70,
-        color: Color.fromRGBO(224, 224, 191, 1),
-        shape: CircularNotchedRectangle(),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 40, right: 40),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                onPressed: () {
-                  Get.back();
-                },
-                icon: Icon(Icons.arrow_back),
-              ),
-              IconButton(
-                onPressed: () {
-                  if (_pageController.page! > 0) {
-                    _pageController.previousPage(
-                      duration: Duration(milliseconds: 300),
-                      curve: Curves.easeInOut,
-                    );
-                  }
-                },
-                icon: Icon(Icons.arrow_back_ios),
-              ),
-              IconButton(
-                onPressed: () {
-                  if (_pageController.page! < widget.dataList.length - 1) {
-                    _pageController.nextPage(
-                      duration: Duration(milliseconds: 300),
-                      curve: Curves.easeInOut,
-                    );
-                  }
-                },
-                icon: Icon(Icons.arrow_forward_ios),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Get.to(() => SearchPageMe());
-                },
-                child: Container(
-                  width: 20,
-                  height: 20,
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(50)),
-                  child: Icon(Icons.search),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+                  ]))));
+                
+              
+            
+      
+    
+    
   }
 }

@@ -12,7 +12,6 @@ import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
 
-
 class MySettingsPage extends StatefulWidget {
   @override
   _MySettingsPageState createState() => _MySettingsPageState();
@@ -59,6 +58,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFF5F5DC),
       body: Center(
         child: Directionality(
           textDirection: TextDirection.rtl,
@@ -177,7 +177,6 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                     onChanged: (double value) {
                                       setState(() {
                                         fontsSizeClass.description = value;
-                                        
                                       });
                                     }),
                               )

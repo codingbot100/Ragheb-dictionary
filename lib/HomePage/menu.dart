@@ -3,6 +3,7 @@ import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/colors.dart';
 import 'package:ragheb_dictionary/search_Page/FavoritePage_last.dart';
 
 import 'package:flutter/material.dart';
+import 'package:ragheb_dictionary/search_Page/FavoritePages2.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -19,7 +20,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     'images2/5.jpg',
   ];
   int myCurrentIndex = 0;
-
+  bool l = false;
   final fontFamile = 'Yekan';
   final fontSizeTitle = 18.0;
   final fontSizeSubTitle = 10.0;
@@ -31,43 +32,43 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return (Scaffold(
-        body: Padding(
-            padding: EdgeInsets.only(
-              left: 20,
-              right: 20,
-              top: 50,
-            ),
+        backgroundColor: Color(0xFFF5F5DC),
+        body: SafeArea(
+          child: Expanded(
             child: Column(children: [
-              Expanded(
-                child: Row(
-                  textDirection: TextDirection.rtl,
-                  children: [
-                    Text(
-                      'فرهنگ لغت راغب',
-                      style: TextStyle(
-                          fontFamily: fontFamile,
-                          fontSize: fontSizeTitle,
-                          fontWeight: FontWeight.w900,
-                          color: colorPrimary),
-                    ),
-                  ],
+              Container(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.only(right: 20, top: 20, bottom: 10),
+                  child: Row(
+                    textDirection: TextDirection.rtl,
+                    children: [
+                      Text(
+                        'فرهنگ لغت راغب',
+                        style: TextStyle(
+                            fontFamily: fontFamile,
+                            fontSize: fontSizeTitle,
+                            fontWeight: FontWeight.w900,
+                            color: colorPrimary),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              SizedBox(
-                height: 30,
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10.0),
+                child: Container(child: TextRow(' همه  ', 'مقالات وبلاگ')),
               ),
-              Expanded(child: TextRow(' همه  ', 'مقالات وبلاگ')),
               Padding(
                   padding: const EdgeInsets.only(bottom: 10),
-                  child: Expanded(
-                      child: Container(width: 1000, child: CarouselSlider1()))),
-              Expanded(child: TextRow('ذخیره شده ها', 'مرور همه')),
+                  child: CarouselSlider1()),
+              TextRow('ذخیره شده ها', 'مرور همه'),
               Column(
                 children: [
                   Container(
                     width: 350,
                     height: 188,
-                    child: FavoritPage_Me(),
+                    child: FavoritPage_menu(),
                   )
                   // Other widgets...
                 ],
@@ -77,45 +78,50 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 height: 188,
                 child: FavoritPage_Me(),
               )
-            ]))));
+            ]),
+          ),
+        )));
   }
 
   Widget TextRow(String FirstTitel, secondtitle) {
     return Padding(
       padding: const EdgeInsets.only(right: 20, left: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            FirstTitel,
-            style: TextStyle(
-                fontFamily: fontFamile,
-                fontSize: fontSizeSubTitle,
-                color: colorPrimary),
-          ),
-          SizedBox(
-            width: 6,
-          ),
-          Expanded(
-            child: Container(
-              child: Divider(
-                height: 1,
-                thickness: 0.5,
-                color: colorPrimary,
+      child: Container(
+        height: 20,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              FirstTitel,
+              style: TextStyle(
+                  fontFamily: fontFamile,
+                  fontSize: fontSizeSubTitle,
+                  color: colorPrimary),
+            ),
+            SizedBox(
+              width: 6,
+            ),
+            Expanded(
+              child: Container(
+                child: Divider(
+                  height: 1,
+                  thickness: 0.5,
+                  color: colorPrimary,
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            width: 5,
-          ),
-          Text(
-            secondtitle,
-            style: TextStyle(
-                fontFamily: fontFamile,
-                fontSize: fontSizeSubTitle,
-                color: colorPrimary),
-          ),
-        ],
+            SizedBox(
+              width: 5,
+            ),
+            Text(
+              secondtitle,
+              style: TextStyle(
+                  fontFamily: fontFamile,
+                  fontSize: fontSizeSubTitle,
+                  color: colorPrimary),
+            ),
+          ],
+        ),
       ),
     );
   }

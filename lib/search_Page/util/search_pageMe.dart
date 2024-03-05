@@ -59,15 +59,16 @@ class _SearchPageMeState extends State<SearchPageMe> {
     super.initState();
   }
 
-  void _selectPage(int index) {
-    setState(() {
-      selectedPageIndex = index;
-    });
-  }
+  // void _selectPage(int index) {
+  //   setState(() {
+  //     selectedPageIndex = index;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+         backgroundColor: Color(0xFFF5F5DC),
       bottomNavigationBar: BottomAppBar(
         clipBehavior: Clip.antiAlias,
         height: 70,

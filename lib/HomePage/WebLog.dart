@@ -18,10 +18,9 @@ class _messageState extends State<message> {
   var listColor = Color.fromRGBO(0, 150, 136, 1);
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-          body: SafeArea(
+    return Scaffold(
+      backgroundColor: Color(0xFFF5F5DC),
+      body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(25.0),
           child: Column(
@@ -70,7 +69,7 @@ class _messageState extends State<message> {
             ],
           ),
         ),
-      )),
+      ),
     );
   }
 
