@@ -4,14 +4,13 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/search_Page/data/database.dart';
 import 'package:ragheb_dictionary/search_Page/util/detailFavoritePage.dart';
 
-class FavoritPage_Me extends StatefulWidget {
+class FavoritPage_second extends StatefulWidget {
   @override
-  _FavoritPage_MeState createState() => _FavoritPage_MeState();
+  _FavoritPage_secondState createState() => _FavoritPage_secondState();
 }
 
-class _FavoritPage_MeState extends State<FavoritPage_Me> {
+class _FavoritPage_secondState extends State<FavoritPage_second> {
   ToDodatabase3 _todoDatabase = ToDodatabase3();
-  List<Map<String, String>> dataList = [];
 
   @override
   void initState() {
@@ -29,95 +28,52 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF5F5DC),
-      appBar: AppBar(
-          title: ListTile(
-        trailing: Text('ذخیره شده ها ',
-            style: TextStyle(
-                fontFamily: 'Yekan Bakh',
-                fontSize: 24,
-                fontWeight: FontWeight.w900,
-                color: Color.fromRGBO(4, 120, 108, 1))),
-      )),
-      body: Padding(
-        padding: const EdgeInsets.only(right: 40),
-        child: Container(
-          child: ListView.separated(
-            separatorBuilder: (context, index) {
-              return Divider();
-            },
-            itemCount: _todoDatabase.favorite.length,
-            itemBuilder: (context, index) {
-              // final item = _todoDatabase.favorite[index];
-              return ListTile(
-                trailing: Text(
-                  _todoDatabase.favorite[index]['name'],
-                  style: TextStyle(
-                      fontFamily: 'Yekan Bakh',
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w300),
-                ),
-
-                onTap: () {
-                  Get.to(
-                      () => DetailFavoirtPage(
-                          name: _todoDatabase.favorite[index]['name'],
-                          description: _todoDatabase.favorite[index]['description'],
-                          footnote:_todoDatabase.favorite[index]['footnote'],
-                         
-                          initialPageIndex: index),
-                      transition: Transition.cupertino,
-                      duration: Duration(milliseconds: 400));
+        backgroundColor: Color(0xFFF5F5DC),
+      
+        body: Column(
+          children: [
+            Expanded(
+              child: ListView.separated(
+                itemCount: _todoDatabase.favorite.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    height: 37,
+                    child: ListTile(
+                      trailing: Text(
+                        "${_todoDatabase.favorite[index]['name']}",
+                        style: TextStyle(fontSize: 14),
+                      ),
+                      onTap: () {
+                        Get.to(
+                            () => DetailFavoirtPage(
+                                name:
+                                    "${_todoDatabase.favorite[index]['name']}",
+                                description:
+                                    "${_todoDatabase.favorite[index]['description']}",
+                                footnote:
+                                    "${_todoDatabase.favorite[index]['footnote']}",
+                                initialPageIndex: index),
+                            transition: Transition.cupertino,
+                            duration: Duration(milliseconds: 400));
+                      },
+                    ),
+                  );
                 },
-
-                // You can add more Text widgets for other properties if needed
-              );
-            },
-          ),
-        ),
-      ),
-    );
+                separatorBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    child: Divider(
+                      thickness: 0.5,
+                      color: Color.fromRGBO(0, 150, 136, 0.5),
+                    ),
+                  );
+                },
+              ),
+            ),
+            // Text("Name: ${_todoDatabase.favorite[index]['name']}"),
+            // Text("Description: ${_todoDatabase.favorite[index]['description']}"),
+            // Text("footnot: ${_todoDatabase.favorite[index]['footnote']}")
+          ],
+        ));
   }
 }
-
-
-// Your existing ToDodatabase3 class
-
-
-
-
-// class FavoritPage_Me extends StatefulWidget {
-//   @override
-//   _FavoritPage_MeState createState() => _FavoritPage_MeState();
-// }
-
-// class _FavoritPage_MeState extends State<FavoritPage_Me> {
-//   @override
-//   Widget build(BuildContext context) {
-//     SharedPreferencesHelper db = SharedPreferencesHelper();
-
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('List Information'),
-//       ),
-//       body: ListView.builder(
-//         itemCount: db.itemList.length,
-//         itemBuilder: (context, index) {
-//           String item = db.itemList[index];
-
-//           return ListTile(
-//             title: Text(item),
-//             trailing: TextButton(
-//               onPressed: () {
-//                 print(db.itemList);
-//               },
-//               child: Text('print'),
-//             ),
-//             // Add more ListTile properties as needed
-//           );
-//         },
-//       ),
-//     );
-//   }
-// }

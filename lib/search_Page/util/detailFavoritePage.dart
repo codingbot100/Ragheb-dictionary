@@ -54,49 +54,22 @@ class _DetailFavoirtPageState extends State<DetailFavoirtPage> {
         shareddb.itemList.remove(widget.footnote);
         print(
             "remove to favorite: ${widget.name}, ${widget.description}, ${widget.footnote}");
-      } else {
-        shareddb.itemList.add(widget.name);
-        shareddb.itemList.add(widget.description);
-        shareddb.itemList.add(widget.footnote);
-        print(
-            "Adding to favorite: ${widget.name}, ${widget.description}, ${widget.footnote}");
+      
       }
     });
   }
 
-  void toggleFavorite(String name, String description, String footnote) {
+  void toggleFavorite() {
     setState(() {
-      // Check if the current item is already in the list
-      bool isAlreadyFavorite = db.favorite.any((item) =>
-          item['name'] == name &&
-          item['description'] == description &&
-          item['footnote'] == footnote);
-
-      if (!isAlreadyFavorite) {
-        // Add the item to the list only if it's not already there
-        db.favorite.add({
-          'name': name,
-          'description': description,
-          'footnote': footnote,
+        db.favorite.remove({
+          'name': widget.name,
+          'description': widget.description,
+          'footnote': widget.footnote,
         });
 
         print(
-            "Added to favorites: $name, $description, $footnote");
-
-        // Save changes to Hive database
+            "remove: ${widget.name}, ${widget.description}, ${widget.footnote}");
         db.updateDataBase();
-      } else {
-        db.favorite.removeWhere((element) =>
-            element['name'] == name &&
-            element['description'] == description &&
-            element['footnote'] == footnote);
-
-        print(
-            "Removed from favorites: $name, $description, $footnote");
-
-        // Save changes to Hive database
-        db.updateDataBase();
-      }
     });
   }
 
@@ -124,27 +97,17 @@ class _DetailFavoirtPageState extends State<DetailFavoirtPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            child: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    print(db.favorite);
-                                  });
-                                },
-                                icon: Icon(Icons.favorite)),
-                          ),
-                          Container(
-                            child: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    toggleFavorite(widget.name, widget.description, widget.footnote);
-                                    isFavorite = !isFavorite;
-                                  });
-                                },
-                                icon: isFavorite
-                                    ? Icon(Icons.favorite)
-                                    : Icon(Icons.favorite_border)),
-                          ),
+                          InkWell(
+                            onTap: (){
+                              setState(() {
+                                toggleFavorite();
+                                Navigator.pop(context);
+
+                              });
+                            },
+                            child: Image.asset('images/new.png'),
+                          )         
+                          ,
                           Flexible(
                             child: Container(
                               child: Text(

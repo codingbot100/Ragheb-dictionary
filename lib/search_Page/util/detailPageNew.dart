@@ -1,12 +1,10 @@
-// ignore_for_file: unused_field
-
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/fonts.dart';
+import 'package:ragheb_dictionary/search_Page/data/data.dart';
 import 'package:ragheb_dictionary/search_Page/data/database.dart';
-import 'package:ragheb_dictionary/search_Page/data/sharedPrefernces.dart';
 import 'package:ragheb_dictionary/search_Page/util/search_pageMe.dart';
+
+import '../../Tools_Menu/CarouselSlider/tools/fonts.dart';
 
 class DetailPage12 extends StatefulWidget {
   final String name;
@@ -14,33 +12,36 @@ class DetailPage12 extends StatefulWidget {
   final String footnote;
   final List<Map<String, String>> dataList;
   final int initialPageIndex;
+  final bool favorites;
 
   DetailPage12({
-    super.key,
+    Key? key,
     required this.name,
     required this.description,
     required this.footnote,
     required this.dataList,
     required this.initialPageIndex,
-  });
+    required this.favorites,
+  }) : super(key: key);
+
   @override
   State<DetailPage12> createState() => _DetailPage12State();
 }
 
 class _DetailPage12State extends State<DetailPage12> {
-  final _myBox = Hive.box('mybox');
-  ToDodatabase3 db = ToDodatabase3();
   late PageController _pageController;
+  var image = 'images/open.png';
+  fontsize fontSize = fontsize();
   var _currentPageIndex = 0;
   bool isFavorite = false;
-  SharedPreferencesHelper shareddb = SharedPreferencesHelper();
+  SharedPreferencesHelper2 shareddb = SharedPreferencesHelper2();
+  ToDodatabase3 db = new ToDodatabase3();
 
   @override
   void initState() {
     _pageController = PageController(initialPage: widget.initialPageIndex);
     _pageController.addListener(() {
       setState(() {
-        // Update only if the page index has changed
         if (_currentPageIndex != _pageController.page!.round()) {
           _currentPageIndex = _pageController.page!.round();
         }
@@ -50,74 +51,76 @@ class _DetailPage12State extends State<DetailPage12> {
     super.initState();
   }
 
-  void addToFavorite() {
+  void addToList() {
     setState(() {
-      if (shareddb.itemList.contains(widget.name)) {
-        shareddb.itemList.remove(widget.name);
-        shareddb.itemList.remove(widget.description);
-        shareddb.itemList.remove(widget.footnote);
-        print(
-            "remove to favorite: ${widget.name}, ${widget.description}, ${widget.footnote}");
+      Map<String, dynamic> saveItem = {
+        "name": widget.name,
+        "description": widget.description,
+        "footnote": widget.footnote,
+        "isFavorite": isFavorite,
+      };
+
+      if (isFavorite) {
+        // Check if the item already exists in the list
+        if (!shareddb.itemList.contains(saveItem)) {
+          shareddb.itemList.add(Map.from(saveItem));
+          print("add list item");
+        }
       } else {
-        shareddb.itemList.add(widget.name);
-        shareddb.itemList.add(widget.description);
-        shareddb.itemList.add(widget.footnote);
-        print(
-            "Adding to favorite: ${widget.name}, ${widget.description}, ${widget.footnote}");
+        // Remove the item from the list if it exists
+        shareddb.itemList.removeWhere((item) =>
+            item["name"] == widget.name &&
+            item["description"] == widget.description &&
+            item["footnote"] == widget.footnote &&
+            item["isFavorite"] == isFavorite);
+        print("removed list item");
+        print(shareddb.itemList);
       }
     });
   }
 
-  void toggleFavorite(String name, String description, String footnote) {
+  void toggleFavorite() {
     setState(() {
       // Check if the current item is already in the list
       bool isAlreadyFavorite = db.favorite.any((item) =>
-          item['name'] == name &&
-          item['description'] == description &&
-          item['footnote'] == footnote);
+          item['name'] == widget.name &&
+          item['description'] == widget.description &&
+          item['footnote'] == widget.footnote);
 
       if (!isAlreadyFavorite) {
         // Add the item to the list only if it's not already there
         db.favorite.add({
-          'name': name,
-          'description': description,
-          'footnote': footnote,
+          'name': widget.name,
+          'description': widget.description,
+          'footnote': widget.footnote,
         });
 
         print(
-            "Added to favorites: $name, $description, $footnote");
+            "Added to favorites: ${widget.name}, ${widget.description}, ${widget.footnote}");
 
         // Save changes to Hive database
-        db.updateDataBase();
+
+        isFavorite = !isFavorite;
       } else {
-        db.favorite.removeWhere((element) =>
-            element['name'] == name &&
-            element['description'] == description &&
-            element['footnote'] == footnote);
+        db.favorite.remove({
+          'name': widget.name,
+          'description': widget.description,
+          'footnote': widget.footnote,
+        });
 
         print(
-            "Removed from favorites: $name, $description, $footnote");
-
-        // Save changes to Hive database
+            "remove: ${widget.name}, ${widget.description}, ${widget.footnote}");
         db.updateDataBase();
       }
     });
   }
 
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
-
-  var fontsClass = fontsize();
   @override
   Widget build(BuildContext context) {
     final bool isFootnoteNA = widget.dataList.isNotEmpty &&
         widget.dataList[_currentPageIndex]['footnote'] == 'n/a';
 
     return Scaffold(
-         backgroundColor: Color(0xFFF5F5DC),
       body: SafeArea(
         child: PageView.builder(
             controller: _pageController,
@@ -132,27 +135,39 @@ class _DetailPage12State extends State<DetailPage12> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            child: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    print(db.favorite);
-                                  });
-                                },
-                                icon: Icon(Icons.favorite)),
-                          ),
-                          Container(
-                            child: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    toggleFavorite(widget.name, widget.description, widget.footnote);
-                                    isFavorite = !isFavorite;
-                                  });
-                                },
-                                icon: isFavorite
-                                    ? Icon(Icons.favorite)
-                                    : Icon(Icons.favorite_border)),
-                          ),
+                          // Container(
+                          //   child: IconButton(
+                          //       onPressed: () {
+                          //         setState(() {
+                          //           print(shareddb.itemList);
+                          //         });
+                          //       },
+                          //       icon: Icon(Icons.favorite)),
+                          // ),
+                          // Container(
+                          //   child: IconButton(
+                          //       onPressed: () {
+                          //         setState(() {
+                          //           isFavorite = !isFavorite;
+                          //         });
+                          //       },
+                          //       icon: isFavorite
+                          //           ? Icon(Icons.favorite)
+                          //           : Icon(Icons.favorite_border)),
+                          // )
+                          InkWell(
+                              onTap: () {
+                                setState(() {
+                                 
+                                  toggleFavorite();
+                                });
+                              },
+                              child: Image.asset(
+                                db.favorite.contains(widget.name)
+                                    ? 'images/new.png'
+                                    : "images/open.png",
+                                color: Colors.green,
+                              )),
                           Flexible(
                             child: Container(
                               child: Text(
@@ -186,7 +201,7 @@ class _DetailPage12State extends State<DetailPage12> {
                                         ['description']!,
                                     style: TextStyle(
                                       fontFamily: 'YekanBakh',
-                                      fontSize: fontsClass.description,
+                                      fontSize: 12,
                                       fontWeight: FontWeight.w900,
                                       color: Color.fromRGBO(82, 82, 82, 1),
                                     ),
@@ -217,7 +232,7 @@ class _DetailPage12State extends State<DetailPage12> {
                                                   ['footnote']!,
                                           style: TextStyle(
                                             fontFamily: 'YekanBakh',
-                                            fontSize: fontsize().footnot,
+                                            fontSize: 10,
                                             fontWeight: FontWeight.w900,
                                             color: Color.fromRGBO(
                                                 111, 111, 111, 1),

@@ -36,7 +36,8 @@ class _SearchPageMeState extends State<SearchPageMe> {
       Map<String, String> item = {
         "footnote": cells[0],
         "description": cells[1],
-        "name": cells[2]
+        "name": cells[2],
+        "favorites": cells[3]
       };
       newDataList.add(item);
     }
@@ -58,13 +59,9 @@ class _SearchPageMeState extends State<SearchPageMe> {
     ];
     super.initState();
   }
-
-  // void _selectPage(int index) {
-  //   setState(() {
-  //     selectedPageIndex = index;
-  //   });
-  // }
-
+  bool convertStringToBool(String value) {
+  return value.toLowerCase() == 'false';
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -223,6 +220,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
                                 name: item['name']!,
                                 description: item['description']!,
                                 footnote: item['footnote']!,
+                                favorites: convertStringToBool(item['favorites']!),
                                 dataList: dataList,
                                 initialPageIndex: index),
                             transition: Transition.cupertino,

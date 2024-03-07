@@ -4,7 +4,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:ragheb_dictionary/HomePage/WebLog.dart';
 import 'package:ragheb_dictionary/Setting/SettingPage.dart';
 import 'package:ragheb_dictionary/HomePage/menu.dart';
-import 'package:ragheb_dictionary/search_Page/FavoritePage_last.dart';
+import 'package:ragheb_dictionary/search_Page/FavoritePage_last%20.dart';
 import 'package:ragheb_dictionary/search_Page/util/search_pageMe.dart';
 
 class bottm extends StatefulWidget {
