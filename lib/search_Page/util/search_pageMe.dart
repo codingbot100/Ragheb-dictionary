@@ -86,9 +86,8 @@ class _SearchPageMeState extends State<SearchPageMe> {
       if (searchText.isNotEmpty) {
         if (!db.favorite.contains(searchText)) {
           db.favorite.add(searchText);
-          db.favorite.add(currentTime.format(context).toString());
-          db.favorite
-              .add(DateFormat("d,MM,yyy").format(DateTime.now()).toString());
+          String currentDateAndTime = DateTime.now().toString();
+          db.dateAndTime.add(currentDateAndTime);
           db.updateDataBase();
         }
         _searchController.text = searchText.toString();
@@ -110,6 +109,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
   void remove(int index) {
     setState(() {
       db.favorite.removeAt(index);
+      db.dateAndTime.removeAt(index);
       // db.updateDataBase();
     });
   }
@@ -260,7 +260,10 @@ class _SearchPageMeState extends State<SearchPageMe> {
                             suffixIcon: GestureDetector(
                                 onTap: () {
                                   setState(() {
-                                    _searchController.clear();
+                                    _searchController.selection;
+                                    db.updateDataBase();
+                                    print(db.favorite);
+                                    print(db.dateAndTime);
                                   });
                                 },
                                 child: Icon(Icons.search)),
