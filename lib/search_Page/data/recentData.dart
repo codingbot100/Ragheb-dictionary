@@ -1,6 +1,6 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
-class ToDodatabase3 {
+class ToDodatabase5 {
   List favorite = [];
   final _meBox = Hive.box('mybox');
 
@@ -9,11 +9,11 @@ class ToDodatabase3 {
   }
 
   void loadData() {
-    favorite = _meBox.get("TODOLIST");
+    favorite = _meBox.get("TODORECENT");
   }
 
   void updateDataBase() {
-    _meBox.put('TODOLIST', favorite);
+    _meBox.put('TODORECENT', favorite);
   }
 
 //

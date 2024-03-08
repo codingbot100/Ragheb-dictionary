@@ -2,12 +2,16 @@ import "package:flutter/material.dart";
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:intl/intl.dart';
 import 'package:ragheb_dictionary/HomePage/WebLog.dart';
 import 'package:ragheb_dictionary/HomePage/bottoNavigation.dart';
 import 'package:ragheb_dictionary/HomePage/menu.dart';
 import 'package:ragheb_dictionary/Setting/SettingPage.dart';
+import 'package:ragheb_dictionary/search_Page/data/recentData.dart';
 import 'package:ragheb_dictionary/search_Page/util/detailPageNew.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchPageMe extends StatefulWidget {
   const SearchPageMe({super.key});
@@ -18,13 +22,20 @@ class SearchPageMe extends StatefulWidget {
 
 class _SearchPageMeState extends State<SearchPageMe> {
   int selectedPageIndex = 0;
-  late List<Map<String, Widget>> pages;
+  final _meBox = Hive.box('mybox');
 
+  ToDodatabase5 db = ToDodatabase5();
+  late List<Map<String, Widget>> pages;
+  final FocusNode _searchFocus = FocusNode();
   List<Map<String, String>> dataList = [];
   List<Map<String, String>> filteredList =
       []; // Change the type to Map<String, String>
 
   TextEditingController _searchController = TextEditingController();
+  List<String> recentSearches = [];
+  bool isShow = false;
+  DateTime now = DateTime.now();
+  TimeOfDay currentTime = TimeOfDay.now();
 
   Future<void> loadData() async {
     String data =
@@ -48,6 +59,16 @@ class _SearchPageMeState extends State<SearchPageMe> {
 
   @override
   void initState() {
+    if (_meBox.get('TODORECENT') == null) {
+      db.createInitialData();
+    } else {
+      db.loadData();
+    }
+    RecentSearchesUtil.loadRecentSearches().then((value) {
+      setState(() {
+        recentSearches = value;
+      });
+    });
     loadData();
     filteredList = List.from(dataList);
     pages = [
@@ -59,13 +80,48 @@ class _SearchPageMeState extends State<SearchPageMe> {
     ];
     super.initState();
   }
+
+  void _onSearch(String searchText) {
+    setState(() {
+      if (searchText.isNotEmpty) {
+        if (!db.favorite.contains(searchText)) {
+          db.favorite.add(searchText);
+          db.favorite.add(currentTime.format(context).toString());
+          db.favorite
+              .add(DateFormat("d,MM,yyy").format(DateTime.now()).toString());
+          db.updateDataBase();
+        }
+        _searchController.text = searchText.toString();
+
+        filteredList = dataList
+            .where((task) =>
+                task['name']!.toLowerCase().contains(searchText.toLowerCase()))
+            .toList();
+      }
+    });
+    if (filteredList.isNotEmpty) {
+      _searchController.text = filteredList[0]['name']!;
+    }
+    if (db.favorite.length >= 30) {
+      db.favorite.removeRange(0, 1);
+    }
+  }
+
+  void remove(int index) {
+    setState(() {
+      db.favorite.removeAt(index);
+      // db.updateDataBase();
+    });
+  }
+
   bool convertStringToBool(String value) {
-  return value.toLowerCase() == 'false';
-}
+    return value.toLowerCase() == 'false';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-         backgroundColor: Color(0xFFF5F5DC),
+      backgroundColor: Color(0xFFF5F5DC),
       bottomNavigationBar: BottomAppBar(
         clipBehavior: Clip.antiAlias,
         height: 70,
@@ -127,68 +183,88 @@ class _SearchPageMeState extends State<SearchPageMe> {
                     padding: const EdgeInsets.only(left: 15, right: 15),
                     child: Container(
                       height: 45,
-                      child: TextField(
-                        controller: _searchController,
-                        cursorColor: Color.fromRGBO(0, 150, 136, 0.5),
-                        cursorHeight: 14,
-                        cursorOpacityAnimates: true,
-                        keyboardAppearance: Brightness.dark,
-                        keyboardType: TextInputType.name,
-                        textAlignVertical: TextAlignVertical.center,
-                        style: TextStyle(
-                          fontFamily: 'Yekan',
-                          fontSize: 15,
-                          color: Color.fromRGBO(82, 82, 82, 1),
-                        ),
-                        textAlign: TextAlign.right,
-                        textDirection: TextDirection.rtl,
-                        onTap: () {
-                          setState(() {});
-                        },
-                        onChanged: (value) {
+                      child: Focus(
+                        onFocusChange: (hasFocus) {
                           setState(() {
-                            filteredList = dataList
-                                .where((task) => task['name']!
-                                    .toLowerCase()
-                                    .contains(value.toLowerCase()))
-                                .toList();
+                            isShow = hasFocus;
                           });
                         },
-                        onSubmitted: (value) {},
-                        decoration: InputDecoration(
-                          prefixIcon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _searchController.clear();
-                              });
-                            },
-                            icon: Icon(
-                              Icons.clear,
-                              size: 15,
-                              color: Color.fromRGBO(0, 0, 0, 0.5),
-                            ),
+                        child: TextField(
+                          focusNode: _searchFocus,
+                          controller: _searchController,
+                          cursorColor: Color.fromRGBO(0, 150, 136, 0.5),
+                          cursorHeight: 14,
+                          cursorOpacityAnimates: true,
+                          keyboardAppearance: Brightness.dark,
+                          keyboardType: TextInputType.name,
+                          textAlignVertical: TextAlignVertical.center,
+                          style: TextStyle(
+                            fontFamily: 'Yekan',
+                            fontSize: 15,
+                            color: Color.fromRGBO(82, 82, 82, 1),
                           ),
-                          contentPadding:
-                              EdgeInsets.only(top: 10.0, right: 10.0),
-                          hintText: "  ...جستجو کنید   ",
-                          hintStyle: TextStyle(
-                            color: Color.fromRGBO(0, 150, 136, 0.5),
-                            fontSize: 10,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(25.0)),
-                            borderSide: BorderSide(
-                              color: Color.fromRGBO(0, 150, 136, 0.5),
-                            ),
-                          ),
-                          suffixIcon: GestureDetector(
-                              onTap: () {
+                          textAlign: TextAlign.right,
+                          // textDirection: TextDirection.rtl,
+                          onTap: () {
+                            setState(() {
+                              _onSearch(_searchController.text);
+                            });
+                          },
+                          onChanged: (value) {
+                            setState(() {
+                              filteredList = dataList
+                                  .where((task) => task['name']!
+                                      .toLowerCase()
+                                      .contains(value.toLowerCase()))
+                                  .toList();
+                            });
+                          },
+                          onSubmitted: (value) {
+                            // Save the recent search and update the list
+                            if (!recentSearches.contains(value)) {
+                              recentSearches.insert(0, value);
+                              if (recentSearches.length > 5) {
+                                recentSearches.removeLast();
+                              }
+                              RecentSearchesUtil.saveRecentSearches(
+                                  recentSearches);
+                            }
+                          },
+                          decoration: InputDecoration(
+                            prefixIcon: IconButton(
+                              onPressed: () {
                                 setState(() {
                                   _searchController.clear();
                                 });
                               },
-                              child: Icon(Icons.search)),
+                              icon: Icon(
+                                Icons.clear,
+                                size: 15,
+                                color: Color.fromRGBO(0, 0, 0, 0.5),
+                              ),
+                            ),
+                            contentPadding:
+                                EdgeInsets.only(top: 10.0, right: 10.0),
+                            hintText: "  ...جستجو کنید ",
+                            hintStyle: TextStyle(
+                              color: Color.fromRGBO(0, 150, 136, 0.5),
+                              fontSize: 10,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25.0)),
+                              borderSide: BorderSide(
+                                color: Color.fromRGBO(0, 150, 136, 0.5),
+                              ),
+                            ),
+                            suffixIcon: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _searchController.clear();
+                                  });
+                                },
+                                child: Icon(Icons.search)),
+                          ),
                         ),
                       ),
                     ),
@@ -197,48 +273,87 @@ class _SearchPageMeState extends State<SearchPageMe> {
               ],
             ),
             secondRow(),
+            isShow
+                ? ListView.builder(
+                    itemCount: db.favorite.length > 7 ? 7 : db.favorite.length,
+                    shrinkWrap: true,
+                    itemBuilder: ((context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _searchController.text = db.favorite[index];
+                            _searchFocus.unfocus(); // Close the keyboard
+                          });
+                        },
+                        child: ListTile(
+                          leading: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  remove(index);
+                                });
+                              },
+                              child: Icon(
+                                Icons.clear,
+                                size: 17,
+                              )),
+                          trailing: Text(
+                            db.favorite[index],
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w900),
+                          ),
+                        ),
+                      );
+                    }))
+                : Container(),
             Expanded(
               child: Container(
-                  child: ListView.separated(
-                itemCount: _searchController.text.isEmpty
-                    ? dataList.length
-                    : filteredList.length,
-                itemBuilder: (context, index) {
-                  final item = _searchController.text.isEmpty
-                      ? dataList[index]
-                      : filteredList[index];
-                  return Container(
-                    height: 37,
-                    child: ListTile(
-                      trailing: Text(
-                        item["name"]!,
-                        style: TextStyle(fontSize: 14),
-                      ),
-                      onTap: () {
-                        Get.to(
+                child: ListView.separated(
+                  itemCount: _searchController.text.isEmpty
+                      ? dataList.length
+                      : filteredList.length,
+                  itemBuilder: (context, index) {
+                    final item = _searchController.text.isEmpty
+                        ? dataList[index]
+                        : filteredList[index];
+                    return Container(
+                      height: 37,
+                      child: ListTile(
+                        trailing: Text(
+                          item["name"]!,
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w900),
+                        ),
+                        onTap: () {
+                          Get.to(
                             () => DetailPage12(
-                                name: item['name']!,
-                                description: item['description']!,
-                                footnote: item['footnote']!,
-                                favorites: convertStringToBool(item['favorites']!),
-                                dataList: dataList,
-                                initialPageIndex: index),
+                              name: item['name']!,
+                              description: item['description']!,
+                              footnote: item['footnote']!,
+                              favorites:
+                                  convertStringToBool(item['favorites']!),
+                              dataList: dataList,
+                              initialPageIndex: _searchController.text.isEmpty
+                                  ? index
+                                  : dataList.indexOf(item),
+                            ),
                             transition: Transition.cupertino,
-                            duration: Duration(milliseconds: 400));
-                      },
-                    ),
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20),
-                    child: Divider(
-                      thickness: 0.5,
-                      color: Color.fromRGBO(0, 150, 136, 0.5),
-                    ),
-                  );
-                },
-              )),
+                            duration: Duration(milliseconds: 400),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: Divider(
+                        thickness: 0.5,
+                        color: Color.fromRGBO(0, 150, 136, 0.5),
+                      ),
+                    );
+                  },
+                ),
+              ),
             )
           ],
         ),
@@ -255,7 +370,7 @@ class secondRow extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(
         left: 20,
-        top: 30,
+        top: 9,
         right: 28,
       ),
       child: Expanded(
@@ -289,4 +404,17 @@ class secondRow extends StatelessWidget {
   //     onTap: () => _selectPage,
   //   );
   // }
+}
+
+class RecentSearchesUtil {
+  static Future<List<String>> loadRecentSearches() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? savedSearches = prefs.getStringList('recentSearches');
+    return savedSearches ?? [];
+  }
+
+  static Future<void> saveRecentSearches(List<String> searches) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setStringList('recentSearches', searches);
+  }
 }
