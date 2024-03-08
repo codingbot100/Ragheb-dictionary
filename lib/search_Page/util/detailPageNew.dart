@@ -97,20 +97,9 @@ class _DetailPage12State extends State<DetailPage12> {
 
         print(
             "Added to favorites: ${widget.name}, ${widget.description}, ${widget.footnote}");
+        db.updateDataBase();
 
         // Save changes to Hive database
-
-        isFavorite = !isFavorite;
-      } else {
-        db.favorite.remove({
-          'name': widget.name,
-          'description': widget.description,
-          'footnote': widget.footnote,
-        });
-
-        print(
-            "remove: ${widget.name}, ${widget.description}, ${widget.footnote}");
-        db.updateDataBase();
       }
     });
   }
@@ -158,14 +147,16 @@ class _DetailPage12State extends State<DetailPage12> {
                           InkWell(
                               onTap: () {
                                 setState(() {
-                                 
+                                  if (db.favorite.contains(widget.name)) {
+                                    image = 'images/new.png';
+                                  } else {
+                                    image = 'images/open.png';
+                                  }
                                   toggleFavorite();
                                 });
                               },
                               child: Image.asset(
-                                db.favorite.contains(widget.name)
-                                    ? 'images/new.png'
-                                    : "images/open.png",
+                                image,
                                 color: Colors.green,
                               )),
                           Flexible(

@@ -29,7 +29,6 @@ class _FavoritPage_secondState extends State<FavoritPage_second> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color(0xFFF5F5DC),
-      
         body: Column(
           children: [
             Expanded(
@@ -70,9 +69,7 @@ class _FavoritPage_secondState extends State<FavoritPage_second> {
                 },
               ),
             ),
-            // Text("Name: ${_todoDatabase.favorite[index]['name']}"),
-            // Text("Description: ${_todoDatabase.favorite[index]['description']}"),
-            // Text("footnot: ${_todoDatabase.favorite[index]['footnote']}")
+           
           ],
         ));
   }

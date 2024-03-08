@@ -16,6 +16,7 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
   void initState() {
     super.initState();
     _initHive();
+
     _todoDatabase.createInitialData();
     _todoDatabase.loadData();
   }
@@ -65,6 +66,7 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
                                   initialPageIndex: index),
                               transition: Transition.cupertino,
                               duration: Duration(milliseconds: 400));
+                          _todoDatabase.updateDataBase();
                         },
                       ),
                     );
