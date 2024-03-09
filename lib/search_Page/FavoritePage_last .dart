@@ -11,9 +11,15 @@ class FavoritPage_Me extends StatefulWidget {
 
 class _FavoritPage_MeState extends State<FavoritPage_Me> {
   ToDodatabase3 _todoDatabase = ToDodatabase3();
+  final _meBox = Hive.box('mybox');
 
   @override
   void initState() {
+    if (_meBox.get("TODOLIST") == null) {
+      _todoDatabase.createInitialData();
+    } else {
+      _todoDatabase.loadData();
+    }
     super.initState();
     _initHive();
 
@@ -24,6 +30,50 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
   void _initHive() async {
     await Hive.initFlutter();
     await Hive.openBox('mybox');
+  }
+
+  String formatDateTime(DateTime dateTime) {
+    final now = DateTime.now();
+    final difference = now.difference(dateTime);
+
+    if (difference.inDays == 0) {
+      // If the date is today, show only the time
+      return '${_getFormattedTime(dateTime)} ${_getPeriod(dateTime)}';
+    } else if (difference.inDays == 1) {
+      // If the date is yesterday, show 'Yesterday'
+      return 'دیروز';
+    } else {
+      // If more than 2 days ago, show the date in the format 'd MMM' (e.g., 3 Jun)
+      return '${dateTime.day} ${_getMonthAbbreviation(dateTime.month)}';
+    }
+  }
+
+  String _getFormattedTime(DateTime dateTime) {
+    final hour = dateTime.hour % 12 == 0 ? 12 : dateTime.hour % 12;
+    final minute = dateTime.minute.toString().padLeft(2, '0');
+    return '$hour:$minute';
+  }
+
+  String _getPeriod(DateTime dateTime) {
+    return dateTime.hour < 12 ? 'ق.ظ' : 'ب.ظ';
+  }
+
+  String _getMonthAbbreviation(int month) {
+    final monthAbbreviations = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
+    ];
+    return monthAbbreviations[month - 1];
   }
 
   @override
@@ -49,6 +99,8 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
                     return Container(
                       height: 37,
                       child: ListTile(
+                        leading: Text(
+                            "${_todoDatabase.favorite[index]['dateTime']}"),
                         trailing: Text(
                           "${_todoDatabase.favorite[index]['name']}",
                           style: TextStyle(

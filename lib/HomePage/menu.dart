@@ -1,7 +1,9 @@
+import 'package:flutter/widgets.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/CarouselSlider.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:ragheb_dictionary/search_Page/FavoritePage_last.dart';
+import 'package:ragheb_dictionary/search_Page/FavoritePages2.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -55,26 +57,33 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 10.0),
-                child: Container(child: TextRow(' همه  ', 'مقالات وبلاگ')),
+                child: Container(child: TextRow('مرور همه', 'مقالات وبلاگ')),
               ),
               Padding(
                   padding: const EdgeInsets.only(bottom: 10),
                   child: CarouselSlider1()),
-              TextRow('ذخیره شده ها', 'مرور همه'),
-              Column(
-                children: [
-                  Container(
-                    width: 350,
-                    height: 188,
-                    child: FavoritPage_second(),
-                  )
-                  // Other widgets...
-                ],
+              TextRow('مرور همه', 'ذخیره شده ها '),
+              Padding(
+                padding: const EdgeInsets.only(left: 5, right: 5),
+                child: Expanded(
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 188,
+                        child: FavoritPage_menu(),
+                      )
+                      // Other widgets...
+                    ],
+                  ),
+                ),
               ),
-              Container(
-                width: 350,
-                height: 188,
-                child: FavoritPage_second(),
+              TextRow('مرور همه', 'جستجو های اخیر'),
+              Padding(
+                padding: const EdgeInsets.only(left: 5, right: 5),
+                child: Container(
+                  height: 188,
+                  child: FavoritPage_second(),
+                ),
               )
             ]),
           ),

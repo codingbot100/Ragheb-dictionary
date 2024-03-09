@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/search_Page/data/database.dart';
+import 'package:ragheb_dictionary/search_Page/util/detailFavoritePage.dart';
 
 class FavoritPage_menu extends StatefulWidget {
   @override
@@ -9,12 +11,18 @@ class FavoritPage_menu extends StatefulWidget {
 
 class _FavoritPage_menuState extends State<FavoritPage_menu> {
   ToDodatabase3 _todoDatabase = ToDodatabase3();
-  List<Map<String, String>> dataList = [];
+  final _meBox = Hive.box('mybox');
 
   @override
   void initState() {
+    if (_meBox.get("TODOLIST") == null) {
+      _todoDatabase.createInitialData();
+    } else {
+      _todoDatabase.loadData();
+    }
     super.initState();
     _initHive();
+
     _todoDatabase.createInitialData();
     _todoDatabase.loadData();
   }
@@ -24,60 +32,56 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
     await Hive.openBox('mybox');
   }
 
-  bool isFavorit = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF5F5DC),
-      body: Container(
-        child: ListView.separated(
-          separatorBuilder: (context, index) {
-            return Divider();
-          },
-          itemCount: _todoDatabase.favorite.length,
-          itemBuilder: (context, index) {
-            return Directionality(
-              textDirection: TextDirection.rtl,
-              child: Container(
-                  height: 38,
-                  decoration: BoxDecoration(
-                      color: Color(0xFFF5F5DC),
-                      borderRadius: BorderRadius.circular(8),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color.fromARGB(255, 228, 228, 134)
-                              .withOpacity(0.1),
-                          spreadRadius: 0,
-                          blurRadius: 10,
-                          offset: Offset(0, 2),
+        backgroundColor: Color(0xFFF5F5DC),
+        body: SafeArea(
+          child: Column(
+            children: [
+            
+              Expanded(
+                child: ListView.separated(
+                  itemCount: _todoDatabase.favorite.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      height: 37,
+                      child: ListTile(
+                        trailing: Text(
+                          "${_todoDatabase.favorite[index]['name']}",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.w600),
                         ),
-                      ]),
-                  child: ListTile(
-                    leading:GestureDetector(
-                      onTap: (){
-                        setState(() {
-                          isFavorit =!isFavorit;
-                        });
-                      },
-                      child: Image.asset(isFavorit ? 'icons/true f.png':'icons/favorite.png',
-                        scale: 2,
+                        onTap: () {
+                          Get.to(
+                              () => DetailFavoirtPage(
+                                  name:
+                                      " ${_todoDatabase.favorite[index]['name']}",
+                                  description:
+                                      "${_todoDatabase.favorite[index]['description']}",
+                                  footnote:
+                                      "${_todoDatabase.favorite[index]['footnote']}",
+                                  initialPageIndex: index),
+                              transition: Transition.cupertino,
+                              duration: Duration(milliseconds: 400));
+                          _todoDatabase.updateDataBase();
+                        },
                       ),
-                    ),
-                    title: Text(
-                      _todoDatabase.favorite[index]['name'],
-                      style: TextStyle(
-                          fontFamily: 'Yekan Bakh',
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w300),
-                    ),
-                  )),
-            );
-
-            // You can add more Text widgets for other properties if needed
-          },
-        ),
-      ),
-    );
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: Divider(
+                        thickness: 0.5,
+                        color: Color.fromRGBO(0, 150, 136, 0.5),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 }

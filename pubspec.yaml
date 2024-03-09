@@ -116,6 +116,10 @@ flutter:
      - family: IRANSansX
        fonts:
         - asset: fonts/IRANSansX.ttf
+
+     - family: Inter
+       fonts:
+        - asset: fonts/Inter.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
