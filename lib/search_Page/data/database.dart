@@ -17,3 +17,21 @@ class ToDodatabase3 {
     _meBox.put('TODOLIST', favorite);
   }
 }
+
+class ToDodatabaseTime {
+  List dateAndTime = [];
+
+  final _meBox = Hive.box('mybox');
+
+  void createInitialData() {
+    dateAndTime = [];
+  }
+
+  void loadData() {
+    dateAndTime = _meBox.get("TODODateAndTime") ?? [];
+  }
+
+  void updateDataBase() {
+    _meBox.put('TODODateAndTime', dateAndTime);
+  }
+}

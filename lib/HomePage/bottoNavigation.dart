@@ -37,19 +37,14 @@ class _bottmState extends State<bottm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_selectedPageIndex]['Page'],
+      body: IndexedStack(
+        index: _selectedPageIndex,
+        children: _pages.map((page) => page['Page'] ?? Container()).toList(),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.to(
-            () => SearchPageMe(),
-            curve: Curves.fastEaseInToSlowEaseOut,
-            transition: Transition.rightToLeft,
-            duration: Duration(milliseconds: 500),
-          );
-          setState(() {
-            _selectedPageIndex = 4;
-          });
+          _selectPage(4);
         },
         child: Icon(
           Icons.search,

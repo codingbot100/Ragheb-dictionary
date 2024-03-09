@@ -38,6 +38,7 @@ class _DetailPage12State extends State<DetailPage12> {
 
   SharedPreferencesHelper2 shareddb = SharedPreferencesHelper2();
   ToDodatabase3 db = new ToDodatabase3();
+  ToDodatabaseTime dbTime = new ToDodatabaseTime();
 
   @override
   void initState() {
@@ -81,41 +82,50 @@ class _DetailPage12State extends State<DetailPage12> {
     });
   }
 
- void toggleFavorite() {
-  setState(() {
-    bool isAlreadyFavorite = db.favorite.any((item) =>
-        item['name'] == widget.name &&
-        item['description'] == widget.description &&
-        item['footnote'] == widget.footnote);
-
-    if (!isAlreadyFavorite) {
-      Map<String, dynamic> newItem = {
-        'name': widget.name,
-        'description': widget.description,
-        'footnote': widget.footnote,
-      };
-
-      db.favorite.add(newItem);
-      print(db.favorite);
-    } else {
-      db.favorite.removeWhere((item) =>
+  void toggleFavorite() {
+    setState(() {
+      bool isAlreadyFavorite = db.favorite.any((item) =>
           item['name'] == widget.name &&
           item['description'] == widget.description &&
           item['footnote'] == widget.footnote);
 
-      print(
-          "Removed from favorites: ${widget.name}, ${widget.description}, ${widget.footnote}");
-    }
+      if (!isAlreadyFavorite) {
+        Map<String, dynamic> newItem = {
+          'name': widget.name,
+          'description': widget.description,
+          'footnote': widget.footnote,
+          'isFavorite': true,
+          'date': DateTime.now(),
+        };
 
-    // Add the current date and time before updating the database
-    db.favorite.forEach((item) {
-      item['dateTime'] = DateTime.now().toString();
+        db.favorite.add(newItem);
+        dbTime.dateAndTime.add(DateTime.now().toString());
+        print(db.favorite);
+        // print(dbTime.dateAndTime);
+      } else {
+        Map<String, dynamic>? itemToRemove;
+        for (var item in db.favorite) {
+          if (item['name'] == widget.name &&
+              item['description'] == widget.description &&
+              item['footnote'] == widget.footnote) {
+            itemToRemove = item;
+            break;
+          }
+        }
+
+        if (itemToRemove != null) {
+          db.favorite.remove(itemToRemove);
+          dbTime.dateAndTime.remove(itemToRemove['dateTime']);
+          print(
+              "Removed from favorites: ${widget.name}, ${widget.description}, ${widget.footnote}");
+        }
+      }
+
+      // Update the database
+      db.updateDataBase();
     });
-
-    // Update the database
-    db.updateDataBase();
-  });
-}
+    print(db.favorite);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -311,4 +321,20 @@ class _DetailPage12State extends State<DetailPage12> {
       ),
     );
   }
+}
+
+class FavoriteItem {
+  late String name;
+  late String description;
+  late String footnote;
+  late bool isFavorite;
+  late String dateTime;
+
+  FavoriteItem({
+    required this.name,
+    required this.description,
+    required this.footnote,
+    required this.isFavorite,
+    required this.dateTime,
+  });
 }

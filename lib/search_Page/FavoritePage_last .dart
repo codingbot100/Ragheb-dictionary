@@ -55,7 +55,7 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
   }
 
   String _getPeriod(DateTime dateTime) {
-    return dateTime.hour < 12 ? 'ق.ظ' : 'ب.ظ';
+    return dateTime.hour < 12 ? "" : "";
   }
 
   String _getMonthAbbreviation(int month) {
@@ -100,7 +100,8 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
                       height: 37,
                       child: ListTile(
                         leading: Text(
-                            "${_todoDatabase.favorite[index]['dateTime']}"),
+                          formatDateTime(_todoDatabase.favorite[index]['date']),
+                        ),
                         trailing: Text(
                           "${_todoDatabase.favorite[index]['name']}",
                           style: TextStyle(

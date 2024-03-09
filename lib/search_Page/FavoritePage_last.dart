@@ -52,7 +52,7 @@ class _FavoritPage_secondState extends State<FavoritPage_second> {
   }
 
   String _getPeriod(DateTime dateTime) {
-    return dateTime.hour < 12 ? 'ق.ظ' : 'ب.ظ';
+    return dateTime.hour < 12 ? "" : "";
   }
 
   String _getMonthAbbreviation(int month) {
@@ -94,8 +94,8 @@ class _FavoritPage_secondState extends State<FavoritPage_second> {
                         style: TextStyle(
                             fontSize: 16,
                             color: Color(0xFF525252),
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'Inter'),
+                            fontWeight: FontWeight.w800,
+                            fontFamily: 'YekanBakh'),
                       ),
                       leading: Text(formattedDateTime,
                           style: TextStyle(color: Colors.grey.shade500)),
