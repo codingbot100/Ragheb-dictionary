@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 class ColorsClass extends GetxController {
   var dartMode = true.obs;
   var colorPrimary = Color(0xFF009688).obs;
-  var colorBackground = Color.fromRGBO(245, 245, 220, 1).obs;
+  var colorBackground = Color.fromARGB(115, 207, 212, 241).obs;
   var colorWords = Color.fromRGBO(82, 82, 82, 1);
 
   void toggleDarkMode() {

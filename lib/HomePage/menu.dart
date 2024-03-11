@@ -80,9 +80,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               TextRow('مرور همه', 'جستجو های اخیر'),
               Padding(
                 padding: const EdgeInsets.only(left: 5, right: 5),
-                child: Container(
-                  height: 188,
-                  child: FavoritPage_second(),
+                child: Expanded(
+                  child: Container(
+                    height: 250,
+                    child: FavoritPage_second(),
+                  ),
                 ),
               )
             ]),

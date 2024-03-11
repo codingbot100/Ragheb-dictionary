@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ragheb_dictionary/MainPages/EnterAnimation.dart';
+import 'package:ragheb_dictionary/HomePage/Navigator.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/colors.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -25,7 +25,7 @@ class start extends StatelessWidget {
             backgroundColor: Color(0xFFF5F5DC),
           )),
       debugShowCheckedModeBanner: false,
-      home: enteringPage(),
+      home: MyAppNavigator(),
     );
   }
 }

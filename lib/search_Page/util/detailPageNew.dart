@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/search_Page/data/data.dart';
 import 'package:ragheb_dictionary/search_Page/data/database.dart';
 import 'package:ragheb_dictionary/search_Page/util/search_pageMe.dart';
@@ -33,8 +35,11 @@ class _DetailPage12State extends State<DetailPage12> {
   var image = 'images/open.png';
   fontsize fontSize = fontsize();
   var _currentPageIndex = 0;
+  ToDodatabase7 DB_fontFamily = ToDodatabase7();
+
   bool isFavorite = false;
   String currentDateAndTime = DateTime.now().toString();
+  final _meBox = Hive.box('mybox');
 
   SharedPreferencesHelper2 shareddb = SharedPreferencesHelper2();
   ToDodatabase3 db = new ToDodatabase3();
@@ -42,6 +47,11 @@ class _DetailPage12State extends State<DetailPage12> {
 
   @override
   void initState() {
+    if (_meBox.get("TODOfontFamily") == null) {
+      DB_fontFamily.createInitialData();
+    } else {
+      DB_fontFamily.loadData();
+    }
     _pageController = PageController(initialPage: widget.initialPageIndex);
     _pageController.addListener(() {
       setState(() {
@@ -147,26 +157,6 @@ class _DetailPage12State extends State<DetailPage12> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          // Container(
-                          //   child: IconButton(
-                          //       onPressed: () {
-                          //         setState(() {
-                          //           print(shareddb.itemList);
-                          //         });
-                          //       },
-                          //       icon: Icon(Icons.favorite)),
-                          // ),
-                          // Container(
-                          //   child: IconButton(
-                          //       onPressed: () {
-                          //         setState(() {
-                          //           isFavorite = !isFavorite;
-                          //         });
-                          //       },
-                          //       icon: isFavorite
-                          //           ? Icon(Icons.favorite)
-                          //           : Icon(Icons.favorite_border)),
-                          // )
                           InkWell(
                               onTap: () {
                                 setState(() {
@@ -187,7 +177,7 @@ class _DetailPage12State extends State<DetailPage12> {
                               child: Text(
                                 widget.dataList[index]['name']!,
                                 style: TextStyle(
-                                  fontFamily: 'YekanBakh',
+                                  fontFamily: DB_fontFamily.fontFamily,
                                   fontSize: 30,
                                   fontWeight: FontWeight.w900,
                                   color: Color.fromRGBO(82, 82, 82, 1),
@@ -214,7 +204,7 @@ class _DetailPage12State extends State<DetailPage12> {
                                     text: widget.dataList[index]
                                         ['description']!,
                                     style: TextStyle(
-                                      fontFamily: 'YekanBakh',
+                                      fontFamily: DB_fontFamily.fontFamily,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w900,
                                       color: Color.fromRGBO(82, 82, 82, 1),
@@ -245,7 +235,8 @@ class _DetailPage12State extends State<DetailPage12> {
                                               widget.dataList[_currentPageIndex]
                                                   ['footnote']!,
                                           style: TextStyle(
-                                            fontFamily: 'YekanBakh',
+                                            fontFamily:
+                                                DB_fontFamily.fontFamily,
                                             fontSize: 10,
                                             fontWeight: FontWeight.w900,
                                             color: Color.fromRGBO(
@@ -305,7 +296,7 @@ class _DetailPage12State extends State<DetailPage12> {
               ),
               GestureDetector(
                 onTap: () {
-                  Get.to(() => SearchPageMe());
+                  Get.back();
                 },
                 child: Container(
                   width: 20,

@@ -2,6 +2,7 @@
 
 import "package:flutter/material.dart";
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/fonts.dart';
 import 'package:ragheb_dictionary/search_Page/data/database.dart';
 import 'package:ragheb_dictionary/search_Page/data/sharedPrefernces.dart';
@@ -25,13 +26,22 @@ class DetailFavoirtPage extends StatefulWidget {
 
 class _DetailFavoirtPageState extends State<DetailFavoirtPage> {
   final _myBox = Hive.box('mybox');
+  final _meBox = Hive.box('mybox');
+
   ToDodatabase3 db = ToDodatabase3();
+  ToDodatabase7 DB_fontFamily = ToDodatabase7();
   var _currentPageIndex = 0;
   bool isFavorite = false;
   SharedPreferencesHelper shareddb = SharedPreferencesHelper();
 
   @override
   void initState() {
+    if (_meBox.get("TODOfontFamily") == null) {
+      DB_fontFamily.createInitialData();
+    } else {
+      DB_fontFamily.loadData();
+    }
+    DB_fontFamily.updateDataBase();
     toggleFavorite();
     super.initState();
   }
@@ -79,7 +89,7 @@ class _DetailFavoirtPageState extends State<DetailFavoirtPage> {
                             child: Text(
                               widget.name,
                               style: TextStyle(
-                                fontFamily: 'YekanBakh',
+                                fontFamily: DB_fontFamily.fontFamily,
                                 fontSize: 30,
                                 fontWeight: FontWeight.w900,
                                 color: Color.fromRGBO(82, 82, 82, 1),
@@ -105,7 +115,7 @@ class _DetailFavoirtPageState extends State<DetailFavoirtPage> {
                                 text: TextSpan(
                                   text: widget.description,
                                   style: TextStyle(
-                                    fontFamily: 'YekanBakh',
+                                    fontFamily: DB_fontFamily.fontFamily,
                                     fontSize: fontsClass.description,
                                     fontWeight: FontWeight.w900,
                                     color: Color.fromRGBO(82, 82, 82, 1),
@@ -137,7 +147,7 @@ class _DetailFavoirtPageState extends State<DetailFavoirtPage> {
                                       text: TextSpan(
                                         text: widget.footnote,
                                         style: TextStyle(
-                                          fontFamily: 'YekanBakh',
+                                          fontFamily: DB_fontFamily.fontFamily,
                                           fontSize: fontsize().footnot,
                                           fontWeight: FontWeight.w900,
                                           color:

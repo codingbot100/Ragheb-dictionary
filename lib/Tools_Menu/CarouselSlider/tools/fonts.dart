@@ -1,6 +1,6 @@
 
 class fontsClass {
-  List fonts = ["Yekan", 'IRANSansX', 'YekanBakh', 'Vazirmatn'];
+  List fonts = ["Yekan", '', 'YekanBakh', 'Vazirmatn'];
   int index = 0;
 }
 
