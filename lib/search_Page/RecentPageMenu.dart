@@ -77,43 +77,45 @@ class _FavoritPage_secondState extends State<FavoritPage_second> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color(0xFFF5F5DC),
-        body: Column(
-          children: [
-            Expanded(
-              child: ListView.separated(
-                itemCount: _todoDatabase.favorite.length,
-                itemBuilder: (context, index) {
-                  final dateTime =
-                      DateTime.parse(_todoDatabase.dateAndTime[index]);
-                  final formattedDateTime = formatDateTime(dateTime);
-                  return Container(
-                    height: 37,
-                    child: ListTile(
-                      trailing: Text(
-                        "${_todoDatabase.favorite[index]}",
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: Color(0xFF525252),
-                            fontWeight: FontWeight.w800,
-                            fontFamily: 'YekanBakh'),
+        body: SafeArea(
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView.separated(
+                  itemCount: _todoDatabase.favorite.length,
+                  itemBuilder: (context, index) {
+                    final dateTime =
+                        DateTime.parse(_todoDatabase.dateAndTime[index]);
+                    final formattedDateTime = formatDateTime(dateTime);
+                    return Container(
+                      height: 37,
+                      child: ListTile(
+                        trailing: Text(
+                          "${_todoDatabase.favorite[index]}",
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Color(0xFF525252),
+                              fontWeight: FontWeight.w800,
+                              fontFamily: 'YekanBakh'),
+                        ),
+                        leading: Text(formattedDateTime,
+                            style: TextStyle(color: Colors.grey.shade500)),
                       ),
-                      leading: Text(formattedDateTime,
-                          style: TextStyle(color: Colors.grey.shade500)),
-                    ),
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20),
-                    child: Divider(
-                      thickness: 0.5,
-                      color: Color.fromRGBO(0, 150, 136, 0.5),
-                    ),
-                  );
-                },
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: Divider(
+                        thickness: 0.5,
+                        color: Color.fromRGBO(0, 150, 136, 0.5),
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ));
   }
 }

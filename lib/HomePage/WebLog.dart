@@ -40,12 +40,9 @@ class _messageState extends State<message> {
                   ],
                 ),
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 10),
               Padding(
-                padding: const EdgeInsets.only(
-                  left: 20,
-                  right: 20,
-                ),
+                padding: const EdgeInsets.only(),
                 child: SafeArea(
                   child: SingleChildScrollView(
                     child: Expanded(
@@ -53,7 +50,7 @@ class _messageState extends State<message> {
                         children: [
                           Container(
                             width: double.infinity,
-                            height: 600,
+                            height: 700,
                             child: ListView.builder(
                                 itemCount: 3,
                                 itemBuilder: (context, index) {

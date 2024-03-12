@@ -10,7 +10,7 @@ import 'package:ragheb_dictionary/search_Page/util/detailPageNew.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchPageMe extends StatefulWidget {
-   bool isShow;
+  bool isShow;
   SearchPageMe({super.key, required this.isShow});
 
   @override
@@ -217,86 +217,98 @@ class _SearchPageMeState extends State<SearchPageMe> {
                 ),
               ],
             ),
-            secondRow(),
+            isShow ? secondRow() : SizedBox(),
             isShow
-                ? ListView.builder(
-                    itemCount: db.favorite.length > 7 ? 7 : db.favorite.length,
+                ? ListView.separated(
+                    separatorBuilder: ((context, index) {
+                      return Divider(
+                        thickness: 0.5,
+                        color: Color.fromRGBO(0, 150, 136, 0.5),
+                      );
+                    }),
+                    itemCount: db.favorite.length > 5 ? 5 : db.favorite.length,
                     shrinkWrap: true,
                     itemBuilder: ((context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _searchController.text = db.favorite[index];
-                            _searchFocus.unfocus(); // Close the keyboard
-                          });
-                        },
-                        child: ListTile(
-                          leading: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  remove(index);
-                                });
-                              },
-                              child: Icon(
-                                Icons.clear,
-                                size: 17,
-                              )),
-                          trailing: Text(
-                            db.favorite[index],
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w900),
+                      return Container(
+                        height: 37,
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _searchController.text = db.favorite[index];
+                              _searchFocus.unfocus(); // Close the keyboard
+                            });
+                          },
+                          child: ListTile(
+                            leading: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    remove(index);
+                                  });
+                                },
+                                child: Icon(
+                                  Icons.clear,
+                                  size: 17,
+                                )),
+                            trailing: Text(
+                              db.favorite[index],
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w900),
+                            ),
                           ),
                         ),
                       );
                     }))
                 : SizedBox(),
             Expanded(
-              child: Container(
-                child: ListView.separated(
-                  itemCount: _searchController.text.isEmpty
-                      ? dataList.length
-                      : filteredList.length,
-                  itemBuilder: (context, index) {
-                    final item = _searchController.text.isEmpty
-                        ? dataList[index]
-                        : filteredList[index];
-                    return Container(
-                      height: 37,
-                      child: ListTile(
-                        trailing: Text(
-                          item["name"]!,
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w900),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Container(
+                  child: ListView.separated(
+                    itemCount: _searchController.text.isEmpty
+                        ? dataList.length
+                        : filteredList.length,
+                    itemBuilder: (context, index) {
+                      final item = _searchController.text.isEmpty
+                          ? dataList[index]
+                          : filteredList[index];
+                      return Container(
+                        height: 37,
+                        child: ListTile(
+                          trailing: Text(
+                            item["name"]!,
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w900),
+                          ),
+                          onTap: () {
+                            Get.to(
+                              () => DetailPage12(
+                                name: item['name']!,
+                                description: item['description']!,
+                                footnote: item['footnote']!,
+                                favorites:
+                                    convertStringToBool(item['favorites']!),
+                                dataList: dataList,
+                                initialPageIndex: _searchController.text.isEmpty
+                                    ? index
+                                    : dataList.indexOf(item),
+                              ),
+                              transition: Transition.cupertino,
+                              duration: Duration(milliseconds: 400),
+                            );
+                          },
                         ),
-                        onTap: () {
-                          Get.to(
-                            () => DetailPage12(
-                              name: item['name']!,
-                              description: item['description']!,
-                              footnote: item['footnote']!,
-                              favorites:
-                                  convertStringToBool(item['favorites']!),
-                              dataList: dataList,
-                              initialPageIndex: _searchController.text.isEmpty
-                                  ? index
-                                  : dataList.indexOf(item),
-                            ),
-                            transition: Transition.cupertino,
-                            duration: Duration(milliseconds: 400),
-                          );
-                        },
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20),
-                      child: Divider(
-                        thickness: 0.5,
-                        color: Color.fromRGBO(0, 150, 136, 0.5),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        child: Divider(
+                          thickness: 0.5,
+                          color: Color.fromRGBO(0, 150, 136, 0.5),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             )
@@ -314,9 +326,9 @@ class secondRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
-        left: 20,
+        left: 15,
         top: 9,
-        right: 28,
+        right: 18,
       ),
       child: Expanded(
         child: Row(

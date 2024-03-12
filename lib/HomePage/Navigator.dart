@@ -3,7 +3,8 @@ import 'package:ragheb_dictionary/HomePage/WebLog.dart';
 import 'package:ragheb_dictionary/HomePage/menu.dart';
 import 'package:ragheb_dictionary/Setting/SettingPage.dart';
 import 'package:ragheb_dictionary/search_Page/FavoritePage_last%20.dart';
-import 'package:ragheb_dictionary/search_Page/FavoritePage_last.dart';
+import 'package:ragheb_dictionary/search_Page/RecentPageMain.dart';
+import 'package:ragheb_dictionary/search_Page/RecentPageMenu.dart';
 import 'package:ragheb_dictionary/search_Page/util/search_pageMe.dart';
 
 class MyAppNavigator extends StatefulWidget {
@@ -34,7 +35,7 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
       ),
       FavoritPage_Me(),
       MySettingsPage(),
-      FavoritPage_second()
+      RecentPageMain()
     ];
   }
 
@@ -44,14 +45,16 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
     return Scaffold(
       body: buildScreens[_currentIndex],
       bottomNavigationBar: Container(
-        decoration: BoxDecoration(boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 1,
-            offset: Offset(10, 10), // changes position of shadow
-          ),
-        ]),
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Color(0xFFE0E0BF),
+              blurRadius: 20.0,
+              offset: Offset(
+                  0, -20), // Adjust the offset to control the shadow position
+            ),
+          ],
+        ),
         child: BottomAppBar(
           shadowColor: Colors.grey.shade600,
           notchMargin: 7,

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/CarouselSlider.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/colors.dart';
-import 'package:ragheb_dictionary/search_Page/FavoritePage_last.dart';
+import 'package:ragheb_dictionary/search_Page/RecentPageMenu.dart';
 import 'package:ragheb_dictionary/search_Page/FavoritePages2.dart';
 
 class Home extends StatefulWidget {
@@ -40,75 +40,68 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        // backgroundColor: Color(0xFFF5F5DC),
-        elevation: 0,
-        actions: [
-          Expanded(
-            child: ListTile(
-              trailing: Text(
-                'فرهنگ لغت راغب',
-                style: TextStyle(
-                  fontFamily: fontFamile,
-                  fontSize: fontSizeTitle,
-                  fontWeight: FontWeight.w900,
-                  color: colorPrimary,
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
       backgroundColor: Color(0xFFF5F5DC),
       body: SafeArea(
-        child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 25),
           child: Column(
             children: [
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10.0),
-                    child: Container(
-                        child: TextRow(1, 'مرور همه', 'مقالات وبلاگ')),
-                  ),
-                ],
-              ),
               Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: CarouselSlider1(),
-              ),
-              TextRow(2, 'مرور همه', 'ذخیره شده ها '),
-              Padding(
-                padding: const EdgeInsets.only(left: 5, right: 5),
-                child: Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 188,
-                          child: GetBuilder<MyController>(
-                            builder: (controller) {
-                              return FavoritPage_menu();
-                            },
-                          ),
-                        ),
-                        // Other widgets...
-                      ],
+                padding: const EdgeInsets.only(right: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      'فرهنگ لغت راغب',
+                      style: TextStyle(
+                        fontFamily: fontFamile,
+                        fontSize: fontSizeTitle,
+                        fontWeight: FontWeight.w900,
+                        color: colorPrimary,
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ),
-              TextRow(5, 'مرور همه', 'جستجو های اخیر'),
-              Padding(
-                padding: const EdgeInsets.only(left: 5, right: 5),
-                child: Expanded(
-                  child: Container(
-                    height: 250,
-                    child: GetBuilder<MyController>(
-                      builder: (controller) {
-                        return FavoritPage_second();
-                      },
-                    ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10.0, top: 25.0),
+                        child: Container(
+                          child: TextRow(1, 'مرور همه', 'مقالات وبلاگ'),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: CarouselSlider1(),
+                      ),
+                      TextRow(3, 'مرور همه', 'ذخیره شده ها '),
+                      Container(
+                        height: 188,
+                        child: GetBuilder<MyController>(
+                          builder: (controller) {
+                            return FavoritPage_menu();
+                          },
+                        ),
+                      ),
+                      TextRow(5, 'مرور همه', 'جستجو های اخیر'),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 2, right: 2, bottom: 20),
+                        child: Expanded(
+                          child: Container(
+                            height: 400,
+                            child: GetBuilder<MyController>(
+                              builder: (controller) {
+                                return FavoritPage_second();
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -121,7 +114,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   Widget TextRow(int _currentpage, String FirstTitel, secondtitle) {
     return Padding(
-      padding: const EdgeInsets.only(right: 20, left: 20),
+      padding: const EdgeInsets.only(right: 15, left: 15),
       child: Container(
         height: 20,
         child: Row(
