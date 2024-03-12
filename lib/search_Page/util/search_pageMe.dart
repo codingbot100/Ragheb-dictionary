@@ -1,19 +1,17 @@
+// ignore_for_file: must_be_immutable
+
 import "package:flutter/material.dart";
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:iconsax/iconsax.dart';
-import 'package:ragheb_dictionary/HomePage/WebLog.dart';
-import 'package:ragheb_dictionary/HomePage/bottoNavigation.dart';
-import 'package:ragheb_dictionary/HomePage/menu.dart';
-import 'package:ragheb_dictionary/Setting/SettingPage.dart';
 import 'package:ragheb_dictionary/search_Page/data/recentData.dart';
 import 'package:ragheb_dictionary/search_Page/util/detailPageNew.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchPageMe extends StatefulWidget {
-  const SearchPageMe({super.key});
+   bool isShow;
+  SearchPageMe({super.key, required this.isShow});
 
   @override
   State<SearchPageMe> createState() => _SearchPageMeState();
@@ -70,13 +68,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
     });
     loadData();
     filteredList = List.from(dataList);
-    pages = [
-      {'Page': Home()},
-      {'Page': Home()},
-      {'Page': Home()},
-      {'Page': Home()},
-      {"page": Home()}
-    ];
+
     super.initState();
   }
 
@@ -121,56 +113,6 @@ class _SearchPageMeState extends State<SearchPageMe> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFF5F5DC),
-      // bottomNavigationBar: BottomAppBar(
-      //   clipBehavior: Clip.antiAlias,
-      //   height: 70,
-      //   color: Color.fromRGBO(224, 224, 191, 1),
-      //   shape: CircularNotchedRectangle(),
-      //   child: Padding(
-      //     padding: const EdgeInsets.only(left: 40, right: 40),
-      //     child: Row(
-      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //       children: [
-      //         IconButton(
-      //           onPressed: () {
-      //             Get.to(() => MySettingsPage(),
-      //                 transition: Transition.leftToRight,
-      //                 duration: Duration(milliseconds: 400));
-      //           },
-      //           icon: Icon(Iconsax.setting_24),
-      //         ),
-      //         IconButton(
-      //           onPressed: () {
-      //             Get.to(() => message(),
-      //                 transition: Transition.leftToRight,
-      //                 duration: Duration(milliseconds: 400));
-      //           },
-      //           icon: Icon(Iconsax.message4),
-      //         ),
-      //         IconButton(
-      //           onPressed: () {
-      //             Get.to(() => bottm(),
-      //                 transition: Transition.leftToRight,
-      //                 duration: Duration(milliseconds: 400));
-      //           },
-      //           icon: Icon(Iconsax.home),
-      //         ),
-      //         GestureDetector(
-      //           onTap: () {
-      //             Get.back();
-      //           },
-      //           child: Container(
-      //             width: 20,
-      //             height: 20,
-      //             decoration:
-      //                 BoxDecoration(borderRadius: BorderRadius.circular(50)),
-      //             child: Icon(Icons.arrow_back),
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //   ),
-      // ),
       body: Padding(
         padding: const EdgeInsets.only(top: 50),
         child: Column(
@@ -186,6 +128,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
                         onFocusChange: (hasFocus) {
                           setState(() {
                             isShow = hasFocus;
+                            widget.isShow = hasFocus;
                           });
                         },
                         child: TextField(

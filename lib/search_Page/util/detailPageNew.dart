@@ -4,7 +4,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/search_Page/data/data.dart';
 import 'package:ragheb_dictionary/search_Page/data/database.dart';
-import 'package:ragheb_dictionary/search_Page/util/search_pageMe.dart';
 
 import '../../Tools_Menu/CarouselSlider/tools/fonts.dart';
 

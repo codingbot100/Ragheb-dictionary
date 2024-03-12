@@ -1,18 +1,26 @@
-import 'package:flutter/widgets.dart';
+// ignore_for_file: unused_field
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/CarouselSlider.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/colors.dart';
-import 'package:flutter/material.dart';
 import 'package:ragheb_dictionary/search_Page/FavoritePage_last.dart';
 import 'package:ragheb_dictionary/search_Page/FavoritePages2.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  final void Function(int) onPageChange;
+  const Home({
+    Key? key,
+    required this.onPageChange,
+  }) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> with TickerProviderStateMixin {
+  final MyController _myController = Get.put(MyController());
+
   final myItems = [
     'images2/2.jpg',
     'images2/3.jpg',
@@ -31,68 +39,87 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return (Scaffold(
-        backgroundColor: Color(0xFFF5F5DC),
-        body: SafeArea(
-          child: Expanded(
-            child: Column(children: [
-              Container(
-                child: Padding(
-                  padding:
-                      const EdgeInsets.only(right: 20, top: 20, bottom: 10),
-                  child: Row(
-                    textDirection: TextDirection.rtl,
-                    children: [
-                      Text(
-                        'فرهنگ لغت راغب',
-                        style: TextStyle(
-                            fontFamily: fontFamile,
-                            fontSize: fontSizeTitle,
-                            fontWeight: FontWeight.w900,
-                            color: colorPrimary),
-                      ),
-                    ],
-                  ),
+    return Scaffold(
+      appBar: AppBar(
+        // backgroundColor: Color(0xFFF5F5DC),
+        elevation: 0,
+        actions: [
+          Expanded(
+            child: ListTile(
+              trailing: Text(
+                'فرهنگ لغت راغب',
+                style: TextStyle(
+                  fontFamily: fontFamile,
+                  fontSize: fontSizeTitle,
+                  fontWeight: FontWeight.w900,
+                  color: colorPrimary,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 10.0),
-                child: Container(child: TextRow('مرور همه', 'مقالات وبلاگ')),
+            ),
+          )
+        ],
+      ),
+      backgroundColor: Color(0xFFF5F5DC),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: Container(
+                        child: TextRow(1, 'مرور همه', 'مقالات وبلاگ')),
+                  ),
+                ],
               ),
               Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: CarouselSlider1()),
-              TextRow('مرور همه', 'ذخیره شده ها '),
+                padding: const EdgeInsets.only(bottom: 10),
+                child: CarouselSlider1(),
+              ),
+              TextRow(2, 'مرور همه', 'ذخیره شده ها '),
               Padding(
                 padding: const EdgeInsets.only(left: 5, right: 5),
                 child: Expanded(
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 188,
-                        child: FavoritPage_menu(),
-                      )
-                      // Other widgets...
-                    ],
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 188,
+                          child: GetBuilder<MyController>(
+                            builder: (controller) {
+                              return FavoritPage_menu();
+                            },
+                          ),
+                        ),
+                        // Other widgets...
+                      ],
+                    ),
                   ),
                 ),
               ),
-              TextRow('مرور همه', 'جستجو های اخیر'),
+              TextRow(5, 'مرور همه', 'جستجو های اخیر'),
               Padding(
                 padding: const EdgeInsets.only(left: 5, right: 5),
                 child: Expanded(
                   child: Container(
                     height: 250,
-                    child: FavoritPage_second(),
+                    child: GetBuilder<MyController>(
+                      builder: (controller) {
+                        return FavoritPage_second();
+                      },
+                    ),
                   ),
                 ),
-              )
-            ]),
+              ),
+            ],
           ),
-        )));
+        ),
+      ),
+    );
   }
 
-  Widget TextRow(String FirstTitel, secondtitle) {
+  Widget TextRow(int _currentpage, String FirstTitel, secondtitle) {
     return Padding(
       padding: const EdgeInsets.only(right: 20, left: 20),
       child: Container(
@@ -100,12 +127,19 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              FirstTitel,
-              style: TextStyle(
+            GestureDetector(
+              onTap: () {
+                widget.onPageChange(_currentpage);
+                // Get.to((Page));
+              },
+              child: Text(
+                FirstTitel,
+                style: TextStyle(
                   fontFamily: fontFamile,
                   fontSize: fontSizeSubTitle,
-                  color: colorPrimary),
+                  color: colorPrimary,
+                ),
+              ),
             ),
             SizedBox(
               width: 6,
@@ -125,13 +159,22 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             Text(
               secondtitle,
               style: TextStyle(
-                  fontFamily: fontFamile,
-                  fontSize: fontSizeSubTitle,
-                  color: colorPrimary),
+                fontFamily: fontFamile,
+                fontSize: fontSizeSubTitle,
+                color: colorPrimary,
+              ),
             ),
           ],
         ),
       ),
     );
+  }
+}
+
+class MyController extends GetxController {
+  RxInt counter = 0.obs;
+
+  void increment() {
+    counter++;
   }
 }

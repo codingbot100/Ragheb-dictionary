@@ -20,7 +20,7 @@ class start extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       theme: ThemeData(
-          backgroundColor: Color(0xFFF5F5DC),
+          backgroundColor: Color.fromRGBO(245, 245, 220, 1),
           appBarTheme: AppBarTheme(
             backgroundColor: Color(0xFFF5F5DC),
           )),

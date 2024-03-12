@@ -1,37 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:ragheb_dictionary/HomePage/WebLog.dart';
 import 'package:ragheb_dictionary/HomePage/menu.dart';
 import 'package:ragheb_dictionary/Setting/SettingPage.dart';
 import 'package:ragheb_dictionary/search_Page/FavoritePage_last%20.dart';
+import 'package:ragheb_dictionary/search_Page/FavoritePage_last.dart';
 import 'package:ragheb_dictionary/search_Page/util/search_pageMe.dart';
-import 'package:get/get.dart';
-import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/colors.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-
-void main() async {
-  await Hive.initFlutter();
-  await Hive.openBox('mybox');
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  final CAD = Get.put(ColorsClass());
-
-  @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
-      theme: ThemeData(
-        backgroundColor: Color(0xFFF5F5DC),
-        appBarTheme: AppBarTheme(
-          color: Color(0xFFF5F5DC),
-        ),
-      ),
-      debugShowCheckedModeBanner: false,
-      home: MyAppNavigator(),
-    );
-  }
-}
 
 class MyAppNavigator extends StatefulWidget {
   @override
@@ -39,98 +12,118 @@ class MyAppNavigator extends StatefulWidget {
 }
 
 class _MyAppNavigatorState extends State<MyAppNavigator> {
-  PersistentTabController? _controller;
-
-  List<Widget> buildScreen = [
-    Home(),
-    message(),
-    SearchPageMe(),
-    FavoritPage_Me(),
-    MySettingsPage(),
-  ];
-
-  List<PersistentBottomNavBarItem> _navBarItem() {
-    return [
-      PersistentBottomNavBarItem(
-        icon: Image.asset(
-          'icons/CloseHome.png',
-          scale: 3,
-        ),
-        inactiveIcon: Image.asset(
-          'icons/OpenHome.png',
-          scale: 4.5,
-        ),
+  late int _currentIndex;
+  late List<Widget> buildScreens;
+  late bool isShow;
+  @override
+  void initState() {
+    super.initState();
+    isShow = false;
+    _currentIndex = 0;
+    buildScreens = [
+      Home(
+        onPageChange: (int currentPage) {
+          setState(() {
+            _currentIndex = currentPage;
+          });
+        },
       ),
-      PersistentBottomNavBarItem(
-          icon: Image.asset(
-            'icons/OpenWeblog.png',
-            scale: 3,
-          ),
-          inactiveIcon: Image.asset(
-            "icons/weblog.png",
-            scale: 4.5,
-          )),
-      PersistentBottomNavBarItem(
-          activeColorPrimary: Color(0xFF009688),
-          icon: Image.asset('images/magnifier.png',
-              cacheWidth: 150, scale: 6, color: Colors.lightGreen),
-          inactiveIcon: Image.asset('images/magnifier.png',
-              cacheWidth: 150, scale: 6, color: Colors.white)),
-      PersistentBottomNavBarItem(
-          icon: Image.asset('images/bookmark (1).png',
-              cacheWidth: 150, scale: 5, color: Color(0xFF009688)),
-          inactiveIcon: Image.asset("images/bookmark (2).png",
-              cacheWidth: 150, scale: 5, color: Color(0xFF009688))),
-      PersistentBottomNavBarItem(
-          icon: Image.asset(
-            'icons/OpenSetting.png',
-            scale: 3,
-          ),
-          inactiveIcon: Image.asset(
-            "icons/newSetting.png",
-            scale: 4.5,
-          )),
+      message(),
+      SearchPageMe(
+        isShow: isShow,
+      ),
+      FavoritPage_Me(),
+      MySettingsPage(),
+      FavoritPage_second()
     ];
   }
 
   @override
-  void initState() {
-    _controller = PersistentTabController(initialIndex: 0);
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return PersistentTabView(
-      navBarHeight: 70,
-      context,
-      controller: _controller,
-      screens: buildScreen,
-      items: _navBarItem(),
-      confineInSafeArea: true,
-      backgroundColor: Color(0xFFE0E0BF),
-      handleAndroidBackButtonPress: true,
-      resizeToAvoidBottomInset: true,
-      stateManagement: true,
-      hideNavigationBarWhenKeyboardShows: true,
-      decoration: NavBarDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        colorBehindNavBar: Colors.transparent,
+    bool ShowFab = MediaQuery.of(context).viewInsets.bottom != 0;
+    return Scaffold(
+      body: buildScreens[_currentIndex],
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 1,
+            offset: Offset(10, 10), // changes position of shadow
+          ),
+        ]),
+        child: BottomAppBar(
+          shadowColor: Colors.grey.shade600,
+          notchMargin: 7,
+          height: 65,
+          shape: CircularNotchedRectangle(),
+          color: Color(0xFFE0E0BF),
+          child: Directionality(
+            textDirection: TextDirection.ltr,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  icon: Image.asset(
+                    _currentIndex == 0
+                        ? 'icons/CloseHome.png'
+                        : 'icons/OpenHome.png',
+                    scale: _currentIndex == 0 ? 3 : 5,
+                  ),
+                  onPressed: () => setState(() => _currentIndex = 0),
+                ),
+                IconButton(
+                  icon: Image.asset(
+                    _currentIndex == 1
+                        ? 'icons/OpenWeblog.png'
+                        : 'icons/weblog.png',
+                    scale: _currentIndex == 1 ? 3 : 4.5,
+                  ),
+                  onPressed: () => setState(() => _currentIndex = 1),
+                ),
+                SizedBox(), // Spacer for the center space
+                IconButton(
+                  icon: Image.asset(
+                    _currentIndex == 3
+                        ? 'icons/State=Enable.png'
+                        : 'icons/State=Disable.png',
+                    scale: 1.5,
+                    cacheWidth: 150,
+                    color: Color.fromRGBO(0, 150, 135, 1),
+                  ),
+                  onPressed: () => setState(() => _currentIndex = 3),
+                ),
+                IconButton(
+                  icon: Image.asset(
+                    _currentIndex == 4
+                        ? 'icons/OpenSetting.png'
+                        : 'icons/newSetting.png',
+                    scale: _currentIndex == 4 ? 3 : 4.5,
+                  ),
+                  onPressed: () => setState(() => _currentIndex = 4),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
-      popAllScreensOnTapOfSelectedTab: true,
-      popActionScreens: PopActionScreensType.all,
-      screenTransitionAnimation: ScreenTransitionAnimation(
-        animateTabTransition: true,
-        curve: Curves.ease,
-        duration: Duration(milliseconds: 200),
+      floatingActionButton: Visibility(
+        visible: !ShowFab,
+        child: ClipOval(
+          child: FloatingActionButton(
+            onPressed: () => setState(() => _currentIndex = 2),
+            tooltip: 'Search',
+            child: Icon(
+              Icons.search,
+              color: Colors.white,
+            ),
+            elevation: 2.0,
+            backgroundColor: Color(0xFF009688),
+          ),
+        ),
       ),
-      itemAnimationProperties: ItemAnimationProperties(
-        // Set your desired color for the active tab indicator
-
-        duration: Duration(milliseconds: 200),
-        curve: Curves.ease,
-      ),
-      navBarStyle: NavBarStyle.style15,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
     );
   }
 }

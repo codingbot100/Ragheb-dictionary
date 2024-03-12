@@ -42,7 +42,6 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
                   autoPlay: true,
                   enlargeCenterPage: true,
                   aspectRatio: 2.0,
-                  
                   onPageChanged: (index, reason) {
                     setState(() {
                       myCurrentIndex = index;
@@ -61,7 +60,7 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
               activeIndex: myCurrentIndex,
               count: myItems.length,
               effect: ExpandingDotsEffect(
-                dotColor: Color.fromARGB(255, 255, 255, 1),
+                dotColor: Colors.white,
                 dotHeight: 5,
                 dotWidth: 10,
               ),

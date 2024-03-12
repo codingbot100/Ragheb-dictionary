@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:ragheb_dictionary/HomePage/bottoNavigation.dart';
+import 'package:ragheb_dictionary/HomePage/Navigator.dart';
 
-void main() async {
-  runApp(GetMaterialApp(
-    home: enteringPage(),
-  ));
-}
+
 
 class enteringPage extends StatefulWidget {
   @override
@@ -47,7 +42,7 @@ class _enteringPageState extends State<enteringPage>
         // Wrap your widget with a FadeTransition
         child: FadeTransition(
           opacity: _opacityAnimation,
-          child: bottm(), // Replace 'YourWidget' with your actual widget
+          child: MyAppNavigator(), // Replace 'YourWidget' with your actual widget
         ),
       ),
     );
