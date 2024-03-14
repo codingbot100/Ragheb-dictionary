@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
+import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
 import 'package:ragheb_dictionary/search_Page/data/data.dart';
 import 'package:ragheb_dictionary/search_Page/data/database.dart';
 
@@ -34,7 +35,7 @@ class _DetailPage12State extends State<DetailPage12> {
   var image = 'images/open.png';
   fontsize fontSize = fontsize();
   var _currentPageIndex = 0;
-  ToDodatabase7 DB_fontFamily = ToDodatabase7();
+  ToDoDataBaseFont DB_fontFamily = ToDoDataBaseFont();
 
   bool isFavorite = false;
   String currentDateAndTime = DateTime.now().toString();
@@ -43,13 +44,20 @@ class _DetailPage12State extends State<DetailPage12> {
   SharedPreferencesHelper2 shareddb = SharedPreferencesHelper2();
   ToDodatabase3 db = new ToDodatabase3();
   ToDodatabaseTime dbTime = new ToDodatabaseTime();
+  ToDodatabase6 db6 = new ToDodatabase6();
 
   @override
   void initState() {
-    if (_meBox.get("TODOfontFamily") == null) {
+    if (_meBox.get("FontFamily") == null) {
       DB_fontFamily.createInitialData();
     } else {
       DB_fontFamily.loadData();
+    }
+
+    if (_meBox.get("TODOSlid") == null) {
+      db6.createInitialData();
+    } else {
+      db6.loadData();
     }
     _pageController = PageController(initialPage: widget.initialPageIndex);
     _pageController.addListener(() {
@@ -91,12 +99,33 @@ class _DetailPage12State extends State<DetailPage12> {
     });
   }
 
-  void toggleFavorite() {
+  List Taxt = [];
+  void text() {
     setState(() {
-      bool isAlreadyFavorite = db.favorite.any((item) =>
-          item['name'] == widget.name &&
-          item['description'] == widget.description &&
-          item['footnote'] == widget.footnote);
+      Taxt.add(widget.name);
+      Taxt.add(widget.description);
+      Taxt.add(widget.footnote);
+    });
+  }
+
+  void toggleFavorite() {
+    db.loadData();
+    print(db.favorite.length);
+    setState(() {
+      String generateUniqueKey() {
+        String key = "${widget.name}_${DateTime.now()}";
+        return key.replaceAll('\n', ''); // Remove newline characters
+      }
+
+      String uniqueKey = generateUniqueKey();
+      print("222222222222222222222222222");
+      print("Generated uniqueKey: $uniqueKey");
+
+      bool isAlreadyFavorite =
+          db.favorite.any((item) => item['uniqueKey'] == uniqueKey);
+
+      print("333333333333333333333");
+      print("isAlreadyFavorite: $isAlreadyFavorite");
 
       if (!isAlreadyFavorite) {
         Map<String, dynamic> newItem = {
@@ -105,18 +134,19 @@ class _DetailPage12State extends State<DetailPage12> {
           'footnote': widget.footnote,
           'isFavorite': true,
           'date': DateTime.now(),
+          'uniqueKey': uniqueKey,
         };
 
         db.favorite.add(newItem);
-        dbTime.dateAndTime.add(DateTime.now().toString());
-        print(db.favorite);
-        // print(dbTime.dateAndTime);
+        print(
+            "4444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444");
+        // dbTime.dateAndTime.add(DateTime.now().toString());
+        print(
+            "Added to favorites: ${widget.name}, ${widget.description}, ${widget.footnote}");
       } else {
         Map<String, dynamic>? itemToRemove;
         for (var item in db.favorite) {
-          if (item['name'] == widget.name &&
-              item['description'] == widget.description &&
-              item['footnote'] == widget.footnote) {
+          if (item['uniqueKey'] == uniqueKey) {
             itemToRemove = item;
             break;
           }
@@ -132,8 +162,8 @@ class _DetailPage12State extends State<DetailPage12> {
 
       // Update the database
       db.updateDataBase();
+      print(db.favorite.length);
     });
-    print(db.favorite);
   }
 
   @override
@@ -149,108 +179,115 @@ class _DetailPage12State extends State<DetailPage12> {
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.only(top: 50),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          InkWell(
-                              onTap: () {
-                                setState(() {
-                                  if (db.favorite.contains(widget.name)) {
-                                    image = 'images/new.png';
-                                  } else {
-                                    image = 'images/open.png';
-                                  }
-                                  toggleFavorite();
-                                });
-                              },
-                              child: Image.asset(
-                                image,
-                                color: Colors.green,
-                              )),
-                          Flexible(
-                            child: Container(
-                              child: Text(
-                                widget.dataList[index]['name']!,
-                                style: TextStyle(
-                                  fontFamily: DB_fontFamily.fontFamily,
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.w900,
-                                  color: Color.fromRGBO(82, 82, 82, 1),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                        child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 20, right: 20, top: 40),
-                            child: Container(
-                              width: double.infinity,
-                              child: RichText(
-                                  textDirection: TextDirection.rtl,
-                                  textAlign: TextAlign.justify,
-                                  text: TextSpan(
-                                    text: widget.dataList[index]
-                                        ['description']!,
-                                    style: TextStyle(
-                                      fontFamily: DB_fontFamily.fontFamily,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w900,
-                                      color: Color.fromRGBO(82, 82, 82, 1),
-                                    ),
-                                  )),
-                            ),
-                          ),
-                          SizedBox(height: 16),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 20, right: 20, top: 40),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: Color.fromRGBO(224, 224, 191, 1)),
-                              child: Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 15, left: 15, right: 15, bottom: 15),
-                                  child: Container(
-                                    width: isFootnoteNA ? 0 : 500,
-                                    height: isFootnoteNA ? 0 : 300,
-                                    child: RichText(
-                                        textDirection: TextDirection.rtl,
-                                        textAlign: TextAlign.justify,
-                                        text: TextSpan(
-                                          text:
-                                              widget.dataList[_currentPageIndex]
-                                                  ['footnote']!,
-                                          style: TextStyle(
-                                            fontFamily:
-                                                DB_fontFamily.fontFamily,
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.w900,
-                                            color: Color.fromRGBO(
-                                                111, 111, 111, 1),
-                                          ),
-                                        )),
+                child: InteractiveViewer(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10, right: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    if (db.favorite.contains(widget.name)) {
+                                      image = 'images/new.png';
+                                    } else {
+                                      image = 'images/open.png';
+                                    }
+                                    // text();
+                                    toggleFavorite();
+                                    print(Taxt);
+                                  });
+                                },
+                                child: Image.asset(
+                                  image,
+                                  color: Colors.green,
+                                )),
+                            Flexible(
+                              child: Container(
+                                child: Text(
+                                  widget.dataList[index]['name']!,
+                                  style: TextStyle(
+                                    fontFamily: DB_fontFamily.FontFamily,
+                                    fontSize: db6.name,
+                                    fontWeight: FontWeight.w900,
+                                    color: Color.fromRGBO(82, 82, 82, 1),
                                   ),
                                 ),
                               ),
                             ),
-                          )
-                        ],
+                          ],
+                        ),
                       ),
-                    ))
-                  ],
+                      Expanded(
+                          child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 20, right: 20, top: 40),
+                              child: Container(
+                                width: double.infinity,
+                                child: RichText(
+                                    textDirection: TextDirection.rtl,
+                                    textAlign: TextAlign.justify,
+                                    text: TextSpan(
+                                      text: widget.dataList[index]
+                                          ['description']!,
+                                      style: TextStyle(
+                                        fontFamily: DB_fontFamily.FontFamily,
+                                        fontSize: db6.Descrption,
+                                        fontWeight: FontWeight.w900,
+                                        color: Color.fromRGBO(82, 82, 82, 1),
+                                      ),
+                                    )),
+                              ),
+                            ),
+                            SizedBox(height: 16),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 20, right: 20, top: 40),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: Color.fromRGBO(224, 224, 191, 1)),
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 15,
+                                        left: 15,
+                                        right: 15,
+                                        bottom: 15),
+                                    child: Container(
+                                      width: isFootnoteNA ? 0 : 500,
+                                      height: isFootnoteNA ? 0 : 300,
+                                      child: RichText(
+                                          textDirection: TextDirection.rtl,
+                                          textAlign: TextAlign.justify,
+                                          text: TextSpan(
+                                            text: widget
+                                                    .dataList[_currentPageIndex]
+                                                ['footnote']!,
+                                            style: TextStyle(
+                                              fontFamily:
+                                                  DB_fontFamily.FontFamily,
+                                              fontSize: db6.FootNot,
+                                              fontWeight: FontWeight.w900,
+                                              color: Color.fromRGBO(
+                                                  111, 111, 111, 1),
+                                            ),
+                                          )),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ))
+                    ],
+                  ),
                 ),
               );
             }),
@@ -311,20 +348,4 @@ class _DetailPage12State extends State<DetailPage12> {
       ),
     );
   }
-}
-
-class FavoriteItem {
-  late String name;
-  late String description;
-  late String footnote;
-  late bool isFavorite;
-  late String dateTime;
-
-  FavoriteItem({
-    required this.name,
-    required this.description,
-    required this.footnote,
-    required this.isFavorite,
-    required this.dateTime,
-  });
 }

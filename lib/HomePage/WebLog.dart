@@ -49,10 +49,11 @@ class _messageState extends State<message> {
                       child: Column(
                         children: [
                           Container(
+                            height: 630,
                             width: double.infinity,
-                            height: 700,
                             child: ListView.builder(
-                                itemCount: 3,
+                                shrinkWrap: true,
+                                itemCount: 20,
                                 itemBuilder: (context, index) {
                                   return articals();
                                 }),

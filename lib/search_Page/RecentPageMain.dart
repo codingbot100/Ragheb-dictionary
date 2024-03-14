@@ -12,7 +12,7 @@ class _RecentPageMainState extends State<RecentPageMain> {
   final fontSizeTitle = 18.0;
   final fontSizeSubTitle = 10.0;
   final colorPrimary = Color(0xFF009688);
-  ToDodatabase5 _todoDatabase = ToDodatabase5();
+  ToDoRecent _todoDatabase = ToDoRecent();
   final _meBox = Hive.box('mybox');
 
   @override

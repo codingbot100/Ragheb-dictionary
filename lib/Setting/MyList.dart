@@ -20,7 +20,7 @@ class Mylist extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12.0),
-              color: Color.fromARGB(255, 255, 235, 235),
+              color: Color.fromRGBO(255, 255, 255, 0.5),
               boxShadow: [
                 BoxShadow(
                     offset: Offset(2, 2), color: Color.fromRGBO(0, 0, 0, 0.08))

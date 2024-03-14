@@ -10,6 +10,8 @@ main() async {
   await Hive.initFlutter();
   WidgetsFlutterBinding.ensureInitialized();
   var box = await Hive.openBox('mybox');
+  var box2 = await Hive.openBox('mybox2');
+
   runApp(start());
 }
 

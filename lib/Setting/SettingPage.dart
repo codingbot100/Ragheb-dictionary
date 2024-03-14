@@ -22,11 +22,14 @@ class MySettingsPage extends StatefulWidget {
 
 class _MySettingsPageState extends State<MySettingsPage> {
   var fontsCl = fontsClass();
+
   var fontsSizeClass = fontsize();
   final CAD = Get.put(ColorsClass());
   var them1 = new MyTheme();
   final _meBox = Hive.box('mybox');
-  ToDodatabase7 Db_fontFamily = ToDodatabase7();
+  final _meBox2 = Hive.box('mybox2');
+
+  ToDoDataBaseFont Db_Font = ToDoDataBaseFont();
   var fontFamile2 = 'YekanBakh';
   final fontSizeTitle = 20.0;
   double fontSizeSubTitle = 10.0;
@@ -43,10 +46,10 @@ class _MySettingsPageState extends State<MySettingsPage> {
     } else {
       db.loadData();
     }
-    if (_meBox.get('TODOfontFamily') == null) {
-      Db_fontFamily.createInitialData();
+    if (_meBox2.get('FontFamily') == null) {
+      Db_Font.createInitialData();
     } else {
-      Db_fontFamily.loadData();
+      Db_Font.loadData();
     }
     super.initState();
     _loadData();
@@ -67,6 +70,24 @@ class _MySettingsPageState extends State<MySettingsPage> {
     await prefs.setString('fontFamile2', fontFamile2);
     await prefs.setInt('value', fontOption);
     await prefs.setDouble('value1', fontSizeSubTitle);
+  }
+
+  void updatePrices(double added, int removed) {
+    int extra = added ~/ 5 * 2;
+    int reduced = removed ~/ 5 * 2;
+
+    // اعمال تغییرات به مقادیر فونت بر اساس مقادیر مربوطه
+    if (db.name > 30) {
+      db.Descrption += extra;
+      db.FootNot += extra;
+      db.SearchName += extra;
+      db.RecentSearch += extra;
+    } else if (db.name < 30) {
+      db.Descrption -= reduced;
+      db.FootNot -= reduced;
+      db.SearchName -= reduced;
+      db.RecentSearch -= reduced;
+    }
   }
 
   @override
@@ -93,7 +114,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
                       textAlign: TextAlign.end,
                       style: TextStyle(
                         color: theme.colorPrimary,
-                        fontFamily: fontsCl.fonts[2],
+                        fontFamily: Db_Font.FontFamily,
                         fontSize: fontSizeTitle,
                         fontWeight: FontWeight.w700,
                       ),
@@ -112,7 +133,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
                           height: 161,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15.0),
-                              color: Color.fromARGB(255, 255, 235, 235),
+                              color: Color.fromRGBO(255, 255, 255, 0.5),
                               boxShadow: [
                                 BoxShadow(
                                     offset: Offset(2, 2),
@@ -144,9 +165,10 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                       onTap: () {
                                         setState(() {
                                           fontOption = 0;
-                                          Db_fontFamily.fontFamily = "Yekan";
-                                          Db_fontFamily.updateDataBase;
+                                          Db_Font.FontFamily = "Yekan";
+                                          Db_Font.updateDataBase;
                                           _saveString();
+                                          print(Db_Font.FontFamily);
                                         });
                                       },
                                     ),
@@ -159,9 +181,9 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                       onTap: () {
                                         setState(() {
                                           fontOption = 1;
-                                          Db_fontFamily.fontFamily =
-                                              "IRANSansX";
-                                          Db_fontFamily.updateDataBase;
+                                          Db_Font.FontFamily = "IRANSansX";
+                                          Db_Font.updateDataBase;
+                                          print(Db_Font.FontFamily);
 
                                           _saveString();
                                         });
@@ -176,10 +198,10 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                       onTap: () {
                                         setState(() {
                                           fontOption = 2;
-                                          Db_fontFamily.fontFamily =
-                                              "YekanBakh";
-                                          Db_fontFamily.updateDataBase;
+                                          Db_Font.FontFamily = "YekanBakh";
+                                          Db_Font.updateDataBase;
                                           _saveString();
+                                          print(Db_Font.FontFamily);
                                         });
                                       },
                                     ),
@@ -199,15 +221,15 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                     ),
                                     Expanded(
                                       child: Slider(
-                                          value: db.slidefont,
-                                          min: 10,
-                                          max: 20,
-                                          divisions: 5,
-                                          label:
-                                              db.slidefont.round().toString(),
+                                          value: db.name,
+                                          min: 15,
+                                          max: 40,
+                                          divisions: 10,
+                                          label: db.name.round().toString(),
                                           onChanged: (double value) {
                                             setState(() {
-                                              db.slidefont = value;
+                                              db.name = value;
+                                              db.updateDataTypes();
                                               db.updateDataBase();
                                             });
                                           }),

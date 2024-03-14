@@ -8,7 +8,7 @@ class FavoritPage_second extends StatefulWidget {
 }
 
 class _FavoritPage_secondState extends State<FavoritPage_second> {
-  ToDodatabase5 _todoDatabase = ToDodatabase5();
+  ToDoRecent _todoDatabase = ToDoRecent();
   final _meBox = Hive.box('mybox');
 
   @override

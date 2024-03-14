@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
 import 'package:ragheb_dictionary/search_Page/data/recentData.dart';
 import 'package:ragheb_dictionary/search_Page/util/detailPageNew.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,8 +21,9 @@ class SearchPageMe extends StatefulWidget {
 class _SearchPageMeState extends State<SearchPageMe> {
   int selectedPageIndex = 0;
   final _meBox = Hive.box('mybox');
+  ToDodatabase6 db6 = ToDodatabase6();
 
-  ToDodatabase5 db = ToDodatabase5();
+  ToDoRecent db = ToDoRecent();
   late List<Map<String, Widget>> pages;
   final FocusNode _searchFocus = FocusNode();
   List<Map<String, String>> dataList = [];
@@ -67,8 +69,8 @@ class _SearchPageMeState extends State<SearchPageMe> {
       });
     });
     loadData();
-    filteredList = List.from(dataList);
-
+    db6.createInitialData();
+    db6.loadData();
     super.initState();
   }
 
@@ -252,7 +254,8 @@ class _SearchPageMeState extends State<SearchPageMe> {
                             trailing: Text(
                               db.favorite[index],
                               style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w900),
+                                  fontSize: db6.RecentSearch,
+                                  fontWeight: FontWeight.w900),
                             ),
                           ),
                         ),
@@ -277,7 +280,8 @@ class _SearchPageMeState extends State<SearchPageMe> {
                           trailing: Text(
                             item["name"]!,
                             style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w900),
+                                fontSize: db6.SearchName,
+                                fontWeight: FontWeight.w900),
                           ),
                           onTap: () {
                             Get.to(

@@ -15,16 +15,25 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
 
   @override
   void initState() {
-    if (_meBox.get("TODOLIST") == null) {
-      _todoDatabase.createInitialData();
-    } else {
-      _todoDatabase.loadData();
-    }
     super.initState();
-    _initHive();
 
-    _todoDatabase.createInitialData();
     _todoDatabase.loadData();
+
+    if (_todoDatabase.favorite == []) {
+      print("no favorit");
+    } else {
+      print('1111111111111111111111111111111');
+      print(_todoDatabase.favorite.length);
+    }
+
+    // if (_meBox.get("TODOLIST") == null) {
+    //   _todoDatabase.createInitialData();
+    // } else {
+    //   _todoDatabase.loadData();
+    // }
+
+    // _todoDatabase.createInitialData();
+    // _todoDatabase.loadData();
   }
 
   void _initHive() async {

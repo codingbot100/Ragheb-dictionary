@@ -29,7 +29,7 @@ class _DetailFavoirtPageState extends State<DetailFavoirtPage> {
   final _meBox = Hive.box('mybox');
 
   ToDodatabase3 db = ToDodatabase3();
-  ToDodatabase7 DB_fontFamily = ToDodatabase7();
+  ToDoDataBaseFont DB_fontFamily = ToDoDataBaseFont();
   var _currentPageIndex = 0;
   bool isFavorite = false;
   SharedPreferencesHelper shareddb = SharedPreferencesHelper();
@@ -89,7 +89,7 @@ class _DetailFavoirtPageState extends State<DetailFavoirtPage> {
                             child: Text(
                               widget.name,
                               style: TextStyle(
-                                fontFamily: DB_fontFamily.fontFamily,
+                                fontFamily: DB_fontFamily.FontFamily,
                                 fontSize: 30,
                                 fontWeight: FontWeight.w900,
                                 color: Color.fromRGBO(82, 82, 82, 1),
@@ -115,7 +115,7 @@ class _DetailFavoirtPageState extends State<DetailFavoirtPage> {
                                 text: TextSpan(
                                   text: widget.description,
                                   style: TextStyle(
-                                    fontFamily: DB_fontFamily.fontFamily,
+                                    fontFamily: DB_fontFamily.FontFamily,
                                     fontSize: fontsClass.description,
                                     fontWeight: FontWeight.w900,
                                     color: Color.fromRGBO(82, 82, 82, 1),
@@ -147,7 +147,7 @@ class _DetailFavoirtPageState extends State<DetailFavoirtPage> {
                                       text: TextSpan(
                                         text: widget.footnote,
                                         style: TextStyle(
-                                          fontFamily: DB_fontFamily.fontFamily,
+                                          fontFamily: DB_fontFamily.FontFamily,
                                           fontSize: fontsize().footnot,
                                           fontWeight: FontWeight.w900,
                                           color:

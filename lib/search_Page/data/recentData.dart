@@ -1,6 +1,6 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
-class ToDodatabase5 {
+class ToDoRecent {
   List<String> favorite = [];
   List<String> dateAndTime = [];
   final _meBox = Hive.box('mybox');

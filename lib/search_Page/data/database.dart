@@ -3,7 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 class ToDodatabase3 {
   List favorite = [];
 
-  final _meBox = Hive.box('mybox');
+  var _meBox = Hive.box('mybox');
 
   void createInitialData() {
     favorite = [];
@@ -35,3 +35,4 @@ class ToDodatabaseTime {
     _meBox.put('TODODateAndTime', dateAndTime);
   }
 }
+

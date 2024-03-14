@@ -1,19 +1,19 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
-class ToDodatabase7 {
-  late String fontFamily;
+class ToDoDataBaseFont {
+  var FontFamily  ;
 
-  final _meBox = Hive.box('mybox');
+  final _meBox2 = Hive.box('mybox2');
 
   void createInitialData() {
-    fontFamily = 'YekanBakh';
+    FontFamily = 'YekanBakh';
   }
 
   void loadData() {
-    fontFamily = _meBox.get("TODOfontFamily");
+    FontFamily = _meBox2.get("FontFamily") ?? '';
   }
 
   void updateDataBase() {
-    _meBox.put('TODOfontFamily', fontFamily);
+    _meBox2.put('FontFamily', FontFamily);
   }
 }
