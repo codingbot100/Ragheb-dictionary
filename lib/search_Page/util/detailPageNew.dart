@@ -166,6 +166,43 @@ class _DetailPage12State extends State<DetailPage12> {
     });
   }
 
+  void addToFavorite() {
+    db.loadData();
+    print(db.favorite.length);
+    setState(() {
+      bool isAlreadyFavorite =
+          db.favorite.any((item) => item['name'] == widget.name);
+      if (!isAlreadyFavorite) {
+        Map<String, dynamic> newItem = {
+          'name': widget.name,
+          'description': widget.description,
+          'footnote': widget.footnote,
+          'isFavorite': true,
+          'date': DateTime.now(),
+          'image': 'images/open.png', // Include the image path
+        };
+        db.favorite.add(newItem);
+        db.updateDataBase();
+        print(db.favorite);
+      } else {
+        // Find the item with the same name as widget.name
+        Map<String, dynamic>? itemToRemove;
+        for (var item in db.favorite) {
+          if (item['name'] == widget.name) {
+            itemToRemove = item;
+            break;
+          }
+        }
+        // Remove the item if found
+        if (itemToRemove != null) {
+          db.favorite.remove(itemToRemove);
+        }
+      }
+      // Update the image variable based on whether the item is added to favorites or removed
+      image = isAlreadyFavorite ? 'images/new.png' : 'images/open.png';
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final bool isFootnoteNA = widget.dataList.isNotEmpty &&
@@ -188,22 +225,18 @@ class _DetailPage12State extends State<DetailPage12> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    if (db.favorite.contains(widget.name)) {
-                                      image = 'images/new.png';
-                                    } else {
-                                      image = 'images/open.png';
-                                    }
-                                    // text();
-                                    toggleFavorite();
-                                    print(Taxt);
-                                  });
-                                },
-                                child: Image.asset(
-                                  image,
-                                  color: Colors.green,
-                                )),
+                              onTap: () {
+                                setState(() {
+                                  addToFavorite();
+                                });
+                              },
+                              child: Image.asset(
+                                isFavorite
+                                    ? 'images/open.png'
+                                    : 'images/new.png',
+                                color: Colors.green,
+                              ),
+                            ),
                             Flexible(
                               child: Container(
                                 child: Text(
