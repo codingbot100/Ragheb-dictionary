@@ -82,6 +82,8 @@ class _FavoritPage_secondState extends State<FavoritPage_second> {
             children: [
               Expanded(
                 child: ListView.separated(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
                   itemCount: _todoDatabase.favorite.length,
                   itemBuilder: (context, index) {
                     final dateTime =

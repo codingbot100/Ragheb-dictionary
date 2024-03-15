@@ -26,20 +26,10 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
       print(_todoDatabase.favorite.length);
     }
 
-    // if (_meBox.get("TODOLIST") == null) {
-    //   _todoDatabase.createInitialData();
-    // } else {
-    //   _todoDatabase.loadData();
-    // }
-
-    // _todoDatabase.createInitialData();
-    // _todoDatabase.loadData();
+    
   }
 
-  void _initHive() async {
-    await Hive.initFlutter();
-    await Hive.openBox('mybox');
-  }
+
 
   String formatDateTime(DateTime dateTime) {
     final now = DateTime.now();

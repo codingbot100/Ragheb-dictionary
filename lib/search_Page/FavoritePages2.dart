@@ -80,80 +80,75 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color(0xFFF5F5DC),
-        body: SafeArea(
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView.separated(
-                  itemCount: _todoDatabase.favorite.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Color(0xFFF5F5DC),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Color(0x12000000),
-                                spreadRadius: 0,
-                                blurRadius: 10,
-                                offset:
-                                    Offset(0, 2) // changes position of shadow
-                                ),
-                          ],
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        height: 55,
-                        child: Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: ListTile(
-                            leading: Image.asset(
-                              'icons/favorite.png',
-                              scale: 3,
-                            ),
-                            title: Text(
-                              "${_todoDatabase.favorite[index]['name']}",
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w900,
-                                  fontFamily: 'YekanBakh'),
-                            ),
-                            trailing: Text(
-                                formatDateTime(
-                                    _todoDatabase.favorite[index]['date']),
-                                style: TextStyle(color: Colors.grey.shade500)),
-                            onTap: () {
-                              Get.to(
-                                  () => DetailFavoirtPage(
-                                      name:
-                                          " ${_todoDatabase.favorite[index]['name']}",
-                                      description:
-                                          "${_todoDatabase.favorite[index]['description']}",
-                                      footnote:
-                                          "${_todoDatabase.favorite[index]['footnote']}",
-                                      initialPageIndex: index),
-                                  transition: Transition.cupertino,
-                                  duration: Duration(milliseconds: 200));
-                              _todoDatabase.updateDataBase();
-                            },
+        body: Column(
+          children: [
+            // Text('Month'),
+            Expanded(
+              child: ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: _todoDatabase.favorite.length > 4
+                    ? 4
+                    : _todoDatabase.favorite.length,
+                itemBuilder: (context, index) {
+                  int realIndex = _todoDatabase.favorite.length > 4
+                      ? _todoDatabase.favorite.length - 4 + index
+                      : index;
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 5),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Color(0xFFF5F5DC),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Color(0x12000000),
+                              spreadRadius: 0,
+                              blurRadius: 10,
+                              offset: Offset(0, 2) // changes position of shadow
+                              ),
+                        ],
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      height: 50,
+                      child: Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: ListTile(
+                          leading: Image.asset(
+                            'icons/favorite.png',
+                            scale: 3,
                           ),
+                          title: Text(
+                            "${_todoDatabase.favorite[realIndex]['name']}",
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w900,
+                                fontFamily: 'YekanBakh'),
+                          ),
+                          trailing: Text(
+                              formatDateTime(
+                                  _todoDatabase.favorite[realIndex]['date']),
+                              style: TextStyle(color: Colors.grey.shade500)),
+                          onTap: () {
+                            Get.to(
+                                () => DetailFavoirtPage(
+                                    name:
+                                        " ${_todoDatabase.favorite[realIndex]['name']}",
+                                    description:
+                                        "${_todoDatabase.favorite[realIndex]['description']}",
+                                    footnote:
+                                        "${_todoDatabase.favorite[realIndex]['footnote']}",
+                                    initialPageIndex: realIndex),
+                                transition: Transition.cupertino,
+                                duration: Duration(milliseconds: 200));
+                            _todoDatabase.updateDataBase();
+                          },
                         ),
                       ),
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20),
-                      child: Divider(
-                        thickness: 0.5,
-                        color: Color.fromRGBO(0, 150, 136, 0.5),
-                      ),
-                    );
-                  },
-                ),
+                    ),
+                  );
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ));
   }
 }

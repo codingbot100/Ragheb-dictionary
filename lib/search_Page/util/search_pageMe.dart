@@ -73,6 +73,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
     db6.loadData();
     super.initState();
   }
+  
 
   void _onSearch(String searchText) {
     setState(() {
@@ -110,6 +111,8 @@ class _SearchPageMeState extends State<SearchPageMe> {
   bool convertStringToBool(String value) {
     return value.toLowerCase() == 'false';
   }
+
+  
 
   @override
   Widget build(BuildContext context) {

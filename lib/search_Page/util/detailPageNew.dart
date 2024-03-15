@@ -74,33 +74,33 @@ class _DetailPage12State extends State<DetailPage12> {
     });
     setState(() {
       image = db.favorite.any((item) => item['name'] == widget.name)
-          ? 'images/new.png'
-          : 'images/open.png';
+          ? 'images/Enable (1).png'
+          : 'images/Disable (1).png';
     });
     super.initState();
   }
 
-  void addToFavorite() {
+  void addToFavorite(String name, descriprion, footnote) {
     setState(() {
-      bool isAlreadyFavorite =
-          db.favorite.any((item) => item['name'] == widget.name);
+      bool isAlreadyFavorite = db.favorite.any((item) => item['name'] == name);
+      db.favorite.any((item) => item['description'] == descriprion);
+      db.favorite.any((item) => item['footnote'] == footnote);
       if (!isAlreadyFavorite) {
         Map<String, dynamic> newItem = {
-          'name': widget.name,
-          'description': widget.description,
-          'footnote': widget.footnote,
+          'name': name,
+          'description': descriprion,
+          'footnote': footnote,
           'isFavorite': true,
           'date': DateTime.now(),
-          'image':
-              'images/new.png', // Updated image for when item is added to favorites
+          'image': 'images/new.png',
         };
         db.favorite.add(newItem);
-        image = 'images/new.png'; // Update image immediately
+        updateImage('images/Enable (1).png'); // Update image immediately
       } else {
-        // Find the item with the same name as widget.name
+        // Find the item with the same name as itemName
         Map<String, dynamic>? itemToRemove;
         for (var item in db.favorite) {
-          if (item['name'] == widget.name) {
+          if (item['name'] == name) {
             itemToRemove = item;
             break;
           }
@@ -108,13 +108,11 @@ class _DetailPage12State extends State<DetailPage12> {
         // Remove the item if found
         if (itemToRemove != null) {
           db.favorite.remove(itemToRemove);
-          image = 'images/open.png'; // Update image immediately
+          updateImage('images/Disable (1).png'); // Update image immediately
         }
       }
       db.updateDataBase();
-      updateImage(image); // Call updateImage here
-      db.updateImageState(
-          widget.name, image); // Update image state in Hive database
+      db.updateImageState(name, image); // Update image state in Hive database
     });
   }
 
@@ -136,6 +134,13 @@ class _DetailPage12State extends State<DetailPage12> {
             controller: _pageController,
             itemCount: widget.dataList.length,
             itemBuilder: (context, index) {
+              final name = widget.dataList[index]['name']!;
+              final description = widget.dataList[index]['description']!;
+              final footnote = widget.dataList[index]['footnote']!;
+              final isFavorite =
+                  db.favorite.any((item) => item['name'] == name);
+              db.favorite.any((item) => item['description'] == description);
+              db.favorite.any((item) => item['name'] == footnote);
               return Padding(
                 padding: const EdgeInsets.only(top: 50),
                 child: InteractiveViewer(
@@ -151,11 +156,14 @@ class _DetailPage12State extends State<DetailPage12> {
                                   setState(() {
                                     //   image = 'images/open.png';
                                     // }
-                                    addToFavorite();
+                                    addToFavorite(name, description, footnote);
                                   });
                                 },
                                 child: Image.asset(
-                                  image,
+                                  isFavorite
+                                      ? 'images/Enable (1).png'
+                                      : 'images/Disable (1).png',
+                                  scale: 2.5,
                                   color: Colors.green,
                                 )),
                             Flexible(
@@ -202,36 +210,44 @@ class _DetailPage12State extends State<DetailPage12> {
                             Padding(
                               padding: const EdgeInsets.only(
                                   left: 20, right: 20, top: 40),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: Color.fromRGBO(224, 224, 191, 1)),
-                                child: Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 15,
-                                        left: 15,
-                                        right: 15,
-                                        bottom: 15),
-                                    child: Container(
-                                      width: isFootnoteNA ? 0 : 500,
-                                      height: isFootnoteNA ? 0 : 300,
-                                      child: RichText(
-                                          textDirection: TextDirection.rtl,
-                                          textAlign: TextAlign.justify,
-                                          text: TextSpan(
-                                            text: widget
-                                                    .dataList[_currentPageIndex]
-                                                ['footnote']!,
-                                            style: TextStyle(
-                                              fontFamily:
-                                                  DB_fontFamily.FontFamily,
-                                              fontSize: db6.FootNot,
-                                              fontWeight: FontWeight.w900,
-                                              color: Color.fromRGBO(
-                                                  111, 111, 111, 1),
-                                            ),
-                                          )),
+                              child: Visibility(
+                                visible: widget.dataList[_currentPageIndex]
+                                        ['footnote'] !=
+                                    'n/a',
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      color: Color.fromRGBO(224, 224, 191, 1)),
+                                  child: Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 15,
+                                          left: 15,
+                                          right: 15,
+                                          bottom: 15),
+                                      child: Container(
+                                        child: Center(
+                                          child: Flexible(
+                                            child: RichText(
+                                                textDirection:
+                                                    TextDirection.rtl,
+                                                textAlign: TextAlign.justify,
+                                                text: TextSpan(
+                                                  text: widget.dataList[
+                                                          _currentPageIndex]
+                                                      ['footnote']!,
+                                                  style: TextStyle(
+                                                    fontFamily: DB_fontFamily
+                                                        .FontFamily,
+                                                    fontSize: db6.FootNot,
+                                                    fontWeight: FontWeight.w900,
+                                                    color: Color.fromRGBO(
+                                                        111, 111, 111, 1),
+                                                  ),
+                                                )),
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -267,7 +283,7 @@ class _DetailPage12State extends State<DetailPage12> {
                   if (_pageController.page! > 0) {
                     _pageController.previousPage(
                       duration: Duration(milliseconds: 300),
-                      curve: Curves.easeInOut,
+                      curve: Curves.easeIn,
                     );
                   }
                 },

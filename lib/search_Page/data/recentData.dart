@@ -1,7 +1,7 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
 class ToDoRecent {
-  List<String> favorite = [];
+  List favorite = [];
   List<String> dateAndTime = [];
   final _meBox = Hive.box('mybox');
 

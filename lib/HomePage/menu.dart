@@ -79,7 +79,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                       ),
                       TextRow(3, 'مرور همه', 'ذخیره شده ها '),
                       Container(
-                        height: 188,
+                        height: 220,
                         child: GetBuilder<MyController>(
                           builder: (controller) {
                             return FavoritPage_menu();

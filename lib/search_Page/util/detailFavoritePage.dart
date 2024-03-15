@@ -64,104 +64,114 @@ class _DetailFavoirtPageState extends State<DetailFavoirtPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color(0xFFF5F5DC),
-        body: SafeArea(
-            child: Padding(
-                padding: const EdgeInsets.only(top: 50),
-                child: Column(children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10, right: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              toggleFavorite();
+        body: Padding(
+            padding: const EdgeInsets.only(top: 50),
+            child: Column(children: [
+              Row(
+                children: [
+                  IconButton(
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      }),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10, right: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          toggleFavorite();
 
-                              Navigator.pop(context);
-                              db.updateDataBase();
-                            });
-                          },
-                          child: Image.asset('images/new.png'),
+                          Navigator.pop(context);
+                          db.updateDataBase();
+                        });
+                      },
+                      child: Image.asset('images/new.png'),
+                    ),
+                    Flexible(
+                      child: Container(
+                        child: Text(
+                          widget.name,
+                          style: TextStyle(
+                            fontFamily: DB_fontFamily.FontFamily,
+                            fontSize: 30,
+                            fontWeight: FontWeight.w900,
+                            color: Color.fromRGBO(82, 82, 82, 1),
+                          ),
                         ),
-                        Flexible(
-                          child: Container(
-                            child: Text(
-                              widget.name,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                  child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 20, right: 20, top: 40),
+                      child: Container(
+                        width: double.infinity,
+                        child: RichText(
+                            textDirection: TextDirection.rtl,
+                            textAlign: TextAlign.justify,
+                            text: TextSpan(
+                              text: widget.description,
                               style: TextStyle(
                                 fontFamily: DB_fontFamily.FontFamily,
-                                fontSize: 30,
+                                fontSize: fontsClass.description,
                                 fontWeight: FontWeight.w900,
                                 color: Color.fromRGBO(82, 82, 82, 1),
                               ),
+                            )),
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 20, right: 20, top: 40),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Color.fromRGBO(224, 224, 191, 1)),
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 15, left: 15, right: 15, bottom: 15),
+                            child: Container(
+                              width: (widget.footnote.isEmpty &&
+                                      widget.footnote == 'n/a')
+                                  ? 0
+                                  : 500,
+                              height: (widget.footnote.isEmpty) ? 0 : 300,
+                              child: RichText(
+                                  textDirection: TextDirection.rtl,
+                                  textAlign: TextAlign.justify,
+                                  text: TextSpan(
+                                    text: widget.footnote,
+                                    style: TextStyle(
+                                      fontFamily: DB_fontFamily.FontFamily,
+                                      fontSize: fontsize().footnot,
+                                      fontWeight: FontWeight.w900,
+                                      color: Color.fromRGBO(111, 111, 111, 1),
+                                    ),
+                                  )),
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                      child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 20, right: 20, top: 40),
-                          child: Container(
-                            width: double.infinity,
-                            child: RichText(
-                                textDirection: TextDirection.rtl,
-                                textAlign: TextAlign.justify,
-                                text: TextSpan(
-                                  text: widget.description,
-                                  style: TextStyle(
-                                    fontFamily: DB_fontFamily.FontFamily,
-                                    fontSize: fontsClass.description,
-                                    fontWeight: FontWeight.w900,
-                                    color: Color.fromRGBO(82, 82, 82, 1),
-                                  ),
-                                )),
-                          ),
-                        ),
-                        SizedBox(height: 16),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 20, right: 20, top: 40),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: Color.fromRGBO(224, 224, 191, 1)),
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 15, left: 15, right: 15, bottom: 15),
-                                child: Container(
-                                  width: (widget.footnote.isEmpty &&
-                                          widget.footnote == 'n/a')
-                                      ? 0
-                                      : 500,
-                                  height: (widget.footnote.isEmpty) ? 0 : 300,
-                                  child: RichText(
-                                      textDirection: TextDirection.rtl,
-                                      textAlign: TextAlign.justify,
-                                      text: TextSpan(
-                                        text: widget.footnote,
-                                        style: TextStyle(
-                                          fontFamily: DB_fontFamily.FontFamily,
-                                          fontSize: fontsize().footnot,
-                                          fontWeight: FontWeight.w900,
-                                          color:
-                                              Color.fromRGBO(111, 111, 111, 1),
-                                        ),
-                                      )),
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ))
-                ]))));
+                      ),
+                    )
+                  ],
+                ),
+              ))
+            ])));
   }
 }
