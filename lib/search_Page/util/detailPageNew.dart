@@ -81,7 +81,6 @@ class _DetailPage12State extends State<DetailPage12> {
   }
 
   void addToFavorite() {
-    db.loadData();
     setState(() {
       bool isAlreadyFavorite =
           db.favorite.any((item) => item['name'] == widget.name);
@@ -96,6 +95,7 @@ class _DetailPage12State extends State<DetailPage12> {
               'images/new.png', // Updated image for when item is added to favorites
         };
         db.favorite.add(newItem);
+        image = 'images/new.png'; // Update image immediately
       } else {
         // Find the item with the same name as widget.name
         Map<String, dynamic>? itemToRemove;
@@ -108,11 +108,9 @@ class _DetailPage12State extends State<DetailPage12> {
         // Remove the item if found
         if (itemToRemove != null) {
           db.favorite.remove(itemToRemove);
+          image = 'images/open.png'; // Update image immediately
         }
-        // Set image to 'images/open.png' when item is removed from favorites
-        image = 'images/open.png';
       }
-      db.loadData();
       db.updateDataBase();
       updateImage(image); // Call updateImage here
       db.updateImageState(
