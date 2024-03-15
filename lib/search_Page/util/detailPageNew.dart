@@ -32,7 +32,7 @@ class DetailPage12 extends StatefulWidget {
 
 class _DetailPage12State extends State<DetailPage12> {
   late PageController _pageController;
-  var image = 'images/open.png';
+  late String image;
   fontsize fontSize = fontsize();
   var _currentPageIndex = 0;
   ToDoDataBaseFont DB_fontFamily = ToDoDataBaseFont();
@@ -48,6 +48,11 @@ class _DetailPage12State extends State<DetailPage12> {
 
   @override
   void initState() {
+    if (_meBox.get('TODOLIST') == null) {
+      db.createInitialData();
+    } else {
+      db.loadData();
+    }
     if (_meBox.get("FontFamily") == null) {
       DB_fontFamily.createInitialData();
     } else {
@@ -67,108 +72,16 @@ class _DetailPage12State extends State<DetailPage12> {
         }
       });
     });
-
+    setState(() {
+      image = db.favorite.any((item) => item['name'] == widget.name)
+          ? 'images/new.png'
+          : 'images/open.png';
+    });
     super.initState();
-  }
-
-  void addToList() {
-    setState(() {
-      Map<String, dynamic> saveItem = {
-        "name": widget.name,
-        "description": widget.description,
-        "footnote": widget.footnote,
-        "isFavorite": isFavorite,
-      };
-
-      if (isFavorite) {
-        // Check if the item already exists in the list
-        if (!shareddb.itemList.contains(saveItem)) {
-          shareddb.itemList.add(Map.from(saveItem));
-          print("add list item");
-        }
-      } else {
-        // Remove the item from the list if it exists
-        shareddb.itemList.removeWhere((item) =>
-            item["name"] == widget.name &&
-            item["description"] == widget.description &&
-            item["footnote"] == widget.footnote &&
-            item["isFavorite"] == isFavorite);
-        print("removed list item");
-        print(shareddb.itemList);
-      }
-    });
-  }
-
-  List Taxt = [];
-  void text() {
-    setState(() {
-      Taxt.add(widget.name);
-      Taxt.add(widget.description);
-      Taxt.add(widget.footnote);
-    });
-  }
-
-  void toggleFavorite() {
-    db.loadData();
-    print(db.favorite.length);
-    setState(() {
-      String generateUniqueKey() {
-        String key = "${widget.name}_${DateTime.now()}";
-        return key.replaceAll('\n', ''); // Remove newline characters
-      }
-
-      String uniqueKey = generateUniqueKey();
-      print("222222222222222222222222222");
-      print("Generated uniqueKey: $uniqueKey");
-
-      bool isAlreadyFavorite =
-          db.favorite.any((item) => item['uniqueKey'] == uniqueKey);
-
-      print("333333333333333333333");
-      print("isAlreadyFavorite: $isAlreadyFavorite");
-
-      if (!isAlreadyFavorite) {
-        Map<String, dynamic> newItem = {
-          'name': widget.name,
-          'description': widget.description,
-          'footnote': widget.footnote,
-          'isFavorite': true,
-          'date': DateTime.now(),
-          'uniqueKey': uniqueKey,
-        };
-
-        db.favorite.add(newItem);
-        print(
-            "4444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444");
-        // dbTime.dateAndTime.add(DateTime.now().toString());
-        print(
-            "Added to favorites: ${widget.name}, ${widget.description}, ${widget.footnote}");
-      } else {
-        Map<String, dynamic>? itemToRemove;
-        for (var item in db.favorite) {
-          if (item['uniqueKey'] == uniqueKey) {
-            itemToRemove = item;
-            break;
-          }
-        }
-
-        if (itemToRemove != null) {
-          db.favorite.remove(itemToRemove);
-          dbTime.dateAndTime.remove(itemToRemove['dateTime']);
-          print(
-              "Removed from favorites: ${widget.name}, ${widget.description}, ${widget.footnote}");
-        }
-      }
-
-      // Update the database
-      db.updateDataBase();
-      print(db.favorite.length);
-    });
   }
 
   void addToFavorite() {
     db.loadData();
-    print(db.favorite.length);
     setState(() {
       bool isAlreadyFavorite =
           db.favorite.any((item) => item['name'] == widget.name);
@@ -179,11 +92,10 @@ class _DetailPage12State extends State<DetailPage12> {
           'footnote': widget.footnote,
           'isFavorite': true,
           'date': DateTime.now(),
-          'image': 'images/open.png', // Include the image path
+          'image':
+              'images/new.png', // Updated image for when item is added to favorites
         };
         db.favorite.add(newItem);
-        db.updateDataBase();
-        print(db.favorite);
       } else {
         // Find the item with the same name as widget.name
         Map<String, dynamic>? itemToRemove;
@@ -197,9 +109,21 @@ class _DetailPage12State extends State<DetailPage12> {
         if (itemToRemove != null) {
           db.favorite.remove(itemToRemove);
         }
+        // Set image to 'images/open.png' when item is removed from favorites
+        image = 'images/open.png';
       }
-      // Update the image variable based on whether the item is added to favorites or removed
-      image = isAlreadyFavorite ? 'images/new.png' : 'images/open.png';
+      db.loadData();
+      db.updateDataBase();
+      updateImage(image); // Call updateImage here
+      db.updateImageState(
+          widget.name, image); // Update image state in Hive database
+    });
+  }
+
+  void updateImage(String newImage) {
+    setState(() {
+      image = newImage;
+      db.updateImageState(widget.name, newImage); // Call updateImageState
     });
   }
 
@@ -225,18 +149,17 @@ class _DetailPage12State extends State<DetailPage12> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             InkWell(
-                              onTap: () {
-                                setState(() {
-                                  addToFavorite();
-                                });
-                              },
-                              child: Image.asset(
-                                isFavorite
-                                    ? 'images/open.png'
-                                    : 'images/new.png',
-                                color: Colors.green,
-                              ),
-                            ),
+                                onTap: () {
+                                  setState(() {
+                                    //   image = 'images/open.png';
+                                    // }
+                                    addToFavorite();
+                                  });
+                                },
+                                child: Image.asset(
+                                  image,
+                                  color: Colors.green,
+                                )),
                             Flexible(
                               child: Container(
                                 child: Text(

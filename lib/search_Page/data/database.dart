@@ -16,6 +16,15 @@ class ToDodatabase3 {
   void updateDataBase() {
     _meBox.put('TODOLIST', favorite);
   }
+   void updateImageState(String name, String newImage) {
+    for (var item in favorite) {
+      if (item['name'] == name) {
+        item['image'] = newImage;
+        updateDataBase(); // Call updateDataBase to persist changes
+        break;
+      }
+    }
+   }
 }
 
 class ToDodatabaseTime {

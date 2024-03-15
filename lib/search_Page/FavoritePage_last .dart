@@ -22,7 +22,7 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
     if (_todoDatabase.favorite == []) {
       print("no favorit");
     } else {
-      print('1111111111111111111111111111111');
+    
       print(_todoDatabase.favorite.length);
     }
 
