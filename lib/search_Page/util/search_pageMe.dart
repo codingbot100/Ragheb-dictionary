@@ -56,6 +56,34 @@ class _SearchPageMeState extends State<SearchPageMe> {
     });
   }
 
+  void add() {
+    final item = dataList[1];
+  }
+
+  void addtoRecent(String searchText) {
+    final item = dataList.firstWhere(
+      (element) => element['name'] == searchText,
+    );
+
+    if (item != null) {
+      // Check if the item is already in favorites
+      final bool alreadyInFavorites =
+          db.favorite.any((favItem) => favItem['name'] == searchText);
+      if (!alreadyInFavorites) {
+        // Add the entire map entry to db.favorite
+        db.favorite.add(item);
+        String currentDateAndTime = DateTime.now().toString();
+        db.dateAndTime.add(currentDateAndTime);
+        db.updateDataBase();
+        print(db.favorite);
+      } else {
+        print("This data is already in favorites.");
+      }
+    } else {
+      print("This data doesn't exist in the CSV file.");
+    }
+  }
+
   @override
   void initState() {
     if (_meBox.get('TODORECENT') == null) {
@@ -73,8 +101,24 @@ class _SearchPageMeState extends State<SearchPageMe> {
     db6.loadData();
     super.initState();
   }
-  
 
+  //  Expanded(
+  //             child: ListView.builder(
+  //               itemCount: dataList.length,
+  //               itemBuilder: (context, index) {
+  //                 final item = dataList[index];
+  //                 return Card(
+  //                   child: ListTile(
+  //                     title: Text(item['name'] ?? ''),
+  //                     subtitle: Text(item['description'] ?? ''),
+  //                     onTap: () {
+  //                       // Handle onTap event if needed
+  //                     },
+  //                   ),
+  //                 );
+  //               },
+  //             ),
+  //           )
   void _onSearch(String searchText) {
     setState(() {
       if (searchText.isNotEmpty) {
@@ -92,6 +136,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
             .toList();
       }
     });
+    print(db.favorite);
     if (filteredList.isNotEmpty) {
       _searchController.text = filteredList[0]['name']!;
     }
@@ -111,8 +156,6 @@ class _SearchPageMeState extends State<SearchPageMe> {
   bool convertStringToBool(String value) {
     return value.toLowerCase() == 'false';
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -154,11 +197,14 @@ class _SearchPageMeState extends State<SearchPageMe> {
                           // textDirection: TextDirection.rtl,
                           onTap: () {
                             setState(() {
-                              _onSearch(_searchController.text);
+                              // _onSearch(_searchController.text);
+                              addtoRecent(_searchController.text);
                             });
                           },
                           onChanged: (value) {
                             setState(() {
+                              addtoRecent(value);
+
                               filteredList = dataList
                                   .where((task) => task['name']!
                                       .toLowerCase()
@@ -167,7 +213,9 @@ class _SearchPageMeState extends State<SearchPageMe> {
                             });
                           },
                           onSubmitted: (value) {
-                            // Save the recent search and update the list
+                            setState(() {
+                              addtoRecent(value);
+                            });
                             if (!recentSearches.contains(value)) {
                               recentSearches.insert(0, value);
                               if (recentSearches.length > 5) {
@@ -181,7 +229,9 @@ class _SearchPageMeState extends State<SearchPageMe> {
                             prefixIcon: IconButton(
                               onPressed: () {
                                 setState(() {
-                                  _searchController.clear();
+                                  // addtoRecent(_searchController.text);
+                                  loadData();
+                                  
                                 });
                               },
                               icon: Icon(
