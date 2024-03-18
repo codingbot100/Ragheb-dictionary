@@ -2,19 +2,20 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/colors.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/fonts.dart';
 
 class FontOptionButton extends StatefulWidget {
   String fontName;
-  final bool isSelected;
+  int fontBorder;
   final VoidCallback onTap;
 
   FontOptionButton({
     required this.fontName,
-    required this.isSelected,
     required this.onTap,
+    required this.fontBorder,
   });
 
   @override
@@ -22,13 +23,16 @@ class FontOptionButton extends StatefulWidget {
 }
 
 class _FontOptionButtonState extends State<FontOptionButton> {
-  late ToDoDataBaseFont dbFont;
+  final _meBox2 = Hive.box('mybox2');
 
   @override
   void initState() {
     super.initState();
-    // Initialize the ToDoDataBaseFont instance
-    dbFont = ToDoDataBaseFont();
+    if (_meBox2.get('borderFont') == null) {
+      fontBorder.createInitialData();
+    } else {
+      fontBorder.loadData();
+    }
   }
 
   final CAD = Get.put(ColorsClass());
@@ -40,6 +44,7 @@ class _FontOptionButtonState extends State<FontOptionButton> {
   var fontClSize = fontsize();
 
   var fontsCl = fontsClass();
+  ToDoDataBaseFont fontBorder = ToDoDataBaseFont();
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +54,7 @@ class _FontOptionButtonState extends State<FontOptionButton> {
         width: (widget.fontName == 'ایران سنس ایکس') ? 100 : 50,
         decoration: BoxDecoration(
           color: Colors.transparent,
-          border: widget.isSelected
+          border: fontBorder.borderFont == widget.fontBorder
               ? Border.all(color: Color.fromRGBO(0, 150, 136, 1))
               : null,
           borderRadius: BorderRadius.circular(25),
@@ -60,7 +65,7 @@ class _FontOptionButtonState extends State<FontOptionButton> {
               widget.fontName,
               style: TextStyle(
                 color:
-                    widget.isSelected ? CAD.colorPrimary.value : CAD.colorWords,
+                    fontBorder.borderFont == widget.fontBorder ? CAD.colorPrimary.value : CAD.colorWords,
                 fontFamily: 'YekanBakh',
                 fontWeight: FontWeight.w700,
                 fontSize: 13,

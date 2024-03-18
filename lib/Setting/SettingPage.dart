@@ -161,57 +161,63 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                               fontSize: 13,
                                             ),
                                           ),
-                                          SizedBox(
-                                            width: 15,
-                                          ),
-                                          FontOptionButton(
-                                            fontName: 'یکان',
-                                            isSelected: fontOption == 0,
-                                            onTap: () {
-                                              setState(() {
-                                                fontOption = 0;
-                                                Db_Font.FontFamily = "Yekan";
-                                                Db_Font.updateDataBase;
-                                                _saveString();
-                                                print(Db_Font.FontFamily);
-                                              });
-                                            },
-                                          ),
-                                          SizedBox(
-                                            width: 20,
-                                          ),
-                                          FontOptionButton(
-                                            fontName: 'ایران سنس ایکس',
-                                            isSelected: fontOption == 1,
-                                            onTap: () {
-                                              setState(() {
-                                                fontOption = 1;
-                                                Db_Font.FontFamily =
-                                                    "IRANSansX";
-                                                Db_Font.updateDataBase;
-                                                print(Db_Font.FontFamily);
+                                          // SizedBox(
+                                          //   width: 15,
+                                          // ),
+                                          // FontOptionButton(
+                                          //   fontBorder: 0,
+                                          //   fontName: 'یکان',
+                                          //   onTap: () {
+                                          //     setState(() {
+                                          //       fontOption = 0;
+                                          //       Db_Font.FontFamily = "Yekan";
+                                          //       Db_Font.updateDataBase;
+                                          //       _saveString();
+                                          //       print(Db_Font.FontFamily);
+                                          //     });
+                                          //   },
+                                          // ),
+                                          // SizedBox(
+                                          //   width: 20,
+                                          // ),
+                                          // FontOptionButton(
+                                          //   fontBorder: 1,
+                                          //   fontName: 'ایران سنس ایکس',
+                                          //   onTap: () {
+                                          //     setState(() {
+                                          //       fontOption = 1;
+                                          //       Db_Font.FontFamily =
+                                          //           "IRANSansX";
+                                          //       Db_Font.updateDataBase;
+                                          //       print(Db_Font.FontFamily);
 
-                                                _saveString();
-                                              });
-                                            },
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          FontOptionButton(
-                                            fontName: 'یکان بخ',
-                                            isSelected: fontOption == 2,
-                                            onTap: () {
-                                              setState(() {
-                                                fontOption = 2;
-                                                Db_Font.FontFamily =
-                                                    "YekanBakh";
-                                                Db_Font.updateDataBase;
-                                                _saveString();
-                                                print(Db_Font.FontFamily);
-                                              });
-                                            },
-                                          ),
+                                          //       _saveString();
+                                          //     });
+                                          //   },
+                                          // ),
+                                          // SizedBox(
+                                          //   width: 10,
+                                          // ),
+                                          // FontOptionButton(
+                                          //   fontName: 'یکان بخ',
+                                          //   isSelected: fontOption == 2,
+                                          //   onTap: () {
+                                          //     setState(() {
+                                          //       fontOption = 2;
+                                          //       Db_Font.FontFamily =
+                                          //           "YekanBakh";
+                                          //       Db_Font.updateDataBase;
+                                          //       _saveString();
+                                          //       print(Db_Font.FontFamily);
+                                          //     });
+                                          //   },
+                                          // ),
+                                          FontButton(
+                                              "یکان بخ", 55, 0, 'YekanBakh'),
+                                          FontButton("ایران سنس ایکس", 100, 1,
+                                              'IRANSansX'),
+                                          FontButton(
+                                              " وزیر مت", 60, 2, 'Vazirmatn'),
                                         ],
                                       ),
                                       Row(
@@ -317,6 +323,37 @@ class _MySettingsPageState extends State<MySettingsPage> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget FontButton(
+      String fontName, double width, int fontBorder, String fontFamily) {
+    return InkWell(
+      onTap: () {
+        setState(() {
+          Db_Font.FontFamily = fontFamily;
+          Db_Font.borderFont = fontBorder;
+          Db_Font.updateDataBase();
+        });
+      },
+      child: Container(
+          width: width,
+          height: 25,
+          decoration: BoxDecoration(
+              border: Db_Font.borderFont == fontBorder
+                  ? Border.all(color: Color.fromRGBO(0, 150, 136, 1))
+                  : null,
+              borderRadius: BorderRadius.circular(25)),
+          child: Center(
+            child: Text(
+              fontName,
+              style: TextStyle(
+                fontFamily: 'YekanBakh',
+                fontWeight: FontWeight.w700,
+                fontSize: 13,
+              ),
+            ),
+          )),
     );
   }
 }
