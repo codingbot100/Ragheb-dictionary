@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
 import 'package:ragheb_dictionary/search_Page/data/recentData.dart';
 import 'package:ragheb_dictionary/search_Page/util/detailPageNew.dart';
@@ -29,12 +30,13 @@ class _SearchPageMeState extends State<SearchPageMe> {
   List<Map<String, String>> dataList = [];
   List<Map<String, String>> filteredList =
       []; // Change the type to Map<String, String>
-
+  ToDoDataBaseFont dbFont = new ToDoDataBaseFont();
   TextEditingController _searchController = TextEditingController();
   List<String> recentSearches = [];
   bool isShow = false;
   DateTime now = DateTime.now();
   TimeOfDay currentTime = TimeOfDay.now();
+  final _meBox2 = Hive.box('mybox2');
 
   Future<void> loadData() async {
     String data =
@@ -55,8 +57,6 @@ class _SearchPageMeState extends State<SearchPageMe> {
       dataList = newDataList;
     });
   }
-
-
 
   void addtoRecent(String searchText) {
     final item = dataList.firstWhere(
@@ -84,6 +84,11 @@ class _SearchPageMeState extends State<SearchPageMe> {
 
   @override
   void initState() {
+    if (_meBox.get('FontFamily') == null) {
+      dbFont.createInitialData();
+    } else {
+      dbFont.loadData();
+    }
     if (_meBox.get('TODORECENT') == null) {
       db.createInitialData();
     } else {
@@ -193,7 +198,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
                           keyboardType: TextInputType.name,
                           textAlignVertical: TextAlignVertical.center,
                           style: TextStyle(
-                            fontFamily: 'Yekan',
+                            fontFamily: dbFont.FontFamily,
                             fontSize: 15,
                             color: Color.fromRGBO(82, 82, 82, 1),
                           ),
@@ -247,9 +252,9 @@ class _SearchPageMeState extends State<SearchPageMe> {
                                 EdgeInsets.only(top: 10.0, right: 10.0),
                             hintText: "  ...جستجو کنید ",
                             hintStyle: TextStyle(
-                              color: Color.fromRGBO(0, 150, 136, 0.5),
-                              fontSize: 10,
-                            ),
+                                color: Color.fromRGBO(0, 150, 136, 0.5),
+                                fontSize: 10,
+                                fontFamily: dbFont.FontFamily),
                             border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(25.0)),
@@ -310,6 +315,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
                             trailing: Text(
                               db.favorite[index],
                               style: TextStyle(
+                                  fontFamily: dbFont.FontFamily,
                                   fontSize: db6.RecentSearch,
                                   fontWeight: FontWeight.w900),
                             ),
@@ -336,6 +342,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
                           trailing: Text(
                             item["name"]!,
                             style: TextStyle(
+                                fontFamily: dbFont.FontFamily,
                                 fontSize: db6.SearchName,
                                 fontWeight: FontWeight.w900),
                           ),
@@ -411,7 +418,6 @@ class _secondRowState extends State<secondRow> {
               onTap: () {
                 setState(() {
                   // myAlertDialog(context);
-                 
                 });
               },
               child: Text("پاک کردن",

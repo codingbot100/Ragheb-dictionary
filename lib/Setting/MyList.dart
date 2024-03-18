@@ -35,7 +35,6 @@ class Mylist extends StatelessWidget {
             leading: Text(
               listName,
               style: TextStyle(
-                fontFamily: fontCl.fonts[2],
                 fontWeight: FontWeight.w700,
                 color: ColorCl.colorPrimary.value,
                 fontSize: 13,

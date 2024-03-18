@@ -28,7 +28,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     'images2/5.jpg',
   ];
   int myCurrentIndex = 0;
-  bool l = false;
   final fontFamile = 'Yekan';
   final fontSizeTitle = 18.0;
   final fontSizeSubTitle = 10.0;
@@ -36,31 +35,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   final colorBackground = Color(0xFFF5F5DC);
   var colortitle;
   var colorClass = new ColorsClass();
-  late ThemeManager _themeManager;
-
-  @override
-  void initState() {
-    super.initState();
-    _themeManager = ThemeManager();
-    _themeManager.addListener(themeListener);
-  }
-
-  @override
-  void dispose() {
-    _themeManager.removeListener(themeListener);
-    super.dispose();
-  }
-
-  themeListener() {
-    if (mounted) {
-      setState(() {});
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Color(0xFFF5F5DC),
+      backgroundColor: Color(0xFFF5F5DC),
       body: SafeArea(
         child: Column(
           children: [
@@ -69,33 +48,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  MaterialButton(
-                    onPressed: () {
-                      setState(() {
-                        _themeManager.toggleTheme();
-                      });
-                    },
-                    color: _themeManager.themeMode == ThemeMode.dark
-                        ? Colors.black
-                        : Colors.white,
-                    child: Text(
-                      _themeManager.themeMode == ThemeMode.dark
-                          ? 'Dark Mode'
-                          : 'Light Mode',
-                      style: TextStyle(
-                        color: _themeManager.themeMode == ThemeMode.dark
-                            ? Colors.white
-                            : Colors.black,
-                      ),
-                    ),
-                  ),
                   Text(
                     'فرهنگ لغت راغب',
                     style: TextStyle(
-                      fontFamily: fontFamile,
                       fontSize: fontSizeTitle,
                       fontWeight: FontWeight.w900,
-                      color: colorPrimary,
                     ),
                   ),
                 ],
@@ -206,17 +163,5 @@ class MyController extends GetxController {
 
   void increment() {
     counter++;
-  }
-}
-
-class ThemeManager extends ChangeNotifier {
-  ThemeMode _themeMode = ThemeMode.light;
-
-  ThemeMode get themeMode => _themeMode;
-
-  void toggleTheme() {
-    _themeMode =
-        _themeMode == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark;
-    notifyListeners();
   }
 }

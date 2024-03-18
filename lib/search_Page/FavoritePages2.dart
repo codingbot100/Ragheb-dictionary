@@ -119,9 +119,9 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
                           title: Text(
                             "${_todoDatabase.favorite[realIndex]['name']}",
                             style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w900,
-                                fontFamily: 'YekanBakh'),
+                              fontSize: 18,
+                              fontWeight: FontWeight.w900,
+                            ),
                           ),
                           trailing: Text(
                               formatDateTime(
