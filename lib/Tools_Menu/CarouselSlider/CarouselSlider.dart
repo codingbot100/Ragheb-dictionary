@@ -24,31 +24,28 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Center(
-          child: SingleChildScrollView(
-            child: Container(
-              child: CarouselSlider(
-                items: List.generate(
-                  myItems.length,
-                  (index) => _buildImageContainer(index),
-                ),
-                options: CarouselOptions(
-                  autoPlayInterval: Duration(seconds: 5),
-                  autoPlayCurve: Curves.linear,
-                  animateToClosest: true,
-                  enlargeFactor: BorderSide.strokeAlignOutside,
-                  autoPlay: true,
-                  enlargeCenterPage: true,
-                  aspectRatio: 2.0,
-                  onPageChanged: (index, reason) {
-                    setState(() {
-                      myCurrentIndex = index;
-                    });
-                  },
-                ),
-              ),
+        Container(
+          width: MediaQuery.of(context).size.width,
+          child: CarouselSlider(
+            items: List.generate(
+              myItems.length,
+              (index) => _buildImageContainer(index),
+            ),
+            options: CarouselOptions(
+              autoPlayInterval: Duration(seconds: 5),
+              autoPlayCurve: Curves.linear,
+              animateToClosest: true,
+              viewportFraction: 1.0,
+              enlargeFactor: BorderSide.strokeAlignOutside,
+              autoPlay: true,
+              enlargeCenterPage: true,
+              aspectRatio: 20 / 8,
+              onPageChanged: (index, reason) {
+                setState(() {
+                  myCurrentIndex = index;
+                });
+              },
             ),
           ),
         ),
@@ -74,17 +71,11 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
 
   Widget _buildImageContainer(int index) {
     return Container(
-      width: 400,
-      height: 80,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20.0),
-        border: Border.all(
-          color: Colors.transparent,
-          // width: 2.0,
-        ),
-      ),
+      height: 118,
+      width: double.infinity, // Ensure the image takes full width
+
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(18.0),
+        borderRadius: BorderRadius.circular(8.0),
         child: Image.asset(
           myItems[index],
           fit: BoxFit.cover,

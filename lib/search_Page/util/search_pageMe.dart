@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, unnecessary_null_comparison
 
 import "package:flutter/material.dart";
 import 'dart:convert';
@@ -56,9 +56,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
     });
   }
 
-  void add() {
-    final item = dataList[1];
-  }
+
 
   void addtoRecent(String searchText) {
     final item = dataList.firstWhere(
@@ -153,6 +151,12 @@ class _SearchPageMeState extends State<SearchPageMe> {
     });
   }
 
+  void removeAll() {
+    setState(() {
+      db.favorite.clear();
+    });
+  }
+
   bool convertStringToBool(String value) {
     return value.toLowerCase() == 'false';
   }
@@ -197,8 +201,8 @@ class _SearchPageMeState extends State<SearchPageMe> {
                           // textDirection: TextDirection.rtl,
                           onTap: () {
                             setState(() {
-                              // _onSearch(_searchController.text);
-                              addtoRecent(_searchController.text);
+                              _onSearch(_searchController.text);
+                              // addtoRecent(_searchController.text);
                             });
                           },
                           onChanged: (value) {
@@ -231,7 +235,6 @@ class _SearchPageMeState extends State<SearchPageMe> {
                                 setState(() {
                                   // addtoRecent(_searchController.text);
                                   loadData();
-                                  
                                 });
                               },
                               icon: Icon(
@@ -376,8 +379,22 @@ class _SearchPageMeState extends State<SearchPageMe> {
   }
 }
 
-class secondRow extends StatelessWidget {
+class secondRow extends StatefulWidget {
   const secondRow({super.key});
+
+  @override
+  State<secondRow> createState() => _secondRowState();
+}
+
+class _secondRowState extends State<secondRow> {
+  ToDoRecent db = ToDoRecent();
+
+  void removeAll() {
+    setState(() {
+      db.favorite.clear();
+      db.updateDataBase();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -390,11 +407,19 @@ class secondRow extends StatelessWidget {
       child: Expanded(
         child: Row(
           children: [
-            Text("پاک کردن",
-                style: TextStyle(
-                    fontFamily: 'YekanBakh',
-                    fontSize: 10,
-                    color: Color.fromRGBO(0, 0, 0, 0.7))),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  // myAlertDialog(context);
+                 
+                });
+              },
+              child: Text("پاک کردن",
+                  style: TextStyle(
+                      fontFamily: 'YekanBakh',
+                      fontSize: 10,
+                      color: Color.fromRGBO(0, 0, 0, 0.7))),
+            ),
             SizedBox(width: 10),
             Expanded(
               child: Divider(
@@ -413,11 +438,39 @@ class secondRow extends StatelessWidget {
     );
   }
 
-  // Widget buildNavItem(int index, IconData icon) {
-  //   return GestureDetector(
-  //     onTap: () => _selectPage,
-  //   );
-  // }
+  Future<void> myAlertDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Stack(
+          children: [
+            Positioned(
+              // Half of the image's height
+              left: 0,
+              right: 0,
+              child: FractionallySizedBox(
+                widthFactor: 1.0, // Take the full width of the container
+                alignment: Alignment.topCenter,
+                child: Image.asset('icons/cancel 1.png'),
+              ),
+            ),
+            AlertDialog(
+              title: Text('Alert'),
+              content: Text('This is an alert dialog.'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Close the dialog
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
 
 class RecentSearchesUtil {

@@ -2,15 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/colors.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/fonts.dart';
 
-class FontOptionButton extends StatelessWidget {
-  final CAD = Get.put(ColorsClass());
+class FontOptionButton extends StatefulWidget {
   String fontName;
   final bool isSelected;
   final VoidCallback onTap;
-
 
   FontOptionButton({
     required this.fontName,
@@ -18,21 +17,39 @@ class FontOptionButton extends StatelessWidget {
     required this.onTap,
   });
 
+  @override
+  State<FontOptionButton> createState() => _FontOptionButtonState();
+}
+
+class _FontOptionButtonState extends State<FontOptionButton> {
+  late ToDoDataBaseFont dbFont;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the ToDoDataBaseFont instance
+    dbFont = ToDoDataBaseFont();
+  }
+
+  final CAD = Get.put(ColorsClass());
+
   final int widh = 40;
 
   get colorPrimary => Color(0xFF009688);
+
   var fontClSize = fontsize();
+
   var fontsCl = fontsClass();
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: widget.onTap,
       child: Container(
-        width: (fontName == 'ایران سنس ایکس') ? 100 : 50,
+        width: (widget.fontName == 'ایران سنس ایکس') ? 100 : 50,
         decoration: BoxDecoration(
           color: Colors.transparent,
-          border: isSelected
+          border: widget.isSelected
               ? Border.all(color: Color.fromRGBO(0, 150, 136, 1))
               : null,
           borderRadius: BorderRadius.circular(25),
@@ -40,9 +57,10 @@ class FontOptionButton extends StatelessWidget {
         child: Center(
           child: Container(
             child: Text(
-              fontName,
+              widget.fontName,
               style: TextStyle(
-                color: isSelected ? CAD.colorPrimary.value : CAD.colorWords,
+                color:
+                    widget.isSelected ? CAD.colorPrimary.value : CAD.colorWords,
                 fontFamily: 'YekanBakh',
                 fontWeight: FontWeight.w700,
                 fontSize: 13,

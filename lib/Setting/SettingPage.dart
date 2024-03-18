@@ -1,6 +1,8 @@
 // ignore_for_file: override_on_non_overriding_member
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
@@ -94,209 +96,222 @@ class _MySettingsPageState extends State<MySettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFF5F5DC),
-      body: Center(
-        child: Directionality(
-          textDirection: TextDirection.rtl,
-          child: Padding(
-            padding: const EdgeInsets.only(
-              top: 50,
-            ),
-            child: Container(
-              width: 420,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 20),
-                    child: Text(
-                      'تنظیمات',
-                      textAlign: TextAlign.end,
-                      style: TextStyle(
-                        color: theme.colorPrimary,
-                        fontFamily: Db_Font.FontFamily,
-                        fontSize: fontSizeTitle,
-                        fontWeight: FontWeight.w700,
+      body: SafeArea(
+        child: Center(
+          child: Directionality(
+            textDirection: TextDirection.rtl,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                top: 20,
+              ),
+              child: Expanded(
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 20),
+                        child: Text(
+                          'تنظیمات',
+                          textAlign: TextAlign.end,
+                          style: TextStyle(
+                            color: theme.colorPrimary,
+                            fontFamily: Db_Font.FontFamily,
+                            fontSize: fontSizeTitle,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 30),
-                    child: Divider(),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20),
-                    child: Column(
-                      children: [
-                        Container(
-                          width: double.infinity,
-                          height: 161,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15.0),
-                              color: Color.fromRGBO(255, 255, 255, 0.5),
-                              boxShadow: [
-                                BoxShadow(
-                                    offset: Offset(2, 2),
-                                    color: Color.fromRGBO(251, 103, 103, 0.078))
-                              ]),
-                          child: Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      ' نوع قلم: ',
-                                      style: TextStyle(
-                                        fontFamily: fontsCl.fonts[2],
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 13,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 15,
-                                    ),
-                                    FontOptionButton(
-                                      fontName: 'یکان',
-                                      isSelected: fontOption == 0,
-                                      onTap: () {
-                                        setState(() {
-                                          fontOption = 0;
-                                          Db_Font.FontFamily = "Yekan";
-                                          Db_Font.updateDataBase;
-                                          _saveString();
-                                          print(Db_Font.FontFamily);
-                                        });
-                                      },
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    FontOptionButton(
-                                      fontName: 'ایران سنس ایکس',
-                                      isSelected: fontOption == 1,
-                                      onTap: () {
-                                        setState(() {
-                                          fontOption = 1;
-                                          Db_Font.FontFamily = "IRANSansX";
-                                          Db_Font.updateDataBase;
-                                          print(Db_Font.FontFamily);
-
-                                          _saveString();
-                                        });
-                                      },
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    FontOptionButton(
-                                      fontName: 'یکان بخ',
-                                      isSelected: fontOption == 2,
-                                      onTap: () {
-                                        setState(() {
-                                          fontOption = 2;
-                                          Db_Font.FontFamily = "YekanBakh";
-                                          Db_Font.updateDataBase;
-                                          _saveString();
-                                          print(Db_Font.FontFamily);
-                                        });
-                                      },
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'اندازه قلم : ',
-                                      style: TextStyle(
-                                        fontFamily: fontsCl.fonts[2],
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 13.0,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Slider(
-                                          value: db.name,
-                                          min: 15,
-                                          max: 40,
-                                          divisions: 10,
-                                          label: db.name.round().toString(),
-                                          onChanged: (double value) {
-                                            setState(() {
-                                              db.name = value;
-                                              db.updateDataTypes();
-                                              db.updateDataBase();
-                                            });
-                                          }),
-                                    )
-                                  ],
-                                ),
-                                Row(
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 30),
+                        child: Divider(),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        child: Expanded(
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 161,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                    color: Color.fromRGBO(255, 255, 255, 0.5),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          offset: Offset(2, 2),
+                                          color: Color.fromRGBO(
+                                              251, 103, 103, 0.078))
+                                    ]),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: Column(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
-                                        'نوع رنگ:',
-                                        style: TextStyle(
-                                          fontFamily: "YekanBakh",
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 13,
-                                        ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            ' نوع قلم: ',
+                                            style: TextStyle(
+                                              fontFamily: fontsCl.fonts[2],
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 13,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 15,
+                                          ),
+                                          FontOptionButton(
+                                            fontName: 'یکان',
+                                            isSelected: fontOption == 0,
+                                            onTap: () {
+                                              setState(() {
+                                                fontOption = 0;
+                                                Db_Font.FontFamily = "Yekan";
+                                                Db_Font.updateDataBase;
+                                                _saveString();
+                                                print(Db_Font.FontFamily);
+                                              });
+                                            },
+                                          ),
+                                          SizedBox(
+                                            width: 20,
+                                          ),
+                                          FontOptionButton(
+                                            fontName: 'ایران سنس ایکس',
+                                            isSelected: fontOption == 1,
+                                            onTap: () {
+                                              setState(() {
+                                                fontOption = 1;
+                                                Db_Font.FontFamily =
+                                                    "IRANSansX";
+                                                Db_Font.updateDataBase;
+                                                print(Db_Font.FontFamily);
+
+                                                _saveString();
+                                              });
+                                            },
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          FontOptionButton(
+                                            fontName: 'یکان بخ',
+                                            isSelected: fontOption == 2,
+                                            onTap: () {
+                                              setState(() {
+                                                fontOption = 2;
+                                                Db_Font.FontFamily =
+                                                    "YekanBakh";
+                                                Db_Font.updateDataBase;
+                                                _saveString();
+                                                print(Db_Font.FontFamily);
+                                              });
+                                            },
+                                          ),
+                                        ],
                                       ),
-                                      circleContainer(
-                                          circleColor: Color.fromRGBO(
-                                              255, 255, 255, 0.5)),
-                                      circleContainer(
-                                          circleColor:
-                                              Color.fromRGBO(77, 110, 129, 1)),
-                                      circleContainer(
-                                          circleColor:
-                                              Color.fromRGBO(207, 141, 118, 1)),
-                                      circleContainer(
-                                          circleColor: Color.fromRGBO(
-                                              170, 83, 255, 0.5)),
-                                      circleContainer(
-                                          circleColor:
-                                              Color.fromRGBO(59, 55, 88, 1)),
-                                    ]),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Container(
-                          height: 150,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            textDirection: TextDirection.ltr,
-                            children: [
-                              Mylist(
-                                  listName: 'درباره فرهنگ لغت راغب',
-                                  OntapLis: () {
-                                    Get.to(() => about_ragheb_dictionary(),
-                                        transition: Transition.cupertino);
-                                  }),
-                              Mylist(
-                                  listName: 'درباره سازنده گان اپلیکیشن',
-                                  OntapLis: () {
-                                    Get.to(() => about_Us(),
-                                        transition: Transition.cupertino);
-                                  }),
-                              Mylist(listName: 'ارئه بازخورد', OntapLis: () {})
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'اندازه قلم : ',
+                                            style: TextStyle(
+                                              fontFamily: fontsCl.fonts[2],
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 13.0,
+                                            ),
+                                          ),
+                                          Flexible(
+                                            child: Slider(
+                                                value: db.name,
+                                                min: 15,
+                                                max: 40,
+                                                divisions: 10,
+                                                label:
+                                                    db.name.round().toString(),
+                                                onChanged: (double value) {
+                                                  setState(() {
+                                                    db.name = value;
+                                                    db.updateDataTypes();
+                                                    db.updateDataBase();
+                                                  });
+                                                }),
+                                          )
+                                        ],
+                                      ),
+                                      Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              'نوع رنگ:',
+                                              style: TextStyle(
+                                                fontFamily: "YekanBakh",
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 13,
+                                              ),
+                                            ),
+                                            circleContainer(
+                                                circleColor: Color.fromRGBO(
+                                                    255, 255, 255, 0.5)),
+                                            circleContainer(
+                                                circleColor: Color.fromRGBO(
+                                                    77, 110, 129, 1)),
+                                            circleContainer(
+                                                circleColor: Color.fromRGBO(
+                                                    207, 141, 118, 1)),
+                                            circleContainer(
+                                                circleColor: Color.fromRGBO(
+                                                    170, 83, 255, 0.5)),
+                                            circleContainer(
+                                                circleColor: Color.fromRGBO(
+                                                    59, 55, 88, 1)),
+                                          ]),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              Container(
+                                height: 150,
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  textDirection: TextDirection.ltr,
+                                  children: [
+                                    Mylist(
+                                        listName: 'درباره فرهنگ لغت راغب',
+                                        OntapLis: () {
+                                          Get.to(
+                                              () => about_ragheb_dictionary(),
+                                              transition: Transition.cupertino);
+                                        }),
+                                    Mylist(
+                                        listName: 'درباره سازنده گان اپلیکیشن',
+                                        OntapLis: () {
+                                          Get.to(() => about_Us(),
+                                              transition: Transition.cupertino);
+                                        }),
+                                    Mylist(
+                                        listName: 'ارئه بازخورد',
+                                        OntapLis: () {})
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ),
-                      ],
-                    ),
-                  )
-                ],
+                      )
+                    ],
+                  ),
+                ),
               ),
             ),
           ),

@@ -53,11 +53,11 @@ class _DetailPage12State extends State<DetailPage12> {
     } else {
       db.loadData();
     }
-    if (_meBox.get("FontFamily") == null) {
-      DB_fontFamily.createInitialData();
-    } else {
-      DB_fontFamily.loadData();
-    }
+    // if (_meBox.get("FontFamily") == null) {
+    //   DB_fontFamily.createInitialData();
+    // } else {
+    //   DB_fontFamily.loadData();
+    // }
 
     if (_meBox.get("TODOSlid") == null) {
       db6.createInitialData();
@@ -125,12 +125,11 @@ class _DetailPage12State extends State<DetailPage12> {
 
   @override
   Widget build(BuildContext context) {
-    final bool isFootnoteNA = widget.dataList.isNotEmpty &&
-        widget.dataList[_currentPageIndex]['footnote'] == 'n/a';
-
+   
     return Scaffold(
       body: SafeArea(
         child: PageView.builder(
+            physics: NeverScrollableScrollPhysics(),
             controller: _pageController,
             itemCount: widget.dataList.length,
             itemBuilder: (context, index) {
@@ -147,15 +146,13 @@ class _DetailPage12State extends State<DetailPage12> {
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 10, right: 20),
+                        padding: const EdgeInsets.only(left: 15, right: 20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             InkWell(
                                 onTap: () {
                                   setState(() {
-                                    //   image = 'images/open.png';
-                                    // }
                                     addToFavorite(name, description, footnote);
                                   });
                                 },
@@ -171,7 +168,7 @@ class _DetailPage12State extends State<DetailPage12> {
                                 child: Text(
                                   widget.dataList[index]['name']!,
                                   style: TextStyle(
-                                    fontFamily: DB_fontFamily.FontFamily,
+                                    // fontFamily: DB_fontFamily.FontFamily,
                                     fontSize: db6.name,
                                     fontWeight: FontWeight.w900,
                                     color: Color.fromRGBO(82, 82, 82, 1),
@@ -198,7 +195,7 @@ class _DetailPage12State extends State<DetailPage12> {
                                       text: widget.dataList[index]
                                           ['description']!,
                                       style: TextStyle(
-                                        fontFamily: DB_fontFamily.FontFamily,
+                                        // fontFamily: DB_fontFamily.FontFamily,
                                         fontSize: db6.Descrption,
                                         fontWeight: FontWeight.w900,
                                         color: Color.fromRGBO(82, 82, 82, 1),
@@ -220,32 +217,27 @@ class _DetailPage12State extends State<DetailPage12> {
                                       color: Color.fromRGBO(224, 224, 191, 1)),
                                   child: Center(
                                     child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 15,
-                                          left: 15,
-                                          right: 15,
-                                          bottom: 15),
+                                      padding: const EdgeInsets.all(
+                                        15,
+                                      ),
                                       child: Container(
-                                        child: Center(
-                                          child: Flexible(
-                                            child: RichText(
-                                                textDirection:
-                                                    TextDirection.rtl,
-                                                textAlign: TextAlign.justify,
-                                                text: TextSpan(
-                                                  text: widget.dataList[
-                                                          _currentPageIndex]
-                                                      ['footnote']!,
-                                                  style: TextStyle(
-                                                    fontFamily: DB_fontFamily
-                                                        .FontFamily,
-                                                    fontSize: db6.FootNot,
-                                                    fontWeight: FontWeight.w900,
-                                                    color: Color.fromRGBO(
-                                                        111, 111, 111, 1),
-                                                  ),
-                                                )),
-                                          ),
+                                        child: Expanded(
+                                          child: RichText(
+                                              textDirection: TextDirection.rtl,
+                                              textAlign: TextAlign.justify,
+                                              text: TextSpan(
+                                                text: widget.dataList[
+                                                        _currentPageIndex]
+                                                    ['footnote']!,
+                                                style: TextStyle(
+                                                  // fontFamily:
+                                                  //     DB_fontFamily.FontFamily,
+                                                  fontSize: db6.FootNot,
+                                                  fontWeight: FontWeight.w900,
+                                                  color: Color.fromRGBO(
+                                                      111, 111, 111, 1),
+                                                ),
+                                              )),
                                         ),
                                       ),
                                     ),
@@ -272,33 +264,46 @@ class _DetailPage12State extends State<DetailPage12> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              IconButton(
-                onPressed: () {
-                  Get.back();
-                },
-                icon: Icon(Icons.arrow_back),
+              Container(
+                width: 50,
+                height: 50,
+                child: InkWell(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Image.asset(
+                    'icons/back.png',
+                    scale: 3.8,
+                  ),
+                ),
               ),
               IconButton(
                 onPressed: () {
                   if (_pageController.page! > 0) {
                     _pageController.previousPage(
-                      duration: Duration(milliseconds: 300),
-                      curve: Curves.easeIn,
+                      duration: Duration(milliseconds: 400),
+                      curve: Curves.fastEaseInToSlowEaseOut,
                     );
                   }
                 },
-                icon: Icon(Icons.arrow_back_ios),
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  color: Color.fromRGBO(111, 111, 111, 1),
+                ),
               ),
               IconButton(
                 onPressed: () {
                   if (_pageController.page! < widget.dataList.length - 1) {
                     _pageController.nextPage(
-                      duration: Duration(milliseconds: 300),
-                      curve: Curves.easeInOut,
+                      duration: Duration(milliseconds: 400),
+                      curve: Curves.fastEaseInToSlowEaseOut,
                     );
                   }
                 },
-                icon: Icon(Icons.arrow_forward_ios),
+                icon: Icon(
+                  Icons.arrow_forward_ios,
+                  color: Color.fromRGBO(111, 111, 111, 1),
+                ),
               ),
               GestureDetector(
                 onTap: () {
@@ -306,10 +311,14 @@ class _DetailPage12State extends State<DetailPage12> {
                 },
                 child: Container(
                   width: 20,
-                  height: 20,
+                  height: 30,
                   decoration:
                       BoxDecoration(borderRadius: BorderRadius.circular(50)),
-                  child: Icon(Icons.search),
+                  child: Icon(
+                    Icons.search,
+                    size: 30,
+                    color: Color.fromRGBO(111, 111, 111, 1),
+                  ),
                 ),
               ),
             ],

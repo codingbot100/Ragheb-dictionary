@@ -42,29 +42,29 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     return Scaffold(
       backgroundColor: Color(0xFFF5F5DC),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 25),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      'فرهنگ لغت راغب',
-                      style: TextStyle(
-                        fontFamily: fontFamile,
-                        fontSize: fontSizeTitle,
-                        fontWeight: FontWeight.w900,
-                        color: colorPrimary,
-                      ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    'فرهنگ لغت راغب',
+                    style: TextStyle(
+                      fontFamily: fontFamile,
+                      fontSize: fontSizeTitle,
+                      fontWeight: FontWeight.w900,
+                      color: colorPrimary,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              Expanded(
-                child: SingleChildScrollView(
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15),
                   child: Column(
                     children: [
                       Padding(
@@ -105,60 +105,57 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
   Widget TextRow(int _currentpage, String FirstTitel, secondtitle) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 15, left: 15),
-      child: Container(
-        height: 20,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            GestureDetector(
-              onTap: () {
-                widget.onPageChange(_currentpage);
-                // Get.to((Page));
-              },
-              child: Text(
-                FirstTitel,
-                style: TextStyle(
-                  fontFamily: fontFamile,
-                  fontSize: fontSizeSubTitle,
-                  color: colorPrimary,
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 6,
-            ),
-            Expanded(
-              child: Container(
-                child: Divider(
-                  height: 1,
-                  thickness: 0.5,
-                  color: colorPrimary,
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 5,
-            ),
-            Text(
-              secondtitle,
+    return Container(
+      height: 20,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          GestureDetector(
+            onTap: () {
+              widget.onPageChange(_currentpage);
+              // Get.to((Page));
+            },
+            child: Text(
+              FirstTitel,
               style: TextStyle(
                 fontFamily: fontFamile,
                 fontSize: fontSizeSubTitle,
                 color: colorPrimary,
               ),
             ),
-          ],
-        ),
+          ),
+          SizedBox(
+            width: 6,
+          ),
+          Expanded(
+            child: Container(
+              child: Divider(
+                height: 1,
+                thickness: 0.5,
+                color: colorPrimary,
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 5,
+          ),
+          Text(
+            secondtitle,
+            style: TextStyle(
+              fontFamily: fontFamile,
+              fontSize: fontSizeSubTitle,
+              color: colorPrimary,
+            ),
+          ),
+        ],
       ),
     );
   }

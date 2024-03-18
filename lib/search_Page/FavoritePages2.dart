@@ -113,8 +113,8 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
                         textDirection: TextDirection.rtl,
                         child: ListTile(
                           leading: Image.asset(
-                            'icons/favorite.png',
-                            scale: 3,
+                            'icons/Vector (1).png',
+                            scale: 1,
                           ),
                           title: Text(
                             "${_todoDatabase.favorite[realIndex]['name']}",

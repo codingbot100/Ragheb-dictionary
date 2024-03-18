@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/search_Page/data/database.dart';
 import 'package:ragheb_dictionary/search_Page/util/detailFavoritePage.dart';
 
@@ -11,7 +10,7 @@ class FavoritPage_Me extends StatefulWidget {
 
 class _FavoritPage_MeState extends State<FavoritPage_Me> {
   ToDodatabase3 _todoDatabase = ToDodatabase3();
-  final _meBox = Hive.box('mybox');
+  // final _meBox = Hive.box('mybox');
 
   @override
   void initState() {

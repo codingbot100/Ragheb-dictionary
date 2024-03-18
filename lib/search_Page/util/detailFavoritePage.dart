@@ -1,6 +1,7 @@
 // ignore_for_file: unused_field
 
 import "package:flutter/material.dart";
+import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/fonts.dart';
@@ -36,11 +37,11 @@ class _DetailFavoirtPageState extends State<DetailFavoirtPage> {
 
   @override
   void initState() {
-    if (_meBox.get("TODOfontFamily") == null) {
-      DB_fontFamily.createInitialData();
-    } else {
-      DB_fontFamily.loadData();
-    }
+    // if (_meBox.get("TODOfontFamily") == null) {
+    //   DB_fontFamily.createInitialData();
+    // } else {
+    //   DB_fontFamily.loadData();
+    // }
     DB_fontFamily.updateDataBase();
     toggleFavorite();
     super.initState();
@@ -48,96 +49,108 @@ class _DetailFavoirtPageState extends State<DetailFavoirtPage> {
 
   void toggleFavorite() {
     setState(() {
-      db.favorite.remove({
-        'name': widget.name,
-        'description': widget.description,
-        'footnote': widget.footnote,
-      });
+      db.favorite.remove(widget.name);
+      db.favorite.remove(widget.description);
+      db.favorite.remove(widget.footnote);
+      db.favorite.remove(widget.initialPageIndex);
 
       print(
           "remove: ${widget.name}, ${widget.description}, ${widget.footnote}");
     });
   }
 
+  void ToggleRemove(int index) {
+    setState(() {
+      db.favorite.removeAt(index);
+    });
+  }
+
   var fontsClass = fontsize();
   @override
   Widget build(BuildContext context) {
+    // final name = widget.name[widget.initialPageIndex];
+    // final description = widget.description[widget.initialPageIndex];
+    // final footnote = widget.footnote[widget.initialPageIndex];
+    // final isFavorite = db.favorite.any((item) => item['name'] == name);
+    // db.favorite.any((item) => item['description'] == description);
+    // db.favorite.any((item) => item['name'] == footnote);
     return Scaffold(
         backgroundColor: Color(0xFFF5F5DC),
-        body: Padding(
-            padding: const EdgeInsets.only(top: 50),
-            child: Column(children: [
-              Row(
-                children: [
-                  IconButton(
-                      icon: Icon(
-                        Icons.arrow_back,
-                        color: Colors.black,
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      }),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10, right: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          toggleFavorite();
-
-                          Navigator.pop(context);
-                          db.updateDataBase();
-                        });
-                      },
-                      child: Image.asset('images/new.png'),
+        body: SafeArea(
+          child: Column(children: [
+            Row(
+              children: [
+                IconButton(
+                    icon: Icon(
+                      Icons.arrow_back,
+                      color: Colors.black,
                     ),
-                    Flexible(
-                      child: Container(
-                        child: Text(
-                          widget.name,
-                          style: TextStyle(
-                            fontFamily: DB_fontFamily.FontFamily,
-                            fontSize: 30,
-                            fontWeight: FontWeight.w900,
-                            color: Color.fromRGBO(82, 82, 82, 1),
-                          ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    }),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 10, right: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        toggleFavorite();
+
+                        Get.back();
+                        db.updateDataBase();
+                      });
+                    },
+                    child: Image.asset('images/new.png'),
+                  ),
+                  Flexible(
+                    child: Container(
+                      child: Text(
+                        widget.name,
+                        style: TextStyle(
+                          // fontFamily: DB_fontFamily.FontFamily,
+                          fontSize: 30,
+                          fontWeight: FontWeight.w900,
+                          color: Color.fromRGBO(82, 82, 82, 1),
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              Expanded(
-                  child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 20, right: 20, top: 40),
-                      child: Container(
-                        width: double.infinity,
-                        child: RichText(
-                            textDirection: TextDirection.rtl,
-                            textAlign: TextAlign.justify,
-                            text: TextSpan(
-                              text: widget.description,
-                              style: TextStyle(
-                                fontFamily: DB_fontFamily.FontFamily,
-                                fontSize: fontsClass.description,
-                                fontWeight: FontWeight.w900,
-                                color: Color.fromRGBO(82, 82, 82, 1),
-                              ),
-                            )),
-                      ),
+            ),
+            Expanded(
+                child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 20, right: 20, top: 40),
+                    child: Container(
+                      width: double.infinity,
+                      child: RichText(
+                          textDirection: TextDirection.rtl,
+                          textAlign: TextAlign.justify,
+                          text: TextSpan(
+                            text: widget.description,
+                            style: TextStyle(
+                              // fontFamily: DB_fontFamily.FontFamily,
+                              fontSize: fontsClass.description,
+                              fontWeight: FontWeight.w900,
+                              color: Color.fromRGBO(82, 82, 82, 1),
+                            ),
+                          )),
                     ),
-                    SizedBox(height: 16),
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 20, right: 20, top: 40),
+                  ),
+                  SizedBox(height: 16),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 20, right: 20, top: 40),
+                    child: Visibility(
+                      visible: widget.footnote == 'n/a' ? false : true,
                       child: Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
@@ -147,31 +160,33 @@ class _DetailFavoirtPageState extends State<DetailFavoirtPage> {
                             padding: const EdgeInsets.only(
                                 top: 15, left: 15, right: 15, bottom: 15),
                             child: Container(
-                              width: (widget.footnote.isEmpty &&
-                                      widget.footnote == 'n/a')
-                                  ? 0
-                                  : 500,
-                              height: (widget.footnote.isEmpty) ? 0 : 300,
-                              child: RichText(
-                                  textDirection: TextDirection.rtl,
-                                  textAlign: TextAlign.justify,
-                                  text: TextSpan(
-                                    text: widget.footnote,
-                                    style: TextStyle(
-                                      fontFamily: DB_fontFamily.FontFamily,
-                                      fontSize: fontsize().footnot,
-                                      fontWeight: FontWeight.w900,
-                                      color: Color.fromRGBO(111, 111, 111, 1),
-                                    ),
-                                  )),
+                              child: Center(
+                                child: Flexible(
+                                  child: RichText(
+                                      textDirection: TextDirection.rtl,
+                                      textAlign: TextAlign.justify,
+                                      text: TextSpan(
+                                        text: widget.footnote,
+                                        style: TextStyle(
+                                          // fontFamily: DB_fontFamily.FontFamily,
+                                          fontSize: fontsize().footnot,
+                                          fontWeight: FontWeight.w900,
+                                          color:
+                                              Color.fromRGBO(111, 111, 111, 1),
+                                        ),
+                                      )),
+                                ),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    )
-                  ],
-                ),
-              ))
-            ])));
+                    ),
+                  )
+                ],
+              ),
+            ))
+          ]),
+        ));
   }
 }
