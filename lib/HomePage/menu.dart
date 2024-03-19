@@ -1,11 +1,15 @@
 // ignore_for_file: unused_field
 
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/CarouselSlider.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/colors.dart';
-import 'package:ragheb_dictionary/search_Page/RecentPageMenu.dart';
+import 'package:ragheb_dictionary/search_Page/RecentPageMain.dart';
 import 'package:ragheb_dictionary/search_Page/FavoritePages2.dart';
+import 'package:ragheb_dictionary/search_Page/data/recentData.dart';
 
 class Home extends StatefulWidget {
   final void Function(int) onPageChange;
@@ -20,7 +24,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with TickerProviderStateMixin {
   final MyController _myController = Get.put(MyController());
-
+  ToDoRecent db = ToDoRecent();
+  final _meBox = Hive.box('mybox');
   final myItems = [
     'images2/2.jpg',
     'images2/3.jpg',
@@ -35,6 +40,14 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   final colorBackground = Color(0xFFF5F5DC);
   var colortitle;
   var colorClass = new ColorsClass();
+  @override
+  void initState() {
+    if (_meBox.get('TODORECENT')) {
+      db.createInitialData();
+    }
+    db.loadData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,13 +99,15 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                       TextRow(5, 'مرور همه', 'جستجو های اخیر'),
                       Padding(
                         padding: const EdgeInsets.only(
-                            left: 2, right: 2, bottom: 20),
+                          left: 2,
+                          right: 2,
+                        ),
                         child: Expanded(
                           child: Container(
                             height: 400,
                             child: GetBuilder<MyController>(
                               builder: (controller) {
-                                return FavoritPage_second();
+                                return RecentpageMain();
                               },
                             ),
                           ),

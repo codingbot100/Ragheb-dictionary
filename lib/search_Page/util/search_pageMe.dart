@@ -238,8 +238,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
                             prefixIcon: IconButton(
                               onPressed: () {
                                 setState(() {
-                                  // addtoRecent(_searchController.text);
-                                  loadData();
+                                  _searchController.clear();
                                 });
                               },
                               icon: Icon(
@@ -352,8 +351,6 @@ class _SearchPageMeState extends State<SearchPageMe> {
                                 name: item['name']!,
                                 description: item['description']!,
                                 footnote: item['footnote']!,
-                                favorites:
-                                    convertStringToBool(item['favorites']!),
                                 dataList: dataList,
                                 initialPageIndex: _searchController.text.isEmpty
                                     ? index

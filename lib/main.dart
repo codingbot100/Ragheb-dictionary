@@ -44,9 +44,6 @@ class _startState extends State<start> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       theme: ThemeData(
-          textTheme: TextTheme(
-            bodyText1: TextStyle(color: Color.fromRGBO(0, 150, 136, 1)),
-          ),
           fontFamily: dbfont.FontFamily,
           backgroundColor: Color.fromRGBO(245, 245, 220, 1),
           appBarTheme: AppBarTheme(

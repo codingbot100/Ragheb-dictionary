@@ -1,41 +1,71 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
+import 'dart:convert';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
 import 'package:ragheb_dictionary/search_Page/data/recentData.dart';
+import 'package:ragheb_dictionary/search_Page/util/detailPageNew.dart';
 
-class RecentPageMain extends StatefulWidget {
+class RecentpageMain extends StatefulWidget {
   @override
-  _RecentPageMainState createState() => _RecentPageMainState();
+  State<RecentpageMain> createState() => _RecentpageMainState();
 }
 
-class _RecentPageMainState extends State<RecentPageMain> {
-  final fontFamile = 'Yekan';
-  final fontSizeTitle = 18.0;
-  final fontSizeSubTitle = 10.0;
-  final colorPrimary = Color(0xFF009688);
-  ToDoRecent _todoDatabase = ToDoRecent();
+class _RecentpageMainState extends State<RecentpageMain> {
   final _meBox = Hive.box('mybox');
+  ToDodatabase6 db6 = ToDodatabase6();
+
+  ToDoRecent db = ToDoRecent();
+  List<Map<String, String>> dataList = [];
+  List<String> recentSearches = [];
+  bool isShow = false;
+
+  Future<void> loadData() async {
+    String data =
+        await rootBundle.loadString('assets/Raqib Database - Sheet1 (2).csv');
+    List<String> lines = LineSplitter.split(data).toList();
+    List<Map<String, String>> newDataList = [];
+    for (int i = 1; i < lines.length; i++) {
+      List<String> cells = lines[i].split(',');
+      Map<String, String> item = {
+        "footnote": cells[0],
+        "description": cells[1],
+        "name": cells[2],
+        "favorites": cells[3],
+      };
+      newDataList.add(item);
+    }
+    setState(() {
+      dataList = newDataList;
+    });
+  }
 
   @override
   void initState() {
-    if (_meBox.get("TODORECENT") == null) {
-      _todoDatabase.createInitialData();
+    if (_meBox.get('TODORECENT') == null) {
+      db.createInitialData();
     } else {
-      _todoDatabase.loadData();
+      db.loadData();
     }
+    loadData();
+    db6.createInitialData();
+    db6.loadData();
     super.initState();
-    _initHive();
-    _todoDatabase.createInitialData();
-    _todoDatabase.loadData();
   }
 
-  void _initHive() async {
-    await Hive.initFlutter();
-    await Hive.openBox('mybox');
+  List<Map<String, String>> filterDataList() {
+    List<Map<String, String>> filteredList = [];
+    for (var item in dataList) {
+      if (db.favorite.contains(item['name'])) {
+        filteredList.add(item);
+      }
+    }
+    return filteredList;
   }
 
   String formatDateTime(DateTime dateTime) {
     final now = DateTime.now();
-
     final difference = now.difference(dateTime);
 
     if (difference.inDays == 0) {
@@ -80,84 +110,54 @@ class _RecentPageMainState extends State<RecentPageMain> {
 
   @override
   Widget build(BuildContext context) {
+    final filteredList = filterDataList();
     return Scaffold(
-        backgroundColor: Color(0xFFF5F5DC),
-        body: Padding(
-          padding: const EdgeInsets.only(top: 25),
-          child: SafeArea(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 25, bottom: 25),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        "جستجو های اخیر",
+      backgroundColor: Color(0xFFF5F5DC),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.separated(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              separatorBuilder: (context, index) {
+                return Divider();
+              },
+              itemCount: filteredList.length,
+              itemBuilder: (context, index) {
+                final item = filteredList[index];
+                return Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: Container(
+                    height: 40,
+                    child: ListTile(
+                      title: Text(
+                        item["name"]!,
                         style: TextStyle(
-                          fontFamily: fontFamile,
-                          fontSize: fontSizeTitle,
+                          fontSize: db6.SearchName,
                           fontWeight: FontWeight.w900,
-                          color: colorPrimary,
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                _todoDatabase.favorite.isEmpty
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'اخیر جستجویی صورت نگرفته',
-                            style: TextStyle(
-                              fontFamily: fontFamile,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w900,
-                              color: colorPrimary,
-                            ),
+                      onTap: () {
+                        Get.to(
+                          () => DetailPage12(
+                            name: item['name']!,
+                            description: item['description']!,
+                            footnote: item['footnote']!,
+                            dataList: dataList,
+                            initialPageIndex: dataList.indexOf(item),
                           ),
-                        ],
-                      )
-                    : Expanded(
-                        child: ListView.separated(
-                          itemCount: _todoDatabase.favorite.length,
-                          itemBuilder: (context, index) {
-                            final dateTime = DateTime.parse(
-                                _todoDatabase.dateAndTime[index]);
-                            final formattedDateTime = formatDateTime(dateTime);
-                            return Container(
-                              height: 37,
-                              child: ListTile(
-                                trailing: Text(
-                                  "${_todoDatabase.favorite[index]}",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: Color(0xFF525252),
-                                      fontWeight: FontWeight.w800,
-                                      fontFamily: 'YekanBakh'),
-                                ),
-                                leading: Text(formattedDateTime,
-                                    style:
-                                        TextStyle(color: Colors.grey.shade500)),
-                              ),
-                            );
-                          },
-                          separatorBuilder: (context, index) {
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20, right: 20),
-                              child: Divider(
-                                thickness: 0.5,
-                                color: Color.fromRGBO(0, 150, 136, 0.5),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-              ],
+                          transition: Transition.cupertino,
+                          duration: Duration(milliseconds: 400),
+                        );
+                      },
+                    ),
+                  ),
+                );
+              },
             ),
           ),
-        ));
+        ],
+      ),
+    );
   }
 }

@@ -14,7 +14,6 @@ class DetailPage12 extends StatefulWidget {
   final String footnote;
   final List<Map<String, String>> dataList;
   final int initialPageIndex;
-  final bool favorites;
 
   DetailPage12({
     Key? key,
@@ -23,7 +22,6 @@ class DetailPage12 extends StatefulWidget {
     required this.footnote,
     required this.dataList,
     required this.initialPageIndex,
-    required this.favorites,
   }) : super(key: key);
 
   @override
@@ -53,11 +51,11 @@ class _DetailPage12State extends State<DetailPage12> {
     } else {
       db.loadData();
     }
-    // if (_meBox.get("FontFamily") == null) {
-    //   DB_fontFamily.createInitialData();
-    // } else {
-    //   DB_fontFamily.loadData();
-    // }
+    if (_meBox.get("FontFamily") == null) {
+      DB_fontFamily.createInitialData();
+    } else {
+      DB_fontFamily.loadData();
+    }
 
     if (_meBox.get("TODOSlid") == null) {
       db6.createInitialData();
@@ -125,7 +123,6 @@ class _DetailPage12State extends State<DetailPage12> {
 
   @override
   Widget build(BuildContext context) {
-   
     return Scaffold(
       body: SafeArea(
         child: PageView.builder(
@@ -168,7 +165,7 @@ class _DetailPage12State extends State<DetailPage12> {
                                 child: Text(
                                   widget.dataList[index]['name']!,
                                   style: TextStyle(
-                                    // fontFamily: DB_fontFamily.FontFamily,
+                                    fontFamily: DB_fontFamily.FontFamily,
                                     fontSize: db6.name,
                                     fontWeight: FontWeight.w900,
                                     color: Color.fromRGBO(82, 82, 82, 1),
@@ -195,7 +192,7 @@ class _DetailPage12State extends State<DetailPage12> {
                                       text: widget.dataList[index]
                                           ['description']!,
                                       style: TextStyle(
-                                        // fontFamily: DB_fontFamily.FontFamily,
+                                        fontFamily: DB_fontFamily.FontFamily,
                                         fontSize: db6.Descrption,
                                         fontWeight: FontWeight.w900,
                                         color: Color.fromRGBO(82, 82, 82, 1),
@@ -230,8 +227,8 @@ class _DetailPage12State extends State<DetailPage12> {
                                                         _currentPageIndex]
                                                     ['footnote']!,
                                                 style: TextStyle(
-                                                  // fontFamily:
-                                                  //     DB_fontFamily.FontFamily,
+                                                  fontFamily:
+                                                      DB_fontFamily.FontFamily,
                                                   fontSize: db6.FootNot,
                                                   fontWeight: FontWeight.w900,
                                                   color: Color.fromRGBO(
@@ -265,7 +262,7 @@ class _DetailPage12State extends State<DetailPage12> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                width: 50,
+                width: 20,
                 height: 50,
                 child: InkWell(
                   onTap: () {
@@ -273,7 +270,7 @@ class _DetailPage12State extends State<DetailPage12> {
                   },
                   child: Image.asset(
                     'icons/back.png',
-                    scale: 3.8,
+                    scale: 4.5,
                   ),
                 ),
               ),
@@ -288,6 +285,7 @@ class _DetailPage12State extends State<DetailPage12> {
                 },
                 icon: Icon(
                   Icons.arrow_back_ios,
+                  size: 23,
                   color: Color.fromRGBO(111, 111, 111, 1),
                 ),
               ),
@@ -302,6 +300,7 @@ class _DetailPage12State extends State<DetailPage12> {
                 },
                 icon: Icon(
                   Icons.arrow_forward_ios,
+                  size: 23,
                   color: Color.fromRGBO(111, 111, 111, 1),
                 ),
               ),
@@ -316,7 +315,7 @@ class _DetailPage12State extends State<DetailPage12> {
                       BoxDecoration(borderRadius: BorderRadius.circular(50)),
                   child: Icon(
                     Icons.search,
-                    size: 30,
+                    size: 25,
                     color: Color.fromRGBO(111, 111, 111, 1),
                   ),
                 ),
