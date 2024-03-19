@@ -1,7 +1,5 @@
 // ignore_for_file: unused_field
 
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -42,7 +40,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   var colorClass = new ColorsClass();
   @override
   void initState() {
-    if (_meBox.get('TODORECENT')) {
+    if (_meBox.get('TODORECENT') == null) {
       db.createInitialData();
     }
     db.loadData();
@@ -104,7 +102,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                         ),
                         child: Expanded(
                           child: Container(
-                            height: 400,
+                            height: db.favorite.length * 40,
                             child: GetBuilder<MyController>(
                               builder: (controller) {
                                 return RecentpageMain();
@@ -133,7 +131,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           GestureDetector(
             onTap: () {
               widget.onPageChange(_currentpage);
-              // Get.to((Page));
             },
             child: Text(
               FirstTitel,

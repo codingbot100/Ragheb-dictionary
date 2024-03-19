@@ -37,11 +37,11 @@ class _DetailFavoirtPageState extends State<DetailFavoirtPage> {
 
   @override
   void initState() {
-    // if (_meBox.get("TODOfontFamily") == null) {
-    //   DB_fontFamily.createInitialData();
-    // } else {
-    //   DB_fontFamily.loadData();
-    // }
+    if (_meBox.get("TODOfontFamily") == null) {
+      DB_fontFamily.createInitialData();
+    } else {
+      DB_fontFamily.loadData();
+    }
     DB_fontFamily.updateDataBase();
     toggleFavorite();
     super.initState();

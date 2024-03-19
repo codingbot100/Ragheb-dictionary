@@ -46,6 +46,7 @@ class _DetailPage12State extends State<DetailPage12> {
 
   @override
   void initState() {
+    
     if (_meBox.get('TODOLIST') == null) {
       db.createInitialData();
     } else {
