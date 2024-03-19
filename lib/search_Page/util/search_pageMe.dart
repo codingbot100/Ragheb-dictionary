@@ -105,44 +105,41 @@ class _SearchPageMeState extends State<SearchPageMe> {
     super.initState();
   }
 
-  //  Expanded(
-  //             child: ListView.builder(
-  //               itemCount: dataList.length,
-  //               itemBuilder: (context, index) {
-  //                 final item = dataList[index];
-  //                 return Card(
-  //                   child: ListTile(
-  //                     title: Text(item['name'] ?? ''),
-  //                     subtitle: Text(item['description'] ?? ''),
-  //                     onTap: () {
-  //                       // Handle onTap event if needed
-  //                     },
-  //                   ),
-  //                 );
-  //               },
-  //             ),
-  //           )
   void _onSearch(String searchText) {
-    setState(() {
-      if (searchText.isNotEmpty) {
-        if (!db.favorite.contains(searchText)) {
-          db.favorite.add(searchText);
-          String currentDateAndTime = DateTime.now().toString();
-          db.dateAndTime.add(currentDateAndTime);
-          db.updateDataBase();
-        }
-        _searchController.text = searchText.toString();
+    if (searchText.isNotEmpty) {
+      // Check if searchText exists in dataList based on the "name" field
+      bool searchTextExists =
+          dataList.any((item) => item['name'] == searchText);
 
-        filteredList = dataList
-            .where((task) =>
-                task['name']!.toLowerCase().contains(searchText.toLowerCase()))
-            .toList();
+      // If searchText exists in dataList and not in db.favorite, add it to db.favorite
+      if (searchTextExists && !db.favorite.contains(searchText)) {
+        db.favorite.add(searchText);
+        String currentDateAndTime = DateTime.now().toString();
+        db.dateAndTime.add(currentDateAndTime);
+        db.updateDataBase();
+        print(db.favorite);
       }
-    });
-    print(db.favorite);
-    if (filteredList.isNotEmpty) {
-      _searchController.text = filteredList[0]['name']!;
+
+      // تنظیم خصوصیات TextField
+      _searchController.text = searchText;
+      _searchController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _searchController.text.length));
+      _searchController.selection =
+          TextSelection.collapsed(offset: _searchController.text.length);
+
+      // Filter dataList based on searchText
+      filteredList = dataList
+          .where((item) =>
+              item['name']!.toLowerCase().contains(searchText.toLowerCase()))
+          .toList();
     }
+
+    // // If filteredList is not empty, set the text to the first item in filteredList
+    // if (filteredList.isNotEmpty) {
+    //   _searchController.text = filteredList[0]['name']!;
+    // }
+
+    // Ensure db.favorite does not exceed a certain length
     if (db.favorite.length >= 30) {
       db.favorite.removeRange(0, 1);
     }
@@ -193,6 +190,9 @@ class _SearchPageMeState extends State<SearchPageMe> {
                           controller: _searchController,
                           cursorColor: Color.fromRGBO(0, 150, 136, 0.5),
                           cursorHeight: 14,
+                          autocorrect: false,
+                          enableSuggestions: false,
+
                           cursorOpacityAnimates: true,
                           keyboardAppearance: Brightness.dark,
                           keyboardType: TextInputType.name,
@@ -218,20 +218,21 @@ class _SearchPageMeState extends State<SearchPageMe> {
                                       .contains(value.toLowerCase()))
                                   .toList();
                             });
+                            _onSearch(_searchController.text);
                           },
-                          onSubmitted: (value) {
-                            setState(() {
-                              addtoRecent(value);
-                            });
-                            if (!recentSearches.contains(value)) {
-                              recentSearches.insert(0, value);
-                              if (recentSearches.length > 5) {
-                                recentSearches.removeLast();
-                              }
-                              RecentSearchesUtil.saveRecentSearches(
-                                  recentSearches);
-                            }
-                          },
+                          // onSubmitted: (value) {
+                          //   setState(() {
+
+                          //   });
+                          //   if (!recentSearches.contains(value)) {
+                          //     recentSearches.insert(0, value);
+                          //     if (recentSearches.length > 5) {
+                          //       recentSearches.removeLast();
+                          //     }
+                          //     RecentSearchesUtil.saveRecentSearches(
+                          //         recentSearches);
+                          //   }
+                          // },
                           decoration: InputDecoration(
                             prefixIcon: IconButton(
                               onPressed: () {
@@ -289,6 +290,9 @@ class _SearchPageMeState extends State<SearchPageMe> {
                     itemCount: db.favorite.length > 5 ? 5 : db.favorite.length,
                     shrinkWrap: true,
                     itemBuilder: ((context, index) {
+                      int realIndex = db.favorite.length > 5
+                          ? db.favorite.length - 5 + index
+                          : index;
                       return Container(
                         height: 37,
                         child: GestureDetector(
@@ -310,7 +314,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
                                   size: 17,
                                 )),
                             trailing: Text(
-                              db.favorite[index],
+                              db.favorite[realIndex],
                               style: TextStyle(
                                   fontFamily: dbFont.FontFamily,
                                   fontSize: db6.RecentSearch,
