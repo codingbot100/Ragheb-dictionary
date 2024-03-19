@@ -36,7 +36,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
   bool isShow = false;
   DateTime now = DateTime.now();
   TimeOfDay currentTime = TimeOfDay.now();
-  final _meBox2 = Hive.box('mybox2');
+  // final _meBox2 = Hive.box('mybox2');
 
   Future<void> loadData() async {
     String data =
@@ -212,8 +212,6 @@ class _SearchPageMeState extends State<SearchPageMe> {
                           },
                           onChanged: (value) {
                             setState(() {
-                              addtoRecent(value);
-
                               filteredList = dataList
                                   .where((task) => task['name']!
                                       .toLowerCase()
