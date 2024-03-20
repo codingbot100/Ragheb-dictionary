@@ -61,8 +61,8 @@ class _FavoritPage_secondState extends State<FavoritPage_second> {
                                 footnote:
                                     "${_todoDatabase.favorite[index]['footnote']}",
                                 initialPageIndex: index),
-                            transition: Transition.cupertino,
-                            duration: Duration(milliseconds: 400));
+                            transition: Transition.fadeIn,
+                            duration: Duration(milliseconds: 500));
                       },
                     ),
                   );

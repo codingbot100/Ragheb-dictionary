@@ -126,12 +126,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
           .toList();
     }
 
-    // // If filteredList is not empty, set the text to the first item in filteredList
-    // if (filteredList.isNotEmpty) {
-    //   _searchController.text = filteredList[0]['name']!;
-    // }
-
-    // Ensure db.favorite does not exceed a certain length
+   
     if (db.favorite.length >= 30) {
       db.favorite.removeRange(0, 1);
     }
@@ -195,11 +190,9 @@ class _SearchPageMeState extends State<SearchPageMe> {
                             color: Color.fromRGBO(82, 82, 82, 1),
                           ),
                           textAlign: TextAlign.right,
-                          // textDirection: TextDirection.rtl,
                           onTap: () {
                             setState(() {
                               _onSearch(_searchController.text);
-                              // addtoRecent(_searchController.text);
                             });
                           },
                           onChanged: (value) {
@@ -213,19 +206,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
                             });
                             _onSearch(_searchController.text);
                           },
-                          // onSubmitted: (value) {
-                          //   setState(() {
-
-                          //   });
-                          //   if (!recentSearches.contains(value)) {
-                          //     recentSearches.insert(0, value);
-                          //     if (recentSearches.length > 5) {
-                          //       recentSearches.removeLast();
-                          //     }
-                          //     RecentSearchesUtil.saveRecentSearches(
-                          //         recentSearches);
-                          //   }
-                          // },
+                          
                           decoration: InputDecoration(
                             prefixIcon: IconButton(
                               onPressed: () {
@@ -292,7 +273,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
                           onTap: () {
                             setState(() {
                               _searchController.text = db.favorite[index];
-                              _searchFocus.unfocus(); // Close the keyboard
+                              _searchFocus.unfocus(); 
                             });
                           },
                           child: ListTile(
@@ -354,8 +335,8 @@ class _SearchPageMeState extends State<SearchPageMe> {
                                     ? index
                                     : dataList.indexOf(item),
                               ),
-                              transition: Transition.cupertino,
-                              duration: Duration(milliseconds: 400),
+                              transition: Transition.fadeIn,
+                              duration: Duration(milliseconds: 500),
                             );
                           },
                         ),

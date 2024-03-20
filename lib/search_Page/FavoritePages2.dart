@@ -141,8 +141,8 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
                                     footnote:
                                         "${_todoDatabase.favorite[realIndex]['footnote']}",
                                     initialPageIndex: realIndex),
-                                transition: Transition.cupertino,
-                                duration: Duration(milliseconds: 200));
+                                transition: Transition.fadeIn,
+                                duration: Duration(milliseconds: 500));
                             _todoDatabase.updateDataBase();
                           },
                         ),

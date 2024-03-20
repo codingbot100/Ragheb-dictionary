@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:ragheb_dictionary/HomePage/WebLog/WebDetail.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -25,27 +28,34 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          width: MediaQuery.of(context).size.width,
-          child: CarouselSlider(
-            items: List.generate(
-              myItems.length,
-              (index) => _buildImageContainer(index),
-            ),
-            options: CarouselOptions(
-              autoPlayInterval: Duration(seconds: 5),
-              autoPlayCurve: Curves.linear,
-              animateToClosest: true,
-              viewportFraction: 1.0,
-              enlargeFactor: BorderSide.strokeAlignOutside,
-              autoPlay: true,
-              enlargeCenterPage: true,
-              aspectRatio: 20 / 8,
-              onPageChanged: (index, reason) {
-                setState(() {
-                  myCurrentIndex = index;
-                });
-              },
+        GestureDetector(
+          onTap: () {
+            Get.to(() => Web_Log_Detail(),
+                duration: Duration(milliseconds: 500),
+                transition: Transition.fadeIn);
+          },
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            child: CarouselSlider(
+              items: List.generate(
+                myItems.length,
+                (index) => _buildImageContainer(index),
+              ),
+              options: CarouselOptions(
+                autoPlayInterval: Duration(seconds: 5),
+                autoPlayCurve: Curves.linear,
+                animateToClosest: true,
+                viewportFraction: 1.0,
+                enlargeFactor: BorderSide.strokeAlignOutside,
+                autoPlay: true,
+                enlargeCenterPage: true,
+                aspectRatio: 20 / 8,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    myCurrentIndex = index;
+                  });
+                },
+              ),
             ),
           ),
         ),

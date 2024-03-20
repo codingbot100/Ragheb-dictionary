@@ -149,8 +149,8 @@ class _RecentpageMainState extends State<RecentpageMain> {
                             // dataList: dataList,
                             initialPageIndex: dataList.indexOf(item),
                           ),
-                          transition: Transition.cupertino,
-                          duration: Duration(milliseconds: 400),
+                          transition: Transition.fadeIn,
+                          duration: Duration(milliseconds: 500),
                         );
                       },
                     ),

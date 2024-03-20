@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
 import 'package:ragheb_dictionary/search_Page/data/data.dart';
 import 'package:ragheb_dictionary/search_Page/data/database.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../Tools_Menu/CarouselSlider/tools/fonts.dart';
 
@@ -43,10 +45,10 @@ class _DetailPage12State extends State<DetailPage12> {
   ToDodatabase3 db = new ToDodatabase3();
   ToDodatabaseTime dbTime = new ToDodatabaseTime();
   ToDodatabase6 db6 = new ToDodatabase6();
+  //  final String combinedText = "$widget.footnote\n$widget.footnote\n$widget.footnote";
 
   @override
   void initState() {
-    
     if (_meBox.get('TODOLIST') == null) {
       db.createInitialData();
     } else {
@@ -120,6 +122,24 @@ class _DetailPage12State extends State<DetailPage12> {
       image = newImage;
       db.updateImageState(widget.name, newImage); // Call updateImageState
     });
+  }
+
+  _copy(String name1, descriprion1, footnote1) {
+    final String combinedText = "$name1\n$descriprion1\n$footnote1";
+    final data = ClipboardData(text: combinedText);
+    Clipboard.setData(data);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.green,
+        content: Directionality(
+            textDirection: TextDirection.rtl, child: Text('متن کاپی شد ')),
+      ),
+    );
+  }
+
+  void shareText(String name, descrption, footnot) {
+    String message = "Name: $name\nDescription: $descrption\nFootnot: $footnot";
+    Share.share(message);
   }
 
   @override
@@ -242,6 +262,21 @@ class _DetailPage12State extends State<DetailPage12> {
                                   ),
                                 ),
                               ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                IconButton(
+                                    onPressed: () {
+                                      _copy(name, description, footnote);
+                                    },
+                                    icon: Icon(Icons.copy)),
+                                IconButton(
+                                    onPressed: () async {
+                                      shareText(name, description, footnote);
+                                    },
+                                    icon: Icon(Icons.share))
+                              ],
                             )
                           ],
                         ),

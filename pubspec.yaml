@@ -87,6 +87,7 @@ flutter:
     - images/
     - images2/
     - icons/
+    - web_image/
    
     
   #   - images/a_dot_ham.jpeg

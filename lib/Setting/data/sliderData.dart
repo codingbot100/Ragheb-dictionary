@@ -1,12 +1,13 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
-
 class ToDodatabase6 {
   late double name;
   late double Descrption;
   late double FootNot;
   late double SearchName;
   late double RecentSearch;
+  late double title_Web;
+  late double main_contant;
   final _meBox = Hive.box('mybox');
 
   void createInitialData() {
@@ -15,6 +16,8 @@ class ToDodatabase6 {
     FootNot = 10;
     SearchName = 17;
     RecentSearch = 17;
+    title_Web = 30;
+    main_contant = 17;
   }
 
   void updateDataTypes() {
@@ -24,6 +27,8 @@ class ToDodatabase6 {
     FootNot = 10 + increment;
     SearchName = 17 + increment;
     RecentSearch = 17 + increment;
+    title_Web = 30 + increment;
+    main_contant = 17 + increment;
 
     // اضافه یا کم کردن دو واحد به مقادیر دیگر دیتا تایپ‌ها
     if (name % 5 != 0) {
@@ -32,6 +37,8 @@ class ToDodatabase6 {
       FootNot += adjustment;
       SearchName += adjustment;
       RecentSearch += adjustment;
+      title_Web += adjustment;
+      main_contant += adjustment;
     }
   }
 
@@ -41,6 +48,8 @@ class ToDodatabase6 {
     FootNot = _meBox.get("TODOFootnot") ?? 10;
     SearchName = _meBox.get("TODOSearchName") ?? 17;
     RecentSearch = _meBox.get("TODORearchName") ?? 17;
+    title_Web = _meBox.get("TODOTitleWeb") ?? 30;
+    main_contant = _meBox.get("TODOMainContant") ?? 17;
   }
 
   void updateDataBase() {
@@ -49,5 +58,7 @@ class ToDodatabase6 {
     _meBox.put('TODOFootnot', FootNot);
     _meBox.put('TODOSearchName', SearchName);
     _meBox.put('TODORearchName', RecentSearch);
+    _meBox.put('TODOTitleWeb', title_Web);
+    _meBox.put('TODOMainContant', main_contant);
   }
 }

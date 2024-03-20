@@ -118,8 +118,8 @@ class _RecentpageSecondState extends State<RecentpageSecond> {
                               footnote: item['footnote']!,
                               initialPageIndex: dataList.indexOf(item),
                             ),
-                            transition: Transition.cupertino,
-                            duration: Duration(milliseconds: 400),
+                            transition: Transition.fadeIn,
+                            duration: Duration(milliseconds: 500),
                           );
                         },
                       ),
