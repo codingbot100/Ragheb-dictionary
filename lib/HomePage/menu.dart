@@ -102,7 +102,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                         ),
                         child: Expanded(
                           child: Container(
-                            height: db.favorite.length * 60,
+                            height: db.favorite.length * 57,
                             child: GetBuilder<MyController>(
                               builder: (controller) {
                                 return RecentpageMain();

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
 import 'package:ragheb_dictionary/search_Page/data/database.dart';
 import 'package:ragheb_dictionary/search_Page/util/detailFavoritePage.dart';
 
@@ -12,18 +13,18 @@ class FavoritPage_Me extends StatefulWidget {
 class _FavoritPage_MeState extends State<FavoritPage_Me> {
   ToDodatabase3 _todoDatabase = ToDodatabase3();
   final _meBox = Hive.box('mybox');
+  ToDodatabase6 db6 = ToDodatabase6();
 
   @override
   void initState() {
+    if (_meBox.get('TODOSlid') == null) {
+      db6.createInitialData();
+    } else {
+      db6.loadData();
+    }
     super.initState();
 
     _todoDatabase.loadData();
-
-    if (_todoDatabase.favorite == []) {
-      print("no favorit");
-    } else {
-      print(_todoDatabase.favorite.length);
-    }
   }
 
   String formatDateTime(DateTime dateTime) {
@@ -99,7 +100,8 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
                         trailing: Text(
                           "${_todoDatabase.favorite[index]['name']}",
                           style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w600),
+                              fontSize: db6.SearchName,
+                              fontWeight: FontWeight.w600),
                         ),
                         onTap: () {
                           Get.to(

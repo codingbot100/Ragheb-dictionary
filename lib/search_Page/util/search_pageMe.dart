@@ -28,8 +28,9 @@ class _SearchPageMeState extends State<SearchPageMe> {
   late List<Map<String, Widget>> pages;
   final FocusNode _searchFocus = FocusNode();
   List<Map<String, String>> dataList = [];
-  List<Map<String, String>> filteredList =
-      []; // Change the type to Map<String, String>
+  List<Map<String, String>> filteredList = [];
+  List<Map<String, String>> filteredList2 = [];
+
   ToDoDataBaseFont dbFont = new ToDoDataBaseFont();
   TextEditingController _searchController = TextEditingController();
   List<String> recentSearches = [];
@@ -58,28 +59,19 @@ class _SearchPageMeState extends State<SearchPageMe> {
     });
   }
 
-  void addtoRecent(String searchText) {
-    final item = dataList.firstWhere(
-      (element) => element['name'] == searchText,
-    );
-
-    if (item != null) {
-      // Check if the item is already in favorites
-      final bool alreadyInFavorites =
-          db.favorite.any((favItem) => favItem['name'] == searchText);
-      if (!alreadyInFavorites) {
-        // Add the entire map entry to db.favorite
-        db.favorite.add(item);
-        String currentDateAndTime = DateTime.now().toString();
-        db.dateAndTime.add(currentDateAndTime);
-        db.updateDataBase();
-        print(db.favorite);
-      } else {
-        print("This data is already in favorites.");
-      }
+  void _performSearch(String searchText) {
+    if (searchText.isNotEmpty) {
+      // Filter dataList based on searchText
+      filteredList2 = dataList
+          .where((item) =>
+              item['name']!.toLowerCase().contains(searchText.toLowerCase()))
+          .toList();
     } else {
-      print("This data doesn't exist in the CSV file.");
+      // If search text is empty, show all items
+      filteredList2 = dataList;
     }
+
+    setState(() {});
   }
 
   @override
@@ -116,7 +108,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
         db.favorite.add(searchText);
         String currentDateAndTime = DateTime.now().toString();
         db.dateAndTime.add(currentDateAndTime);
-        db.updateDataBase();
+        // db.updateDataBase();
         print(db.favorite);
       }
 
@@ -217,6 +209,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
                                       .toLowerCase()
                                       .contains(value.toLowerCase()))
                                   .toList();
+                              _performSearch(value);
                             });
                             _onSearch(_searchController.text);
                           },
@@ -264,7 +257,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
                                 onTap: () {
                                   setState(() {
                                     _searchController.selection;
-                                    db.updateDataBase();
+                                    // db.updateDataBase();
                                     print(db.favorite);
                                     print(db.dateAndTime);
                                   });
@@ -309,9 +302,12 @@ class _SearchPageMeState extends State<SearchPageMe> {
                                     remove(index);
                                   });
                                 },
-                                child: Icon(
-                                  Icons.clear,
-                                  size: 17,
+                                child: Container(
+                                  width: 50,
+                                  child: Icon(
+                                    Icons.clear,
+                                    size: 17,
+                                  ),
                                 )),
                             trailing: Text(
                               db.favorite[realIndex],

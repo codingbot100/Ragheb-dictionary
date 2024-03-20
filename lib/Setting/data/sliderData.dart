@@ -1,22 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
-// class ToDodatabase6 {
-//   late double name;
-
-//   final _meBox = Hive.box('mybox');
-
-//   void createInitialData() {
-//     name = 30;
-//   }
-
-//   void loadData() {
-//     name = _meBox.get("TODOSlid");
-//   }
-
-//   void updateDataBase() {
-//     _meBox.put('TODOSlid', name);
-//   }
-// }
 
 class ToDodatabase6 {
   late double name;

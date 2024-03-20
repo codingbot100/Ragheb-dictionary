@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
 import 'package:ragheb_dictionary/search_Page/data/database.dart';
 import 'package:ragheb_dictionary/search_Page/util/detailFavoritePage.dart';
 
@@ -11,9 +12,16 @@ class FavoritPage_second extends StatefulWidget {
 
 class _FavoritPage_secondState extends State<FavoritPage_second> {
   ToDodatabase3 _todoDatabase = ToDodatabase3();
+  ToDodatabase6 db6 = ToDodatabase6();
+  final _meBox = Hive.box('mybox');
 
   @override
   void initState() {
+    if (_meBox.get('TODOSlid') == null) {
+      db6.createInitialData();
+    } else {
+      db6.loadData();
+    }
     super.initState();
     _initHive();
     _todoDatabase.createInitialData();
@@ -31,6 +39,7 @@ class _FavoritPage_secondState extends State<FavoritPage_second> {
         backgroundColor: Color(0xFFF5F5DC),
         body: Column(
           children: [
+           
             Expanded(
               child: ListView.separated(
                 itemCount: _todoDatabase.favorite.length,
@@ -40,7 +49,7 @@ class _FavoritPage_secondState extends State<FavoritPage_second> {
                     child: ListTile(
                       trailing: Text(
                         "${_todoDatabase.favorite[index]['name']}",
-                        style: TextStyle(fontSize: 14),
+                        style: TextStyle(fontSize: db6.SearchName),
                       ),
                       onTap: () {
                         Get.to(
@@ -69,7 +78,6 @@ class _FavoritPage_secondState extends State<FavoritPage_second> {
                 },
               ),
             ),
-           
           ],
         ));
   }

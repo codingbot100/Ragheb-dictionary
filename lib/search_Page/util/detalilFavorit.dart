@@ -1,7 +1,6 @@
 // ignore_for_file: unused_field
 
 import "package:flutter/material.dart";
-import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
@@ -9,13 +8,13 @@ import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/fonts.dart';
 import 'package:ragheb_dictionary/search_Page/data/database.dart';
 import 'package:ragheb_dictionary/search_Page/data/sharedPrefernces.dart';
 
-class DetailFavoirtPage extends StatefulWidget {
+class DetailFavoirtMain extends StatefulWidget {
   final String name;
   final String description;
   final String footnote;
   final int initialPageIndex;
 
-  DetailFavoirtPage({
+  DetailFavoirtMain({
     super.key,
     required this.name,
     required this.description,
@@ -23,10 +22,10 @@ class DetailFavoirtPage extends StatefulWidget {
     required this.initialPageIndex,
   });
   @override
-  State<DetailFavoirtPage> createState() => _DetailFavoirtPageState();
+  State<DetailFavoirtMain> createState() => _DetailFavoirtMainState();
 }
 
-class _DetailFavoirtPageState extends State<DetailFavoirtPage> {
+class _DetailFavoirtMainState extends State<DetailFavoirtMain> {
   final _myBox = Hive.box('mybox');
 
   ToDodatabase3 db = ToDodatabase3();
@@ -84,34 +83,23 @@ class _DetailFavoirtPageState extends State<DetailFavoirtPage> {
         backgroundColor: Color(0xFFF5F5DC),
         body: SafeArea(
           child: Column(children: [
-            Row(
-              children: [
-                IconButton(
-                    icon: Icon(
-                      Icons.arrow_back,
-                      color: Colors.black,
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    }),
-              ],
-            ),
             Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20),
+              padding: const EdgeInsets.only(
+                left: 20,
+                right: 20,
+                top: 20,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        toggleFavorite();
-
-                        Get.back();
-                        db.updateDataBase();
-                      });
-                    },
-                    child: Image.asset('icons/Vector (1).png'),
-                  ),
+                  IconButton(
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      }),
                   Flexible(
                     child: Container(
                       child: Text(

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
 import 'package:ragheb_dictionary/search_Page/data/recentData.dart';
-import 'package:ragheb_dictionary/search_Page/util/detailPageNew.dart';
+import 'package:ragheb_dictionary/search_Page/util/detalilFavorit.dart';
 
 class RecentpageMain extends StatefulWidget {
   @override
@@ -122,9 +122,12 @@ class _RecentpageMainState extends State<RecentpageMain> {
               separatorBuilder: (context, index) {
                 return Divider();
               },
-              itemCount: filteredList.length,
+              itemCount: filteredList.length > 8 ? 8 : filteredList.length,
               itemBuilder: (context, index) {
-                final item = filteredList[index];
+                int realIndex = filteredList.length > 8
+                    ? filteredList.length - 8 + index
+                    : index;
+                final item = filteredList[realIndex];
                 return Directionality(
                   textDirection: TextDirection.rtl,
                   child: Container(
@@ -139,11 +142,11 @@ class _RecentpageMainState extends State<RecentpageMain> {
                       ),
                       onTap: () {
                         Get.to(
-                          () => DetailPage12(
+                          () => DetailFavoirtMain(
                             name: item['name']!,
                             description: item['description']!,
                             footnote: item['footnote']!,
-                            dataList: dataList,
+                            // dataList: dataList,
                             initialPageIndex: dataList.indexOf(item),
                           ),
                           transition: Transition.cupertino,

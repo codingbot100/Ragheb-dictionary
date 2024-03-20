@@ -5,7 +5,8 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
 import 'package:ragheb_dictionary/search_Page/data/recentData.dart';
-import 'package:ragheb_dictionary/search_Page/util/detailPageNew.dart';
+
+import 'package:ragheb_dictionary/search_Page/util/detalilFavorit.dart';
 
 class RecentpageSecond extends StatefulWidget {
   @override
@@ -73,14 +74,14 @@ class _RecentpageSecondState extends State<RecentpageSecond> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(right: 15, top: 10, bottom: 10),
+              padding: const EdgeInsets.only(right: 10, top: 10, bottom: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
                     "جستجوی های اخیر",
                     style: TextStyle(
-                        fontSize: 25,
+                        fontSize: 20,
                         fontWeight: FontWeight.w900,
                         color: Color.fromRGBO(0, 150, 136, 1)),
                   )
@@ -111,11 +112,10 @@ class _RecentpageSecondState extends State<RecentpageSecond> {
                         ),
                         onTap: () {
                           Get.to(
-                            () => DetailPage12(
+                            () => DetailFavoirtMain(
                               name: item['name']!,
                               description: item['description']!,
                               footnote: item['footnote']!,
-                              dataList: dataList,
                               initialPageIndex: dataList.indexOf(item),
                             ),
                             transition: Transition.cupertino,

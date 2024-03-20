@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
 import 'package:ragheb_dictionary/search_Page/data/database.dart';
 import 'package:ragheb_dictionary/search_Page/util/detailFavoritePage.dart';
 
@@ -12,13 +13,16 @@ class FavoritPage_menu extends StatefulWidget {
 class _FavoritPage_menuState extends State<FavoritPage_menu> {
   ToDodatabase3 _todoDatabase = ToDodatabase3();
   final _meBox = Hive.box('mybox');
+  ToDodatabase6 db6 = ToDodatabase6();
 
   @override
   void initState() {
-    if (_meBox.get("TODOLIST") == null) {
+    if (_meBox.get("TODOLIST") == null || _meBox.get("TODOSlid") == null) {
       _todoDatabase.createInitialData();
+      db6.createInitialData();
     } else {
       _todoDatabase.loadData();
+      db6.loadData();
     }
     super.initState();
     _initHive();
@@ -119,7 +123,7 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
                           title: Text(
                             "${_todoDatabase.favorite[realIndex]['name']}",
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: db6.SearchName,
                               fontWeight: FontWeight.w900,
                             ),
                           ),
