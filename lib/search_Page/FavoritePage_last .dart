@@ -78,15 +78,22 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
         body: SafeArea(
           child: Column(
             children: [
-              Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: ListTile(
-                    title: Text(
-                      'ذخیره شده ها ',
-                      style:
-                          TextStyle(fontSize: 25, fontWeight: FontWeight.w900),
-                    ),
-                  )),
+              Container(
+                height: 45,
+                child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: ListTile(
+                      title: Text(
+                        'ذخیره شده ها ',
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.w900),
+                      ),
+                    )),
+              ),
+              Divider(),
+              SizedBox(
+                height: 15,
+              ),
               Expanded(
                 child: ListView.separated(
                   itemCount: _todoDatabase.favorite.length,

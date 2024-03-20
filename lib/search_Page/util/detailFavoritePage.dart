@@ -60,14 +60,20 @@ class _DetailFavoirtPageState extends State<DetailFavoirtPage> {
   }
 
   void toggleFavorite() {
+    db.loadData();
     setState(() {
       db.favorite.remove(widget.name);
       db.favorite.remove(widget.description);
       db.favorite.remove(widget.footnote);
       db.favorite.remove(widget.initialPageIndex);
+      db.updateDataBase();
 
+      // Print removed items
       print(
           "remove: ${widget.name}, ${widget.description}, ${widget.footnote}");
+
+      // Optional: Call db.loadData() here if needed
+      // db.loadData();
     });
   }
 
@@ -105,9 +111,7 @@ class _DetailFavoirtPageState extends State<DetailFavoirtPage> {
                     onTap: () {
                       setState(() {
                         toggleFavorite();
-
                         Get.back();
-                        db.updateDataBase();
                       });
                     },
                     child: Image.asset('icons/Vector (1).png'),

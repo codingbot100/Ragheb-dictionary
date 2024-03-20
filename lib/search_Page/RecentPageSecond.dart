@@ -74,7 +74,10 @@ class _RecentpageSecondState extends State<RecentpageSecond> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(right: 10, top: 10, bottom: 10),
+              padding: const EdgeInsets.only(
+                right: 10,
+                top: 10,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -87,6 +90,10 @@ class _RecentpageSecondState extends State<RecentpageSecond> {
                   )
                 ],
               ),
+            ),
+            Divider(),
+            SizedBox(
+              height: 15,
             ),
             Expanded(
               child: ListView.separated(

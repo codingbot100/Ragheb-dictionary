@@ -263,20 +263,56 @@ class _DetailPage12State extends State<DetailPage12> {
                                 ),
                               ),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                IconButton(
-                                    onPressed: () {
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 20, right: 20),
+                              child: Divider(
+                                color: Color.fromRGBO(147, 147, 147, 1),
+                                thickness: 1,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  SizedBox(
+                                    width: 15,
+                                  ),
+                                  InkWell(
+                                    onTap: () {
                                       _copy(name, description, footnote);
                                     },
-                                    icon: Icon(Icons.copy)),
-                                IconButton(
-                                    onPressed: () async {
+                                    child: Image.asset(
+                                      "icons/Union (1).png",
+                                      scale: 1.5,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    "اشتراک گذاری",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w900,
+                                        color:
+                                            Color.fromRGBO(147, 147, 147, 1)),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  InkWell(
+                                    onTap: () {
                                       shareText(name, description, footnote);
                                     },
-                                    icon: Icon(Icons.share))
-                              ],
+                                    child: Image.asset(
+                                      "icons/Vector (5).png",
+                                      scale: 1.5,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             )
                           ],
                         ),

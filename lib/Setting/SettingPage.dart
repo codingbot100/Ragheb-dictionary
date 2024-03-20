@@ -1,8 +1,6 @@
 // ignore_for_file: override_on_non_overriding_member
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
@@ -66,13 +64,6 @@ class _MySettingsPageState extends State<MySettingsPage> {
   }
 
   @override
-  _saveString() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('fontFamile2', fontFamile2);
-    await prefs.setInt('value', fontOption);
-    await prefs.setDouble('value1', fontSizeSubTitle);
-  }
-
   void updatePrices(double added, int removed) {
     int extra = added ~/ 5 * 2;
     int reduced = removed ~/ 5 * 2;
@@ -244,13 +235,17 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                         OntapLis: () {
                                           Get.to(
                                               () => about_ragheb_dictionary(),
-                                              transition: Transition.cupertino);
+                                              transition: Transition.fadeIn,
+                                              duration:
+                                                  Duration(milliseconds: 500));
                                         }),
                                     Mylist(
                                         listName: 'درباره سازنده گان اپلیکیشن',
                                         OntapLis: () {
                                           Get.to(() => about_Us(),
-                                              transition: Transition.cupertino);
+                                              transition: Transition.fadeIn,
+                                              duration:
+                                                  Duration(milliseconds: 500));
                                         }),
                                     Mylist(
                                         listName: 'ارئه بازخورد',
