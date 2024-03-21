@@ -24,6 +24,11 @@ class ToDoRecent {
     updateDataBase();
   }
 
+  void clearFavorit() {
+    favorite.clear();
+    updateDataBase();
+  }
+
   void updateDataBase() {
     _meBox.put('TODORECENT', favorite);
     _meBox.put('TODODATEANDTIME', dateAndTime);

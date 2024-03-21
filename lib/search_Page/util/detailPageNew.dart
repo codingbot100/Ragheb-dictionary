@@ -268,7 +268,7 @@ class _DetailPage12State extends State<DetailPage12> {
                                   const EdgeInsets.only(left: 20, right: 20),
                               child: Divider(
                                 color: Color.fromRGBO(147, 147, 147, 1),
-                                thickness: 1,
+                                thickness: 0.5,
                               ),
                             ),
                             Padding(
@@ -285,7 +285,7 @@ class _DetailPage12State extends State<DetailPage12> {
                                     },
                                     child: Image.asset(
                                       "icons/Union (1).png",
-                                      scale: 1.5,
+                                      scale: 2,
                                     ),
                                   ),
                                   SizedBox(
@@ -294,7 +294,7 @@ class _DetailPage12State extends State<DetailPage12> {
                                   Text(
                                     "اشتراک گذاری",
                                     style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: 14,
                                         fontWeight: FontWeight.w900,
                                         color:
                                             Color.fromRGBO(147, 147, 147, 1)),
@@ -308,7 +308,7 @@ class _DetailPage12State extends State<DetailPage12> {
                                     },
                                     child: Image.asset(
                                       "icons/Vector (5).png",
-                                      scale: 1.5,
+                                      scale: 2,
                                     ),
                                   ),
                                 ],

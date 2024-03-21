@@ -174,7 +174,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                             child: Slider(
                                                 value: db.name,
                                                 min: 15,
-                                                max: 40,
+                                                max: 60,
                                                 divisions: 10,
                                                 label:
                                                     db.name.round().toString(),

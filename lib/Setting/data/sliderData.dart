@@ -12,7 +12,7 @@ class ToDodatabase6 {
   final _meBox = Hive.box('mybox');
 
   void createInitialData() {
-    name = 30;
+    name = 40;
     Descrption = 12;
     FootNot = 10;
     SearchName = 17;
@@ -35,7 +35,7 @@ class ToDodatabase6 {
 
     // اضافه یا کم کردن دو واحد به مقادیر دیگر دیتا تایپ‌ها
     if (name % 5 != 0) {
-      double adjustment = 2 * ((name > 30) ? 1 : -1);
+      double adjustment = 2 * ((name > 40) ? 1 : -1);
       Descrption += adjustment;
       FootNot += adjustment;
       SearchName += adjustment;
@@ -47,7 +47,7 @@ class ToDodatabase6 {
   }
 
   void loadData() {
-    name = _meBox.get("TODOSlid") ?? 30;
+    name = _meBox.get("TODOSlid") ?? 40;
     Descrption = _meBox.get("TODDescription") ?? 12;
     FootNot = _meBox.get("TODOFootnot") ?? 10;
     SearchName = _meBox.get("TODOSearchName") ?? 17;

@@ -9,6 +9,7 @@ import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
 import 'package:ragheb_dictionary/search_Page/data/recentData.dart';
 import 'package:ragheb_dictionary/search_Page/util/detailPageNew.dart';
+import 'package:ragheb_dictionary/search_Page/util/dialog_box.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchPageMe extends StatefulWidget {
@@ -94,6 +95,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
     loadData();
     db6.createInitialData();
     db6.loadData();
+
     super.initState();
   }
 
@@ -108,7 +110,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
         db.favorite.add(searchText);
         String currentDateAndTime = DateTime.now().toString();
         db.dateAndTime.add(currentDateAndTime);
-        // db.updateDataBase();
+        db.updateDataBase();
         print(db.favorite);
       }
 
@@ -126,7 +128,6 @@ class _SearchPageMeState extends State<SearchPageMe> {
           .toList();
     }
 
-   
     if (db.favorite.length >= 30) {
       db.favorite.removeRange(0, 1);
     }
@@ -136,7 +137,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
     setState(() {
       db.favorite.removeAt(index);
       db.dateAndTime.removeAt(index);
-      // db.updateDataBase();
+      db.updateDataBase();
     });
   }
 
@@ -179,7 +180,6 @@ class _SearchPageMeState extends State<SearchPageMe> {
                           cursorHeight: 14,
                           autocorrect: false,
                           enableSuggestions: false,
-
                           cursorOpacityAnimates: true,
                           keyboardAppearance: Brightness.dark,
                           keyboardType: TextInputType.name,
@@ -206,7 +206,6 @@ class _SearchPageMeState extends State<SearchPageMe> {
                             });
                             _onSearch(_searchController.text);
                           },
-                          
                           decoration: InputDecoration(
                             prefixIcon: IconButton(
                               onPressed: () {
@@ -273,7 +272,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
                           onTap: () {
                             setState(() {
                               _searchController.text = db.favorite[index];
-                              _searchFocus.unfocus(); 
+                              _searchFocus.unfocus();
                             });
                           },
                           child: ListTile(
@@ -392,8 +391,8 @@ class _secondRowState extends State<secondRow> {
           children: [
             GestureDetector(
               onTap: () {
-                setState(() {
-                  // myAlertDialog(context);
+                setState(() async {
+                  ShowDilog();
                 });
               },
               child: Text("پاک کردن",
@@ -420,36 +419,11 @@ class _secondRowState extends State<secondRow> {
     );
   }
 
-  Future<void> myAlertDialog(BuildContext context) {
-    return showDialog(
+  void ShowDilog() {
+    showDialog(
       context: context,
-      builder: (BuildContext context) {
-        return Stack(
-          children: [
-            Positioned(
-              // Half of the image's height
-              left: 0,
-              right: 0,
-              child: FractionallySizedBox(
-                widthFactor: 1.0, // Take the full width of the container
-                alignment: Alignment.topCenter,
-                child: Image.asset('icons/cancel 1.png'),
-              ),
-            ),
-            AlertDialog(
-              title: Text('Alert'),
-              content: Text('This is an alert dialog.'),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(); // Close the dialog
-                  },
-                  child: Text('OK'),
-                ),
-              ],
-            ),
-          ],
-        );
+      builder: (context) {
+        return DialogeBox2();
       },
     );
   }

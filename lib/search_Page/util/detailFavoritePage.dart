@@ -72,8 +72,7 @@ class _DetailFavoirtPageState extends State<DetailFavoirtPage> {
       print(
           "remove: ${widget.name}, ${widget.description}, ${widget.footnote}");
 
-      // Optional: Call db.loadData() here if needed
-      // db.loadData();
+      
     });
   }
 
