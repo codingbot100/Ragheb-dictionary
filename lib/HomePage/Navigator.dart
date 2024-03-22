@@ -55,7 +55,7 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
           ],
         ),
         child: BottomAppBar(
-          shadowColor: Colors.grey.shade600,
+          shadowColor: Color(0xFFE0E0BF),
           notchMargin: 7,
           height: 65,
           shape: CircularNotchedRectangle(),

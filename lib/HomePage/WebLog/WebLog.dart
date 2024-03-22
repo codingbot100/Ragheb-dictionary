@@ -82,7 +82,7 @@ class _messageState extends State<message> {
             children: <Widget>[
               for (var row in csvData) ...[
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
+                  padding: const EdgeInsets.only(bottom: 35),
                   child: GestureDetector(
                     onTap: () {
                       Get.to(
@@ -109,7 +109,7 @@ class _messageState extends State<message> {
                           ]),
                       height: 350,
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           ClipRRect(
                               borderRadius: BorderRadius.only(
@@ -118,17 +118,20 @@ class _messageState extends State<message> {
                               child: Image.asset(
                                 "images2/${imageList[csvData.indexOf(row) % imageList.length]}",
                               )),
-                          Directionality(
-                              textDirection: TextDirection.rtl,
-                              child: Text(
-                                textAlign: TextAlign.right,
-                                row[1].toString(),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.black,
-                                    fontSize: db6.title_Web_Main,
-                                    fontFamily: dbFont.FontFamily),
-                              ))
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8, right: 8),
+                            child: Directionality(
+                                textDirection: TextDirection.rtl,
+                                child: Text(
+                                  textAlign: TextAlign.right,
+                                  row[1].toString(),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.black,
+                                      fontSize: db6.title_Web_Main,
+                                      fontFamily: dbFont.FontFamily),
+                                )),
+                          )
                         ],
                       ),
                     ),

@@ -55,7 +55,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(right: 15),
+              padding: const EdgeInsets.only(right: 15, top: 15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
