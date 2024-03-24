@@ -44,22 +44,22 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
     return Scaffold(
       body: buildScreens[_currentIndex],
       bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Color(0xFFE0E0BF),
-              blurRadius: 20.0,
-              offset: Offset(
-                  0, -20), // Adjust the offset to control the shadow position
-            ),
-          ],
-        ),
+        // decoration: BoxDecoration(
+        //     // boxShadow: [
+        //     //   BoxShadow(
+        //     //     color: Color(0xFFE0E0BF),
+        //     //     blurRadius: 20.0,
+        //     //     offset: Offset(
+        //     //         0, -20), // Adjust the offset to control the shadow position
+        //     //   ),
+        //     // ],
+        //     ),
         child: BottomAppBar(
-          shadowColor: Color(0xFFE0E0BF),
+          // shadowColor: Color(0xFFE0E0BF),
           notchMargin: 7,
           height: 65,
           shape: CircularNotchedRectangle(),
-          color: Color(0xFFE0E0BF),
+          color: Theme.of(context).bottomAppBarColor,
           child: Directionality(
             textDirection: TextDirection.ltr,
             child: Row(

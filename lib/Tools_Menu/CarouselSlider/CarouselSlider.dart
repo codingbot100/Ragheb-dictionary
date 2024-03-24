@@ -106,7 +106,6 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
               activeIndex: myCurrentIndex,
               count: myItems.length,
               effect: ExpandingDotsEffect(
-                dotColor: Colors.white,
                 dotHeight: 5,
                 dotWidth: 10,
               ),

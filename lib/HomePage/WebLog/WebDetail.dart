@@ -50,7 +50,7 @@ class _Web_Log_DetailState extends State<Web_Log_Detail> {
             },
             child: Icon(Icons.arrow_back)),
       ),
-      backgroundColor: Color(0xFFF5F5DC),
+      // backgroundColor: Color(0xFFF5F5DC),
       body: SafeArea(
           child: Column(
         children: [
@@ -91,8 +91,10 @@ class _Web_Log_DetailState extends State<Web_Log_Detail> {
                               textAlign: TextAlign.justify,
                               text: TextSpan(
                                   style: TextStyle(
-                                      color: Colors.black,
-                                      fontFamily: DB_fontFamily.FontFamily,
+ color: Theme.of(context)
+                                            .textTheme
+                                            .headline1
+                                            ?.color, // Use color from iconTheme                                      fontFamily: DB_fontFamily.FontFamily,
                                       fontWeight: FontWeight.w500,
                                       fontSize: db6.main_contant),
                                   text: widget.main_Contant)),

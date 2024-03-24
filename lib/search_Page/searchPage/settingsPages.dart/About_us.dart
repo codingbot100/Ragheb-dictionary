@@ -20,7 +20,7 @@ class _about_UsState extends State<about_Us> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.transparent,
+          // backgroundColor: Colors.transparent,
           elevation: 0.0,
           leading: IconButton(
             onPressed: () {
@@ -49,7 +49,7 @@ class _about_UsState extends State<about_Us> {
                     fontFamily: fontFamile2,
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
-                    color: TitleColor,
+                    // color: TitleColor,
                   ),
                 ),
                 SizedBox(
@@ -61,7 +61,7 @@ class _about_UsState extends State<about_Us> {
                     fontFamily: fontFamile2,
                     fontSize: 14,
                     fontWeight: FontWeight.w900,
-                    color: Color.fromRGBO(82, 82, 82, 1),
+                    // color: Color.fromRGBO(82, 82, 82, 1),
                   ),
                 ),
                 Container(
@@ -77,7 +77,7 @@ class _about_UsState extends State<about_Us> {
                         fontFamily: fontFamile2,
                         fontSize: 14,
                         fontWeight: FontWeight.w900,
-                        color: Color.fromRGBO(82, 82, 82, 1),
+                        // color: Color.fromRGBO(82, 82, 82, 1),
                       ),
                     ),
                   ),

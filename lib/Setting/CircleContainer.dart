@@ -15,7 +15,8 @@ class _circleContainerState extends State<circleContainer> {
       width: 10,
       height: 10,
       decoration: BoxDecoration(
-          color: Colors.black, borderRadius: BorderRadius.circular(100.0)),
+          // color: Colors.black,
+           borderRadius: BorderRadius.circular(100.0)),
     );
   }
 }

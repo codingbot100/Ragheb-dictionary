@@ -74,72 +74,72 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xFFF5F5DC),
+        // backgroundColor: Color(0xFFF5F5DC),
         body: SafeArea(
-          child: Column(
-            children: [
-              Container(
-                height: 45,
-                child: Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: ListTile(
-                      title: Text(
-                        'ذخیره شده ها ',
-                        style: TextStyle(
-                            fontSize: 25, fontWeight: FontWeight.w900),
-                      ),
-                    )),
-              ),
-              Divider(),
-              SizedBox(
-                height: 15,
-              ),
-              Expanded(
-                child: ListView.separated(
-                  itemCount: _todoDatabase.favorite.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      height: 37,
-                      child: ListTile(
-                        leading: Text(
-                          formatDateTime(_todoDatabase.favorite[index]['date']),
-                        ),
-                        trailing: Text(
-                          "${_todoDatabase.favorite[index]['name']}",
-                          style: TextStyle(
-                              fontSize: db6.SearchName,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        onTap: () {
-                          Get.to(
-                              () => DetailFavoirtPage(
-                                  name:
-                                      " ${_todoDatabase.favorite[index]['name']}",
-                                  description:
-                                      "${_todoDatabase.favorite[index]['description']}",
-                                  footnote:
-                                      "${_todoDatabase.favorite[index]['footnote']}",
-                                  initialPageIndex: index),
-                              transition: Transition.fadeIn,
-                              duration: Duration(milliseconds: 500));
-                          _todoDatabase.updateDataBase();
-                        },
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20),
-                      child: Divider(
-                        thickness: 0.5,
-                        color: Color.fromRGBO(0, 150, 136, 0.5),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
+      child: Column(
+        children: [
+          Container(
+            height: 45,
+            child: Directionality(
+                textDirection: TextDirection.rtl,
+                child: ListTile(
+                  title: Text(
+                    'ذخیره شده ها ',
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w900),
+                  ),
+                )),
           ),
-        ));
+          Divider(),
+          SizedBox(
+            height: 15,
+          ),
+          Expanded(
+            child: ListView.separated(
+              itemCount: _todoDatabase.favorite.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  height: 37,
+                  child: ListTile(
+                    shape: RoundedRectangleBorder(side: BorderSide.none),
+                    tileColor: Colors.transparent,
+                    leading: Text(
+                      formatDateTime(_todoDatabase.favorite[index]['date']),
+                    ),
+                    trailing: Text(
+                      "${_todoDatabase.favorite[index]['name']}",
+                      style: TextStyle(
+                          fontSize: db6.SearchName,
+                          fontWeight: FontWeight.w600),
+                    ),
+                    onTap: () {
+                      Get.to(
+                          () => DetailFavoirtPage(
+                              name: " ${_todoDatabase.favorite[index]['name']}",
+                              description:
+                                  "${_todoDatabase.favorite[index]['description']}",
+                              footnote:
+                                  "${_todoDatabase.favorite[index]['footnote']}",
+                              initialPageIndex: index),
+                          transition: Transition.fadeIn,
+                          duration: Duration(milliseconds: 500));
+                      _todoDatabase.updateDataBase();
+                    },
+                  ),
+                );
+              },
+              separatorBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  child: Divider(
+                    thickness: 0.5,
+                    // color: Color.fromRGBO(0, 150, 136, 0.5),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    ));
   }
 }

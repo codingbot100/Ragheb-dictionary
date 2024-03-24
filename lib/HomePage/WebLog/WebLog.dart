@@ -59,18 +59,21 @@ class _messageState extends State<message> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF5F5DC),
+      // backgroundColor: Color(0xFFF5F5DC),
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.transparent,
         title: ListTile(
+            shape: RoundedRectangleBorder(side: BorderSide.none),
+                  tileColor: Colors.transparent,
           trailing: Text(
             'وبلاگ راغب',
             style: TextStyle(
-                fontSize: 20,
-                fontFamily: 'Yekan',
-                fontWeight: FontWeight.w700,
-                color: Color.fromRGBO(0, 150, 136, 1)),
+              fontSize: 20,
+              fontFamily: 'Yekan',
+              fontWeight: FontWeight.w700,
+              // color: Color.fromRGBO(0, 150, 136, 1)
+            ),
           ),
         ),
       ),
@@ -97,16 +100,24 @@ class _messageState extends State<message> {
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Color.fromRGBO(245, 245, 220, 1),
-                          boxShadow: [
-                            BoxShadow(
-                              spreadRadius: 0,
-                              color: Color.fromRGBO(0, 0, 0, 0.1),
-                              offset: Offset(2, 2),
-                              blurRadius: 8,
-                            )
-                          ]),
+                        borderRadius: BorderRadius.circular(12.0),
+                        border: Border.all(
+                            color:
+                                Theme.of(context).colorScheme.primaryContainer,
+                            width: 1),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .background, // boxShadow:
+                        // color: Color.fromRGBO(245, 245, 220, 1),
+                        // boxShadow: [
+                        //   BoxShadow(
+                        //     spreadRadius: 0,
+                        //     // color: Color.fromRGBO(0, 0, 0, 0.1),
+                        //     offset: Offset(2, 2),
+                        //     blurRadius: 8,
+                        //   )
+                        // ]
+                      ),
                       height: 350,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -127,7 +138,7 @@ class _messageState extends State<message> {
                                   row[1].toString(),
                                   style: TextStyle(
                                       fontWeight: FontWeight.w700,
-                                      color: Colors.black,
+                                      // color: Colors.black,
                                       fontSize: db6.title_Web_Main,
                                       fontFamily: dbFont.FontFamily),
                                 )),
@@ -145,10 +156,6 @@ class _messageState extends State<message> {
     );
   }
 }
-
-
-
-
 
 // import 'dart:convert';
 
@@ -328,4 +335,3 @@ class _messageState extends State<message> {
 //     );
 //   }
 // }
-

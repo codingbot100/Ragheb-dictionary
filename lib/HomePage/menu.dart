@@ -50,7 +50,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF5F5DC),
+      // backgroundColor: Color(0xFFF5F5DC),
       body: SafeArea(
         child: Column(
           children: [
@@ -137,7 +137,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               style: TextStyle(
                 fontFamily: fontFamile,
                 fontSize: fontSizeSubTitle,
-                color: colorPrimary,
+                // color: colorPrimary,
               ),
             ),
           ),
@@ -161,7 +161,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             style: TextStyle(
               fontFamily: fontFamile,
               fontSize: fontSizeSubTitle,
-              color: colorPrimary,
+              // color: colorPrimary,
             ),
           ),
         ],

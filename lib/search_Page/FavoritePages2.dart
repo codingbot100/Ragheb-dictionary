@@ -14,6 +14,7 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
   ToDodatabase3 _todoDatabase = ToDodatabase3();
   final _meBox = Hive.box('mybox');
   ToDodatabase6 db6 = ToDodatabase6();
+  late double borderRadius;
 
   @override
   void initState() {
@@ -83,76 +84,79 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xFFF5F5DC),
+        // backgroundColor: Color(0xFFF5F5DC),
         body: Column(
-          children: [
-            // Text('Month'),
-            Expanded(
-              child: ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: _todoDatabase.favorite.length > 4
-                    ? 4
-                    : _todoDatabase.favorite.length,
-                itemBuilder: (context, index) {
-                  int realIndex = _todoDatabase.favorite.length > 4
-                      ? _todoDatabase.favorite.length - 4 + index
-                      : index;
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 5),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Color(0xFFF5F5DC),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Color(0x12000000),
-                              spreadRadius: 0,
-                              blurRadius: 10,
-                              offset: Offset(0, 2) // changes position of shadow
-                              ),
-                        ],
-                        borderRadius: BorderRadius.circular(8),
+      children: [
+        // Text('Month'),
+        Expanded(
+          child: ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: _todoDatabase.favorite.length > 4
+                ? 4
+                : _todoDatabase.favorite.length,
+            itemBuilder: (context, index) {
+              int realIndex = _todoDatabase.favorite.length > 4
+                  ? _todoDatabase.favorite.length - 4 + index
+                  : index;
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 5),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.background,
+                    boxShadow: [
+                      // BoxShadow(
+                      //     spreadRadius: 0,
+                      //     blurRadius: 10,
+                      //     offset: Offset(0, 2) // changes position of shadow
+                      //     ),
+                    ],
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  height: 50,
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: ListTile(
+                      // shape: RoundedRectangleBorder(
+                      //     borderRadius: BorderRadius.circular(8)
+
+                      //     ),
+                      leading: Image.asset(
+                        'icons/Vector (1).png',
+                        scale: 1,
                       ),
-                      height: 50,
-                      child: Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: ListTile(
-                          leading: Image.asset(
-                            'icons/Vector (1).png',
-                            scale: 1,
-                          ),
-                          title: Text(
-                            "${_todoDatabase.favorite[realIndex]['name']}",
-                            style: TextStyle(
-                              fontSize: db6.SearchName,
-                              fontWeight: FontWeight.w900,
-                            ),
-                          ),
-                          trailing: Text(
-                              formatDateTime(
-                                  _todoDatabase.favorite[realIndex]['date']),
-                              style: TextStyle(color: Colors.grey.shade500)),
-                          onTap: () {
-                            Get.to(
-                                () => DetailFavoirtPage(
-                                    name:
-                                        " ${_todoDatabase.favorite[realIndex]['name']}",
-                                    description:
-                                        "${_todoDatabase.favorite[realIndex]['description']}",
-                                    footnote:
-                                        "${_todoDatabase.favorite[realIndex]['footnote']}",
-                                    initialPageIndex: realIndex),
-                                transition: Transition.fadeIn,
-                                duration: Duration(milliseconds: 500));
-                            _todoDatabase.updateDataBase();
-                          },
+                      title: Text(
+                        "${_todoDatabase.favorite[realIndex]['name']}",
+                        style: TextStyle(
+                          fontSize: db6.SearchName,
+                          fontWeight: FontWeight.w900,
                         ),
                       ),
+                      trailing: Text(
+                          formatDateTime(
+                              _todoDatabase.favorite[realIndex]['date']),
+                          style: TextStyle(color: Colors.grey.shade500)),
+                      onTap: () {
+                        Get.to(
+                            () => DetailFavoirtPage(
+                                name:
+                                    " ${_todoDatabase.favorite[realIndex]['name']}",
+                                description:
+                                    "${_todoDatabase.favorite[realIndex]['description']}",
+                                footnote:
+                                    "${_todoDatabase.favorite[realIndex]['footnote']}",
+                                initialPageIndex: realIndex),
+                            transition: Transition.fadeIn,
+                            duration: Duration(milliseconds: 500));
+                        _todoDatabase.updateDataBase();
+                      },
                     ),
-                  );
-                },
-              ),
-            ),
-          ],
-        ));
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    ));
   }
 }

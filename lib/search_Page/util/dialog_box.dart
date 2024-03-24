@@ -35,7 +35,7 @@ class _DialogeBox2State extends State<DialogeBox2> {
       child: AlertDialog(
         elevation: 0.0,
         // icon: Image.asset('icons/cancel 1.png'),
-        backgroundColor: Color(0xFFF5F5DC),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         content: Container(
           height: 100,
           child: Directionality(
@@ -53,7 +53,7 @@ class _DialogeBox2State extends State<DialogeBox2> {
                     "از حذف کامل لیست جستجو های اخیر خویش اطمینان دارید؟",
                     style: TextStyle(
                       fontFamily: 'Yekan',
-                      color: Colors.black,
+                      color: Theme.of(context).textTheme.headline1?.color,
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                     ),

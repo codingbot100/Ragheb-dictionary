@@ -189,7 +189,10 @@ class _DetailPage12State extends State<DetailPage12> {
                                     fontFamily: DB_fontFamily.FontFamily,
                                     fontSize: db6.name,
                                     fontWeight: FontWeight.w900,
-                                    color: Color.fromRGBO(82, 82, 82, 1),
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        ?.color, // Use color from i
                                   ),
                                 ),
                               ),
@@ -215,8 +218,12 @@ class _DetailPage12State extends State<DetailPage12> {
                                       style: TextStyle(
                                         fontFamily: DB_fontFamily.FontFamily,
                                         fontSize: db6.Descrption,
+                                        letterSpacing: 0.3,
                                         fontWeight: FontWeight.w900,
-                                        color: Color.fromRGBO(82, 82, 82, 1),
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .headline1
+                                            ?.color, // Use color from iconTheme
                                       ),
                                     )),
                               ),
@@ -231,8 +238,11 @@ class _DetailPage12State extends State<DetailPage12> {
                                     'n/a',
                                 child: Container(
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12),
-                                      color: Color.fromRGBO(224, 224, 191, 1)),
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .background,
+                                  ),
                                   child: Center(
                                     child: Padding(
                                       padding: const EdgeInsets.all(
@@ -252,8 +262,10 @@ class _DetailPage12State extends State<DetailPage12> {
                                                       DB_fontFamily.FontFamily,
                                                   fontSize: db6.FootNot,
                                                   fontWeight: FontWeight.w900,
-                                                  color: Color.fromRGBO(
-                                                      111, 111, 111, 1),
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText2
+                                                      ?.color, // Use color from i
                                                 ),
                                               )),
                                         ),
@@ -267,7 +279,7 @@ class _DetailPage12State extends State<DetailPage12> {
                               padding:
                                   const EdgeInsets.only(left: 20, right: 20),
                               child: Divider(
-                                color: Color.fromRGBO(147, 147, 147, 1),
+                                // color: Color.fromRGBO(147, 147, 147, 1),
                                 thickness: 0.5,
                               ),
                             ),
@@ -294,10 +306,11 @@ class _DetailPage12State extends State<DetailPage12> {
                                   Text(
                                     "اشتراک گذاری",
                                     style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w900,
-                                        color:
-                                            Color.fromRGBO(147, 147, 147, 1)),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w900,
+                                      // color:
+                                      //     Color.fromRGBO(147, 147, 147, 1)
+                                    ),
                                   ),
                                   SizedBox(
                                     width: 10,
@@ -326,7 +339,7 @@ class _DetailPage12State extends State<DetailPage12> {
       bottomNavigationBar: BottomAppBar(
         clipBehavior: Clip.antiAlias,
         height: 70,
-        color: Color.fromRGBO(224, 224, 191, 1),
+        color: Theme.of(context).bottomAppBarColor,
         shape: CircularNotchedRectangle(),
         child: Padding(
           padding: const EdgeInsets.only(left: 40, right: 40),

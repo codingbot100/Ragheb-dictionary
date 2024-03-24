@@ -85,7 +85,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF5F5DC),
+      // backgroundColor: Color(0xFFF5F5DC),
       body: SafeArea(
         child: Center(
           child: Directionality(
@@ -112,10 +112,10 @@ class _MySettingsPageState extends State<MySettingsPage> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 30),
-                        child: Divider(),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(bottom: 30),
+                      //   child: Divider(),
+                      // ),
                       Padding(
                         padding: const EdgeInsets.only(left: 10, right: 10),
                         child: Expanded(
@@ -124,14 +124,17 @@ class _MySettingsPageState extends State<MySettingsPage> {
                               Container(
                                 height: 161,
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                    color: Color.fromRGBO(255, 255, 255, 0.5),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          offset: Offset(2, 2),
-                                          color: Color.fromRGBO(
-                                              251, 103, 103, 0.078))
-                                    ]),
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .background, // boxShadow: [
+                                  //   BoxShadow(
+                                  //       offset: Offset(2, 2),
+                                  //       color: Color.fromRGBO(
+                                  //           251, 103, 103, 0.078)
+                                  //           )
+                                  // ]
+                                ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(15.0),
                                   child: Column(
@@ -175,7 +178,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                                 value: db.name,
                                                 min: 15,
                                                 max: 60,
-                                                divisions: 10,
+                                                divisions: 4,
                                                 label:
                                                     db.name.round().toString(),
                                                 onChanged: (double value) {
@@ -224,7 +227,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                 height: 30,
                               ),
                               Container(
-                                height: 150,
+                                height: 160,
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,

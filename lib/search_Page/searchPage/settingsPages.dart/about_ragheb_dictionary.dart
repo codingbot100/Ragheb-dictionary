@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class about_ragheb_dictionary extends StatefulWidget {
   const about_ragheb_dictionary({super.key});
 
@@ -19,7 +20,7 @@ class _about_ragheb_dictionaryState extends State<about_ragheb_dictionary> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.transparent,
+          // backgroundColor: Colors.transparent,
           elevation: 0.0,
           leading: IconButton(
             onPressed: () {
@@ -48,7 +49,7 @@ class _about_ragheb_dictionaryState extends State<about_ragheb_dictionary> {
                     fontFamily: fontFamile2,
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
-                    color: TitleColor,
+                    // color: TitleColor,
                   ),
                 ),
                 SizedBox(
@@ -60,7 +61,7 @@ class _about_ragheb_dictionaryState extends State<about_ragheb_dictionary> {
                     fontFamily: fontFamile2,
                     fontSize: 14,
                     fontWeight: FontWeight.w900,
-                    color: Color.fromRGBO(82, 82, 82, 1),
+                    // color: Color.fromRGBO(82, 82, 82, 1),
                   ),
                 ),
                 Container(
@@ -76,7 +77,7 @@ class _about_ragheb_dictionaryState extends State<about_ragheb_dictionary> {
                         fontFamily: fontFamile2,
                         fontSize: 14,
                         fontWeight: FontWeight.w900,
-                        color: Color.fromRGBO(82, 82, 82, 1),
+                        // color: Color.fromRGBO(82, 82, 82, 1),
                       ),
                     ),
                   ),
@@ -89,4 +90,3 @@ class _about_ragheb_dictionaryState extends State<about_ragheb_dictionary> {
     );
   }
 }
-

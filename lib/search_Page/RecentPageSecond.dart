@@ -70,7 +70,7 @@ class _RecentpageSecondState extends State<RecentpageSecond> {
   Widget build(BuildContext context) {
     final filteredList = filterDataList();
     return Scaffold(
-      backgroundColor: Color(0xFFF5F5DC),
+      // backgroundColor: Color(0xFFF5F5DC),
       body: SafeArea(
         child: Column(
           children: [
@@ -85,9 +85,10 @@ class _RecentpageSecondState extends State<RecentpageSecond> {
                   Text(
                     "جستجوی های اخیر",
                     style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w900,
-                        color: Color.fromRGBO(0, 150, 136, 1)),
+                      fontSize: 20,
+                      fontWeight: FontWeight.w900,
+                      // color: Color.fromRGBO(0, 150, 136, 1)
+                    ),
                   )
                 ],
               ),
@@ -97,43 +98,51 @@ class _RecentpageSecondState extends State<RecentpageSecond> {
               height: 15,
             ),
             Expanded(
-              child: ListView.separated(
-                physics: NeverScrollableScrollPhysics(),
-                separatorBuilder: (context, index) {
-                  return Divider();
-                },
-                itemCount: filteredList.length,
-                itemBuilder: (context, index) {
-                  final item = filteredList[index];
-                  return Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: Container(
-                      height: 40,
-                      child: ListTile(
-                        trailing: Text(""),
-                        title: Text(
-                          item["name"]!,
-                          style: TextStyle(
-                            fontSize: db6.SearchName,
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
-                        onTap: () {
-                          Get.to(
-                            () => DetailFavoirtMain(
-                              name: item['name']!,
-                              description: item['description']!,
-                              footnote: item['footnote']!,
-                              initialPageIndex: dataList.indexOf(item),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5, right: 5),
+                child: ListView.separated(
+                  physics: NeverScrollableScrollPhysics(),
+                  separatorBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 16, right: 16),
+                      child: Divider(),
+                    );
+                  },
+                  itemCount: filteredList.length,
+                  itemBuilder: (context, index) {
+                    final item = filteredList[index];
+                    return Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: Container(
+                        height: 40,
+                        child: ListTile(
+                             shape: RoundedRectangleBorder(side: BorderSide.none),
+                          tileColor: Colors.transparent,
+                          trailing: Text(""),
+                          title: Text(
+                            item["name"]!,
+                            style: TextStyle(
+                              fontSize: db6.SearchName,
+                              fontWeight: FontWeight.w900,
                             ),
-                            transition: Transition.fadeIn,
-                            duration: Duration(milliseconds: 500),
-                          );
-                        },
+                          ),
+                          onTap: () {
+                            Get.to(
+                              () => DetailFavoirtMain(
+                                name: item['name']!,
+                                description: item['description']!,
+                                footnote: item['footnote']!,
+                                initialPageIndex: dataList.indexOf(item),
+                              ),
+                              transition: Transition.fadeIn,
+                              duration: Duration(milliseconds: 500),
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ),
           ],
@@ -179,22 +188,24 @@ class _secondRowState extends State<secondRow> {
               },
               child: Text("پاک کردن",
                   style: TextStyle(
-                      fontFamily: 'YekanBakh',
-                      fontSize: 10,
-                      color: Color.fromRGBO(0, 0, 0, 0.7))),
+                    fontFamily: 'YekanBakh',
+                    fontSize: 12,
+                    // color: Color.fromRGBO(0, 0, 0, 0.7)
+                  )),
             ),
             SizedBox(width: 10),
             Expanded(
               child: Divider(
-                thickness: 0.5,
+                thickness: 0.7,
               ),
             ),
             SizedBox(width: 10),
             Text("لغت اخیر",
                 style: TextStyle(
-                    fontFamily: 'YekanBakh',
-                    fontSize: 10,
-                    color: Color.fromRGBO(0, 0, 0, 0.7)))
+                  fontFamily: 'YekanBakh',
+                  fontSize: 12,
+                  // color: Color.fromRGBO(0, 0, 0, 0.7)
+                ))
           ],
         ),
       ),

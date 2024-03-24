@@ -17,7 +17,8 @@ class secondRow extends StatelessWidget {
               style: TextStyle(
                   fontFamily: 'YekanBakh',
                   fontSize: 12,
-                  color: Color.fromRGBO(0, 0, 0, 0.7))),
+                  // color: Color.fromRGBO(0, 0, 0, 0.7)
+                  )),
           SizedBox(width: 10),
           Expanded(
             child: Divider(
@@ -29,7 +30,8 @@ class secondRow extends StatelessWidget {
               style: TextStyle(
                   fontFamily: 'YekanBakh',
                   fontSize: 12,
-                  color: Color.fromRGBO(0, 0, 0, 0.7)))
+                  // color: Color.fromRGBO(0, 0, 0, 0.7)
+                  ))
         ],
       ),
     );

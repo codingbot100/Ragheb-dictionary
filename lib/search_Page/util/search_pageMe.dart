@@ -9,8 +9,6 @@ import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
 import 'package:ragheb_dictionary/search_Page/data/recentData.dart';
 import 'package:ragheb_dictionary/search_Page/util/detailPageNew.dart';
-import 'package:ragheb_dictionary/search_Page/util/dialog_box.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchPageMe extends StatefulWidget {
   bool isShow;
@@ -87,11 +85,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
     } else {
       db.loadData();
     }
-    // RecentSearchesUtil.loadRecentSearches().then((value) {
-    //   setState(() {
-    //     recentSearches = value;
-    //   });
-    // });
+
     loadData();
     db6.createInitialData();
     db6.loadData();
@@ -154,7 +148,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF5F5DC),
+      // backgroundColor: Color(0xFFF5F5DC),
       body: Padding(
         padding: const EdgeInsets.only(top: 50),
         child: Column(
@@ -187,7 +181,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
                           style: TextStyle(
                             fontFamily: dbFont.FontFamily,
                             fontSize: 16,
-                            color: Color.fromRGBO(82, 82, 82, 1),
+                            // color: Color.fromRGBO(82, 82, 82, 1),
                           ),
                           textAlign: TextAlign.right,
                           onTap: () {
@@ -216,22 +210,24 @@ class _SearchPageMeState extends State<SearchPageMe> {
                               icon: Icon(
                                 Icons.clear,
                                 size: 15,
-                                color: Color.fromRGBO(0, 0, 0, 0.5),
+                               color: Theme.of(context)
+                    .iconTheme
+                    .color, // Use color from iconTheme
                               ),
                             ),
                             contentPadding:
                                 EdgeInsets.only(top: 10.0, right: 10.0),
                             hintText: "  ...جستجو کنید ",
                             hintStyle: TextStyle(
-                                color: Color.fromRGBO(0, 150, 136, 0.5),
+                                // color: Color.fromRGBO(0, 150, 136, 0.5),
                                 fontSize: 14,
                                 fontFamily: dbFont.FontFamily),
                             border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(25.0)),
                               borderSide: BorderSide(
-                                color: Color.fromRGBO(0, 150, 136, 0.5),
-                              ),
+
+                                  ),
                             ),
                             suffixIcon: GestureDetector(
                                 onTap: () {
@@ -242,7 +238,10 @@ class _SearchPageMeState extends State<SearchPageMe> {
                                     print(db.dateAndTime);
                                   });
                                 },
-                                child: Icon(Icons.search)),
+                                child: Icon(Icons.search, color: Theme.of(context)
+                    .iconTheme
+                    .color, // Use color from iconTheme,)
+                                ))
                           ),
                         ),
                       ),
@@ -266,6 +265,8 @@ class _SearchPageMeState extends State<SearchPageMe> {
                       return Container(
                         height: 37,
                         child: ListTile(
+                          shape: RoundedRectangleBorder(side: BorderSide.none),
+                          tileColor: Colors.transparent,
                           trailing: Text(
                             item["name"]!,
                             style: TextStyle(

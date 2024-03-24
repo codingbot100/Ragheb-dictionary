@@ -1,5 +1,3 @@
-// ignore_for_file: unused_local_variable
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ragheb_dictionary/HomePage/Navigator.dart';
@@ -13,15 +11,18 @@ main() async {
   var box = await Hive.openBox('mybox');
   var box2 = await Hive.openBox('mybox2');
 
-  runApp(start());
+  runApp(Start());
 }
 
-class start extends StatefulWidget {
+enum AppMode2 { light, dark, custom }
+
+class Start extends StatefulWidget {
   @override
-  State<start> createState() => _startState();
+  State<Start> createState() => _StartState();
 }
 
-class _startState extends State<start> {
+class _StartState extends State<Start> {
+  AppMode2 _currentMode = AppMode2.light;
   final _meBox2 = Hive.box('mybox2');
   ToDoDataBaseFont dbfont = ToDoDataBaseFont();
 
@@ -42,15 +43,289 @@ class _startState extends State<start> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData themeData;
+    switch (_currentMode) {
+      case AppMode2.light:
+        themeData = ThemeData.light().copyWith(
+          // shadowColor: Color.fromRGBO(0, 0, 0, 0.01),
+          dividerColor: LightModeColors.dividerColor,
+          indicatorColor: LightModeColors.indicatorColor,
+          inputDecorationTheme: InputDecorationTheme(
+              border: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: LightModeColors.TextFieldBorder,
+                ),
+                borderRadius: BorderRadius.circular(25.0),
+              ),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25.0),
+                  borderSide: BorderSide(
+                    color: LightModeColors.TextFieldBorder,
+                  )),
+              disabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: LightModeColors.TextFieldBorder,
+                ),
+                borderRadius: BorderRadius.circular(25.0),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: LightModeColors.TextFieldBorder,
+                ),
+                borderRadius: BorderRadius.circular(25.0),
+              )),
+          sliderTheme: SliderThemeData(
+              thumbShape: RoundSliderThumbShape(
+                enabledThumbRadius: 6.0,
+              ),
+              trackHeight: 6,
+              minThumbSeparation: 4,
+              activeTrackColor: LightModeColors.sliderThumb,
+              thumbColor: LightModeColors.sliderThumb,
+              overlayColor: LightModeColors.sliderThumb,
+              // inactiveTickMarkColor: DarkModeColors.sliderThumb,
+              inactiveTrackColor: LightModeColors.sliderThumb),
+          unselectedWidgetColor: LightModeColors.unselectedColorIndicator,
+          listTileTheme: ListTileThemeData(
+              textColor: LightModeColors.textColormiddle,
+              // tileColor: DarkModeColors.ListTile,
+
+              shape: RoundedRectangleBorder(
+                side:
+                    BorderSide(width: 0.7, color: LightModeColors.borderColor),
+              )),
+          iconTheme: IconThemeData(color: LightModeColors.buttonColor),
+          iconButtonTheme: IconButtonThemeData(
+              style: ButtonStyle(
+                  iconColor:
+                      MaterialStatePropertyAll(LightModeColors.buttonColor))),
+          primaryColor: LightModeColors.primaryColor,
+          secondaryHeaderColor: LightModeColors.seconderColor,
+          scaffoldBackgroundColor: LightModeColors.backgroundColor,
+          appBarTheme: AppBarTheme(color: LightModeColors.appBarColor),
+          bottomAppBarColor: LightModeColors.bottomNavColor,
+          textTheme: TextTheme(
+            // titleMedium: TextStyle(
+            //   color: DarkModeColors.footnotColor,
+            //   fontFamily: dbfont.FontFamily,
+            // ),
+            headline1: TextStyle(
+              color: LightModeColors.descriptionColor,
+              fontFamily: dbfont.FontFamily,
+            ),
+            bodyText1: TextStyle(
+              color: LightModeColors.textColorlarge,
+              fontFamily: dbfont.FontFamily,
+            ),
+            bodyText2: TextStyle(
+              color: LightModeColors.textColormiddle,
+              fontFamily: dbfont.FontFamily,
+            ),
+
+            button: TextStyle(color: LightModeColors.buttonColor),
+            headline6: TextStyle(color: LightModeColors.textColormiddle),
+          ),
+          colorScheme: ColorScheme.fromSwatch(
+            primarySwatch: Colors.blue,
+          ).copyWith(
+              background: Color.fromRGBO(
+                  245, 245, 220, 1), // Set the background color here
+              primaryContainer: LightModeColors.borderColor),
+        );
+        break;
+      case AppMode2.dark:
+        themeData = ThemeData.dark().copyWith(
+            dividerColor: DarkModeColors.dividerColor,
+            indicatorColor: DarkModeColors.indicatorColor,
+            inputDecorationTheme: InputDecorationTheme(
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: DarkModeColors.TextFieldBorder,
+                  ),
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                    borderSide: BorderSide(
+                      color: DarkModeColors.TextFieldBorder,
+                    )),
+                disabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: DarkModeColors.TextFieldBorder,
+                  ),
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: DarkModeColors.TextFieldBorder,
+                  ),
+                  borderRadius: BorderRadius.circular(25.0),
+                )),
+            sliderTheme: SliderThemeData(
+                thumbShape: RoundSliderThumbShape(
+                  enabledThumbRadius: 6.0,
+                ),
+                trackHeight: 6,
+                minThumbSeparation: 4,
+                activeTrackColor: DarkModeColors.sliderThumb,
+                thumbColor: DarkModeColors.sliderThumb,
+                overlayColor: DarkModeColors.sliderThumb,
+                // inactiveTickMarkColor: DarkModeColors.sliderThumb,
+                inactiveTrackColor: DarkModeColors.sliderThumb),
+            unselectedWidgetColor: DarkModeColors.unselectedColorIndicator,
+            listTileTheme: ListTileThemeData(
+                textColor: DarkModeColors.textColormiddle,
+                // tileColor: DarkModeColors.ListTile,
+
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  side: BorderSide(color: DarkModeColors.borderColor),
+                )),
+            iconTheme: IconThemeData(color: DarkModeColors.buttonColor),
+            iconButtonTheme: IconButtonThemeData(
+                style: ButtonStyle(
+                    iconColor:
+                        MaterialStatePropertyAll(DarkModeColors.buttonColor))),
+            primaryColor: DarkModeColors.primaryColor,
+            secondaryHeaderColor: DarkModeColors.seconderColor,
+            scaffoldBackgroundColor: DarkModeColors.backgroundColor,
+            appBarTheme: AppBarTheme(color: DarkModeColors.appBarColor),
+            bottomAppBarColor: DarkModeColors.bottomNavColor,
+            textTheme: TextTheme(
+              // titleMedium: TextStyle(
+              //   color: DarkModeColors.footnotColor,
+              //   fontFamily: dbfont.FontFamily,
+              // ),
+              headline1: TextStyle(
+                color: DarkModeColors.descriptionColor,
+                fontFamily: dbfont.FontFamily,
+              ),
+              bodyText1: TextStyle(
+                color: DarkModeColors.textColorlarge,
+                fontFamily: dbfont.FontFamily,
+              ),
+              bodyText2: TextStyle(
+                color: DarkModeColors.textColormiddle,
+                fontFamily: dbfont.FontFamily,
+              ),
+
+              button: TextStyle(color: DarkModeColors.buttonColor),
+              headline6: TextStyle(color: DarkModeColors.textColormiddle),
+            ),
+            colorScheme: ColorScheme.fromSwatch(
+              primarySwatch: Colors.blue,
+            ).copyWith(
+                background: Color.fromRGBO(
+                    0, 0, 0, 0.2), // Set the background color here
+                primaryContainer: DarkModeColors.borderColor),
+            shadowColor: Colors.transparent);
+        break;
+      case AppMode2.custom:
+        themeData = ThemeData.dark().copyWith(
+          primaryColor: CustomModeColors.primaryColor,
+          secondaryHeaderColor: CustomModeColors.seconderColor,
+          scaffoldBackgroundColor: CustomModeColors.backgroundColor,
+          appBarTheme: AppBarTheme(color: CustomModeColors.appBarColor),
+          bottomNavigationBarTheme: BottomNavigationBarThemeData(
+            selectedItemColor: CustomModeColors.bottomNavColor,
+          ),
+          colorScheme: ColorScheme.dark().copyWith(
+            surface: CustomModeColors.containerColor,
+          ),
+          textTheme: TextTheme(
+            bodyText1: TextStyle(
+              color: CustomModeColors.textColor,
+              fontFamily: dbfont.FontFamily,
+            ),
+            bodyText2: TextStyle(
+              color: CustomModeColors.textColor,
+              fontFamily: dbfont.FontFamily,
+            ),
+            button: TextStyle(color: CustomModeColors.buttonColor),
+            headline6: TextStyle(color: CustomModeColors.textColor),
+          ),
+        );
+        break;
+    }
     return GetMaterialApp(
-      theme: ThemeData(
-          fontFamily: dbfont.FontFamily,
-          backgroundColor: Color.fromRGBO(245, 245, 220, 1),
-          appBarTheme: AppBarTheme(
-            backgroundColor: Color(0xFFF5F5DC),
-          )),
+      theme: themeData, // Assign themeData here
       debugShowCheckedModeBanner: false,
-      home: MyAppNavigator(),
+      home: Scaffold(
+        appBar: AppBar(
+            title: TextButton(
+                onPressed: () {
+                  setState(() {
+                    _currentMode = getNextMod2(_currentMode);
+                  });
+                },
+                child: Text("button"))),
+        body: MyAppNavigator(),
+      ),
     );
   }
+
+  AppMode2 getNextMod2(AppMode2 currentMode) {
+    switch (currentMode) {
+      case AppMode2.light:
+        return AppMode2.dark;
+      case AppMode2.dark:
+        return AppMode2.custom;
+      case AppMode2.custom:
+        return AppMode2.light;
+    }
+  }
+}
+
+class LightModeColors {
+  static final primaryColor = Color(0xFFF5F5DC);
+  static final seconderColor = Color(0xFFF5F5DC);
+  static final backgroundColor = Color.fromRGBO(245, 245, 220, 1);
+  static final appBarColor = Colors.indigo;
+  static final bottomNavColor = Color.fromRGBO(224, 224, 191, 1);
+  static final textColorlarge = Color.fromRGBO(0, 150, 136, 1);
+  static final textColormiddle = Color.fromRGBO(82, 82, 82, 1);
+  static final dividerColor = Color.fromRGBO(153, 153, 153, 1);
+  static final TextFieldBorder = Color.fromRGBO(0, 150, 136, 1);
+  static final buttonColor = Color.fromARGB(255, 5, 72, 65);
+  static final ListTile = Color.fromRGBO(33, 33, 33, 1);
+  static final borderColor = Color.fromRGBO(0, 0, 0, 0.6);
+  static final indicatorColor = Color.fromRGBO(0, 150, 136, 1);
+  static final unselectedColorIndicator = Color.fromRGBO(82, 82, 82, 1);
+  static final inputDecorationTheme = Color.fromRGBO(26, 26, 26, 1);
+  static final sliderThumb = Color.fromRGBO(0, 150, 136, 1);
+  static final overlaySlider = Color.fromRGBO(147, 147, 147, 0.121);
+  static final descriptionColor = Color.fromRGBO(255, 255, 255, 1);
+}
+
+class DarkModeColors {
+  static final primaryColor = Color(0xFFF5F5DC);
+  static final seconderColor = Color(0xFFF5F5DC);
+  static final backgroundColor = Color.fromRGBO(33, 33, 33, 1);
+  static final appBarColor = Colors.indigo;
+  static final bottomNavColor = Color.fromRGBO(21, 21, 21, 1);
+  static final textColorlarge = Color.fromRGBO(0, 150, 136, 1);
+  static final textColormiddle = Color.fromRGBO(169, 169, 169, 1);
+  static final dividerColor = Color.fromRGBO(153, 153, 153, 1);
+  static final TextFieldBorder = Color.fromRGBO(0, 150, 136, 1);
+  static final buttonColor = Color.fromARGB(255, 5, 72, 65);
+  static final ListTile = Color.fromRGBO(33, 33, 33, 1);
+  static final borderColor = Color.fromRGBO(51, 51, 51, 1);
+  static final indicatorColor = Color.fromRGBO(0, 150, 136, 1);
+  static final unselectedColorIndicator = Color.fromRGBO(82, 82, 82, 1);
+  static final inputDecorationTheme = Color.fromRGBO(26, 26, 26, 1);
+  static final sliderThumb = Color.fromRGBO(0, 150, 136, 1);
+  static final overlaySlider = Color.fromRGBO(147, 147, 147, 0.121);
+  static final descriptionColor = Color.fromRGBO(255, 255, 255, 1);
+}
+
+class CustomModeColors {
+  static final primaryColor = Color(0xFFF5F5DC);
+  static final seconderColor = Color(0xFFF5F5DC);
+  static final backgroundColor = Color.fromARGB(33, 33, 33, 1);
+  static final appBarColor = Colors.teal;
+  static final bottomNavColor = Colors.teal;
+  static final textColor = Colors.white;
+  static final buttonColor = Color.fromARGB(255, 5, 72, 65);
+  static final containerColor =
+      Colors.green; // Example color for containers in light mode
 }

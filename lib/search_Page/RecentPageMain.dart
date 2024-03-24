@@ -112,7 +112,7 @@ class _RecentpageMainState extends State<RecentpageMain> {
   Widget build(BuildContext context) {
     final filteredList = filterDataList();
     return Scaffold(
-      backgroundColor: Color(0xFFF5F5DC),
+      // backgroundColor: Color(0xFFF5F5DC),
       body: Column(
         children: [
           Expanded(
@@ -133,6 +133,8 @@ class _RecentpageMainState extends State<RecentpageMain> {
                   child: Container(
                     height: 40,
                     child: ListTile(
+                      shape: RoundedRectangleBorder(side: BorderSide.none),
+                      tileColor: Colors.transparent,
                       title: Text(
                         item["name"]!,
                         style: TextStyle(
