@@ -6,6 +6,7 @@ import 'package:ragheb_dictionary/HomePage/theme.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/colors.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/fonts.dart';
+import 'package:ragheb_dictionary/search_Page/data/themeData.dart';
 
 class Mylist extends StatefulWidget {
   final String listName;
@@ -17,6 +18,8 @@ class Mylist extends StatefulWidget {
 }
 
 class _MylistState extends State<Mylist> {
+  ThemeDatabase themeDatabase = ThemeDatabase();
+
   final _meBox2 = Hive.box('mybox2');
   final thme = MyTheme();
   ToDoDataBaseFont db = new ToDoDataBaseFont();
@@ -25,11 +28,14 @@ class _MylistState extends State<Mylist> {
   var ColorCl = ColorsClass();
   @override
   void initState() {
-    if (_meBox2.get("FontFamily") == null) {
-      db.createInitialData();
-    } else {
-      db.loadData();
-    }
+    setState(() {
+      themeDatabase.loadData();
+      if (_meBox2.get("FontFamily") == null) {
+        db.createInitialData();
+      } else {
+        db.loadData();
+      }
+    });
     super.initState();
   }
 
@@ -40,13 +46,18 @@ class _MylistState extends State<Mylist> {
       child: Center(
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12.0),
-            color: Theme.of(context).colorScheme.background,
-            // boxShadow: [
-            //   BoxShadow(
-            //       offset: Offset(2, 2), color: Color.fromRGBO(0, 0, 0, 0.08))
-            // ]
-          ),
+              border: Border.all(
+                  color: Theme.of(context).colorScheme.primaryContainer,
+                  width: 1),
+              borderRadius: BorderRadius.circular(12.0),
+              color: Theme.of(context).colorScheme.background, // boxShadow: [
+              boxShadow: themeDatabase.themeCount == 2
+                  ? [
+                      BoxShadow(
+                          offset: Offset(2, 2),
+                          color: Theme.of(context).shadowColor)
+                    ]
+                  : []),
           alignment: Alignment.center,
           height: 45,
           child: Center(

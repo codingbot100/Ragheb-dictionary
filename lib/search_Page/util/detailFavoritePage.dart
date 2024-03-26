@@ -86,118 +86,120 @@ class _DetailFavoirtPageState extends State<DetailFavoirtPage> {
     return Scaffold(
         // backgroundColor: Color(0xFFF5F5DC),
         body: SafeArea(
-      child: Column(children: [
-        Row(
-          children: [
-            IconButton(
-                icon: Icon(
-                  Icons.arrow_back,
-                  // color: Colors.black,
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                }),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: InteractiveViewer(
+        child: Column(children: [
+          Row(
             children: [
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    toggleFavorite();
-                    Get.back();
-                  });
-                },
-                child: Image.asset('icons/Vector (1).png'),
-              ),
-              Flexible(
-                child: Container(
-                  child: Text(
-                    widget.name,
-                    style: TextStyle(
-                      fontFamily: DB_fontFamily.FontFamily,
-                      fontSize: db6.name,
-                      fontWeight: FontWeight.w900,
-                      // color: Color.fromRGBO(82, 82, 82, 1),
+              IconButton(
+                  icon: Icon(
+                    Icons.arrow_back,
+                    // color: Colors.black,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  }),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      toggleFavorite();
+                      Get.back();
+                    });
+                  },
+                  child: Image.asset('icons/Vector (1).png'),
+                ),
+                Flexible(
+                  child: Container(
+                    child: Text(
+                      widget.name,
+                      style: TextStyle(
+                        fontFamily: DB_fontFamily.FontFamily,
+                        fontSize: db6.name,
+                        fontWeight: FontWeight.w900,
+                        // color: Color.fromRGBO(82, 82, 82, 1),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        Expanded(
-            child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20, top: 40),
-                child: Container(
-                  width: double.infinity,
-                  child: RichText(
-                      textDirection: TextDirection.rtl,
-                      textAlign: TextAlign.justify,
-                      text: TextSpan(
-                        text: widget.description,
-                        style: TextStyle(
-                          fontFamily: DB_fontFamily.FontFamily,
-                          fontSize: db6.Descrption,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: 0.3,
-                          color: Theme.of(context)
-                              .textTheme
-                              .headline1
-                              ?.color, // Use color from iconTheme
-                        ),
-                      )),
-                ),
-              ),
-              SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20, top: 40),
-                child: Visibility(
-                  visible: widget.footnote == 'n/a' ? false : true,
+          Expanded(
+              child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20, top: 40),
                   child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Theme.of(context).colorScheme.background,
-                    ),
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: Container(
-                          child: Center(
-                            child: Flexible(
-                              child: RichText(
-                                  textDirection: TextDirection.rtl,
-                                  textAlign: TextAlign.justify,
-                                  text: TextSpan(
-                                    text: widget.footnote,
-                                    style: TextStyle(
-                                      fontFamily: DB_fontFamily.FontFamily,
-                                      fontSize: db6.FootNot,
-                                      fontWeight: FontWeight.w900,
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyText2
-                                          ?.color, // Use color from i
-                                    ),
-                                  )),
+                    width: double.infinity,
+                    child: RichText(
+                        textDirection: TextDirection.rtl,
+                        textAlign: TextAlign.justify,
+                        text: TextSpan(
+                          text: widget.description,
+                          style: TextStyle(
+                            fontFamily: DB_fontFamily.FontFamily,
+                            fontSize: db6.Descrption,
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: 0.3,
+                            color: Theme.of(context)
+                                .textTheme
+                                .headline1
+                                ?.color, // Use color from iconTheme
+                          ),
+                        )),
+                  ),
+                ),
+                SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20, top: 40),
+                  child: Visibility(
+                    visible: widget.footnote == 'n/a' ? false : true,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+            color: Theme.of(context).bottomAppBarColor,
+                      ),
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(15),
+                          child: Container(
+                            child: Center(
+                              child: Flexible(
+                                child: RichText(
+                                    textDirection: TextDirection.rtl,
+                                    textAlign: TextAlign.justify,
+                                    text: TextSpan(
+                                      text: widget.footnote,
+                                      style: TextStyle(
+                                        fontFamily: DB_fontFamily.FontFamily,
+                                        fontSize: db6.FootNot,
+                                        fontWeight: FontWeight.w900,
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2
+                                            ?.color, // Use color from i
+                                      ),
+                                    )),
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              )
-            ],
-          ),
-        ))
-      ]),
+                )
+              ],
+            ),
+          ))
+        ]),
+      ),
     ));
   }
 }

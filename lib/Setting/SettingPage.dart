@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
+import 'package:ragheb_dictionary/search_Page/data/themeData.dart';
 import 'package:ragheb_dictionary/search_Page/searchPage/settingsPages.dart/About_us.dart';
 import 'package:ragheb_dictionary/search_Page/searchPage/settingsPages.dart/about_ragheb_dictionary.dart';
 import 'package:ragheb_dictionary/HomePage/theme.dart';
-import 'package:ragheb_dictionary/Setting/CircleContainer.dart';
 import 'package:ragheb_dictionary/Setting/MyList.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/colors.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/fonts.dart';
@@ -38,8 +38,11 @@ class _MySettingsPageState extends State<MySettingsPage> {
   int fontOption = 0;
   final MyTheme theme = MyTheme();
   ToDodatabase6 db = new ToDodatabase6();
+  ThemeDatabase ThemeClass = ThemeDatabase();
+
   @override
   void initState() {
+    themeclass.loadData();
     if (_meBox.get('TODOSlid') == null) {
       db.createInitialData();
     } else {
@@ -50,6 +53,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
     } else {
       Db_Font.loadData();
     }
+
     super.initState();
     _loadData();
   }
@@ -82,6 +86,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
     }
   }
 
+  ThemeDatabase themeclass = ThemeDatabase();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,17 +129,24 @@ class _MySettingsPageState extends State<MySettingsPage> {
                               Container(
                                 height: 161,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .background, // boxShadow: [
-                                  //   BoxShadow(
-                                  //       offset: Offset(2, 2),
-                                  //       color: Color.fromRGBO(
-                                  //           251, 103, 103, 0.078)
-                                  //           )
-                                  // ]
-                                ),
+                                    border: Border.all(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primaryContainer,
+                                        width: 1),
+                                    borderRadius: BorderRadius.circular(15.0),
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .background, // boxShadow: [
+                                    boxShadow: themeclass.themeCount == 2
+                                        ? [
+                                            BoxShadow(
+                                              offset: Offset(2, 2),
+                                              color:
+                                                  Theme.of(context).shadowColor,
+                                            )
+                                          ]
+                                        : []),
                                 child: Padding(
                                   padding: const EdgeInsets.all(15.0),
                                   child: Column(
@@ -203,21 +215,55 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                                 fontSize: 13,
                                               ),
                                             ),
-                                            circleContainer(
-                                                circleColor: Color.fromRGBO(
-                                                    255, 255, 255, 0.5)),
-                                            circleContainer(
-                                                circleColor: Color.fromRGBO(
-                                                    77, 110, 129, 1)),
-                                            circleContainer(
-                                                circleColor: Color.fromRGBO(
-                                                    207, 141, 118, 1)),
-                                            circleContainer(
-                                                circleColor: Color.fromRGBO(
-                                                    170, 83, 255, 0.5)),
-                                            circleContainer(
-                                                circleColor: Color.fromRGBO(
-                                                    59, 55, 88, 1)),
+                                            TextButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    ThemeClass.themeCount = 0;
+                                                    ThemeClass.updateDataBase();
+
+                                                    print(
+                                                        ThemeClass.themeCount);
+                                                  });
+                                                },
+                                                child: Text('dark')),
+                                            TextButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    ThemeClass.themeCount = 1;
+                                                    ThemeClass.updateDataBase();
+
+                                                    print(
+                                                        ThemeClass.themeCount);
+                                                  });
+                                                },
+                                                child: Text("custome")),
+
+                                            TextButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    ThemeClass.themeCount = 2;
+                                                    ThemeClass.updateDataBase();
+
+                                                    print(
+                                                        ThemeClass.themeCount);
+                                                  });
+                                                },
+                                                child: Text("light")),
+                                            // circleContainer(
+                                            //     circleColor: Color.fromRGBO(
+                                            //         255, 255, 255, 0.5)),
+                                            // circleContainer(
+                                            //     circleColor: Color.fromRGBO(
+                                            //         77, 110, 129, 1)),
+                                            // circleContainer(
+                                            //     circleColor: Color.fromRGBO(
+                                            //         207, 141, 118, 1)),
+                                            // circleContainer(
+                                            //     circleColor: Color.fromRGBO(
+                                            //         170, 83, 255, 0.5)),
+                                            // circleContainer(
+                                            //     circleColor: Color.fromRGBO(
+                                            //         59, 55, 88, 1)),
                                           ]),
                                     ],
                                   ),

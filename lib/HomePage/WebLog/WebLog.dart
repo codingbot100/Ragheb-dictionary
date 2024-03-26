@@ -6,6 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/HomePage/WebLog/WebDetail.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
+import 'package:ragheb_dictionary/search_Page/data/themeData.dart';
 
 class message extends StatefulWidget {
   @override
@@ -13,6 +14,8 @@ class message extends StatefulWidget {
 }
 
 class _messageState extends State<message> {
+  ThemeDatabase themeDatabase = ThemeDatabase();
+
   List<List<dynamic>> csvData = [];
   ToDodatabase6 db6 = ToDodatabase6();
   ToDoDataBaseFont dbFont = new ToDoDataBaseFont();
@@ -20,6 +23,7 @@ class _messageState extends State<message> {
 
   @override
   void initState() {
+    themeDatabase.loadData();
     if (_meBox.get("TODOSlid") == null) {
       dbFont.createInitialData();
     } else {
@@ -59,13 +63,12 @@ class _messageState extends State<message> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Color(0xFFF5F5DC),
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.transparent,
         title: ListTile(
-            shape: RoundedRectangleBorder(side: BorderSide.none),
-                  tileColor: Colors.transparent,
+          shape: RoundedRectangleBorder(side: BorderSide.none),
+          tileColor: Colors.transparent,
           trailing: Text(
             'وبلاگ راغب',
             style: TextStyle(
@@ -109,14 +112,16 @@ class _messageState extends State<message> {
                             .colorScheme
                             .background, // boxShadow:
                         // color: Color.fromRGBO(245, 245, 220, 1),
-                        // boxShadow: [
-                        //   BoxShadow(
-                        //     spreadRadius: 0,
-                        //     // color: Color.fromRGBO(0, 0, 0, 0.1),
-                        //     offset: Offset(2, 2),
-                        //     blurRadius: 8,
-                        //   )
-                        // ]
+                        boxShadow: themeDatabase.themeCount == 2
+                            ? [
+                                BoxShadow(
+                                  spreadRadius: 0,
+                                  color: Theme.of(context).shadowColor,
+                                  offset: Offset(2, 2),
+                                  blurRadius: 8,
+                                )
+                              ]
+                            : [],
                       ),
                       height: 350,
                       child: Column(

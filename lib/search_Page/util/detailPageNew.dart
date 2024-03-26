@@ -239,9 +239,7 @@ class _DetailPage12State extends State<DetailPage12> {
                                 child: Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(12),
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .background,
+                                    color: Theme.of(context).bottomAppBarColor,
                                   ),
                                   child: Center(
                                     child: Padding(

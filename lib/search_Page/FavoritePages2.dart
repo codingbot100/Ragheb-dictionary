@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
 import 'package:ragheb_dictionary/search_Page/data/database.dart';
+import 'package:ragheb_dictionary/search_Page/data/themeData.dart';
 import 'package:ragheb_dictionary/search_Page/util/detailFavoritePage.dart';
 
 class FavoritPage_menu extends StatefulWidget {
@@ -15,9 +16,10 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
   final _meBox = Hive.box('mybox');
   ToDodatabase6 db6 = ToDodatabase6();
   late double borderRadius;
-
+  ThemeDatabase themeDatabase = ThemeDatabase();
   @override
   void initState() {
+    themeDatabase.loadData();
     if (_meBox.get("TODOLIST") == null || _meBox.get("TODOSlid") == null) {
       _todoDatabase.createInitialData();
       db6.createInitialData();
@@ -102,14 +104,20 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
                 padding: const EdgeInsets.only(bottom: 5),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.background,
-                    boxShadow: [
-                      // BoxShadow(
-                      //     spreadRadius: 0,
-                      //     blurRadius: 10,
-                      //     offset: Offset(0, 2) // changes position of shadow
-                      //     ),
-                    ],
+                    border: Border.all(
+                        color: Theme.of(context).colorScheme.primaryContainer,
+                        width: 1),
+                    color: Theme.of(context).colorScheme.secondaryContainer,
+                    boxShadow: themeDatabase.themeCount == 2
+                        ? [
+                            BoxShadow(
+                              spreadRadius: 0,
+                              color: Theme.of(context).shadowColor,
+                              blurRadius: 10,
+                              offset: Offset(0, 2),
+                            )
+                          ]
+                        : [],
                     borderRadius: BorderRadius.circular(8),
                   ),
                   height: 50,

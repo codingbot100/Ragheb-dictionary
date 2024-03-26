@@ -81,112 +81,114 @@ class _DetailFavoirtMainState extends State<DetailFavoirtMain> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
-      child: Column(children: [
-        Padding(
-          padding: const EdgeInsets.only(
-            left: 20,
-            right: 20,
-            top: 20,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                  icon: Icon(
-                    Icons.arrow_back,
-                    // color: Colors.black,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  }),
-              Flexible(
-                child: Container(
-                  child: Text(
-                    widget.name,
-                    style: TextStyle(
-                      fontFamily: DB_fontFamily.FontFamily,
-                      fontSize: db6.name,
-                      fontWeight: FontWeight.w900,
-                      color: Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          ?.color, // Use color
+      child: InteractiveViewer(
+        child: Column(children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 20,
+              right: 20,
+              top: 20,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                    icon: Icon(
+                      Icons.arrow_back,
+                      // color: Colors.black,
                     ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-            child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20, top: 40),
-                child: Container(
-                  width: double.infinity,
-                  child: RichText(
-                      textDirection: TextDirection.rtl,
-                      textAlign: TextAlign.justify,
-                      text: TextSpan(
-                        text: widget.description,
-                        style: TextStyle(
-                          fontFamily: DB_fontFamily.FontFamily,
-                          fontSize: db6.Descrption,
-                          fontWeight: FontWeight.w900,
-                          color: Theme.of(context)
-                              .textTheme
-                              .headline1
-                              ?.color, // Use color from iconTheme
-                        ),
-                      )),
-                ),
-              ),
-              SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20, top: 40),
-                child: Visibility(
-                  visible: widget.footnote == 'n/a' ? false : true,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    }),
+                Flexible(
                   child: Container(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.background,
-                      borderRadius: BorderRadius.circular(12),
-                      // color: Color.fromRGBO(224, 224, 191, 1)
+                    child: Text(
+                      widget.name,
+                      style: TextStyle(
+                        fontFamily: DB_fontFamily.FontFamily,
+                        fontSize: db6.name,
+                        fontWeight: FontWeight.w900,
+                        color: Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            ?.color, // Use color
+                      ),
                     ),
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: Container(
-                          child: Center(
-                            child: Flexible(
-                              child: RichText(
-                                  textDirection: TextDirection.rtl,
-                                  textAlign: TextAlign.justify,
-                                  text: TextSpan(
-                                    text: widget.footnote,
-                                    style: TextStyle(
-                                      fontFamily: DB_fontFamily.FontFamily,
-                                      fontSize: db6.FootNot,
-                                      fontWeight: FontWeight.w900,
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyText2
-                                          ?.color, // Use color from i
-                                    ),
-                                  )),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+              child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20, top: 40),
+                  child: Container(
+                    width: double.infinity,
+                    child: RichText(
+                        textDirection: TextDirection.rtl,
+                        textAlign: TextAlign.justify,
+                        text: TextSpan(
+                          text: widget.description,
+                          style: TextStyle(
+                            fontFamily: DB_fontFamily.FontFamily,
+                            fontSize: db6.Descrption,
+                            fontWeight: FontWeight.w900,
+                            color: Theme.of(context)
+                                .textTheme
+                                .headline1
+                                ?.color, // Use color from iconTheme
+                          ),
+                        )),
+                  ),
+                ),
+                SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20, top: 40),
+                  child: Visibility(
+                    visible: widget.footnote == 'n/a' ? false : true,
+                    child: Container(
+                      decoration: BoxDecoration(
+            color: Theme.of(context).bottomAppBarColor,
+                        borderRadius: BorderRadius.circular(12),
+                        // color: Color.fromRGBO(224, 224, 191, 1)
+                      ),
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(15),
+                          child: Container(
+                            child: Center(
+                              child: Flexible(
+                                child: RichText(
+                                    textDirection: TextDirection.rtl,
+                                    textAlign: TextAlign.justify,
+                                    text: TextSpan(
+                                      text: widget.footnote,
+                                      style: TextStyle(
+                                        fontFamily: DB_fontFamily.FontFamily,
+                                        fontSize: db6.FootNot,
+                                        fontWeight: FontWeight.w900,
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2
+                                            ?.color, // Use color from i
+                                      ),
+                                    )),
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              )
-            ],
-          ),
-        ))
-      ]),
+                )
+              ],
+            ),
+          ))
+        ]),
+      ),
     ));
   }
 }
