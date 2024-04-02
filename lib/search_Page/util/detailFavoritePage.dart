@@ -55,28 +55,31 @@ class _DetailFavoirtPageState extends State<DetailFavoirtPage> {
       }
       DB_fontFamily.updateDataBase();
     });
-    toggleFavorite();
+
     super.initState();
   }
 
-  void toggleFavorite() {
+  void toggleFavorite(String name, descriprion, footnote) {
     db.loadData();
+
     setState(() {
-      db.favorite.remove(widget.name);
-      db.favorite.remove(widget.description);
-      db.favorite.remove(widget.footnote);
-      db.favorite.remove(widget.initialPageIndex);
+      bool isAlreadyFavorite = db.favorite.any((item) => item['name'] == name);
+      db.favorite.any((item) => item['description'] == descriprion);
+      db.favorite.any((item) => item['footnote'] == footnote);
+      if (isAlreadyFavorite) {
+        Map<dynamic, dynamic>? itemToRemove;
+        for (var item in db.favorite) {
+          if (item['name'] == name) {
+            itemToRemove = item;
+            break;
+          }
+        }
+        // Remove the item if found
+        if (itemToRemove != null) {
+          db.favorite.remove(itemToRemove);
+        }
+      }
       db.updateDataBase();
-
-      // Print removed items
-      print(
-          "remove: ${widget.name}, ${widget.description}, ${widget.footnote}");
-    });
-  }
-
-  void ToggleRemove(int index) {
-    setState(() {
-      db.favorite.removeAt(index);
     });
   }
 
@@ -88,39 +91,26 @@ class _DetailFavoirtPageState extends State<DetailFavoirtPage> {
         body: SafeArea(
       child: InteractiveViewer(
         child: Column(children: [
-          Row(
-            children: [
-              IconButton(
-                  icon: Icon(
-                    Icons.arrow_back,
-                    // color: Colors.black,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  }),
-            ],
-          ),
           Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
+            padding: const EdgeInsets.only(left: 10, right: 20, top: 30),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      toggleFavorite();
-                      Get.back();
-                    });
-                  },
-                  child: Image.asset('icons/Vector (1).png'),
-                ),
+                IconButton(
+                    icon: Icon(
+                      Icons.arrow_back,
+                      color: Color.fromRGBO(0, 150, 136, 1),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    }),
                 Flexible(
                   child: Container(
                     child: Text(
                       widget.name,
                       style: TextStyle(
                         fontFamily: DB_fontFamily.FontFamily,
-                        fontSize: db6.name,
+                        fontSize: 33,
                         fontWeight: FontWeight.w900,
                         // color: Color.fromRGBO(82, 82, 82, 1),
                       ),
@@ -164,7 +154,7 @@ class _DetailFavoirtPageState extends State<DetailFavoirtPage> {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
-            color: Theme.of(context).bottomAppBarColor,
+                        color: Theme.of(context).bottomAppBarColor,
                       ),
                       child: Center(
                         child: Padding(

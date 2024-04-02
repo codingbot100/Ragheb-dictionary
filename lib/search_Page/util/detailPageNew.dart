@@ -45,7 +45,6 @@ class _DetailPage12State extends State<DetailPage12> {
   ToDodatabase3 db = new ToDodatabase3();
   ToDodatabaseTime dbTime = new ToDodatabaseTime();
   ToDodatabase6 db6 = new ToDodatabase6();
-  //  final String combinedText = "$widget.footnote\n$widget.footnote\n$widget.footnote";
 
   @override
   void initState() {
@@ -87,7 +86,7 @@ class _DetailPage12State extends State<DetailPage12> {
       db.favorite.any((item) => item['description'] == descriprion);
       db.favorite.any((item) => item['footnote'] == footnote);
       if (!isAlreadyFavorite) {
-        Map<String, dynamic> newItem = {
+        Map newItem = {
           'name': name,
           'description': descriprion,
           'footnote': footnote,
@@ -99,7 +98,7 @@ class _DetailPage12State extends State<DetailPage12> {
         updateImage('images/Enable (1).png'); // Update image immediately
       } else {
         // Find the item with the same name as itemName
-        Map<String, dynamic>? itemToRemove;
+        Map<dynamic, dynamic>? itemToRemove;
         for (var item in db.favorite) {
           if (item['name'] == name) {
             itemToRemove = item;
@@ -132,7 +131,7 @@ class _DetailPage12State extends State<DetailPage12> {
       SnackBar(
         backgroundColor: Colors.green,
         content: Directionality(
-            textDirection: TextDirection.rtl, child: Text('متن کاپی شد ')),
+            textDirection: TextDirection.rtl, child: Text('محتوا کاپی شد ')),
       ),
     );
   }
@@ -159,45 +158,60 @@ class _DetailPage12State extends State<DetailPage12> {
               db.favorite.any((item) => item['description'] == description);
               db.favorite.any((item) => item['name'] == footnote);
               return Padding(
-                padding: const EdgeInsets.only(top: 50),
+                padding: const EdgeInsets.only(top: 20),
                 child: InteractiveViewer(
                   child: Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15, right: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    addToFavorite(name, description, footnote);
-                                  });
-                                },
-                                child: Image.asset(
-                                  isFavorite
-                                      ? 'images/Enable (1).png'
-                                      : 'images/Disable (1).png',
-                                  scale: 2.5,
-                                  color: Colors.green,
-                                )),
-                            Flexible(
-                              child: Container(
-                                child: Text(
-                                  widget.dataList[index]['name']!,
-                                  style: TextStyle(
-                                    fontFamily: DB_fontFamily.FontFamily,
-                                    fontSize: db6.name,
-                                    fontWeight: FontWeight.w900,
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1
-                                        ?.color, // Use color from i
+                      Container(
+                        height: 60,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.0)
+                            //   boxShadow: [
+                            //     BoxShadow(
+                            //       color: Color(0xFFE0E0BF),
+                            //       blurRadius: 10.0,
+                            //       offset: Offset(10,
+                            //           20),
+                            //     ),
+                            //    ],
+                            ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 15, right: 20, bottom: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      addToFavorite(
+                                          name, description, footnote);
+                                    });
+                                  },
+                                  icon: Image.asset(
+                                    isFavorite
+                                        ? 'images/Enable (1).png'
+                                        : 'images/Disable (1).png',
+                                    color: Colors.green,
+                                  )),
+                              Flexible(
+                                child: Container(
+                                  child: Text(
+                                    widget.dataList[index]['name']!,
+                                    style: TextStyle(
+                                      fontFamily: DB_fontFamily.FontFamily,
+                                      fontSize: 33,
+                                      fontWeight: FontWeight.w900,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          ?.color, // Use color from i
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                       Expanded(
@@ -274,53 +288,51 @@ class _DetailPage12State extends State<DetailPage12> {
                               ),
                             ),
                             Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20, right: 20),
+                              padding: const EdgeInsets.only(
+                                  left: 20, right: 20, top: 30),
                               child: Divider(
                                 // color: Color.fromRGBO(147, 147, 147, 1),
                                 thickness: 0.5,
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(right: 20),
+                              padding: const EdgeInsets.only(
+                                  bottom: 50, right: 30, left: 30),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  InkWell(
-                                    onTap: () {
+                                  IconButton(
+                                    onPressed: () {
                                       _copy(name, description, footnote);
                                     },
-                                    child: Image.asset(
+                                    icon: Image.asset(
                                       "icons/Union (1).png",
-                                      scale: 2,
+                                      scale: 1.5,
                                     ),
                                   ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    "اشتراک گذاری",
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w900,
-                                      // color:
-                                      //     Color.fromRGBO(147, 147, 147, 1)
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      shareText(name, description, footnote);
-                                    },
-                                    child: Image.asset(
-                                      "icons/Vector (5).png",
-                                      scale: 2,
-                                    ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "اشتراک گذاری",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w900,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 2,
+                                      ),
+                                      IconButton(
+                                          onPressed: () {
+                                            shareText(
+                                                name, description, footnote);
+                                          },
+                                          icon: Image.asset(
+                                            "icons/Vector (5).png",
+                                            scale: 1.5,
+                                          ))
+                                    ],
                                   ),
                                 ],
                               ),
@@ -345,13 +357,11 @@ class _DetailPage12State extends State<DetailPage12> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                width: 20,
-                height: 50,
-                child: InkWell(
-                  onTap: () {
+                child: IconButton(
+                  onPressed: () {
                     Get.back();
                   },
-                  child: Image.asset(
+                  icon: Image.asset(
                     'icons/back.png',
                     scale: 4.5,
                   ),
@@ -387,21 +397,12 @@ class _DetailPage12State extends State<DetailPage12> {
                   color: Color.fromRGBO(111, 111, 111, 1),
                 ),
               ),
-              GestureDetector(
-                onTap: () {
+              IconButton(
+                onPressed: () {
                   Get.back();
                 },
-                child: Container(
-                  width: 20,
-                  height: 30,
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(50)),
-                  child: Icon(
-                    Icons.search,
-                    size: 25,
-                    color: Color.fromRGBO(111, 111, 111, 1),
-                  ),
-                ),
+                icon: Icon(Icons.search,
+                    size: 25, color: Color.fromRGBO(111, 111, 111, 1)),
               ),
             ],
           ),

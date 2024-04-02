@@ -50,7 +50,7 @@ class _FavoritPage_secondState extends State<FavoritPage_second> {
                   tileColor: Colors.transparent,
                   trailing: Text(
                     "${_todoDatabase.favorite[index]['name']}",
-                    style: TextStyle(fontSize: db6.SearchName),
+                    style: TextStyle(fontSize: 20),
                   ),
                   onTap: () {
                     Get.to(

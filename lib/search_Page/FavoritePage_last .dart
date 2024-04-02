@@ -107,9 +107,8 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
                     ),
                     trailing: Text(
                       "${_todoDatabase.favorite[index]['name']}",
-                      style: TextStyle(
-                          fontSize: db6.SearchName,
-                          fontWeight: FontWeight.w600),
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
                     ),
                     onTap: () {
                       Get.to(
@@ -129,7 +128,7 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
               },
               separatorBuilder: (context, index) {
                 return Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  padding: const EdgeInsets.only(left: 13, right: 20),
                   child: Divider(
                     thickness: 0.5,
                     // color: Color.fromRGBO(0, 150, 136, 0.5),

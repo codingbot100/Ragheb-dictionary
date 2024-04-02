@@ -1,7 +1,8 @@
+import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class ThemeDatabase {
-  late int themeCount ;
+  late int themeCount;
 
   final _meBox2 = Hive.box('mybox2');
 
@@ -10,7 +11,7 @@ class ThemeDatabase {
   }
 
   void loadData() {
-    themeCount = _meBox2.get("themedata");
+    themeCount = _meBox2.get("themedata") ?? 0;
   }
 
   void updateDataBase() {
@@ -25,3 +26,4 @@ class ThemeDatabase {
     updateDataBase(); // Save the updated theme count
   }
 }
+

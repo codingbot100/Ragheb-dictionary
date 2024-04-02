@@ -135,10 +135,11 @@ class _RecentpageMainState extends State<RecentpageMain> {
                     child: ListTile(
                       shape: RoundedRectangleBorder(side: BorderSide.none),
                       tileColor: Colors.transparent,
+                      
                       title: Text(
                         item["name"]!,
                         style: TextStyle(
-                          fontSize: db6.SearchName,
+                          fontSize: 20,
                           fontWeight: FontWeight.w900,
                         ),
                       ),

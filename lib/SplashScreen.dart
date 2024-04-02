@@ -16,38 +16,37 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
+            backgroundColor: Color(0xFFF5F5DC),
             body: Center(
                 child: Column(
-      children: [
-        Image.asset(
-          'images/Book.png',
-          height: 200,
-          width: 200,
-        ),
-        Text(
-          'فرهنگ لغت راغب ',
-          style: TextStyle(
-              fontSize: MediaQuery.of(context).size.width * 0.05,
-              fontWeight: FontWeight.w700,
-              color: Color.fromRGBO(
-                  0, 150, 136, 1) // Adjust font size based on screen width
-              ),
-        ),
-        Container(
-          width: MediaQuery.of(context).size.width *
-              0.8, // Adjust container width based on screen width
-          height: MediaQuery.of(context).size.height *
-              0.3, // Adjust container height based on screen height
-          color: Colors.blue,
-          margin: EdgeInsets.symmetric(vertical: 20),
-          child: Center(
-            child: Text(
-              'Responsive Container',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        )
-      ],
-    ))));
+              children: [
+                Image.asset(
+                  'images/Book.png',
+                  height: 200,
+                  width: 200,
+                ),
+                Text(
+                  'فرهنگ لغت راغب ',
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.05,
+                      fontWeight: FontWeight.w700,
+                      color: Color.fromRGBO(0, 150, 136,
+                          1) // Adjust font size based on screen width
+                      ),
+                ),
+                Container(
+                  width: 250,
+                  height: 400,
+                  color: Colors.blue,
+                  margin: EdgeInsets.symmetric(vertical: 20),
+                  child: Center(
+                    child: Text(
+                      'Responsive Container',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                )
+              ],
+            ))));
   }
 }

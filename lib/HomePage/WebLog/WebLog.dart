@@ -6,7 +6,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/HomePage/WebLog/WebDetail.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
-import 'package:ragheb_dictionary/search_Page/data/themeData.dart';
+import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
+import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/themeData.dart';
 
 class message extends StatefulWidget {
   @override
@@ -20,6 +21,7 @@ class _messageState extends State<message> {
   ToDodatabase6 db6 = ToDodatabase6();
   ToDoDataBaseFont dbFont = new ToDoDataBaseFont();
   final _meBox = Hive.box('mybox');
+  final thememanger = Get.put(ThemeManager());
 
   @override
   void initState() {
@@ -35,6 +37,7 @@ class _messageState extends State<message> {
       db6.loadData();
     }
     super.initState();
+    thememanger.loadData();
     loadCsvData();
   }
 
@@ -112,7 +115,7 @@ class _messageState extends State<message> {
                             .colorScheme
                             .background, // boxShadow:
                         // color: Color.fromRGBO(245, 245, 220, 1),
-                        boxShadow: themeDatabase.themeCount == 2
+                        boxShadow: thememanger.themebo.value != true
                             ? [
                                 BoxShadow(
                                   spreadRadius: 0,

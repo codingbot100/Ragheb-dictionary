@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
+import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
+import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/themeData.dart';
 import 'package:ragheb_dictionary/search_Page/data/database.dart';
-import 'package:ragheb_dictionary/search_Page/data/themeData.dart';
 import 'package:ragheb_dictionary/search_Page/util/detailFavoritePage.dart';
 
 class FavoritPage_menu extends StatefulWidget {
@@ -17,6 +18,8 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
   ToDodatabase6 db6 = ToDodatabase6();
   late double borderRadius;
   ThemeDatabase themeDatabase = ThemeDatabase();
+  final thememanger = Get.put(ThemeManager());
+
   @override
   void initState() {
     themeDatabase.loadData();
@@ -28,6 +31,7 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
       db6.loadData();
     }
     super.initState();
+    thememanger.loadData();
     _initHive();
 
     _todoDatabase.createInitialData();
@@ -101,33 +105,28 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
                   ? _todoDatabase.favorite.length - 4 + index
                   : index;
               return Padding(
-                padding: const EdgeInsets.only(bottom: 5),
+                padding: const EdgeInsets.only(bottom: 10),
                 child: Container(
                   decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Theme.of(context).colorScheme.primaryContainer,
-                        width: 1),
-                    color: Theme.of(context).colorScheme.secondaryContainer,
-                    boxShadow: themeDatabase.themeCount == 2
-                        ? [
+                    color: thememanger.themebo.value != true
+                        ? Color.fromRGBO(245, 245, 220, 1)
+                        : Colors.transparent,
+                    boxShadow: thememanger.themebo.value
+                        ? []
+                        : [
                             BoxShadow(
                               spreadRadius: 0,
-                              color: Theme.of(context).shadowColor,
+                              color: Color.fromRGBO(0, 0, 0, 0.07),
                               blurRadius: 10,
                               offset: Offset(0, 2),
                             )
-                          ]
-                        : [],
+                          ],
                     borderRadius: BorderRadius.circular(8),
                   ),
                   height: 50,
                   child: Directionality(
                     textDirection: TextDirection.rtl,
                     child: ListTile(
-                      // shape: RoundedRectangleBorder(
-                      //     borderRadius: BorderRadius.circular(8)
-
-                      //     ),
                       leading: Image.asset(
                         'icons/Vector (1).png',
                         scale: 1,
@@ -135,7 +134,7 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
                       title: Text(
                         "${_todoDatabase.favorite[realIndex]['name']}",
                         style: TextStyle(
-                          fontSize: db6.SearchName,
+                          fontSize: 20,
                           fontWeight: FontWeight.w900,
                         ),
                       ),

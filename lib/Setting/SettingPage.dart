@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
-import 'package:ragheb_dictionary/search_Page/data/themeData.dart';
+import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
+import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/themeData.dart';
 import 'package:ragheb_dictionary/search_Page/searchPage/settingsPages.dart/About_us.dart';
 import 'package:ragheb_dictionary/search_Page/searchPage/settingsPages.dart/about_ragheb_dictionary.dart';
 import 'package:ragheb_dictionary/HomePage/theme.dart';
@@ -21,7 +22,8 @@ class MySettingsPage extends StatefulWidget {
 
 class _MySettingsPageState extends State<MySettingsPage> {
   var fontsCl = fontsClass();
-
+  final thememanger = Get.put(ThemeManager());
+  final dbfont = Get.put(ToDoDataBaseFont());
   var fontsSizeClass = fontsize();
   final CAD = Get.put(ColorsClass());
   var them1 = new MyTheme();
@@ -55,6 +57,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
     }
 
     super.initState();
+    thememanger.loadData;
     _loadData();
   }
 
@@ -67,6 +70,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
     });
   }
 
+  List lable_slider = ["ریز", "کمی بزرگ", "بزرگ", "خیلی بزرگ ", "زیادی بزرگ"];
   @override
   void updatePrices(double added, int removed) {
     int extra = added ~/ 5 * 2;
@@ -117,10 +121,6 @@ class _MySettingsPageState extends State<MySettingsPage> {
                           ),
                         ),
                       ),
-                      // Padding(
-                      //   padding: const EdgeInsets.only(bottom: 30),
-                      //   child: Divider(),
-                      // ),
                       Padding(
                         padding: const EdgeInsets.only(left: 10, right: 10),
                         child: Expanded(
@@ -137,13 +137,15 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                     borderRadius: BorderRadius.circular(15.0),
                                     color: Theme.of(context)
                                         .colorScheme
-                                        .background, // boxShadow: [
-                                    boxShadow: themeclass.themeCount == 2
+                                        .background,
+                                    boxShadow: thememanger.themebo.value != true
                                         ? [
                                             BoxShadow(
-                                              offset: Offset(2, 2),
+                                              spreadRadius: 0,
                                               color:
-                                                  Theme.of(context).shadowColor,
+                                                  Color.fromRGBO(0, 0, 0, 0.07),
+                                              blurRadius: 10,
+                                              offset: Offset(0, 2),
                                             )
                                           ]
                                         : []),
@@ -151,7 +153,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                   padding: const EdgeInsets.all(15.0),
                                   child: Column(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceAround,
                                     children: [
                                       Row(
                                         mainAxisAlignment:
@@ -186,85 +188,55 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                             ),
                                           ),
                                           Flexible(
-                                            child: Slider(
-                                                value: db.name,
-                                                min: 15,
-                                                max: 60,
-                                                divisions: 4,
-                                                label:
-                                                    db.name.round().toString(),
-                                                onChanged: (double value) {
-                                                  setState(() {
-                                                    db.name = value;
-                                                    db.updateDataTypes();
-                                                    db.updateDataBase();
-                                                  });
-                                                }),
+                                            child: SliderTheme(
+                                              data: SliderTheme.of(context)
+                                                  .copyWith(
+                                                activeTrackColor: Color.fromRGBO(
+                                                    147,
+                                                    147,
+                                                    147,
+                                                    1), // Customizing track color
+                                                inactiveTrackColor: Color.fromRGBO(
+                                                    147,
+                                                    147,
+                                                    147,
+                                                    1), // Customizing track color
+
+                                                overlayColor: Colors
+                                                    .transparent, // Customizing overlay color to transparent
+                                                thumbShape:
+                                                    RoundSliderThumbShape(
+                                                  elevation: 0,
+                                                  enabledThumbRadius:
+                                                      8.0, // Width and height of main dot
+                                                ),
+                                                overlayShape:
+                                                    RoundSliderOverlayShape(
+                                                  overlayRadius:
+                                                      0.0, // Disabling overlay
+                                                ),
+
+                                                activeTickMarkColor: Colors
+                                                    .transparent, // Hiding inactive tick marks
+                                              ),
+                                              child: Slider(
+                                                  value: db.name,
+                                                  min: 15,
+                                                  max: 60,
+                                                  divisions: 4,
+                                                  label: lable_slider[
+                                                      calculateIndex(db.name)],
+                                                  onChanged: (double value) {
+                                                    setState(() {
+                                                      db.name = value;
+                                                      db.updateDataTypes();
+                                                      db.updateDataBase();
+                                                    });
+                                                  }),
+                                            ),
                                           )
                                         ],
                                       ),
-                                      Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              'نوع رنگ:',
-                                              style: TextStyle(
-                                                fontFamily: "YekanBakh",
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 13,
-                                              ),
-                                            ),
-                                            TextButton(
-                                                onPressed: () {
-                                                  setState(() {
-                                                    ThemeClass.themeCount = 0;
-                                                    ThemeClass.updateDataBase();
-
-                                                    print(
-                                                        ThemeClass.themeCount);
-                                                  });
-                                                },
-                                                child: Text('dark')),
-                                            TextButton(
-                                                onPressed: () {
-                                                  setState(() {
-                                                    ThemeClass.themeCount = 1;
-                                                    ThemeClass.updateDataBase();
-
-                                                    print(
-                                                        ThemeClass.themeCount);
-                                                  });
-                                                },
-                                                child: Text("custome")),
-
-                                            TextButton(
-                                                onPressed: () {
-                                                  setState(() {
-                                                    ThemeClass.themeCount = 2;
-                                                    ThemeClass.updateDataBase();
-
-                                                    print(
-                                                        ThemeClass.themeCount);
-                                                  });
-                                                },
-                                                child: Text("light")),
-                                            // circleContainer(
-                                            //     circleColor: Color.fromRGBO(
-                                            //         255, 255, 255, 0.5)),
-                                            // circleContainer(
-                                            //     circleColor: Color.fromRGBO(
-                                            //         77, 110, 129, 1)),
-                                            // circleContainer(
-                                            //     circleColor: Color.fromRGBO(
-                                            //         207, 141, 118, 1)),
-                                            // circleContainer(
-                                            //     circleColor: Color.fromRGBO(
-                                            //         170, 83, 255, 0.5)),
-                                            // circleContainer(
-                                            //     circleColor: Color.fromRGBO(
-                                            //         59, 55, 88, 1)),
-                                          ]),
                                     ],
                                   ),
                                 ),
@@ -273,7 +245,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                 height: 30,
                               ),
                               Container(
-                                height: 160,
+                                height: 180,
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -315,6 +287,20 @@ class _MySettingsPageState extends State<MySettingsPage> {
         ),
       ),
     );
+  }
+
+  int calculateIndex(double value) {
+    if (value <= 20) {
+      return 0;
+    } else if (value <= 30) {
+      return 1;
+    } else if (value <= 40) {
+      return 2;
+    } else if (value <= 50) {
+      return 3;
+    } else {
+      return 4;
+    }
   }
 
   Widget FontButton(

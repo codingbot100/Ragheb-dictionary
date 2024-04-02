@@ -99,12 +99,12 @@ class _RecentpageSecondState extends State<RecentpageSecond> {
             ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(left: 5, right: 5),
+                padding: const EdgeInsets.only(right: 10),
                 child: ListView.separated(
                   physics: NeverScrollableScrollPhysics(),
                   separatorBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.only(left: 16, right: 16),
+                      padding: const EdgeInsets.only(left: 25, right: 16),
                       child: Divider(),
                     );
                   },
@@ -116,13 +116,30 @@ class _RecentpageSecondState extends State<RecentpageSecond> {
                       child: Container(
                         height: 40,
                         child: ListTile(
-                             shape: RoundedRectangleBorder(side: BorderSide.none),
+                          shape: RoundedRectangleBorder(side: BorderSide.none),
                           tileColor: Colors.transparent,
-                          trailing: Text(""),
+                          trailing: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                db.favorite.remove(item["name"]);
+                                db.favorite.remove(item["description"]);
+                                db.favorite.remove(item["footnote"]);
+                                db.favorite.remove(item["isFavorite"]);
+                                db.favorite.remove(item["date"]);
+                                db.favorite.remove(item["image"]);
+                                db.updateDataBase();
+                              });
+                            },
+                            icon: Icon(
+                              Icons.clear,
+                              color: Color.fromRGBO(0, 150, 136, 1),
+                              size: 20,
+                            ),
+                          ),
                           title: Text(
                             item["name"]!,
                             style: TextStyle(
-                              fontSize: db6.SearchName,
+                              fontSize: 20,
                               fontWeight: FontWeight.w900,
                             ),
                           ),

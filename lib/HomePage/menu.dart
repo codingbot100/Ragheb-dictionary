@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/CarouselSlider.dart';
+import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/colors.dart';
 import 'package:ragheb_dictionary/search_Page/RecentPageMain.dart';
 import 'package:ragheb_dictionary/search_Page/FavoritePages2.dart';
@@ -22,6 +23,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with TickerProviderStateMixin {
   final MyController _myController = Get.put(MyController());
+  final ThemeManager themeManager = Get.find();
   ToDoRecent db = ToDoRecent();
   final _meBox = Hive.box('mybox');
   final myItems = [
@@ -40,6 +42,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   var colorClass = new ColorsClass();
   @override
   void initState() {
+    themeManager.loadData();
     if (_meBox.get('TODORECENT') == null) {
       db.createInitialData();
     }
@@ -50,15 +53,28 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Color(0xFFF5F5DC),
       body: SafeArea(
         child: Column(
           children: [
             Padding(
               padding: const EdgeInsets.only(right: 15, top: 15),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  IconButton(
+                      onPressed: () {
+                        setState(() {
+                          themeManager.changeMode();
+                          themeManager.updateDataBase();
+                          print(themeManager.themebo);
+                        });
+                      },
+                      icon: themeManager.themebo.value
+                          ? Icon(Icons.sunny, color: Colors.white)
+                          : Icon(
+                              Icons.nightlight_rounded,
+                            ),
+                      color: Colors.black),
                   Text(
                     'فرهنگ لغت راغب',
                     style: TextStyle(
@@ -87,7 +103,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                       ),
                       TextRow(3, 'مرور همه', 'ذخیره شده ها '),
                       Container(
-                        height: 220,
+                        height: 250,
                         child: GetBuilder<MyController>(
                           builder: (controller) {
                             return FavoritPage_menu();

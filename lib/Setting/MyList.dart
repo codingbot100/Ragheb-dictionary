@@ -1,12 +1,14 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/HomePage/theme.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
+import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/colors.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/fonts.dart';
-import 'package:ragheb_dictionary/search_Page/data/themeData.dart';
+import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/themeData.dart';
 
 class Mylist extends StatefulWidget {
   final String listName;
@@ -19,6 +21,7 @@ class Mylist extends StatefulWidget {
 
 class _MylistState extends State<Mylist> {
   ThemeDatabase themeDatabase = ThemeDatabase();
+  final thememanger = Get.put(ThemeManager());
 
   final _meBox2 = Hive.box('mybox2');
   final thme = MyTheme();
@@ -51,7 +54,7 @@ class _MylistState extends State<Mylist> {
                   width: 1),
               borderRadius: BorderRadius.circular(12.0),
               color: Theme.of(context).colorScheme.background, // boxShadow: [
-              boxShadow: themeDatabase.themeCount == 2
+              boxShadow: thememanger.themebo.value != true
                   ? [
                       BoxShadow(
                           offset: Offset(2, 2),
@@ -59,7 +62,7 @@ class _MylistState extends State<Mylist> {
                     ]
                   : []),
           alignment: Alignment.center,
-          height: 45,
+          height: 53,
           child: Center(
             child: ListTile(
               shape: RoundedRectangleBorder(side: BorderSide.none),
