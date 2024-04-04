@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
+import 'package:ragheb_dictionary/search_Page/RecentPageSecond.dart';
+import 'package:ragheb_dictionary/search_Page/data/isShow.dart';
 import 'package:ragheb_dictionary/search_Page/data/recentData.dart';
 import 'package:ragheb_dictionary/search_Page/util/detailPageNew.dart';
 
@@ -22,11 +24,13 @@ class _SearchPageMeState extends State<SearchPageMe> {
   int selectedPageIndex = 0;
   final _meBox = Hive.box('mybox');
   ToDodatabase6 db6 = ToDodatabase6();
-
+  final ShowClass = Get.put(show());
   ToDoRecent db = ToDoRecent();
   late List<Map<String, Widget>> pages;
   final FocusNode _searchFocus = FocusNode();
   List<Map<String, String>> dataList = [];
+  List<Map<String, String>> dataList2 = [];
+
   List<Map<String, String>> filteredList = [];
   List<Map<String, String>> filteredList2 = [];
 
@@ -141,8 +145,10 @@ class _SearchPageMeState extends State<SearchPageMe> {
     });
   }
 
-  bool convertStringToBool(String value) {
-    return value.toLowerCase() == 'false';
+  void updateSearchControllerValue(String value) {
+    setState(() {
+      _searchController.text = value;
+    });
   }
 
   @override
@@ -158,90 +164,105 @@ class _SearchPageMeState extends State<SearchPageMe> {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(left: 15, right: 15),
-                    child: Container(
-                      height: 50,
-                      child: Focus(
-                        onFocusChange: (hasFocus) {
-                          setState(() {
-                            isShow = hasFocus;
-                            widget.isShow = hasFocus;
-                          });
-                        },
-                        child: TextField(
-                          focusNode: _searchFocus,
-                          controller: _searchController,
-                          cursorColor: Color.fromRGBO(0, 150, 136, 0.5),
-                          cursorHeight: 14,
-                          autocorrect: false,
-                          enableSuggestions: false,
-                          cursorOpacityAnimates: true,
-                          keyboardAppearance: Brightness.dark,
-                          keyboardType: TextInputType.name,
-                          textAlignVertical: TextAlignVertical.center,
-                          style: TextStyle(
-                            fontFamily: dbFont.FontFamily,
-                            fontSize: 16,
-                            // color: Color.fromRGBO(82, 82, 82, 1),
-                          ),
-                          textAlign: TextAlign.right,
-                          onTap: () {
+                    child: MouseRegion(
+                      onEnter: (event) {
+                        setState(() {
+                          Get.find<show>().isShow.value = true;
+                          print(ShowClass.isShow.value);
+                        });
+                      },
+                      onExit: (event) {
+                        setState(() {
+                          Get.find<show>().isShow.value = false;
+                          print(ShowClass.isShow.value);
+                        });
+                      },
+                      child: Container(
+                        height: 50,
+                        child: Focus(
+                          onFocusChange: (hasFocus) {
                             setState(() {
+                              isShow = hasFocus;
+                              widget.isShow = hasFocus;
+                              ShowClass.isShow.value = !ShowClass.isShow.value;
+                              print(ShowClass.isShow.value);
+                            });
+                          },
+                          child: TextField(
+                            focusNode: _searchFocus,
+                            controller: _searchController,
+                            cursorColor: Color.fromRGBO(0, 150, 136, 0.5),
+                            cursorHeight: 14,
+                            autocorrect: false,
+                            enableSuggestions: false,
+                            cursorOpacityAnimates: true,
+                            keyboardAppearance: Brightness.dark,
+                            keyboardType: TextInputType.name,
+                            textAlignVertical: TextAlignVertical.center,
+                            style: TextStyle(
+                              fontFamily: dbFont.FontFamily,
+                              fontSize: 16,
+                              // color: Color.fromRGBO(82, 82, 82, 1),
+                            ),
+                            textAlign: TextAlign.right,
+                            onTap: () {
+                              setState(() {
+                                _onSearch(_searchController.text);
+                                // ShowClass.isShow(
+                                //     FocusScope.of(context).hasFocus);
+                                print(ShowClass.isShow.value);
+                              });
+                            },
+                            onChanged: (value) {
+                              setState(() {
+                                filteredList = dataList
+                                    .where((task) => task['name']!
+                                        .toLowerCase()
+                                        .contains(value.toLowerCase()))
+                                    .toList();
+                                _performSearch(value);
+                              });
                               _onSearch(_searchController.text);
-                            });
-                          },
-                          onChanged: (value) {
-                            setState(() {
-                              filteredList = dataList
-                                  .where((task) => task['name']!
-                                      .toLowerCase()
-                                      .contains(value.toLowerCase()))
-                                  .toList();
-                              _performSearch(value);
-                            });
-                            _onSearch(_searchController.text);
-                          },
-                          decoration: InputDecoration(
-                            prefixIcon: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  _searchController.clear();
-                                });
-                              },
-                              icon: Icon(
-                                Icons.clear,
-                                size: 15,
-                               color: Theme.of(context)
-                    .iconTheme
-                    .color, // Use color from iconTheme
-                              ),
-                            ),
-                            contentPadding:
-                                EdgeInsets.only(top: 10.0, right: 10.0),
-                            hintText: "  ...جستجو کنید ",
-                            hintStyle: TextStyle(
-                                // color: Color.fromRGBO(0, 150, 136, 0.5),
-                                fontSize: 14,
-                                fontFamily: dbFont.FontFamily),
-                            border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(25.0)),
-                              borderSide: BorderSide(
-
+                            },
+                            decoration: InputDecoration(
+                                prefixIcon: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _searchController.clear();
+                                    });
+                                  },
+                                  icon: Icon(
+                                    Icons.clear,
+                                    size: 15,
+                                    color: Theme.of(context)
+                                        .iconTheme
+                                        .color, // Use color from iconTheme
                                   ),
-                            ),
-                            suffixIcon: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _searchController.selection;
-                                    // db.updateDataBase();
-                                    print(db.favorite);
-                                    print(db.dateAndTime);
-                                  });
-                                },
-                                child: Icon(Icons.search, color: Theme.of(context)
-                    .iconTheme
-                    .color, // Use color from iconTheme,)
-                                ))
+                                ),
+                                contentPadding:
+                                    EdgeInsets.only(top: 10.0, right: 10.0),
+                                hintText: "  ...جستجو کنید ",
+                                hintStyle: TextStyle(
+                                    // color: Color.fromRGBO(0, 150, 136, 0.5),
+                                    fontSize: 14,
+                                    fontFamily: dbFont.FontFamily),
+                                border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(25.0)),
+                                  borderSide: BorderSide(),
+                                ),
+                                suffixIcon: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _searchController.selection;
+                                      });
+                                    },
+                                    child: Icon(
+                                      Icons.search,
+                                      color: Theme.of(context)
+                                          .iconTheme
+                                          .color, // Use color from iconTheme,)
+                                    ))),
                           ),
                         ),
                       ),
@@ -250,6 +271,35 @@ class _SearchPageMeState extends State<SearchPageMe> {
                 ),
               ],
             ),
+            isShow ? secondRow() : SizedBox(),
+            isShow
+                ? Visibility(
+                    visible: _searchController.text.isEmpty ? true : false,
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: db.favorite.length,
+                        itemBuilder: (context, index) {
+                          String itemName = db.favorite[index];
+                          return ListTile(
+                            shape:
+                                RoundedRectangleBorder(side: BorderSide.none),
+                            tileColor: Colors.transparent,
+                            onTap: () {
+                              setState(() {
+                                _searchController.text = itemName.toString();
+                              });
+                            },
+                            trailing: Text(
+                              db.favorite[index],
+                              style: TextStyle(
+                                  fontFamily: dbFont.FontFamily,
+                                  fontSize: 21,
+                                  fontWeight: FontWeight.w900),
+                            ),
+                          );
+                        }),
+                  )
+                : SizedBox(),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(top: 10),

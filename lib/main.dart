@@ -5,8 +5,10 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/HomePage/Navigator.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
+import 'package:ragheb_dictionary/SplashScreen.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/themeData.dart';
+import 'package:ragheb_dictionary/search_Page/data/splashData.dart';
 
 void main() async {
   await Hive.initFlutter();
@@ -212,6 +214,7 @@ class _StartState extends State<Start> {
     );
   }
 
+  final splash = Get.put(splashclass());
   @override
   Widget build(BuildContext context) {
     final _meBox = Hive.box('mybox');
@@ -222,7 +225,7 @@ class _StartState extends State<Start> {
         theme:
             themeManager.themebo.value ? CreateDarkTheme() : CreateLightTheme(),
         home: Scaffold(
-          body: MyAppNavigator(),
+          body: splash.checkPage.value ? MyAppNavigator() : SplashScreen(),
         ),
       );
     });

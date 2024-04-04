@@ -89,6 +89,7 @@ class _messageState extends State<message> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              
               for (var row in csvData) ...[
                 Padding(
                   padding: const EdgeInsets.only(bottom: 35),

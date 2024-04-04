@@ -213,11 +213,11 @@ class _secondRowState extends State<secondRow> {
             SizedBox(width: 10),
             Expanded(
               child: Divider(
-                thickness: 0.7,
+                thickness: 0.1,
               ),
             ),
             SizedBox(width: 10),
-            Text("لغت اخیر",
+            Text(" جستجو های اخیر",
                 style: TextStyle(
                   fontFamily: 'YekanBakh',
                   fontSize: 12,
