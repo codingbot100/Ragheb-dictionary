@@ -54,6 +54,7 @@ dependencies:
   intl: ^0.19.0
   persistent_bottom_nav_bar: ^5.0.2
   bottom_navy_bar: ^6.0.0
+  flutter_svg: ^2.0.10+1
   
   
 
@@ -88,6 +89,7 @@ flutter:
     - images2/
     - icons/
     - web_image/
+    - Image_WelcomPage/
    
     
   #   - images/a_dot_ham.jpeg

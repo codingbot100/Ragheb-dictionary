@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:ragheb_dictionary/HomePage/Navigator.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/SplashScreen.dart';
+import 'package:ragheb_dictionary/WelcomScreen.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/themeData.dart';
 import 'package:ragheb_dictionary/search_Page/data/splashData.dart';
@@ -47,6 +47,7 @@ class _StartState extends State<Start> {
     });
     themeManager.loadData();
     super.initState();
+    splash.loadData();
   }
 
   ThemeData CreateDarkTheme() {
@@ -225,7 +226,7 @@ class _StartState extends State<Start> {
         theme:
             themeManager.themebo.value ? CreateDarkTheme() : CreateLightTheme(),
         home: Scaffold(
-          body: splash.checkPage.value ? MyAppNavigator() : SplashScreen(),
+            body: splash.checkPage.value ? SplashScreen() : WelcomScreen(),
         ),
       );
     });

@@ -284,6 +284,11 @@ class _SearchPageMeState extends State<SearchPageMe> {
                             shape:
                                 RoundedRectangleBorder(side: BorderSide.none),
                             tileColor: Colors.transparent,
+                            onFocusChange: (e) {
+                              setState(() {
+                                _searchController.text = itemName.toString();
+                              });
+                            },
                             onTap: () {
                               setState(() {
                                 _searchController.text = itemName.toString();

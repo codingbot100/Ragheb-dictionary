@@ -89,7 +89,6 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
                   ),
                 )),
           ),
-          Divider(),
           SizedBox(
             height: 15,
           ),
