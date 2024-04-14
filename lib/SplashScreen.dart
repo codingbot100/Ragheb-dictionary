@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:ragheb_dictionary/HomePage/Navigator.dart';
 
 main() {
   runApp(SplashScreen());
@@ -16,29 +19,28 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Timer(Duration(seconds: 2), () {
-    //   Get.to(
-    //     () => MyAppNavigator(),
-    //     transition: Transition.fadeIn,
-    //   );
-    // });
+    Timer(Duration(seconds: 3), () {
+      Navigator.of(context).push(CustomPageRoute(page: MyAppNavigator()));
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         body: Center(
             child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: SvgPicture.asset(
-                  'Image_WelcomPage/main_Splash.svg',
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(bottom: 20),
+              //   child: Container(
+              //     height: 653,
+              //     child: Image.asset(
+              //       'Image_WelcomPage/s_image.png',
+              //     ),
+              //   ),
+              // ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 20),
                 child: SvgPicture.asset(
@@ -60,7 +62,32 @@ class _SplashScreenState extends State<SplashScreen> {
             ],
           ),
         )),
-      ),
+      
     );
   }
+}
+
+class CustomPageRoute extends PageRouteBuilder {
+  final Widget page;
+  CustomPageRoute({required this.page})
+      : super(
+          pageBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) =>
+              page,
+          transitionsBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Widget child,
+          ) =>
+              FadeTransition(
+            opacity: animation,
+            child: child,
+          ),
+          transitionDuration:
+              Duration(milliseconds: 500), // Custom transition duration
+        );
 }

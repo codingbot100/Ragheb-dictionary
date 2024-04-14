@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
 import 'package:ragheb_dictionary/search_Page/data/recentData.dart';
+import 'package:ragheb_dictionary/search_Page/util/detailPageNew.dart';
 
 import 'package:ragheb_dictionary/search_Page/util/detalilFavorit.dart';
 import 'package:ragheb_dictionary/search_Page/util/dialog_box.dart';
@@ -145,14 +146,15 @@ class _RecentpageSecondState extends State<RecentpageSecond> {
                           ),
                           onTap: () {
                             Get.to(
-                              () => DetailFavoirtMain(
+                              () => DetailPage(
                                 name: item['name']!,
                                 description: item['description']!,
                                 footnote: item['footnote']!,
-                                initialPageIndex: dataList.indexOf(item),
+                                initialPageIndex: filteredList.indexOf(item),
+                                dataList: filteredList,
                               ),
                               transition: Transition.fadeIn,
-                              duration: Duration(milliseconds: 500),
+                              duration: Duration(milliseconds: 200),
                             );
                           },
                         ),

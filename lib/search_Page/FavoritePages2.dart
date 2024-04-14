@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -8,6 +10,9 @@ import 'package:ragheb_dictionary/search_Page/data/database.dart';
 import 'package:ragheb_dictionary/search_Page/util/detailFavoritePage.dart';
 
 class FavoritPage_menu extends StatefulWidget {
+  int length;
+  FavoritPage_menu({required this.length});
+
   @override
   _FavoritPage_menuState createState() => _FavoritPage_menuState();
 }
@@ -19,7 +24,7 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
   late double borderRadius;
   ThemeDatabase themeDatabase = ThemeDatabase();
   final thememanger = Get.put(ThemeManager());
-
+  String icons = "icons/Vector (1).png";
   @override
   void initState() {
     themeDatabase.loadData();
@@ -33,7 +38,7 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
     super.initState();
     thememanger.loadData();
     _initHive();
-
+    widget.length = _todoDatabase.favorite.length;
     _todoDatabase.createInitialData();
     _todoDatabase.loadData();
   }
@@ -90,7 +95,6 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // backgroundColor: Color(0xFFF5F5DC),
         body: Column(
       children: [
         // Text('Month'),
@@ -127,9 +131,17 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
                   child: Directionality(
                     textDirection: TextDirection.rtl,
                     child: ListTile(
-                      leading: Image.asset(
-                        'icons/Vector (1).png',
-                        scale: 1,
+                      leading: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _todoDatabase.favorite.removeAt(index);
+                            _todoDatabase.updateDataBase();
+                          });
+                        },
+                        icon: Image.asset(
+                          icons,
+                          scale: 1,
+                        ),
                       ),
                       title: Text(
                         "${_todoDatabase.favorite[realIndex]['name']}",
@@ -153,7 +165,7 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
                                     "${_todoDatabase.favorite[realIndex]['footnote']}",
                                 initialPageIndex: realIndex),
                             transition: Transition.fadeIn,
-                            duration: Duration(milliseconds: 500));
+                            duration: Duration(milliseconds: 200));
                         _todoDatabase.updateDataBase();
                       },
                     ),

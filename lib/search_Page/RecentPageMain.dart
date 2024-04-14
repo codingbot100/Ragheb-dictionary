@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
 import 'package:ragheb_dictionary/search_Page/data/recentData.dart';
-import 'package:ragheb_dictionary/search_Page/util/detalilFavorit.dart';
+import 'package:ragheb_dictionary/search_Page/util/detailPageNew.dart';
 
 class RecentpageMain extends StatefulWidget {
   @override
@@ -135,7 +135,6 @@ class _RecentpageMainState extends State<RecentpageMain> {
                     child: ListTile(
                       shape: RoundedRectangleBorder(side: BorderSide.none),
                       tileColor: Colors.transparent,
-                      
                       title: Text(
                         item["name"]!,
                         style: TextStyle(
@@ -145,15 +144,15 @@ class _RecentpageMainState extends State<RecentpageMain> {
                       ),
                       onTap: () {
                         Get.to(
-                          () => DetailFavoirtMain(
+                          () => DetailPage(
                             name: item['name']!,
                             description: item['description']!,
                             footnote: item['footnote']!,
-                            // dataList: dataList,
-                            initialPageIndex: dataList.indexOf(item),
+                            dataList: filteredList,
+                            initialPageIndex: filteredList.indexOf(item),
                           ),
                           transition: Transition.fadeIn,
-                          duration: Duration(milliseconds: 500),
+                          duration: Duration(milliseconds: 200),
                         );
                       },
                     ),

@@ -35,6 +35,8 @@ class _FavoritPage_secondState extends State<FavoritPage_second> {
 
   @override
   Widget build(BuildContext context) {
+        
+
     return Scaffold(
         // backgroundColor: Color(0xFFF5F5DC),
         body: Column(
@@ -62,7 +64,7 @@ class _FavoritPage_secondState extends State<FavoritPage_second> {
                                 "${_todoDatabase.favorite[index]['footnote']}",
                             initialPageIndex: index),
                         transition: Transition.fadeIn,
-                        duration: Duration(milliseconds: 500));
+                        duration: Duration(milliseconds: 200));
                   },
                 ),
               );

@@ -78,7 +78,6 @@ class _messageState extends State<message> {
               fontSize: 20,
               fontFamily: 'Yekan',
               fontWeight: FontWeight.w700,
-              // color: Color.fromRGBO(0, 150, 136, 1)
             ),
           ),
         ),
@@ -100,6 +99,10 @@ class _messageState extends State<message> {
                                     "images2/${imageList[csvData.indexOf(row) % imageList.length]}",
                                 title: row[1].toString(),
                                 main_Contant: row[0].toString(),
+                                csvData: csvData,
+                                imageList: imageList,
+                                initialPageIndex: csvData.indexOf(row),
+                               
                               ),
                           transition: Transition.fadeIn,
                           duration: Duration(milliseconds: 350));
@@ -131,8 +134,8 @@ class _messageState extends State<message> {
                         children: [
                           ClipRRect(
                               borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(15),
-                                  topRight: Radius.circular(15)),
+                                  topLeft: Radius.circular(12),
+                                  topRight: Radius.circular(12)),
                               child: Image.asset(
                                 "images2/${imageList[csvData.indexOf(row) % imageList.length]}",
                               )),
@@ -145,7 +148,6 @@ class _messageState extends State<message> {
                                   row[1].toString(),
                                   style: TextStyle(
                                       fontWeight: FontWeight.w700,
-                                      // color: Colors.black,
                                       fontSize: db6.title_Web_Main,
                                       fontFamily: dbFont.FontFamily),
                                 )),

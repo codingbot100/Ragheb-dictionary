@@ -4,6 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
 import 'package:ragheb_dictionary/search_Page/data/database.dart';
 import 'package:ragheb_dictionary/search_Page/util/detailFavoritePage.dart';
+import 'package:ragheb_dictionary/search_Page/util/detailPageNew.dart';
 
 class FavoritPage_Me extends StatefulWidget {
   @override
@@ -83,6 +84,8 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
             child: Directionality(
                 textDirection: TextDirection.rtl,
                 child: ListTile(
+                  shape: RoundedRectangleBorder(side: BorderSide.none),
+                  tileColor: Colors.transparent,
                   title: Text(
                     'ذخیره شده ها ',
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.w900),
@@ -101,9 +104,15 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
                   child: ListTile(
                     shape: RoundedRectangleBorder(side: BorderSide.none),
                     tileColor: Colors.transparent,
-                    leading: Text(
-                      formatDateTime(_todoDatabase.favorite[index]['date']),
-                    ),
+                    leading: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _todoDatabase.favorite.removeAt(index);
+                            _todoDatabase.updateDataBase();
+                          });
+                        },
+                        icon: Icon(Icons.clear),
+                        color: Color.fromRGBO(0, 150, 136, 1)),
                     trailing: Text(
                       "${_todoDatabase.favorite[index]['name']}",
                       style:
@@ -111,15 +120,16 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
                     ),
                     onTap: () {
                       Get.to(
-                          () => DetailFavoirtPage(
+                          () => DetailPage(
                               name: " ${_todoDatabase.favorite[index]['name']}",
                               description:
                                   "${_todoDatabase.favorite[index]['description']}",
                               footnote:
                                   "${_todoDatabase.favorite[index]['footnote']}",
-                              initialPageIndex: index),
+                              initialPageIndex: index,
+                              dataList: []),
                           transition: Transition.fadeIn,
-                          duration: Duration(milliseconds: 500));
+                          duration: Duration(milliseconds: 200));
                       _todoDatabase.updateDataBase();
                     },
                   ),

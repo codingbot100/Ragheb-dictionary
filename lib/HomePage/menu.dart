@@ -3,11 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:ragheb_dictionary/HomePage/No_Rep.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/CarouselSlider.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/colors.dart';
 import 'package:ragheb_dictionary/search_Page/RecentPageMain.dart';
 import 'package:ragheb_dictionary/search_Page/FavoritePages2.dart';
+import 'package:ragheb_dictionary/search_Page/data/data2.dart';
 import 'package:ragheb_dictionary/search_Page/data/recentData.dart';
 
 class Home extends StatefulWidget {
@@ -40,12 +42,16 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   final colorBackground = Color(0xFFF5F5DC);
   var colortitle;
   var colorClass = new ColorsClass();
+  ToDoRecent toDoRecent = ToDoRecent();
+  ToDodatabase3 toDodatabase3 = ToDodatabase3();
   @override
   void initState() {
     themeManager.loadData();
     if (_meBox.get('TODORECENT') == null) {
       db.createInitialData();
     }
+    toDoRecent.loadData();
+    toDodatabase3.loadData();
     db.loadData();
     super.initState();
   }
@@ -101,32 +107,41 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                         padding: const EdgeInsets.only(bottom: 10),
                         child: CarouselSlider1(),
                       ),
-                      TextRow(3, 'مرور همه', 'ذخیره شده ها '),
-                      Container(
-                        height: 250,
-                        child: GetBuilder<MyController>(
-                          builder: (controller) {
-                            return FavoritPage_menu();
-                          },
-                        ),
-                      ),
-                      TextRow(5, 'مرور همه', 'جستجو های اخیر'),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 2,
-                          right: 2,
-                        ),
-                        child: Expanded(
-                          child: Container(
-                            height: db.favorite.length * 57,
-                            child: GetBuilder<MyController>(
-                              builder: (controller) {
-                                return RecentpageMain();
-                              },
-                            ),
-                          ),
-                        ),
-                      ),
+                      toDoRecent.favorite.isEmpty &&
+                              toDodatabase3.favorite.isEmpty
+                          ? Container(height: 400, width: 300, child: No_Rep())
+                          : Column(
+                              children: [
+                                TextRow(3, 'مرور همه', 'ذخیره شده ها '),
+                                Container(
+                                  height: 250,
+                                  child: GetBuilder<MyController>(
+                                    builder: (controller) {
+                                      return FavoritPage_menu(
+                                        length: 0,
+                                      );
+                                    },
+                                  ),
+                                ),
+                                TextRow(2, 'مرور همه', 'جستجو های اخیر'),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 2,
+                                    right: 2,
+                                  ),
+                                  child: Expanded(
+                                    child: Container(
+                                      height: db.favorite.length * 57,
+                                      child: GetBuilder<MyController>(
+                                        builder: (controller) {
+                                          return RecentpageMain();
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
                     ],
                   ),
                 ),

@@ -1,6 +1,8 @@
 // ignore_for_file: override_on_non_overriding_member
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
@@ -37,6 +39,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
   final colorPrimary2 = Color(0xFFB0BEC5);
   final colorBackground2 = Color.fromARGB(255, 224, 224, 224);
   var listColor = Color.fromARGB(255, 97, 158, 152);
+  Color MyButtonColor = Colors.transparent;
   int fontOption = 0;
   final MyTheme theme = MyTheme();
   ToDodatabase6 db = new ToDodatabase6();
@@ -162,9 +165,16 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                           Text(
                                             ' نوع قلم: ',
                                             style: TextStyle(
-                                              fontFamily: fontsCl.fonts[2],
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 13,
+                                              color:
+                                                  thememanger.themebo.value !=
+                                                          true
+                                                      ? Color.fromRGBO(
+                                                          82, 82, 82, 1)
+                                                      : Color.fromRGBO(
+                                                          153, 153, 153, 1),
+                                              fontFamily: "YekanBakh",
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
                                             ),
                                           ),
                                           FontButton(
@@ -182,9 +192,16 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                           Text(
                                             'اندازه قلم : ',
                                             style: TextStyle(
-                                              fontFamily: fontsCl.fonts[2],
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 13.0,
+                                              color:
+                                                  thememanger.themebo.value !=
+                                                          true
+                                                      ? Color.fromRGBO(
+                                                          82, 82, 82, 1)
+                                                      : Color.fromRGBO(
+                                                          153, 153, 153, 1),
+                                              fontFamily: "YekanBakh",
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14.0,
                                             ),
                                           ),
                                           Flexible(
@@ -305,32 +322,45 @@ class _MySettingsPageState extends State<MySettingsPage> {
 
   Widget FontButton(
       String fontName, double width, int fontBorder, String fontFamily) {
-    return InkWell(
-      onTap: () {
-        setState(() {
-          Db_Font.FontFamily = fontFamily;
-          Db_Font.borderFont = fontBorder;
-          Db_Font.updateDataBase();
-        });
-      },
-      child: Container(
-          width: width,
-          height: 25,
-          decoration: BoxDecoration(
-              border: Db_Font.borderFont == fontBorder
-                  ? Border.all(color: Color.fromRGBO(0, 150, 136, 1))
-                  : null,
-              borderRadius: BorderRadius.circular(25)),
-          child: Center(
-            child: Text(
-              fontName,
-              style: TextStyle(
-                fontFamily: 'YekanBakh',
-                fontWeight: FontWeight.w700,
-                fontSize: 13,
+    return Container(
+      child: TextButton(
+        onPressed: () {
+          setState(() {
+            Db_Font.FontFamily = fontFamily;
+            Db_Font.borderFont = fontBorder;
+            Db_Font.updateDataBase();
+          });
+        },
+        child: Container(
+            width: width,
+            height: 26,
+            decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                border: Db_Font.borderFont == fontBorder
+                    ? Border.all(
+                        color: Db_Font.borderFont == fontBorder
+                            ? Color.fromRGBO(0, 150, 137, 0.929)
+                            : Color.fromRGBO(147, 147, 147, 1))
+                    : null,
+                borderRadius: BorderRadius.circular(8)),
+            child: Center(
+              child: Text(
+                fontName,
+                style: TextStyle(
+                  color: thememanger.themebo.value != true
+                      ? Db_Font.borderFont == fontBorder
+                          ? Color.fromRGBO(0, 150, 137, 1)
+                          : Color.fromRGBO(147, 147, 147, 1)
+                      : Db_Font.borderFont == fontBorder
+                          ? Color.fromRGBO(0, 150, 137, 1)
+                          : Colors.white,
+                  fontFamily: 'YekanBakh',
+                  fontWeight: FontWeight.w700,
+                  fontSize: 13,
+                ),
               ),
-            ),
-          )),
+            )),
+      ),
     );
   }
 }

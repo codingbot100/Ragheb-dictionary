@@ -8,6 +8,7 @@ import 'package:ragheb_dictionary/search_Page/FavoritePage_last%20.dart';
 import 'package:ragheb_dictionary/search_Page/RecentPageSecond.dart';
 import 'package:ragheb_dictionary/search_Page/data/isShow.dart';
 import 'package:ragheb_dictionary/search_Page/util/search_pageMe.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class MyAppNavigator extends StatefulWidget {
   @override
@@ -51,11 +52,18 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
   Widget build(BuildContext context) {
     bool ShowFab = MediaQuery.of(context).viewInsets.bottom != 0;
     return Scaffold(
-      body: buildScreens[_currentIndex],
+      body: AnimatedSwitcher(
+        // switchInCurve: Curves.fastOutSlowIn,
+        duration: Duration(milliseconds: 350),
+        child: buildScreens[_currentIndex],
+        transitionBuilder: (child, animation) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+      ),
       bottomNavigationBar: Obx(() => Visibility(
             visible: ShowClass.isShow.value,
             child: AnimatedContainer(
-              duration: Duration(milliseconds: 400),
+              duration: Duration(milliseconds: 300),
               height: ShowClass.isShow.value ? 65 : 0,
               curve: Curves.fastEaseInToSlowEaseOut,
               decoration: BoxDecoration(
@@ -82,42 +90,36 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
                       Container(
                         width: 55,
                         child: IconButton(
-                          icon: Image.asset(
+                          icon: SvgPicture.asset(
                             _currentIndex == 0
-                                ? 'icons/CloseHome.png'
-                                : 'icons/OpenHome.png',
-                            scale: _currentIndex == 0 ? 3 : 5,
+                                ? 'Image_WelcomPage/clicked_home.svg'
+                                : 'Image_WelcomPage/click_home.svg',
                           ),
                           onPressed: () => setState(() => _currentIndex = 0),
                         ),
                       ),
                       IconButton(
-                        icon: Image.asset(
+                        icon: SvgPicture.asset(
                           _currentIndex == 1
-                              ? 'icons/OpenWeblog.png'
-                              : 'icons/weblog.png',
-                          scale: _currentIndex == 1 ? 3 : 4.5,
+                              ? 'Image_WelcomPage/Clicked_weblog.svg'
+                              : 'Image_WelcomPage/Click_welog.svg',
                         ),
                         onPressed: () => setState(() => _currentIndex = 1),
                       ),
                       SizedBox(), // Spacer for the center space
                       IconButton(
-                        icon: Image.asset(
+                        icon: SvgPicture.asset(
                           _currentIndex == 3
-                              ? 'icons/State=Enable.png'
-                              : 'icons/State=Disable.png',
-                          scale: 1.5,
-                          cacheWidth: 150,
-                          color: Color.fromRGBO(0, 150, 136, 1),
+                              ? 'Image_WelcomPage/State=Enable.svg'
+                              : 'Image_WelcomPage/State=Disable.svg',
                         ),
                         onPressed: () => setState(() => _currentIndex = 3),
                       ),
                       IconButton(
-                        icon: Image.asset(
+                        icon: SvgPicture.asset(
                           _currentIndex == 4
-                              ? 'icons/OpenSetting.png'
-                              : 'icons/newSetting.png',
-                          scale: _currentIndex == 4 ? 3 : 4.5,
+                              ? 'Image_WelcomPage/clicked_setting.svg'
+                              : 'Image_WelcomPage/setting2.svg',
                         ),
                         onPressed: () => setState(() => _currentIndex = 4),
                       ),
@@ -127,21 +129,21 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
               ),
             ),
           )),
-      floatingActionButton: Obx(() => Visibility(
-            visible: ShowClass.isShow.value,
-            child: ClipOval(
-              child: FloatingActionButton(
-                onPressed: () => setState(() => _currentIndex = 2),
-                tooltip: 'Search',
-                child: Icon(
-                  Icons.search,
-                  color: Colors.white,
-                ),
-                elevation: 2.0,
-                backgroundColor: Color(0xFF009688),
-              ),
+      floatingActionButton: Visibility(
+        visible: !ShowFab,
+        child: ClipOval(
+          child: FloatingActionButton(
+            onPressed: () => setState(() => _currentIndex = 2),
+            tooltip: 'Search',
+            child: Icon(
+              Icons.search,
+              color: Colors.white,
             ),
-          )),
+            elevation: 2.0,
+            backgroundColor: Color(0xFF009688),
+          ),
+        ),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
     );

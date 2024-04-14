@@ -97,23 +97,20 @@ class _SearchPageMeState extends State<SearchPageMe> {
     super.initState();
   }
 
-  void _onSearch(String searchText) {
-    if (searchText.isNotEmpty) {
+  void addToRecentData(String name, description, footnote) {
+    if (name.isNotEmpty) {
       // Check if searchText exists in dataList based on the "name" field
-      bool searchTextExists =
-          dataList.any((item) => item['name'] == searchText);
+      bool searchTextExists = dataList.any((item) => item['name'] == name);
 
       // If searchText exists in dataList and not in db.favorite, add it to db.favorite
-      if (searchTextExists && !db.favorite.contains(searchText)) {
-        db.favorite.add(searchText);
-        String currentDateAndTime = DateTime.now().toString();
-        db.dateAndTime.add(currentDateAndTime);
+      if (searchTextExists && !db.favorite.contains(name)) {
+        db.favorite.add(name);
         db.updateDataBase();
         print(db.favorite);
       }
 
       // تنظیم خصوصیات TextField
-      _searchController.text = searchText;
+      _searchController.text = name;
       _searchController.selection = TextSelection.fromPosition(
           TextPosition(offset: _searchController.text.length));
       _searchController.selection =
@@ -122,7 +119,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
       // Filter dataList based on searchText
       filteredList = dataList
           .where((item) =>
-              item['name']!.toLowerCase().contains(searchText.toLowerCase()))
+              item['name']!.toLowerCase().contains(name.toLowerCase()))
           .toList();
     }
 
@@ -151,8 +148,20 @@ class _SearchPageMeState extends State<SearchPageMe> {
     });
   }
 
+  List<Map<String, String>> filterDataList() {
+    List<Map<String, String>> filteredList = [];
+    for (var item in dataList) {
+      if (db.favorite.contains(item["name"])) {
+        filteredList.add(item);
+      }
+    }
+    return filteredList;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final filteredList1 = filterDataList();
+
     return Scaffold(
       // backgroundColor: Color(0xFFF5F5DC),
       body: Padding(
@@ -207,7 +216,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
                             textAlign: TextAlign.right,
                             onTap: () {
                               setState(() {
-                                _onSearch(_searchController.text);
+                                // _onSearch(_searchController.text);
                                 // ShowClass.isShow(
                                 //     FocusScope.of(context).hasFocus);
                                 print(ShowClass.isShow.value);
@@ -222,21 +231,26 @@ class _SearchPageMeState extends State<SearchPageMe> {
                                     .toList();
                                 _performSearch(value);
                               });
-                              _onSearch(_searchController.text);
+                              // _onSearch(_searchController.text);
                             },
                             decoration: InputDecoration(
-                                prefixIcon: IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      _searchController.clear();
-                                    });
-                                  },
-                                  icon: Icon(
-                                    Icons.clear,
-                                    size: 15,
-                                    color: Theme.of(context)
-                                        .iconTheme
-                                        .color, // Use color from iconTheme
+                                prefixIcon: Visibility(
+                                  visible: _searchController.text.isEmpty
+                                      ? false
+                                      : true,
+                                  child: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _searchController.clear();
+                                      });
+                                    },
+                                    icon: Icon(
+                                      Icons.clear,
+                                      size: 15,
+                                      color: Theme.of(context)
+                                          .iconTheme
+                                          .color, // Use color from iconTheme
+                                    ),
                                   ),
                                 ),
                                 contentPadding:
@@ -271,57 +285,68 @@ class _SearchPageMeState extends State<SearchPageMe> {
                 ),
               ],
             ),
-            isShow ? secondRow() : SizedBox(),
-            isShow
-                ? Visibility(
-                    visible: _searchController.text.isEmpty ? true : false,
-                    child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: db.favorite.length,
-                        itemBuilder: (context, index) {
-                          String itemName = db.favorite[index];
-                          return ListTile(
-                            shape:
-                                RoundedRectangleBorder(side: BorderSide.none),
-                            tileColor: Colors.transparent,
-                            onFocusChange: (e) {
-                              setState(() {
-                                _searchController.text = itemName.toString();
-                              });
-                            },
-                            onTap: () {
-                              setState(() {
-                                _searchController.text = itemName.toString();
-                              });
-                            },
-                            trailing: Text(
-                              db.favorite[index],
-                              style: TextStyle(
-                                  fontFamily: dbFont.FontFamily,
-                                  fontSize: 21,
-                                  fontWeight: FontWeight.w900),
-                            ),
-                          );
-                        }),
-                  )
-                : SizedBox(),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: Container(
-                  child: ListView.separated(
-                    itemCount: _searchController.text.isEmpty
-                        ? dataList.length
-                        : filteredList.length,
+            Visibility(
+                visible: _searchController.text.isEmpty || db.favorite.isEmpty
+                    ? true
+                    : false,
+                child: secondRow()),
+            Visibility(
+                visible: db.favorite.isEmpty ? true : false,
+                child: Text("اخیر هیچ جستجوی انجام نشده است")),
+            Visibility(
+              visible: _searchController.text.isEmpty ? true : false,
+              child: Container(
+                child: ListView.separated(
+                    separatorBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        child: Divider(
+                          thickness: 0.5,
+                          color: Color.fromRGBO(153, 153, 153, 1),
+                        ),
+                      );
+                    },
+                    shrinkWrap: true,
+                    itemCount:
+                        filteredList1.length > 8 ? 8 : filteredList1.length,
                     itemBuilder: (context, index) {
-                      final item = _searchController.text.isEmpty
-                          ? dataList[index]
-                          : filteredList[index];
+                      int realIndex = filteredList1.length > 10
+                          ? filteredList1.length - 10 + index
+                          : index;
+                      final item = filteredList1[realIndex];
                       return Container(
                         height: 37,
                         child: ListTile(
+                          leading: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  db.favorite.removeAt(index);
+                                  db.updateDataBase();
+                                });
+                              },
+                              icon: Icon(
+                                Icons.clear,
+                                size: 20,
+                              ),
+                              color: Color.fromRGBO(0, 150, 136, 1)),
                           shape: RoundedRectangleBorder(side: BorderSide.none),
                           tileColor: Colors.transparent,
+                          onFocusChange: (e) {
+                            setState(() {});
+                          },
+                          onTap: () {
+                            Get.to(
+                              () => DetailPage(
+                                name: item['name']!,
+                                description: item['description']!,
+                                footnote: item['footnote']!,
+                                dataList: filteredList1,
+                                initialPageIndex: filteredList1.indexOf(item),
+                              ),
+                              transition: Transition.fadeIn,
+                              duration: Duration(milliseconds: 500),
+                            );
+                          },
                           trailing: Text(
                             item["name"]!,
                             style: TextStyle(
@@ -329,33 +354,69 @@ class _SearchPageMeState extends State<SearchPageMe> {
                                 fontSize: 21,
                                 fontWeight: FontWeight.w900),
                           ),
-                          onTap: () {
-                            Get.to(
-                              () => DetailPage12(
-                                name: item['name']!,
-                                description: item['description']!,
-                                footnote: item['footnote']!,
-                                dataList: dataList,
-                                initialPageIndex: _searchController.text.isEmpty
-                                    ? index
-                                    : dataList.indexOf(item),
-                              ),
-                              transition: Transition.fadeIn,
-                              duration: Duration(milliseconds: 500),
-                            );
-                          },
                         ),
                       );
-                    },
-                    separatorBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(left: 20, right: 20),
-                        child: Divider(
-                          thickness: 0.5,
-                          color: Color.fromRGBO(0, 150, 136, 0.5),
-                        ),
-                      );
-                    },
+                    }),
+              ),
+            ),
+            Visibility(
+              visible: _searchController.text.isEmpty ? false : true,
+              child: Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Container(
+                    child: ListView.separated(
+                      itemCount: _searchController.text.isEmpty
+                          ? dataList.length
+                          : filteredList.length,
+                      itemBuilder: (context, index) {
+                        final item = _searchController.text.isEmpty
+                            ? dataList[index]
+                            : filteredList[index];
+                        return Container(
+                          height: 37,
+                          child: ListTile(
+                            shape:
+                                RoundedRectangleBorder(side: BorderSide.none),
+                            tileColor: Colors.transparent,
+                            trailing: Text(
+                              item["name"]!,
+                              style: TextStyle(
+                                  fontFamily: dbFont.FontFamily,
+                                  fontSize: 21,
+                                  fontWeight: FontWeight.w900),
+                            ),
+                            onTap: () {
+                              Get.to(
+                                () => DetailPage(
+                                  name: item['name']!,
+                                  description: item['description']!,
+                                  footnote: item['footnote']!,
+                                  dataList: dataList,
+                                  initialPageIndex:
+                                      _searchController.text.isEmpty
+                                          ? index
+                                          : dataList.indexOf(item),
+                                ),
+                                transition: Transition.fadeIn,
+                                duration: Duration(milliseconds: 500),
+                              );
+                              addToRecentData(item["name"]!,
+                                  item['description']!, item['footnote']!);
+                            },
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 20, right: 20),
+                          child: Divider(
+                            thickness: 0.5,
+                            color: Color.fromRGBO(0, 150, 136, 0.5),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),

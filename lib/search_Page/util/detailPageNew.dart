@@ -6,18 +6,19 @@ import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
 import 'package:ragheb_dictionary/search_Page/data/data.dart';
 import 'package:ragheb_dictionary/search_Page/data/database.dart';
+import 'package:ragheb_dictionary/search_Page/util/CustomeNavBar.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../Tools_Menu/CarouselSlider/tools/fonts.dart';
 
-class DetailPage12 extends StatefulWidget {
+class DetailPage extends StatefulWidget {
   final String name;
   final String description;
   final String footnote;
   final List<Map<String, String>> dataList;
   final int initialPageIndex;
 
-  DetailPage12({
+  DetailPage({
     Key? key,
     required this.name,
     required this.description,
@@ -27,10 +28,10 @@ class DetailPage12 extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<DetailPage12> createState() => _DetailPage12State();
+  State<DetailPage> createState() => _DetailPageState();
 }
 
-class _DetailPage12State extends State<DetailPage12> {
+class _DetailPageState extends State<DetailPage> {
   late PageController _pageController;
   late String image;
   fontsize fontSize = fontsize();
@@ -149,6 +150,7 @@ class _DetailPage12State extends State<DetailPage12> {
             physics: NeverScrollableScrollPhysics(),
             controller: _pageController,
             itemCount: widget.dataList.length,
+            allowImplicitScrolling: true,
             itemBuilder: (context, index) {
               final name = widget.dataList[index]['name']!;
               final description = widget.dataList[index]['description']!;
@@ -177,7 +179,7 @@ class _DetailPage12State extends State<DetailPage12> {
                             ),
                         child: Padding(
                           padding: const EdgeInsets.only(
-                              left: 15, right: 20, bottom: 20),
+                              left: 15, right: 20, bottom: 13),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -260,27 +262,30 @@ class _DetailPage12State extends State<DetailPage12> {
                                       padding: const EdgeInsets.all(
                                         15,
                                       ),
-                                      child: Container(
-                                        child: Expanded(
-                                          child: RichText(
-                                              textDirection: TextDirection.rtl,
-                                              textAlign: TextAlign.justify,
-                                              text: TextSpan(
-                                                text: widget.dataList[
-                                                        _currentPageIndex]
-                                                    ['footnote']!,
-                                                style: TextStyle(
-                                                  fontFamily:
-                                                      DB_fontFamily.FontFamily,
-                                                  fontSize: db6.FootNot,
-                                                  fontWeight: FontWeight.w900,
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyText2
-                                                      ?.color, // Use color from i
-                                                ),
-                                              )),
-                                        ),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: RichText(
+                                                textDirection:
+                                                    TextDirection.rtl,
+                                                textAlign: TextAlign.justify,
+                                                text: TextSpan(
+                                                  text: widget.dataList[
+                                                          _currentPageIndex]
+                                                      ['footnote']!,
+                                                  style: TextStyle(
+                                                    fontFamily: DB_fontFamily
+                                                        .FontFamily,
+                                                    fontSize: db6.FootNot,
+                                                    fontWeight: FontWeight.w900,
+                                                    color: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText2
+                                                        ?.color, // Use color from i
+                                                  ),
+                                                )),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),
@@ -346,67 +351,10 @@ class _DetailPage12State extends State<DetailPage12> {
               );
             }),
       ),
-      bottomNavigationBar: BottomAppBar(
-        clipBehavior: Clip.antiAlias,
+      bottomNavigationBar: Container(
         height: 70,
-        color: Theme.of(context).bottomAppBarColor,
-        shape: CircularNotchedRectangle(),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 40, right: 40),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                child: IconButton(
-                  onPressed: () {
-                    Get.back();
-                  },
-                  icon: Image.asset(
-                    'icons/back.png',
-                    scale: 4.5,
-                  ),
-                ),
-              ),
-              IconButton(
-                onPressed: () {
-                  if (_pageController.page! > 0) {
-                    _pageController.previousPage(
-                      duration: Duration(milliseconds: 400),
-                      curve: Curves.fastEaseInToSlowEaseOut,
-                    );
-                  }
-                },
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  size: 23,
-                  color: Color.fromRGBO(111, 111, 111, 1),
-                ),
-              ),
-              IconButton(
-                onPressed: () {
-                  if (_pageController.page! < widget.dataList.length - 1) {
-                    _pageController.nextPage(
-                      duration: Duration(milliseconds: 400),
-                      curve: Curves.fastEaseInToSlowEaseOut,
-                    );
-                  }
-                },
-                icon: Icon(
-                  Icons.arrow_forward_ios,
-                  size: 23,
-                  color: Color.fromRGBO(111, 111, 111, 1),
-                ),
-              ),
-              IconButton(
-                onPressed: () {
-                  Get.back();
-                },
-                icon: Icon(Icons.search,
-                    size: 25, color: Color.fromRGBO(111, 111, 111, 1)),
-              ),
-            ],
-          ),
-        ),
+        child: CustomeNavBar(
+            dataList: widget.dataList, pageController: _pageController),
       ),
     );
   }

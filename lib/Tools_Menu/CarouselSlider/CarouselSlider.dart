@@ -19,18 +19,6 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
   List<List<dynamic>> csvData = [];
 
   final myItems1 = [
-    "1.jpg",
-    "2.jpg",
-    "4.jpg",
-    "5.jpg",
-    "6.jpg",
-    "7.jpg",
-    "8.jpg",
-    "8.jpg",
-    "9.jpg",
-    "8.jpg",
-  ];
-  final myItems = [
     "images2/1.jpg",
     "images2/2.jpg",
     "images2/4.jpg",
@@ -41,6 +29,18 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
     "images2/8.jpg",
     "images2/9.jpg",
     "images2/8.jpg",
+  ];
+  final myItems = [
+    "1.jpg",
+    "2.jpg",
+    "4.jpg",
+    "5.jpg",
+    "6.jpg",
+    "7.jpg",
+    "8.jpg",
+    "8.jpg",
+    "9.jpg",
+    "8.jpg",
   ];
   int myCurrentIndex = 0;
   @override
@@ -67,9 +67,12 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
             if (csvData.isNotEmpty) {
               int tappedIndex = myCurrentIndex % csvData.length;
               Get.to(() => Web_Log_Detail(
+                    imageList: myItems,
+                    csvData: csvData,
                     image: "images2/${myItems1[tappedIndex % myItems1.length]}",
                     title: csvData[tappedIndex][1].toString(),
                     main_Contant: csvData[tappedIndex][0].toString(),
+                    initialPageIndex: tappedIndex,
                   ));
             }
           },
@@ -125,7 +128,7 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8.0),
         child: Image.asset(
-          myItems[index],
+          myItems1[index],
           fit: BoxFit.cover,
         ),
       ),
