@@ -177,12 +177,18 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                               fontSize: 14,
                                             ),
                                           ),
-                                          FontButton(
-                                              "یکان بخ", 55, 0, 'YekanBakh'),
-                                          FontButton("ایران سنس ایکس", 100, 1,
-                                              'IRANSansX'),
-                                          FontButton(
-                                              " وزیر مت", 60, 2, 'Vazirmatn'),
+                                          Expanded(
+                                            child: FontButton(
+                                                "یکان بخ", 55, 0, 'YekanBakh'),
+                                          ),
+                                          Expanded(
+                                            child: FontButton(" سنس ایکس", 100,
+                                                1, 'IRANSansX'),
+                                          ),
+                                          Expanded(
+                                            child: FontButton(
+                                                " وزیر مت", 60, 2, 'Vazirmatn'),
+                                          ),
                                         ],
                                       ),
                                       Row(
@@ -262,7 +268,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                 height: 30,
                               ),
                               Container(
-                                height: 180,
+                                height: 120,
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -285,9 +291,9 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                               duration:
                                                   Duration(milliseconds: 500));
                                         }),
-                                    Mylist(
-                                        listName: 'ارئه بازخورد',
-                                        OntapLis: () {})
+                                    // Mylist(
+                                    //     listName: 'ارئه بازخورد',
+                                    //     OntapLis: () {})
                                   ],
                                 ),
                               ),

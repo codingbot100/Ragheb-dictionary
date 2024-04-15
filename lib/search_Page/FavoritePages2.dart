@@ -7,7 +7,7 @@ import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/themeData.dart';
 import 'package:ragheb_dictionary/search_Page/data/database.dart';
-import 'package:ragheb_dictionary/search_Page/util/detailFavoritePage.dart';
+import 'package:ragheb_dictionary/search_Page/util/detailPageNew.dart';
 
 class FavoritPage_menu extends StatefulWidget {
   int length;
@@ -156,14 +156,25 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
                           style: TextStyle(color: Colors.grey.shade500)),
                       onTap: () {
                         Get.to(
-                            () => DetailFavoirtPage(
-                                name:
-                                    " ${_todoDatabase.favorite[realIndex]['name']}",
-                                description:
-                                    "${_todoDatabase.favorite[realIndex]['description']}",
-                                footnote:
-                                    "${_todoDatabase.favorite[realIndex]['footnote']}",
-                                initialPageIndex: realIndex),
+                            () => DetailPage(
+                                  name:
+                                      "${_todoDatabase.favorite[index]['name']}",
+                                  description:
+                                      "${_todoDatabase.favorite[index]['description']}",
+                                  footnote:
+                                      "${_todoDatabase.favorite[index]['footnote']}",
+                                  initialPageIndex: index,
+                                  dataList: _todoDatabase.favorite.map((item) {
+                                    return {
+                                      'name': item['name'].toString(),
+                                      'description':
+                                          item['description'].toString(),
+                                      'footnote': item['footnote'].toString(),
+                                    };
+                                  }).toList(),
+                                                                  showFavorite: false,
+
+                                ),
                             transition: Transition.fadeIn,
                             duration: Duration(milliseconds: 200));
                         _todoDatabase.updateDataBase();

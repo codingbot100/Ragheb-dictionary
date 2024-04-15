@@ -45,8 +45,8 @@ class DarkModeColors {
   static final descriptionColor = Color.fromRGBO(255, 255, 255, 1);
 }
 
-class ThemeData_1{
-    ThemeData CreateDarkTheme(String fontFamily) {
+class ThemeData_1 {
+  ThemeData CreateDarkTheme(String fontFamily) {
     return ThemeData.dark().copyWith(
       dividerTheme:
           DividerThemeData(thickness: 0.4, color: Colors.grey.shade200),
@@ -111,11 +111,11 @@ class ThemeData_1{
         ),
         bodyText1: TextStyle(
           color: DarkModeColors.textColorlarge,
-          fontFamily:fontFamily,
+          fontFamily: fontFamily,
         ),
         bodyText2: TextStyle(
           color: DarkModeColors.textColormiddle,
-          fontFamily:fontFamily,
+          fontFamily: fontFamily,
         ),
         button: TextStyle(color: DarkModeColors.buttonColor),
         headline6: TextStyle(color: DarkModeColors.textColormiddle),
@@ -134,6 +134,7 @@ class ThemeData_1{
           DividerThemeData(thickness: 0.4, color: Colors.grey.shade500),
       shadowColor: Color.fromRGBO(0, 0, 0, 0.08),
       indicatorColor: LightModeColors.indicatorColor,
+
       inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
             borderSide: BorderSide(
@@ -159,17 +160,18 @@ class ThemeData_1{
             borderRadius: BorderRadius.circular(25.0),
           )),
       sliderTheme: SliderThemeData(
-          thumbShape: RoundSliderThumbShape(
-            enabledThumbRadius: 6.0,
-            disabledThumbRadius: 6.0,
-          ),
-          trackHeight: 6,
-          minThumbSeparation: 4,
-          activeTrackColor: LightModeColors.sliderThumb,
-          // thumbColor: LightModeColors.sliderThumb,
-          overlayColor: LightModeColors.sliderThumb,
-          // inactiveTickMarkColor: DarkModeColors.sliderThumb,
-          inactiveTrackColor: LightModeColors.sliderThumb),
+        thumbShape: RoundSliderThumbShape(
+          enabledThumbRadius: 6.0,
+          disabledThumbRadius: 6.0,
+        ),
+        trackHeight: 6,
+        minThumbSeparation: 4,
+        activeTrackColor: LightModeColors.sliderThumb,
+        // thumbColor: LightModeColors.sliderThumb,
+        overlayColor: LightModeColors.sliderThumb,
+        // inactiveTickMarkColor: DarkModeColors.sliderThumb,
+        // inactiveTrackColor: LightModeColors.sliderThumb
+      ),
       unselectedWidgetColor: LightModeColors.unselectedColorIndicator,
       listTileTheme: ListTileThemeData(
           textColor: LightModeColors.textColormiddle,
@@ -190,7 +192,7 @@ class ThemeData_1{
       textTheme: TextTheme(
         headline1: TextStyle(
           color: LightModeColors.descriptionColor,
-          fontFamily:fontFamily,
+          fontFamily: fontFamily,
         ),
         bodyText1: TextStyle(
           color: LightModeColors.textColorlarge,
@@ -210,7 +212,4 @@ class ThemeData_1{
           secondaryContainer: LightModeColors.contantinerSetting),
     );
   }
-
 }
-
-

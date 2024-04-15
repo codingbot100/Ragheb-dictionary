@@ -45,7 +45,7 @@ class _SliderDemoState extends State<SliderDemo> {
               height: 6.0,
               child: SliderTheme(
                 data: SliderTheme.of(context).copyWith(
-                  activeTrackColor: Colors.grey[300], // Customizing track color
+                  // activeTrackColor: Colors.grey[300], // Customizing track color
                   inactiveTrackColor:
                       Colors.grey[300], // Customizing track color
                   thumbColor: Colors.grey[300], // Customizing thumb color

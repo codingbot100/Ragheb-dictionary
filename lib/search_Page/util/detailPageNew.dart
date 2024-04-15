@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
@@ -17,6 +16,7 @@ class DetailPage extends StatefulWidget {
   final String footnote;
   final List<Map<String, String>> dataList;
   final int initialPageIndex;
+  final bool showFavorite;
 
   DetailPage({
     Key? key,
@@ -25,6 +25,7 @@ class DetailPage extends StatefulWidget {
     required this.footnote,
     required this.dataList,
     required this.initialPageIndex,
+    required this.showFavorite,
   }) : super(key: key);
 
   @override
@@ -138,7 +139,7 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   void shareText(String name, descrption, footnot) {
-    String message = "Name: $name\nDescription: $descrption\nFootnot: $footnot";
+    String message = "$name\ $descrption\ $footnot";
     Share.share(message);
   }
 
@@ -183,19 +184,22 @@ class _DetailPageState extends State<DetailPage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      addToFavorite(
-                                          name, description, footnote);
-                                    });
-                                  },
-                                  icon: Image.asset(
-                                    isFavorite
-                                        ? 'images/Enable (1).png'
-                                        : 'images/Disable (1).png',
-                                    color: Colors.green,
-                                  )),
+                              Visibility(
+                                visible: widget.showFavorite,
+                                child: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        addToFavorite(
+                                            name, description, footnote);
+                                      });
+                                    },
+                                    icon: Image.asset(
+                                      isFavorite
+                                          ? 'images/Enable (1).png'
+                                          : 'images/Disable (1).png',
+                                      color: Colors.green,
+                                    )),
+                              ),
                               Flexible(
                                 child: Container(
                                   child: Text(

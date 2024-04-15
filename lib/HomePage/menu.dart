@@ -1,6 +1,7 @@
 // ignore_for_file: unused_field
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/HomePage/No_Rep.dart';
@@ -27,6 +28,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   final MyController _myController = Get.put(MyController());
   final ThemeManager themeManager = Get.find();
   ToDoRecent db = ToDoRecent();
+  ToDodatabase3 toDodatabase3 = ToDodatabase3();
   final _meBox = Hive.box('mybox');
   final myItems = [
     'images2/2.jpg',
@@ -43,7 +45,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   var colortitle;
   var colorClass = new ColorsClass();
   ToDoRecent toDoRecent = ToDoRecent();
-  ToDodatabase3 toDodatabase3 = ToDodatabase3();
   @override
   void initState() {
     themeManager.loadData();
@@ -112,9 +113,16 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                           ? Container(height: 400, width: 300, child: No_Rep())
                           : Column(
                               children: [
-                                TextRow(3, 'مرور همه', 'ذخیره شده ها '),
+                                Visibility(
+                                    visible: toDodatabase3.favorite.isEmpty
+                                        ? false
+                                        : true,
+                                    child: TextRow(
+                                        3, 'مرور همه', 'ذخیره شده ها ')),
                                 Container(
-                                  height: 250,
+                                  height: (toDodatabase3.favorite.length <= 4)
+                                      ? toDodatabase3.favorite.length * 60
+                                      : 4 * 60,
                                   child: GetBuilder<MyController>(
                                     builder: (controller) {
                                       return FavoritPage_menu(

@@ -5,7 +5,6 @@ import 'package:ragheb_dictionary/HomePage/menu.dart';
 import 'package:ragheb_dictionary/Setting/SettingPage.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
 import 'package:ragheb_dictionary/search_Page/FavoritePage_last%20.dart';
-import 'package:ragheb_dictionary/search_Page/RecentPageSecond.dart';
 import 'package:ragheb_dictionary/search_Page/data/isShow.dart';
 import 'package:ragheb_dictionary/search_Page/util/search_pageMe.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -44,7 +43,6 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
       ),
       FavoritPage_Me(),
       MySettingsPage(),
-      RecentpageSecond()
     ];
   }
 

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
 import 'package:ragheb_dictionary/search_Page/data/database.dart';
-import 'package:ragheb_dictionary/search_Page/util/detailFavoritePage.dart';
+import 'package:ragheb_dictionary/search_Page/util/detailPageNew.dart';
 
 class FavoritPage_second extends StatefulWidget {
   @override
@@ -35,8 +35,6 @@ class _FavoritPage_secondState extends State<FavoritPage_second> {
 
   @override
   Widget build(BuildContext context) {
-        
-
     return Scaffold(
         // backgroundColor: Color(0xFFF5F5DC),
         body: Column(
@@ -56,13 +54,23 @@ class _FavoritPage_secondState extends State<FavoritPage_second> {
                   ),
                   onTap: () {
                     Get.to(
-                        () => DetailFavoirtPage(
-                            name: "${_todoDatabase.favorite[index]['name']}",
-                            description:
-                                "${_todoDatabase.favorite[index]['description']}",
-                            footnote:
-                                "${_todoDatabase.favorite[index]['footnote']}",
-                            initialPageIndex: index),
+                        () => DetailPage(
+                              name: "${_todoDatabase.favorite[index]['name']}",
+                              description:
+                                  "${_todoDatabase.favorite[index]['description']}",
+                              footnote:
+                                  "${_todoDatabase.favorite[index]['footnote']}",
+                              initialPageIndex: index,
+                              dataList: _todoDatabase.favorite.map((item) {
+                                return {
+                                  'name': item['name'].toString(),
+                                  'description': item['description'].toString(),
+                                  'footnote': item['footnote'].toString(),
+                                };
+                              }).toList(),
+                                                              showFavorite: false,
+
+                            ),
                         transition: Transition.fadeIn,
                         duration: Duration(milliseconds: 200));
                   },
@@ -74,7 +82,6 @@ class _FavoritPage_secondState extends State<FavoritPage_second> {
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Divider(
                   thickness: 0.5,
-                  // color: Color.fromRGBO(0, 150, 136, 0.5),
                 ),
               );
             },

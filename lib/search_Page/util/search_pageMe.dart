@@ -342,6 +342,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
                                 footnote: item['footnote']!,
                                 dataList: filteredList1,
                                 initialPageIndex: filteredList1.indexOf(item),
+                                showFavorite: true,
                               ),
                               transition: Transition.fadeIn,
                               duration: Duration(milliseconds: 500),
@@ -397,6 +398,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
                                       _searchController.text.isEmpty
                                           ? index
                                           : dataList.indexOf(item),
+                                  showFavorite: true,
                                 ),
                                 transition: Transition.fadeIn,
                                 duration: Duration(milliseconds: 500),

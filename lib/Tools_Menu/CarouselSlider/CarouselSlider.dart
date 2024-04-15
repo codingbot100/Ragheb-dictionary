@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:ragheb_dictionary/HomePage/WebLog/WebDetail.dart';
+import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -17,6 +18,7 @@ class CarouselSlider1 extends StatefulWidget {
 class _CarouselSlider1State extends State<CarouselSlider1> {
   var colorClass1 = ColorsClass();
   List<List<dynamic>> csvData = [];
+  final themeManger = Get.put(ThemeManager());
 
   final myItems1 = [
     "images2/1.jpg",
@@ -109,9 +111,12 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
               activeIndex: myCurrentIndex,
               count: myItems.length,
               effect: ExpandingDotsEffect(
-                dotHeight: 5,
-                dotWidth: 10,
-              ),
+                  dotHeight: 5,
+                  dotWidth: 10,
+                  activeDotColor: Color.fromRGBO(0, 150, 137, 1),
+                  dotColor: themeManger.themebo.value
+                      ? Color.fromRGBO(82, 82, 82, 1)
+                      : Colors.white),
               curve: Curves.easeInBack,
             ),
           ),

@@ -150,6 +150,8 @@ class _RecentpageMainState extends State<RecentpageMain> {
                             footnote: item['footnote']!,
                             dataList: filteredList,
                             initialPageIndex: filteredList.indexOf(item),
+                                                            showFavorite: false,
+
                           ),
                           transition: Transition.fadeIn,
                           duration: Duration(milliseconds: 200),

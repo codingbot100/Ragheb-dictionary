@@ -11,7 +11,7 @@ import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/themeData.dart';
 import 'package:ragheb_dictionary/search_Page/data/splashData.dart';
 
- main() async {
+main() async {
   await Hive.initFlutter();
   WidgetsFlutterBinding.ensureInitialized();
   var box = await Hive.openBox('mybox');
@@ -21,7 +21,6 @@ import 'package:ragheb_dictionary/search_Page/data/splashData.dart';
     Start(),
   );
 }
-
 
 class Start extends StatefulWidget {
   @override
@@ -55,14 +54,28 @@ class _StartState extends State<Start> {
   Widget build(BuildContext context) {
     final _meBox = Hive.box('mybox');
     ThemeData_1 themeData_1 = ThemeData_1();
+
     return Obx(() {
       return GetMaterialApp(
+        transitionDuration: Duration(milliseconds: 500),
         debugShowCheckedModeBanner: false,
         theme: themeManager.themebo.value
             ? themeData_1.CreateDarkTheme(dbfont.FontFamily)
             : themeData_1.CreateLightTheme(dbfont.FontFamily),
         home: Scaffold(
-          body: splash.checkPage.value ? SplashScreen() : WelcomScreen(),
+          body: AnimatedSwitcher(
+            duration:
+                Duration(milliseconds: 1000), // Adjust the duration as needed
+            transitionBuilder: (Widget child, Animation<double> animation) {
+              return FadeTransition(
+                opacity: animation,
+                child: child,
+              );
+            },
+            child: splash.checkPage.value ? SplashScreen() : WelcomScreen(),
+            key: Key(themeManager.themebo.value
+                .toString()), // Key to trigger animation on theme change
+          ),
         ),
       );
     });
