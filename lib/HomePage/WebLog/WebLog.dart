@@ -90,7 +90,7 @@ class _messageState extends State<message> {
             children: <Widget>[
               for (var row in csvData) ...[
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 35),
+                  padding: const EdgeInsets.only(bottom: 36),
                   child: GestureDetector(
                     onTap: () {
                       Get.to(

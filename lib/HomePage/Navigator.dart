@@ -60,71 +60,68 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
           return FadeTransition(opacity: animation, child: child);
         },
       ),
-      bottomNavigationBar: Obx(() => Visibility(
-            visible: ShowClass.isShow.value,
-            child: AnimatedContainer(
-              duration: Duration(milliseconds: 300),
-              height: ShowClass.isShow.value ? 65 : 0,
-              curve: Curves.fastEaseInToSlowEaseOut,
-              decoration: BoxDecoration(
-                boxShadow: thememanger.themebo.value
-                    ? []
-                    : [
-                        BoxShadow(
-                          color: Color.fromRGBO(245, 245, 220, 1),
-                          blurRadius: 20.0,
-                          offset: Offset(0, -20),
-                        )
-                      ],
-              ),
-              child: BottomAppBar(
-                notchMargin: 7,
-                height: 65,
-                shape: CircularNotchedRectangle(),
-                color: Theme.of(context).bottomAppBarColor,
-                child: Directionality(
-                  textDirection: TextDirection.ltr,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Container(
-                        width: 55,
-                        child: IconButton(
-                          icon: SvgPicture.asset(
-                            _currentIndex == 0
-                                ? 'Image_WelcomPage/clicked_home.svg'
-                                : 'Image_WelcomPage/click_home.svg',
-                          ),
-                          onPressed: () => setState(() => _currentIndex = 0),
-                        ),
-                      ),
-                      IconButton(
-                        icon: SvgPicture.asset(
-                          _currentIndex == 1
-                              ? 'Image_WelcomPage/Clicked_weblog.svg'
-                              : 'Image_WelcomPage/Click_welog.svg',
-                        ),
-                        onPressed: () => setState(() => _currentIndex = 1),
-                      ),
-                      SizedBox(), // Spacer for the center space
-                      IconButton(
-                        icon: SvgPicture.asset(
-                          _currentIndex == 3
-                              ? 'Image_WelcomPage/State=Enable.svg'
-                              : 'Image_WelcomPage/State=Disable.svg',
-                        ),
-                        onPressed: () => setState(() => _currentIndex = 3),
-                      ),
-                      IconButton(
-                        icon: SvgPicture.asset(
-                          _currentIndex == 4
-                              ? 'Image_WelcomPage/clicked_setting.svg'
-                              : 'Image_WelcomPage/setting2.svg',
-                        ),
-                        onPressed: () => setState(() => _currentIndex = 4),
-                      ),
+      bottomNavigationBar: Obx(() => AnimatedContainer(
+            duration: Duration(milliseconds: 700),
+            height: ShowClass.isShow.value ? 65 : 0,
+            curve: Curves.fastEaseInToSlowEaseOut,
+            decoration: BoxDecoration(
+              boxShadow: thememanger.themebo.value
+                  ? []
+                  : [
+                      BoxShadow(
+                        color: Color.fromRGBO(245, 245, 220, 1),
+                        blurRadius: 20.0,
+                        offset: Offset(0, -20),
+                      )
                     ],
-                  ),
+            ),
+            child: BottomAppBar(
+              notchMargin: 7,
+              height: 65,
+              shape: CircularNotchedRectangle(),
+              color: Theme.of(context).bottomAppBarColor,
+              child: Directionality(
+                textDirection: TextDirection.ltr,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Container(
+                      width: 55,
+                      child: IconButton(
+                        icon: SvgPicture.asset(
+                          _currentIndex == 0
+                              ? 'Image_WelcomPage/clicked_home.svg'
+                              : 'Image_WelcomPage/click_home.svg',
+                        ),
+                        onPressed: () => setState(() => _currentIndex = 0),
+                      ),
+                    ),
+                    IconButton(
+                      icon: SvgPicture.asset(
+                        _currentIndex == 1
+                            ? 'Image_WelcomPage/Clicked_weblog.svg'
+                            : 'Image_WelcomPage/Click_welog.svg',
+                      ),
+                      onPressed: () => setState(() => _currentIndex = 1),
+                    ),
+                    SizedBox(), // Spacer for the center space
+                    IconButton(
+                      icon: SvgPicture.asset(
+                        _currentIndex == 3
+                            ? 'Image_WelcomPage/State=Enable.svg'
+                            : 'Image_WelcomPage/State=Disable.svg',
+                      ),
+                      onPressed: () => setState(() => _currentIndex = 3),
+                    ),
+                    IconButton(
+                      icon: SvgPicture.asset(
+                        _currentIndex == 4
+                            ? 'Image_WelcomPage/clicked_setting.svg'
+                            : 'Image_WelcomPage/setting2.svg',
+                      ),
+                      onPressed: () => setState(() => _currentIndex = 4),
+                    ),
+                  ],
                 ),
               ),
             ),
