@@ -1,12 +1,7 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:ragheb_dictionary/HomePage/Navigator.dart';
 
-main() {
-  runApp(SplashScreen());
-}
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,13 +11,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-    Timer(Duration(seconds: 3), () {
-      Navigator.of(context).push(CustomPageRoute(page: MyAppNavigator()));
-    });
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -32,15 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Padding(
-              //   padding: const EdgeInsets.only(bottom: 20),
-              //   child: Container(
-              //     height: 653,
-              //     child: Image.asset(
-              //       'Image_WelcomPage/s_image.png',
-              //     ),
-              //   ),
-              // ),
+          
               Padding(
                 padding: const EdgeInsets.only(bottom: 20),
                 child: SvgPicture.asset(

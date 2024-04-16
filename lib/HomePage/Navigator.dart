@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ragheb_dictionary/HomePage/WebLog/WebLog.dart';
-import 'package:ragheb_dictionary/HomePage/menu.dart';
+import 'package:ragheb_dictionary/WebLog/WebLog.dart';
+import 'package:ragheb_dictionary/HomePage/HomePage.dart';
 import 'package:ragheb_dictionary/Setting/SettingPage.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
-import 'package:ragheb_dictionary/search_Page/FavoritePage_last%20.dart';
-import 'package:ragheb_dictionary/search_Page/data/isShow.dart';
-import 'package:ragheb_dictionary/search_Page/util/search_pageMe.dart';
+import 'package:ragheb_dictionary/Search/FavoritePage%20.dart';
+import 'package:ragheb_dictionary/Search/DataBase/isShow.dart';
+import 'package:ragheb_dictionary/Search/search_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MyAppNavigator extends StatefulWidget {
@@ -60,7 +60,7 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
       ),
       bottomNavigationBar: Obx(() => AnimatedContainer(
             duration: Duration(milliseconds: 700),
-            height: ShowClass.isShow.value ? 65 : 0,
+            height: !ShowFab ? 65 : 0,
             curve: Curves.fastEaseInToSlowEaseOut,
             decoration: BoxDecoration(
               boxShadow: thememanger.themebo.value

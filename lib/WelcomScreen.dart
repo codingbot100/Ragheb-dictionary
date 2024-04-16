@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:ragheb_dictionary/HomePage/Navigator.dart';
-import 'package:ragheb_dictionary/search_Page/data/splashData.dart';
+import 'package:ragheb_dictionary/Search/DataBase/splashData.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
