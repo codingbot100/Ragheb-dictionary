@@ -7,7 +7,6 @@ import 'package:ragheb_dictionary/Search/DataBase/todo_favorite.dart';
 import 'package:ragheb_dictionary/Search/components/BottomNavBar.dart';
 import 'package:share_plus/share_plus.dart';
 
-
 class DetailPage extends StatefulWidget {
   final String name;
   final String description;
@@ -127,6 +126,7 @@ class _DetailPageState extends State<DetailPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: Colors.green,
+        duration: Duration(seconds: 2),
         content: Directionality(
             textDirection: TextDirection.rtl, child: Text('محتوا کاپی شد ')),
       ),

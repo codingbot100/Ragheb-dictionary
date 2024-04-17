@@ -280,102 +280,73 @@ class _SearchPageMeState extends State<SearchPageMe> {
                   child: secondRow(),
                 )),
             Visibility(
-                visible: db.favorite.isEmpty ? true : false,
+                visible: db.favorite.isEmpty && _searchController.text.isEmpty
+                    ? true
+                    : false,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 20),
                   child: Text("اخیر هیچ جستجوی انجام نشده است"),
                 )),
             Visibility(
               visible: _searchController.text.isEmpty ? true : false,
-              child: Container(
-                child: ListView.separated(
-                    separatorBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(left: 20, right: 20),
-                        child: Divider(
-                          thickness: 0.5,
-                          color: Color.fromRGBO(153, 153, 153, 1),
-                        ),
-                      );
-                    },
-                    shrinkWrap: true,
-                    itemCount:
-                        filteredList1.length > 8 ? 8 : filteredList1.length,
-                    itemBuilder: (context, index) {
-                      int realIndex = filteredList1.length > 10
-                          ? filteredList1.length - 10 + index
-                          : index;
-                      final item = filteredList1[realIndex];
-                      return Container(
-                        height: 37,
-                        child: ListTile(
-                          leading: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  db.favorite.removeAt(index);
-                                  db.updateDataBase();
-                                });
-                              },
-                              icon: Icon(
-                                Icons.clear,
-                                size: 20,
-                              ),
-                              color: Color.fromRGBO(0, 150, 136, 1)),
-                          shape: RoundedRectangleBorder(side: BorderSide.none),
-                          tileColor: Colors.transparent,
-                          onFocusChange: (e) {
-                            setState(() {});
-                          },
-                          onTap: () {
-                            Get.to(
-                              () => DetailPage(
-                                name: item['name']!,
-                                description: item['description']!,
-                                footnote: item['footnote']!,
-                                dataList: filteredList1,
-                                initialPageIndex: filteredList1.indexOf(item),
-                                showFavorite: true,
-                              ),
-                              transition: Transition.fadeIn,
-                              duration: Duration(milliseconds: 500),
-                            );
-                            setState(() {
-                              _searchFocus.unfocus();
-                              _searchController.clear();
-                            });
-                          },
-                          trailing: Text(
-                            item["name"]!,
-                            style: TextStyle(
-                                fontFamily: dbFont.FontFamily,
-                                fontSize: 21,
-                                fontWeight: FontWeight.w900),
-                          ),
-                        ),
-                      );
-                    }),
-              ),
-            ),
-            Visibility(
-              visible: _searchController.text.isEmpty ? false : true,
               child: Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Container(
-                    child: ListView.separated(
-                      itemCount: _searchController.text.isEmpty
-                          ? dataList.length
-                          : filteredList.length,
+                  padding: const EdgeInsets.only(bottom: 30),
+                  child: ListView.separated(
+                      separatorBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 20, right: 20),
+                          child: Divider(
+                            thickness: 0.5,
+                            color: Color.fromRGBO(153, 153, 153, 1),
+                          ),
+                        );
+                      },
+                      shrinkWrap: true,
+                      itemCount: filteredList1.length,
                       itemBuilder: (context, index) {
-                        final item = _searchController.text.isEmpty
-                            ? dataList[index]
-                            : filteredList[index];
+                        int realIndex = index % filteredList1.length;
+
+                        final item = filteredList1[realIndex];
                         return Container(
                           height: 37,
                           child: ListTile(
+                            leading: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    db.favorite.removeAt(index);
+                                    db.updateDataBase();
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.clear,
+                                  size: 20,
+                                ),
+                                color: Color.fromRGBO(0, 150, 136, 1)),
                             shape:
                                 RoundedRectangleBorder(side: BorderSide.none),
                             tileColor: Colors.transparent,
+                            onFocusChange: (e) {
+                              setState(() {});
+                            },
+                            onTap: () {
+                              Get.to(
+                                () => DetailPage(
+                                  name: item['name']!,
+                                  description: item['description']!,
+                                  footnote: item['footnote']!,
+                                  dataList: filteredList1,
+                                  initialPageIndex: filteredList1.indexOf(item),
+                                  showFavorite: true,
+                                ),
+                                transition: Transition.fadeIn,
+                                duration: Duration(milliseconds: 500),
+                              );
+                              setState(() {
+                                _searchFocus.unfocus();
+                                _searchController.clear();
+                              });
+                            },
                             trailing: Text(
                               item["name"]!,
                               style: TextStyle(
@@ -383,44 +354,71 @@ class _SearchPageMeState extends State<SearchPageMe> {
                                   fontSize: 21,
                                   fontWeight: FontWeight.w900),
                             ),
-                            onTap: () {
-                              Get.to(
-                                () => DetailPage(
-                                  name: item['name']!,
-                                  description: item['description']!,
-                                  footnote: item['footnote']!,
-                                  dataList: dataList,
-                                  initialPageIndex:
-                                      _searchController.text.isEmpty
-                                          ? index
-                                          : dataList.indexOf(item),
-                                  showFavorite: true,
-                                ),
-                                transition: Transition.fadeIn,
-                                duration: Duration(milliseconds: 500),
-                              );
+                          ),
+                        );
+                      }),
+                ),
+              ),
+            ),
+            Visibility(
+              visible: _searchController.text.isEmpty ? false : true,
+              child: Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: ListView.separated(
+                    itemCount: _searchController.text.isEmpty
+                        ? dataList.length
+                        : filteredList.length,
+                    itemBuilder: (context, index) {
+                      final item = _searchController.text.isEmpty
+                          ? dataList[index]
+                          : filteredList[index];
+                      return Container(
+                        height: 37,
+                        child: ListTile(
+                          shape: RoundedRectangleBorder(side: BorderSide.none),
+                          tileColor: Colors.transparent,
+                          trailing: Text(
+                            item["name"]!,
+                            style: TextStyle(
+                                fontFamily: dbFont.FontFamily,
+                                fontSize: 21,
+                                fontWeight: FontWeight.w900),
+                          ),
+                          onTap: () {
+                            Get.to(
+                              () => DetailPage(
+                                name: item['name']!,
+                                description: item['description']!,
+                                footnote: item['footnote']!,
+                                dataList: dataList,
+                                initialPageIndex: dataList.indexOf(item),
+                                showFavorite: true,
+                              ),
+                              transition: Transition.fadeIn,
+                              duration: Duration(milliseconds: 500),
+                            );
 
-                              addToRecentData(item["name"]!,
-                                  item['description']!, item['footnote']!);
-                              setState(() {
-                                showFouse = false;
-                                _searchFocus.unfocus();
-                                _searchController.clear();
-                              });
-                            },
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(left: 20, right: 20),
-                          child: Divider(
-                            thickness: 0.5,
-                            color: Color.fromRGBO(0, 150, 136, 0.5),
-                          ),
-                        );
-                      },
-                    ),
+                            addToRecentData(item["name"]!, item['description']!,
+                                item['footnote']!);
+                            setState(() {
+                              showFouse = false;
+                              _searchFocus.unfocus();
+                              _searchController.clear();
+                            });
+                          },
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        child: Divider(
+                          thickness: 0.5,
+                          color: Color.fromRGBO(0, 150, 136, 0.5),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),

@@ -1,6 +1,5 @@
 // ignore_for_file: unused_field
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -141,7 +140,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                     right: 2,
                                   ),
                                   child: Container(
-                                    height: Recent_db.favorite.length * 57,
+                                    height: Recent_db.favorite.length * 31,
                                     child: GetBuilder<MyController>(
                                       builder: (controller) {
                                         return RecentpageMain();

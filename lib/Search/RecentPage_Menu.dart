@@ -131,9 +131,16 @@ class _RecentpageMainState extends State<RecentpageMain> {
                 return Directionality(
                   textDirection: TextDirection.rtl,
                   child: Container(
-                    height: 40,
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(25)),
+                    height: 50,
                     child: ListTile(
-                      shape: RoundedRectangleBorder(side: BorderSide.none),
+                      horizontalTitleGap: BorderSide.strokeAlignInside,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          side: BorderSide(
+                            color: Colors.transparent,
+                          )),
                       tileColor: Colors.transparent,
                       title: Text(
                         item["name"]!,
@@ -150,8 +157,7 @@ class _RecentpageMainState extends State<RecentpageMain> {
                             footnote: item['footnote']!,
                             dataList: filteredList,
                             initialPageIndex: filteredList.indexOf(item),
-                                                            showFavorite: false,
-
+                            showFavorite: false,
                           ),
                           transition: Transition.fadeIn,
                           duration: Duration(milliseconds: 200),

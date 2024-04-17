@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ragheb_dictionary/Search/FavoritePage%20.dart';
 import 'package:ragheb_dictionary/WebLog/WebLog.dart';
 import 'package:ragheb_dictionary/HomePage/HomePage.dart';
 import 'package:ragheb_dictionary/Setting/SettingPage.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
-import 'package:ragheb_dictionary/Search/FavoritePage%20.dart';
 import 'package:ragheb_dictionary/Search/DataBase/isShow.dart';
 import 'package:ragheb_dictionary/Search/search_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';

@@ -66,7 +66,7 @@ class _secondRowState extends State<secondRow> {
     showDialog(
       context: context,
       builder: (context) {
-        return DialogeBox2();
+        return DialogeBox();
       },
     );
   }

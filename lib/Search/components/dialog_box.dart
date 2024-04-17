@@ -5,16 +5,16 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Search/DataBase/recent_Search.dart';
 
-class DialogeBox2 extends StatefulWidget {
-  DialogeBox2({
+class DialogeBox extends StatefulWidget {
+  DialogeBox({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<DialogeBox2> createState() => _DialogeBox2State();
+  State<DialogeBox> createState() => _DialogeBoxState();
 }
 
-class _DialogeBox2State extends State<DialogeBox2> {
+class _DialogeBoxState extends State<DialogeBox> {
   ToDoRecent db = ToDoRecent();
   final _meBox = Hive.box('mybox');
 
@@ -142,7 +142,7 @@ class _DialogeBox2State extends State<DialogeBox2> {
     showDialog(
       context: context,
       builder: (context) {
-        return DialogeBox2();
+        return DialogeBox();
       },
     );
   }

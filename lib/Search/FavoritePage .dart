@@ -95,6 +95,9 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
             SizedBox(
               height: 15,
             ),
+            Visibility(
+                visible: _todoDatabase.favorite.isEmpty ? true : false,
+                child: Text("هیچ لغت دلخواه اضافه نشده")),
             Expanded(
               child: ListView.separated(
                 itemCount: _todoDatabase.favorite.length,
