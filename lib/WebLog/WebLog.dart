@@ -7,7 +7,7 @@ import 'package:ragheb_dictionary/WebLog/WebDetail.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
-import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/themeData.dart';
+import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeData.dart';
 
 class message extends StatefulWidget {
   @override

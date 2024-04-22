@@ -103,13 +103,18 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
                 itemCount: _todoDatabase.favorite.length,
                 itemBuilder: (context, index) {
                   return Container(
-                    height: 37,
-                    child: ListTile(
-                      shape: RoundedRectangleBorder(side: BorderSide.none),
-                      tileColor: Colors.transparent,
-                      leading: Container(
-                        width: 20,
-                        child: IconButton(
+                    height: 45,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 12, left: 12),
+                      child: ListTile(
+                        horizontalTitleGap: BorderSide.strokeAlignInside,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            side: BorderSide(
+                              color: Colors.transparent,
+                            )),
+                        tileColor: Colors.transparent,
+                        leading: IconButton(
                             onPressed: () {
                               setState(() {
                                 _todoDatabase.favorite.removeAt(index);
@@ -121,45 +126,45 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
                               size: 20,
                             ),
                             color: Color.fromRGBO(0, 150, 136, 1)),
+                        trailing: Text(
+                          "${_todoDatabase.favorite[index]['name']}",
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.w600),
+                        ),
+                        onTap: () {
+                          Get.to(
+                            () => DetailPage(
+                              name: "${_todoDatabase.favorite[index]['name']}",
+                              description:
+                                  "${_todoDatabase.favorite[index]['description']}",
+                              footnote:
+                                  "${_todoDatabase.favorite[index]['footnote']}",
+                              initialPageIndex: index,
+                              dataList: _todoDatabase.favorite.map((item) {
+                                return {
+                                  'name': item['name'].toString(),
+                                  'description': item['description'].toString(),
+                                  'footnote': item['footnote'].toString(),
+                                };
+                              }).toList(),
+                              showFavorite: false,
+                            ),
+                            transition: Transition.fadeIn,
+                            duration: Duration(milliseconds: 200),
+                          );
+                          _todoDatabase.updateDataBase();
+                          print(_todoDatabase.favorite[index]);
+                        },
                       ),
-                      trailing: Text(
-                        "${_todoDatabase.favorite[index]['name']}",
-                        style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.w600),
-                      ),
-                      onTap: () {
-                        Get.to(
-                          () => DetailPage(
-                            name: "${_todoDatabase.favorite[index]['name']}",
-                            description:
-                                "${_todoDatabase.favorite[index]['description']}",
-                            footnote:
-                                "${_todoDatabase.favorite[index]['footnote']}",
-                            initialPageIndex: index,
-                            dataList: _todoDatabase.favorite.map((item) {
-                              return {
-                                'name': item['name'].toString(),
-                                'description': item['description'].toString(),
-                                'footnote': item['footnote'].toString(),
-                              };
-                            }).toList(),
-                            showFavorite: false,
-                          ),
-                          transition: Transition.fadeIn,
-                          duration: Duration(milliseconds: 200),
-                        );
-                        _todoDatabase.updateDataBase();
-                        print(_todoDatabase.favorite[index]);
-                      },
                     ),
                   );
                 },
                 separatorBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.only(left: 13, right: 20),
+                    padding: const EdgeInsets.only(left: 25, right: 20),
                     child: Divider(
                       thickness: 0.5,
-                      // color: Color.fromRGBO(0, 150, 136, 0.5),
+                      color: Color.fromRGBO(0, 150, 136, 0.5),
                     ),
                   );
                 },

@@ -46,7 +46,7 @@ class DarkModeColors {
 }
 
 class ThemeData_1 {
-  ThemeData CreateDarkTheme(String fontFamily) {
+  ThemeData CreateDarkTheme(var fontFamily) {
     return ThemeData.dark().copyWith(
       dividerTheme:
           DividerThemeData(thickness: 0.4, color: Colors.grey.shade200),

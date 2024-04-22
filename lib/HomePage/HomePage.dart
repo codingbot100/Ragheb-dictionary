@@ -61,7 +61,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(right: 15, top: 15),
+              padding: const EdgeInsets.only(right: 15, left: 15, top: 15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -117,9 +117,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                     child: TextRow(
                                         3, 'مرور همه', 'ذخیره شده ها ')),
                                 Container(
-                                  height: (toDo_favorite.favorite.length <= 4)
+                                  height: (toDo_favorite.favorite.length <= 3)
                                       ? toDo_favorite.favorite.length * 60
-                                      : 4 * 60,
+                                      : 3 * 60,
                                   child: GetBuilder<MyController>(
                                     builder: (controller) {
                                       return FavoritPage_menu(
@@ -140,7 +140,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                     right: 2,
                                   ),
                                   child: Container(
-                                    height: Recent_db.favorite.length * 31,
+                                    height: (Recent_db.favorite.length <= 3)
+                                        ? Recent_db.favorite.length * 65
+                                        : 3 * 65,
                                     child: GetBuilder<MyController>(
                                       builder: (controller) {
                                         return RecentpageMain();

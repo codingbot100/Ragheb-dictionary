@@ -120,9 +120,12 @@ class _RecentpageMainState extends State<RecentpageMain> {
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               separatorBuilder: (context, index) {
-                return Divider();
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 3),
+                  child: Divider(),
+                );
               },
-              itemCount: filteredList.length > 8 ? 8 : filteredList.length,
+              itemCount: filteredList.length > 3 ? 3 : filteredList.length,
               itemBuilder: (context, index) {
                 int realIndex = filteredList.length > 8
                     ? filteredList.length - 8 + index
@@ -133,9 +136,9 @@ class _RecentpageMainState extends State<RecentpageMain> {
                   child: Container(
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(25)),
-                    height: 50,
+                    height: 42,
                     child: ListTile(
-                      horizontalTitleGap: BorderSide.strokeAlignInside,
+                      // horizontalTitleGap: BorderSide.strokeAlignInside,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                           side: BorderSide(

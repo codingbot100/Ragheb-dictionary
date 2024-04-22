@@ -1,7 +1,8 @@
+import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class ToDoDataBaseFont {
- late String FontFamily;
+class ToDoDataBaseFont extends GetxController {
+  var FontFamily;
   late int borderFont;
 
   final _meBox2 = Hive.box('mybox2');

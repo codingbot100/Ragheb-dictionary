@@ -197,11 +197,12 @@ class _DetailPageState extends State<DetailPage> {
                               ),
                               Flexible(
                                 child: Container(
+                                  height: 60,
                                   child: Text(
                                     widget.dataList[index]['name']!,
                                     style: TextStyle(
                                       fontFamily: DB_fontFamily.FontFamily,
-                                      fontSize: 33,
+                                      fontSize: 30,
                                       fontWeight: FontWeight.w900,
                                       color: Theme.of(context)
                                           .textTheme

@@ -30,113 +30,114 @@ class _DialogeBoxState extends State<DialogeBox> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 50),
-      child: AlertDialog(
-        elevation: 0.0,
-        // icon: Image.asset('icons/cancel 1.png'),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        content: Container(
-          height: 100,
-          child: Directionality(
-            textDirection: TextDirection.rtl,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.only(top: 50),
+        child: AlertDialog(
+          elevation: 0.0,
+          // icon: Image.asset('icons/cancel 1.png'),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          content: Container(
+            height: 100,
+            child: Directionality(
+              textDirection: TextDirection.rtl,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Image.asset(
+                    'icons/cancel 1.png',
+                    scale: 1.2,
+                  ),
+                  Container(
+                    height: 40,
+                    child: Text(
+                      "از حذف کامل لیست جستجو های اخیر خویش اطمینان دارید؟",
+                      style: TextStyle(
+                        fontFamily: 'Yekan',
+                        color: Theme.of(context).textTheme.headline1?.color,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  'icons/cancel 1.png',
-                  scale: 1.2,
-                ),
                 Container(
-                  height: 40,
-                  child: Text(
-                    "از حذف کامل لیست جستجو های اخیر خویش اطمینان دارید؟",
-                    style: TextStyle(
-                      fontFamily: 'Yekan',
-                      color: Theme.of(context).textTheme.headline1?.color,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
+                  height: 32,
+                  width: 70,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      color: Colors.red),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        Get.back();
+                      });
+                    },
+                    child: Center(
+                      child: Text('نخیر',
+                          style: TextStyle(
+                            fontFamily: 'Yekan',
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          )),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 15),
+                Container(
+                  height: 32,
+                  width: 70,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      color: Colors.green),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        db.clearFavorit();
+                        db.updateDataBase();
+                        Get.back();
+                       
+                      });
+                    },
+                    child: Center(
+                      child: Text('بلی',
+                          style: TextStyle(
+                            fontFamily: 'Yekan',
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          )),
                     ),
                   ),
                 ),
               ],
-            ),
-          ),
+            )
+          ],
         ),
-        actions: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                height: 32,
-                width: 70,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    color: Colors.red),
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      Get.back();
-                    });
-                  },
-                  child: Center(
-                    child: Text('نخیر',
-                        style: TextStyle(
-                          fontFamily: 'Yekan',
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ),
-                ),
-              ),
-              SizedBox(width: 15),
-              Container(
-                height: 32,
-                width: 70,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    color: Colors.green),
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      db.clearFavorit();
-                      db.updateDataBase();
-                      Get.back();
-                      // _showSnackBar(context, 'لطفاً تمامی فیلدها را پر کنید.',
-                      //     Colors.red);
-                    });
-                  },
-                  child: Center(
-                    child: Text('بلی',
-                        style: TextStyle(
-                          fontFamily: 'Yekan',
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ),
-                ),
-              ),
-            ],
-          )
-        ],
       ),
     );
   }
 
-  void _showSnackBar(BuildContext context, String message,
-      [Color color = Colors.green]) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Center(
-          child: Directionality(
-              textDirection: TextDirection.rtl, child: Text(message)),
-        ),
-        backgroundColor: color,
-      ),
-    );
-  }
+  // void _showSnackBar(BuildContext context, String message,
+  //     [Color color = Colors.green]) {
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(
+  //       content: Center(
+  //         child: Directionality(
+  //             textDirection: TextDirection.rtl, child: Text(message)),
+  //       ),
+  //       backgroundColor: color,
+  //     ),
+  //   );
+  // }
 
   void updateTask() {
     showDialog(

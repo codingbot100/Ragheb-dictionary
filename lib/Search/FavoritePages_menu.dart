@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
-import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/themeData.dart';
+import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeData.dart';
 import 'package:ragheb_dictionary/Search/DataBase/todo_favorite.dart';
 import 'package:ragheb_dictionary/Search/Detail_Page.dart';
 
@@ -101,12 +101,12 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
         Expanded(
           child: ListView.builder(
             physics: NeverScrollableScrollPhysics(),
-            itemCount: _todoDatabase.favorite.length > 4
-                ? 4
+            itemCount: _todoDatabase.favorite.length > 3
+                ? 3
                 : _todoDatabase.favorite.length,
             itemBuilder: (context, index) {
-              int realIndex = _todoDatabase.favorite.length > 4
-                  ? _todoDatabase.favorite.length - 4 + index
+              int realIndex = _todoDatabase.favorite.length > 3
+                  ? _todoDatabase.favorite.length - 3 + index
                   : index;
               return Padding(
                 padding: const EdgeInsets.only(bottom: 10),
@@ -131,18 +131,22 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
                   child: Directionality(
                     textDirection: TextDirection.rtl,
                     child: ListTile(
-                      leading: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _todoDatabase.favorite.removeAt(index);
-                            _todoDatabase.updateDataBase();
-                          });
-                        },
-                        icon: Image.asset(
-                          icons,
-                          scale: 1,
-                        ),
+                      leading: Image.asset(
+                        icons,
+                        scale: 1,
                       ),
+                      // leading: IconButton(
+                      //   onPressed: () {
+                      //     setState(() {
+                      //       // _todoDatabase.favorite.removeAt(realIndex);
+                      //       // _todoDatabase.updateDataBase();
+                      //     });
+                      //   },
+                      //   icon: Image.asset(
+                      //     icons,
+                      //     scale: 1,
+                      //   ),
+                      // ),
                       title: Text(
                         "${_todoDatabase.favorite[realIndex]['name']}",
                         style: TextStyle(
@@ -172,7 +176,7 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
                                       'footnote': item['footnote'].toString(),
                                     };
                                   }).toList(),
-                                  showFavorite: true,
+                                  showFavorite: false,
                                 ),
                             transition: Transition.fadeIn,
                             duration: Duration(milliseconds: 200));

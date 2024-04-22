@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:ragheb_dictionary/Search/FavoritePage%20.dart';
 import 'package:ragheb_dictionary/WebLog/WebLog.dart';
@@ -59,67 +60,86 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
         },
       ),
       bottomNavigationBar: Obx(() => AnimatedContainer(
-            duration: Duration(milliseconds: 700),
+            duration: Duration(milliseconds: 500),
             height: !ShowFab ? 65 : 0,
             curve: Curves.fastEaseInToSlowEaseOut,
-            decoration: BoxDecoration(
-              boxShadow: thememanger.themebo.value
-                  ? []
-                  : [
-                      BoxShadow(
-                        color: Color.fromRGBO(245, 245, 220, 1),
-                        blurRadius: 20.0,
-                        offset: Offset(0, -20),
-                      )
-                    ],
-            ),
-            child: BottomAppBar(
-              notchMargin: 7,
-              height: 65,
-              shape: CircularNotchedRectangle(),
-              color: Theme.of(context).bottomAppBarColor,
-              child: Directionality(
-                textDirection: TextDirection.ltr,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
-                      width: 55,
-                      child: IconButton(
-                        icon: SvgPicture.asset(
-                          _currentIndex == 0
-                              ? 'Image_WelcomPage/clicked_home.svg'
-                              : 'Image_WelcomPage/click_home.svg',
+            child: AnimatedContainer(
+              duration: Duration(milliseconds: 1),
+              curve: Curves.fastEaseInToSlowEaseOut,
+              decoration: BoxDecoration(
+                boxShadow: thememanger.themebo.value
+                    ? []
+                    : [
+                        BoxShadow(
+                          color: Color.fromRGBO(245, 245, 220, 1),
+                          blurRadius: 20.0,
+                          offset: Offset(0, -20),
+                        )
+                      ],
+              ),
+              child: BottomAppBar(
+                notchMargin: 7,
+                height: 65,
+                shape: CircularNotchedRectangle(),
+                color: Theme.of(context).bottomAppBarColor,
+                child: Directionality(
+                  textDirection: TextDirection.ltr,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      AnimatedContainer(
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.bounceInOut,
+                        width: 55,
+                        child: IconButton(
+                          icon: SvgPicture.asset(
+                            _currentIndex == 0
+                                ? 'Image_WelcomPage/clicked_home.svg'
+                                : 'Image_WelcomPage/click_home.svg',
+                          ),
+                          onPressed: () => setState(() => _currentIndex = 0),
                         ),
-                        onPressed: () => setState(() => _currentIndex = 0),
                       ),
-                    ),
-                    IconButton(
-                      icon: SvgPicture.asset(
-                        _currentIndex == 1
-                            ? 'Image_WelcomPage/Clicked_weblog.svg'
-                            : 'Image_WelcomPage/Click_welog.svg',
+                      AnimatedContainer(
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.bounceInOut,
+                        child: IconButton(
+                          icon: SvgPicture.asset(
+                            _currentIndex == 1
+                                ? 'Image_WelcomPage/Clicked_weblog.svg'
+                                : 'Image_WelcomPage/Click_welog.svg',
+                          ),
+                          onPressed: () => setState(() => _currentIndex = 1),
+                        ),
                       ),
-                      onPressed: () => setState(() => _currentIndex = 1),
-                    ),
-                    SizedBox(), // Spacer for the center space
-                    IconButton(
-                      icon: SvgPicture.asset(
-                        _currentIndex == 3
-                            ? 'Image_WelcomPage/State=Enable.svg'
-                            : 'Image_WelcomPage/State=Disable.svg',
+                      SizedBox(), // Spacer for the center space
+                      AnimatedContainer(
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.bounceInOut,
+                        child: IconButton(
+                          icon: SvgPicture.asset(
+                            _currentIndex == 3
+                                ? 'Image_WelcomPage/State=Enable.svg'
+                                : 'Image_WelcomPage/State=Disable.svg',
+                            color: Color.fromRGBO(111, 111, 111, 1),
+                          ),
+                          onPressed: () => setState(() => _currentIndex = 3),
+                        ),
                       ),
-                      onPressed: () => setState(() => _currentIndex = 3),
-                    ),
-                    IconButton(
-                      icon: SvgPicture.asset(
-                        _currentIndex == 4
-                            ? 'Image_WelcomPage/clicked_setting.svg'
-                            : 'Image_WelcomPage/setting2.svg',
+                      AnimatedContainer(
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.bounceInOut,
+                        child: IconButton(
+                          icon: SvgPicture.asset(
+                            _currentIndex == 4
+                                ? 'Image_WelcomPage/clicked_setting.svg'
+                                : 'Image_WelcomPage/setting2.svg',
+                          ),
+                          onPressed: () => setState(() => _currentIndex = 4),
+                        ),
                       ),
-                      onPressed: () => setState(() => _currentIndex = 4),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

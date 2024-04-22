@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
-import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/themeData.dart';
+import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeData.dart';
 
 class Mylist extends StatefulWidget {
   final String listName;
@@ -72,7 +72,6 @@ class _MylistState extends State<Mylist> {
                 style: TextStyle(
                   fontWeight: FontWeight.w700,
                   fontFamily: db.FontFamily,
-                  // color: ColorCl.colorPrimary.value,
                   fontSize: 13,
                 ),
               ),

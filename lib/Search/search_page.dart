@@ -295,10 +295,10 @@ class _SearchPageMeState extends State<SearchPageMe> {
                   child: ListView.separated(
                       separatorBuilder: (context, index) {
                         return Padding(
-                          padding: const EdgeInsets.only(left: 20, right: 20),
+                          padding: const EdgeInsets.only(left: 30, right: 20),
                           child: Divider(
                             thickness: 0.5,
-                            color: Color.fromRGBO(153, 153, 153, 1),
+                            color: Color.fromRGBO(0, 150, 136, 1),
                           ),
                         );
                       },
@@ -309,50 +309,58 @@ class _SearchPageMeState extends State<SearchPageMe> {
 
                         final item = filteredList1[realIndex];
                         return Container(
-                          height: 37,
-                          child: ListTile(
-                            leading: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    db.favorite.removeAt(index);
-                                    db.updateDataBase();
-                                  });
-                                },
-                                icon: Icon(
-                                  Icons.clear,
-                                  size: 20,
-                                ),
-                                color: Color.fromRGBO(0, 150, 136, 1)),
-                            shape:
-                                RoundedRectangleBorder(side: BorderSide.none),
-                            tileColor: Colors.transparent,
-                            onFocusChange: (e) {
-                              setState(() {});
-                            },
-                            onTap: () {
-                              Get.to(
-                                () => DetailPage(
-                                  name: item['name']!,
-                                  description: item['description']!,
-                                  footnote: item['footnote']!,
-                                  dataList: filteredList1,
-                                  initialPageIndex: filteredList1.indexOf(item),
-                                  showFavorite: true,
-                                ),
-                                transition: Transition.fadeIn,
-                                duration: Duration(milliseconds: 500),
-                              );
-                              setState(() {
-                                _searchFocus.unfocus();
-                                _searchController.clear();
-                              });
-                            },
-                            trailing: Text(
-                              item["name"]!,
-                              style: TextStyle(
-                                  fontFamily: dbFont.FontFamily,
-                                  fontSize: 21,
-                                  fontWeight: FontWeight.w900),
+                          height: 42,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 12, right: 12),
+                            child: ListTile(
+                              leading: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      db.favorite.removeAt(index);
+                                      db.updateDataBase();
+                                    });
+                                  },
+                                  icon: Icon(
+                                    Icons.clear,
+                                    size: 20,
+                                  ),
+                                  color: Color.fromRGBO(0, 150, 136, 1)),
+                              horizontalTitleGap: BorderSide.strokeAlignInside,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  side: BorderSide(
+                                    color: Colors.transparent,
+                                  )),
+                              tileColor: Colors.transparent,
+                              onFocusChange: (e) {
+                                setState(() {});
+                              },
+                              onTap: () {
+                                Get.to(
+                                  () => DetailPage(
+                                    name: item['name']!,
+                                    description: item['description']!,
+                                    footnote: item['footnote']!,
+                                    dataList: filteredList1,
+                                    initialPageIndex:
+                                        filteredList1.indexOf(item),
+                                    showFavorite: true,
+                                  ),
+                                  transition: Transition.fadeIn,
+                                  duration: Duration(milliseconds: 500),
+                                );
+                                setState(() {
+                                  _searchFocus.unfocus();
+                                  _searchController.clear();
+                                });
+                              },
+                              trailing: Text(
+                                item["name"]!,
+                                style: TextStyle(
+                                    fontFamily: dbFont.FontFamily,
+                                    fontSize: 21,
+                                    fontWeight: FontWeight.w900),
+                              ),
                             ),
                           ),
                         );
@@ -374,39 +382,47 @@ class _SearchPageMeState extends State<SearchPageMe> {
                           ? dataList[index]
                           : filteredList[index];
                       return Container(
-                        height: 37,
-                        child: ListTile(
-                          shape: RoundedRectangleBorder(side: BorderSide.none),
-                          tileColor: Colors.transparent,
-                          trailing: Text(
-                            item["name"]!,
-                            style: TextStyle(
-                                fontFamily: dbFont.FontFamily,
-                                fontSize: 21,
-                                fontWeight: FontWeight.w900),
-                          ),
-                          onTap: () {
-                            Get.to(
-                              () => DetailPage(
-                                name: item['name']!,
-                                description: item['description']!,
-                                footnote: item['footnote']!,
-                                dataList: dataList,
-                                initialPageIndex: dataList.indexOf(item),
-                                showFavorite: true,
-                              ),
-                              transition: Transition.fadeIn,
-                              duration: Duration(milliseconds: 500),
-                            );
+                        height: 42,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 12, right: 12),
+                          child: ListTile(
+                            horizontalTitleGap: BorderSide.strokeAlignInside,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                side: BorderSide(
+                                  color: Colors.transparent,
+                                )),
+                            tileColor: Colors.transparent,
+                            trailing: Text(
+                              item["name"]!,
+                              style: TextStyle(
+                                  fontFamily: dbFont.FontFamily,
+                                  fontSize: 21,
+                                  fontWeight: FontWeight.w900),
+                            ),
+                            onTap: () {
+                              Get.to(
+                                () => DetailPage(
+                                  name: item['name']!,
+                                  description: item['description']!,
+                                  footnote: item['footnote']!,
+                                  dataList: dataList,
+                                  initialPageIndex: dataList.indexOf(item),
+                                  showFavorite: true,
+                                ),
+                                transition: Transition.fadeIn,
+                                duration: Duration(milliseconds: 600),
+                              );
 
-                            addToRecentData(item["name"]!, item['description']!,
-                                item['footnote']!);
-                            setState(() {
-                              showFouse = false;
-                              _searchFocus.unfocus();
-                              _searchController.clear();
-                            });
-                          },
+                              addToRecentData(item["name"]!,
+                                  item['description']!, item['footnote']!);
+                              setState(() {
+                                showFouse = false;
+                                _searchFocus.unfocus();
+                                _searchController.clear();
+                              });
+                            },
+                          ),
                         ),
                       );
                     },

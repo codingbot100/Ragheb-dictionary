@@ -5,7 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
-import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/themeData.dart';
+import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeData.dart';
 import 'package:ragheb_dictionary/Setting/settingsPages/About_us.dart';
 import 'package:ragheb_dictionary/Setting/settingsPages/about_ragheb_dictionary.dart';
 import 'package:ragheb_dictionary/Setting/info_page.dart';
@@ -166,7 +166,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                       ),
                                       Expanded(
                                         child: FontButton(
-                                            " سنس ایکس", 100, 1, 'IRANSansX'),
+                                            "  یکان", 100, 1, 'IRANSansX'),
                                       ),
                                       Expanded(
                                         child: FontButton(
@@ -304,45 +304,45 @@ class _MySettingsPageState extends State<MySettingsPage> {
 
   Widget FontButton(
       String fontName, double width, int fontBorder, String fontFamily) {
-    return Container(
-      child: TextButton(
-        onPressed: () {
-          setState(() {
-            Db_Font.FontFamily = fontFamily;
-            Db_Font.borderFont = fontBorder;
-            Db_Font.updateDataBase();
-          });
-        },
-        child: Container(
-            width: width,
-            height: 26,
-            decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                border: Db_Font.borderFont == fontBorder
-                    ? Border.all(
-                        color: Db_Font.borderFont == fontBorder
-                            ? Color.fromRGBO(0, 150, 137, 0.929)
-                            : Color.fromRGBO(147, 147, 147, 1))
-                    : null,
-                borderRadius: BorderRadius.circular(8)),
-            child: Center(
-              child: Text(
-                fontName,
-                style: TextStyle(
-                  color: thememanger.themebo.value != true
-                      ? Db_Font.borderFont == fontBorder
-                          ? Color.fromRGBO(0, 150, 137, 1)
-                          : Color.fromRGBO(147, 147, 147, 1)
-                      : Db_Font.borderFont == fontBorder
-                          ? Color.fromRGBO(0, 150, 137, 1)
-                          : Colors.white,
-                  fontFamily: 'YekanBakh',
-                  fontWeight: FontWeight.w700,
-                  fontSize: 13,
-                ),
+    return TextButton(
+      onPressed: () {
+        setState(() {
+          Db_Font.FontFamily = fontFamily;
+          Db_Font.borderFont = fontBorder;
+          Db_Font.updateDataBase();
+        });
+      },
+      child: AnimatedContainer(
+          duration: Duration(milliseconds: 300),
+          curve: Curves.bounceInOut,
+          width: width,
+          height: 26,
+          decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              border: Db_Font.borderFont == fontBorder
+                  ? Border.all(
+                      color: Db_Font.borderFont == fontBorder
+                          ? Color.fromRGBO(0, 150, 137, 0.929)
+                          : Color.fromRGBO(147, 147, 147, 1))
+                  : null,
+              borderRadius: BorderRadius.circular(8)),
+          child: Center(
+            child: Text(
+              fontName,
+              style: TextStyle(
+                color: thememanger.themebo.value != true
+                    ? Db_Font.borderFont == fontBorder
+                        ? Color.fromRGBO(0, 150, 137, 1)
+                        : Color.fromRGBO(147, 147, 147, 1)
+                    : Db_Font.borderFont == fontBorder
+                        ? Color.fromRGBO(0, 150, 137, 1)
+                        : Colors.white,
+                fontFamily: 'YekanBakh',
+                fontWeight: FontWeight.w700,
+                fontSize: 13,
               ),
-            )),
-      ),
+            ),
+          )),
     );
   }
 }

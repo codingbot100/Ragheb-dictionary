@@ -9,10 +9,10 @@ import 'package:page_transition/page_transition.dart';
 import 'package:ragheb_dictionary/HomePage/Navigator.dart';
 import 'package:ragheb_dictionary/Search/DataBase/splashData.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
-import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/Theme.dart';
+import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/Theme_Color.dart';
 import 'package:ragheb_dictionary/WelcomScreen.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
-import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/themeData.dart';
+import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeData.dart';
 
 main() async {
   await Hive.initFlutter();
@@ -60,7 +60,7 @@ class SplashScreen_Animated extends StatelessWidget {
       splashIconSize: 300,
       duration: 1000,
       splashTransition: SplashTransition.fadeTransition,
-      pageTransitionType: PageTransitionType.rightToLeft,
+      pageTransitionType: PageTransitionType.fade,
       animationDuration: Duration(seconds: 1),
     );
   }
