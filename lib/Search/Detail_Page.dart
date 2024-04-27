@@ -40,7 +40,7 @@ class _DetailPageState extends State<DetailPage> {
   final _meBox = Hive.box('mybox');
 
   ToDo_favorite db = new ToDo_favorite();
-  ToDodatabase6 db6 = new ToDodatabase6();
+  ToDo_FontController FontSize_db = new ToDo_FontController();
 
   @override
   void initState() {
@@ -49,16 +49,13 @@ class _DetailPageState extends State<DetailPage> {
     } else {
       db.loadData();
     }
-    if (_meBox.get("FontFamily") == null) {
-      DB_fontFamily.createInitialData();
-    } else {
-      DB_fontFamily.loadData();
-    }
+
+    DB_fontFamily.loadData();
 
     if (_meBox.get("TODOSlid") == null) {
-      db6.createInitialData();
+      FontSize_db.createInitialData();
     } else {
-      db6.loadData();
+      FontSize_db.loadData();
     }
     _pageController = PageController(initialPage: widget.initialPageIndex);
     _pageController.addListener(() {
@@ -202,7 +199,7 @@ class _DetailPageState extends State<DetailPage> {
                                     widget.dataList[index]['name']!,
                                     style: TextStyle(
                                       fontFamily: DB_fontFamily.FontFamily,
-                                      fontSize: 30,
+                                      fontSize: FontSize_db.titile_name,
                                       fontWeight: FontWeight.w900,
                                       color: Theme.of(context)
                                           .textTheme
@@ -233,7 +230,7 @@ class _DetailPageState extends State<DetailPage> {
                                           ['description']!,
                                       style: TextStyle(
                                         fontFamily: DB_fontFamily.FontFamily,
-                                        fontSize: db6.Descrption,
+                                        fontSize: FontSize_db.Descrption,
                                         letterSpacing: 0.3,
                                         fontWeight: FontWeight.w900,
                                         color: Theme.of(context)
@@ -276,7 +273,8 @@ class _DetailPageState extends State<DetailPage> {
                                                   style: TextStyle(
                                                     fontFamily: DB_fontFamily
                                                         .FontFamily,
-                                                    fontSize: db6.FootNot,
+                                                    fontSize:
+                                                        FontSize_db.FootNot,
                                                     fontWeight: FontWeight.w900,
                                                     color: Theme.of(context)
                                                         .textTheme
@@ -321,7 +319,8 @@ class _DetailPageState extends State<DetailPage> {
                                       Text(
                                         "اشتراک گذاری",
                                         style: TextStyle(
-                                          fontSize: 16,
+                                          fontSize: 14,
+                                          fontFamily: DB_fontFamily.FontFamily,
                                           fontWeight: FontWeight.w900,
                                         ),
                                       ),

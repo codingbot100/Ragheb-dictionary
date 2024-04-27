@@ -148,6 +148,7 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
         visible: !ShowFab,
         child: ClipOval(
           child: FloatingActionButton(
+            foregroundColor: Colors.transparent,
             onPressed: () => setState(() => _currentIndex = 2),
             tooltip: 'Search',
             child: Icon(

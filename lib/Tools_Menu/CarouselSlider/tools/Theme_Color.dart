@@ -107,15 +107,12 @@ class ThemeData_1 {
       textTheme: TextTheme(
         headline1: TextStyle(
           color: DarkModeColors.descriptionColor,
-          fontFamily: fontFamily,
         ),
         bodyText1: TextStyle(
           color: DarkModeColors.textColorlarge,
-          fontFamily: fontFamily,
         ),
         bodyText2: TextStyle(
           color: DarkModeColors.textColormiddle,
-          fontFamily: fontFamily,
         ),
         button: TextStyle(color: DarkModeColors.buttonColor),
         headline6: TextStyle(color: DarkModeColors.textColormiddle),
@@ -192,15 +189,12 @@ class ThemeData_1 {
       textTheme: TextTheme(
         headline1: TextStyle(
           color: LightModeColors.descriptionColor,
-          fontFamily: fontFamily,
         ),
         bodyText1: TextStyle(
           color: LightModeColors.textColorlarge,
-          fontFamily: fontFamily,
         ),
         bodyText2: TextStyle(
           color: LightModeColors.textColormiddle,
-          fontFamily: fontFamily,
         ),
         // button: TextStyle(color: LightModeColors.buttonColor),
         headline6: TextStyle(color: LightModeColors.textColormiddle),

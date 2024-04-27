@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeData.dart';
@@ -18,15 +19,17 @@ class FavoritPage_menu extends StatefulWidget {
 }
 
 class _FavoritPage_menuState extends State<FavoritPage_menu> {
+  ToDoDataBaseFont db_font = new ToDoDataBaseFont();
   ToDo_favorite _todoDatabase = ToDo_favorite();
   final _meBox = Hive.box('mybox');
-  ToDodatabase6 db6 = ToDodatabase6();
+  ToDo_FontController db6 = ToDo_FontController();
   late double borderRadius;
   ThemeDatabase themeDatabase = ThemeDatabase();
   final thememanger = Get.put(ThemeManager());
   String icons = "icons/Vector (1).png";
   @override
   void initState() {
+    db_font.loadData();
     themeDatabase.loadData();
     if (_meBox.get("TODOLIST") == null || _meBox.get("TODOSlid") == null) {
       _todoDatabase.createInitialData();
@@ -149,7 +152,7 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
                       // ),
                       title: Text(
                         "${_todoDatabase.favorite[realIndex]['name']}",
-                        style: TextStyle(
+                        style: TextStyle(fontFamily: db_font.FontFamily,
                           fontSize: 20,
                           fontWeight: FontWeight.w900,
                         ),
@@ -157,7 +160,7 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
                       trailing: Text(
                           formatDateTime(
                               _todoDatabase.favorite[realIndex]['date']),
-                          style: TextStyle(color: Colors.grey.shade500)),
+                          style: TextStyle(color: Colors.grey.shade500,fontFamily: db_font.FontFamily)),
                       onTap: () {
                         Get.to(
                             () => DetailPage(

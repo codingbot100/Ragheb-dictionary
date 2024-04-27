@@ -1,19 +1,18 @@
-import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class ToDoDataBaseFont extends GetxController {
+class ToDoDataBaseFont {
   var FontFamily;
   late int borderFont;
 
   final _meBox2 = Hive.box('mybox2');
 
   void createInitialData() {
-    FontFamily = 'YekanBakh';
+    // FontFamily = 'YekanBakh';
     borderFont = 0;
   }
 
   void loadData() {
-    FontFamily = _meBox2.get("FontFamily");
+    FontFamily = _meBox2.get("FontFamily") ?? 'YekanBakh';
     borderFont = _meBox2.get("borderFont") ?? 0;
   }
 

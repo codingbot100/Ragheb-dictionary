@@ -1,7 +1,8 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
-class ToDodatabase6 {
+class ToDo_FontController {
   late double name;
+  late double titile_name;
   late double Descrption;
   late double FootNot;
   late double SearchName;
@@ -12,44 +13,37 @@ class ToDodatabase6 {
   final _meBox = Hive.box('mybox');
 
   void createInitialData() {
-    name = 40;
-    Descrption = 12;
-    FootNot = 10;
+    name = 30;
+    Descrption = 20;
+    FootNot = 17;
     SearchName = 17;
     RecentSearch = 17;
     title_Web = 30;
     main_contant = 17;
     title_Web_Main = 18;
+    titile_name = 30;
   }
 
   void updateDataTypes() {
-    double increment = (name - 30) / 5 * 2;
+    // Define a linear scaling factor based on the range of name
+    double scalingFactor = (name - 30) / 100;
 
-    Descrption = 12 + increment;
-    FootNot = 10 + increment;
-    SearchName = 17 + increment;
-    RecentSearch = 17 + increment;
-    title_Web = 30 + increment;
-    main_contant = 17 + increment;
-    title_Web_Main = 18 + increment;
-
-    // اضافه یا کم کردن دو واحد به مقادیر دیگر دیتا تایپ‌ها
-    if (name % 5 != 0) {
-      double adjustment = 2 * ((name > 40) ? 1 : -1);
-      Descrption += adjustment;
-      FootNot += adjustment;
-      SearchName += adjustment;
-      RecentSearch += adjustment;
-      title_Web += adjustment;
-      main_contant += adjustment;
-      title_Web_Main += adjustment;
-    }
+    // Apply scaling to UI elements
+    titile_name = 25 + scalingFactor * 30;
+    Descrption = 17 + scalingFactor * 40;
+    FootNot = 15 + scalingFactor * 40;
+    SearchName = 17 + scalingFactor * 50;
+    RecentSearch = 17 + scalingFactor * 50;
+    title_Web = 30 + scalingFactor * 70;
+    main_contant = 17 + scalingFactor * 50;
+    title_Web_Main = 18 + scalingFactor * 50;
   }
 
   void loadData() {
-    name = _meBox.get("TODOSlid") ?? 40;
-    Descrption = _meBox.get("TODDescription") ?? 12;
-    FootNot = _meBox.get("TODOFootnot") ?? 10;
+    name = _meBox.get("TODOSlid") ?? 30;
+    titile_name = _meBox.get("title_name") ?? 30;
+    Descrption = _meBox.get("TODDescription") ?? 15;
+    FootNot = _meBox.get("TODOFootnot") ?? 13;
     SearchName = _meBox.get("TODOSearchName") ?? 17;
     RecentSearch = _meBox.get("TODORearchName") ?? 17;
     title_Web = _meBox.get("TODOTitleWeb") ?? 30;
@@ -59,6 +53,7 @@ class ToDodatabase6 {
 
   void updateDataBase() {
     _meBox.put('TODOSlid', name);
+    _meBox.put('title_name', titile_name);
     _meBox.put('TODDescription', Descrption);
     _meBox.put('TODOFootnot', FootNot);
     _meBox.put('TODOSearchName', SearchName);

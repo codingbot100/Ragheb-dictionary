@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/HomePage/Empty_dataBase.dart';
+import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/CarouselSlider.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
 import 'package:ragheb_dictionary/Search/RecentPage_Menu.dart';
@@ -26,6 +27,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   final MyController _myController = Get.put(MyController());
   final ThemeManager themeManager = Get.find();
   ToDoRecent Recent_db = ToDoRecent();
+  ToDoDataBaseFont Db_Font = ToDoDataBaseFont();
   ToDo_favorite toDo_favorite = ToDo_favorite();
   final _meBox = Hive.box('mybox');
   final myItems = [
@@ -44,9 +46,12 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   ToDoRecent toDoRecent = ToDoRecent();
   @override
   void initState() {
+    Db_Font.loadData();
     themeManager.loadData();
     if (_meBox.get('TODORECENT') == null) {
       Recent_db.createInitialData();
+    } else {
+      Recent_db.loadData();
     }
     toDoRecent.loadData();
     toDo_favorite.loadData();
@@ -83,6 +88,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                     'فرهنگ لغت راغب',
                     style: TextStyle(
                       fontSize: fontSizeTitle,
+                      fontFamily: Db_Font.FontFamily,
                       fontWeight: FontWeight.w900,
                     ),
                   ),
@@ -107,7 +113,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                       ),
                       toDoRecent.favorite.isEmpty &&
                               toDo_favorite.favorite.isEmpty
-                          ? Container(height: 400, width: 300, child: No_Rep())
+                          ? Container(height: 320, width: 300, child: No_Rep())
                           : Column(
                               children: [
                                 Visibility(

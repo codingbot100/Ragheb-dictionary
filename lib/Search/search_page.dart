@@ -23,7 +23,7 @@ class SearchPageMe extends StatefulWidget {
 class _SearchPageMeState extends State<SearchPageMe> {
   int selectedPageIndex = 0;
   final _meBox = Hive.box('mybox');
-  ToDodatabase6 db6 = ToDodatabase6();
+  ToDo_FontController db6 = ToDo_FontController();
   final ShowClass = Get.put(show());
   ToDoRecent db = ToDoRecent();
   late List<Map<String, Widget>> pages;
@@ -79,11 +79,8 @@ class _SearchPageMeState extends State<SearchPageMe> {
 
   @override
   void initState() {
-    if (_meBox.get('FontFamily') == null) {
-      dbFont.createInitialData();
-    } else {
-      dbFont.loadData();
-    }
+    dbFont.loadData();
+
     if (_meBox.get('TODORECENT') == null) {
       db.createInitialData();
     } else {
@@ -196,8 +193,9 @@ class _SearchPageMeState extends State<SearchPageMe> {
                             });
                           },
                           child: TextField(
-                            focusNode: _searchFocus,
-                            autofocus: showFouse,
+                            // focusNode: _searchFocus,
+                            // autofocus: showFouse,
+                            autofocus: db.favorite.isEmpty ? true : false,
                             controller: _searchController,
                             cursorColor: Color.fromRGBO(0, 150, 136, 0.5),
                             cursorHeight: 14,
@@ -285,7 +283,10 @@ class _SearchPageMeState extends State<SearchPageMe> {
                     : false,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 20),
-                  child: Text("اخیر هیچ جستجوی انجام نشده است"),
+                  child: Text(
+                    "اخیر هیچ جستجوی انجام نشده است",
+                    style: TextStyle(fontFamily: dbFont.FontFamily),
+                  ),
                 )),
             Visibility(
               visible: _searchController.text.isEmpty ? true : false,

@@ -32,7 +32,7 @@ class Web_Log_Detail extends StatefulWidget {
 }
 
 class _Web_Log_DetailState extends State<Web_Log_Detail> {
-  ToDodatabase6 db6 = ToDodatabase6();
+  ToDo_FontController db6 = ToDo_FontController();
   final _meBox = Hive.box('mybox');
   late PageController _pageController;
 
@@ -44,11 +44,8 @@ class _Web_Log_DetailState extends State<Web_Log_Detail> {
     super.initState();
     _pageController = PageController(initialPage: widget.initialPageIndex);
 
-    if (_meBox.get("FontFamily") == null) {
-      DB_fontFamily.createInitialData();
-    } else {
-      DB_fontFamily.loadData();
-    }
+    DB_fontFamily.loadData();
+
     if (_meBox.get("TODOSlid") == null) {
       db6.createInitialData();
     } else {
@@ -197,6 +194,8 @@ class _Web_Log_DetailState extends State<Web_Log_Detail> {
                                               "اشتراک گذاری",
                                               style: TextStyle(
                                                 fontSize: 16,
+                                                fontFamily:
+                                                    DB_fontFamily.FontFamily,
                                                 fontWeight: FontWeight.w900,
                                               ),
                                             ),

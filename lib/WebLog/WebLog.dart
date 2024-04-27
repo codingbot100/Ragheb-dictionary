@@ -18,19 +18,16 @@ class _messageState extends State<message> {
   ThemeDatabase themeDatabase = ThemeDatabase();
 
   List<List<dynamic>> csvData = [];
-  ToDodatabase6 db6 = ToDodatabase6();
+  ToDo_FontController db6 = ToDo_FontController();
   ToDoDataBaseFont dbFont = new ToDoDataBaseFont();
   final _meBox = Hive.box('mybox');
   final thememanger = Get.put(ThemeManager());
-
   @override
   void initState() {
     themeDatabase.loadData();
-    if (_meBox.get("TODOSlid") == null) {
-      dbFont.createInitialData();
-    } else {
-      dbFont.loadData();
-    }
+
+    dbFont.loadData();
+
     if (_meBox.get("FontFamily") == null) {
       db6.createInitialData();
     } else {
@@ -65,6 +62,9 @@ class _messageState extends State<message> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTablet = screenWidth > 600;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -75,8 +75,8 @@ class _messageState extends State<message> {
           trailing: Text(
             'وبلاگ راغب',
             style: TextStyle(
-              fontSize: 20,
-              fontFamily: 'Yekan',
+              fontSize: isTablet ? 24 : 20,
+              fontFamily: dbFont.FontFamily,
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -84,13 +84,14 @@ class _messageState extends State<message> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20),
+          padding: EdgeInsets.symmetric(horizontal: isTablet ? 40 : 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               for (var row in csvData) ...[
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 36),
+                  padding: EdgeInsets.only(bottom: isTablet ? 48 : 36),
                   child: GestureDetector(
                     onTap: () {
                       Get.to(
@@ -102,7 +103,6 @@ class _messageState extends State<message> {
                                 csvData: csvData,
                                 imageList: imageList,
                                 initialPageIndex: csvData.indexOf(row),
-                               
                               ),
                           transition: Transition.fadeIn,
                           duration: Duration(milliseconds: 350));
@@ -140,7 +140,10 @@ class _messageState extends State<message> {
                                 "images2/${imageList[csvData.indexOf(row) % imageList.length]}",
                               )),
                           Padding(
-                            padding: const EdgeInsets.only(top: 8, right: 8),
+                            padding: EdgeInsets.only(
+                              top: isTablet ? 12 : 8,
+                              right: isTablet ? 16 : 8,
+                            ),
                             child: Directionality(
                                 textDirection: TextDirection.rtl,
                                 child: Text(

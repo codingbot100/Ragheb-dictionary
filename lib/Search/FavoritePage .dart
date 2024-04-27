@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
 import 'package:ragheb_dictionary/Search/DataBase/todo_favorite.dart';
 import 'package:ragheb_dictionary/Search/Detail_Page.dart';
@@ -13,10 +14,12 @@ class FavoritPage_Me extends StatefulWidget {
 class _FavoritPage_MeState extends State<FavoritPage_Me> {
   ToDo_favorite _todoDatabase = ToDo_favorite();
   final _meBox = Hive.box('mybox');
-  ToDodatabase6 db6 = ToDodatabase6();
+  ToDo_FontController db6 = ToDo_FontController();
+  ToDoDataBaseFont db_font = ToDoDataBaseFont();
 
   @override
   void initState() {
+    db_font.loadData();
     if (_meBox.get('TODOSlid') == null) {
       db6.createInitialData();
     } else {
@@ -87,8 +90,10 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
                     tileColor: Colors.transparent,
                     title: Text(
                       'ذخیره شده ها ',
-                      style:
-                          TextStyle(fontSize: 25, fontWeight: FontWeight.w900),
+                      style: TextStyle(
+                          fontSize: 25,
+                          fontFamily: db_font.FontFamily,
+                          fontWeight: FontWeight.w900),
                     ),
                   )),
             ),
@@ -97,7 +102,10 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
             ),
             Visibility(
                 visible: _todoDatabase.favorite.isEmpty ? true : false,
-                child: Text("هیچ لغت دلخواه اضافه نشده")),
+                child: Text(
+                  "هیچ لغت دلخواه اضافه نشده",
+                  style: TextStyle(fontFamily: db_font.FontFamily),
+                )),
             Expanded(
               child: ListView.separated(
                 itemCount: _todoDatabase.favorite.length,
@@ -129,7 +137,9 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
                         trailing: Text(
                           "${_todoDatabase.favorite[index]['name']}",
                           style: TextStyle(
-                              fontSize: 22, fontWeight: FontWeight.w600),
+                              fontSize: 22,
+                              fontFamily: db_font.FontFamily,
+                              fontWeight: FontWeight.w600),
                         ),
                         onTap: () {
                           Get.to(

@@ -1,9 +1,8 @@
 // ignore_for_file: unused_local_variable
-
-import 'package:animated_splash_screen/animated_splash_screen.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:ragheb_dictionary/HomePage/Navigator.dart';
@@ -13,7 +12,6 @@ import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/Theme_Color.da
 import 'package:ragheb_dictionary/WelcomScreen.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeData.dart';
-
 main() async {
   await Hive.initFlutter();
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,19 +26,15 @@ main() async {
 class SplashScreen_Animated extends StatelessWidget {
   SplashScreen_Animated({super.key});
   final splash = Get.put(splashclass());
-
   @override
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
       splash: Column(
         // mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(),
-            child: SvgPicture.asset(
-              'Image_WelcomPage/Main Logo.svg',
-              color: Colors.white,
-            ),
+          SvgPicture.asset(
+            'Image_WelcomPage/Main Logo.svg',
+            color: Colors.white,
           ),
           Padding(
             padding: const EdgeInsets.only(top: 30),

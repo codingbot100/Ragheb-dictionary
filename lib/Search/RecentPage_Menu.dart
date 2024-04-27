@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
 import 'package:ragheb_dictionary/Search/DataBase/recent_Search.dart';
 import 'package:ragheb_dictionary/Search/Detail_Page.dart';
@@ -14,8 +15,8 @@ class RecentpageMain extends StatefulWidget {
 
 class _RecentpageMainState extends State<RecentpageMain> {
   final _meBox = Hive.box('mybox');
-  ToDodatabase6 db6 = ToDodatabase6();
-
+  ToDo_FontController db6 = ToDo_FontController();
+  ToDoDataBaseFont db_font = new ToDoDataBaseFont();
   ToDoRecent db = ToDoRecent();
   List<Map<String, String>> dataList = [];
   List<String> recentSearches = [];
@@ -43,6 +44,7 @@ class _RecentpageMainState extends State<RecentpageMain> {
 
   @override
   void initState() {
+    db_font.loadData();
     if (_meBox.get('TODORECENT') == null) {
       db.createInitialData();
     } else {
@@ -149,6 +151,7 @@ class _RecentpageMainState extends State<RecentpageMain> {
                         item["name"]!,
                         style: TextStyle(
                           fontSize: 20,
+                          fontFamily: db_font.FontFamily,
                           fontWeight: FontWeight.w900,
                         ),
                       ),

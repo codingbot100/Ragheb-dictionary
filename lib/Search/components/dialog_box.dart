@@ -30,98 +30,96 @@ class _DialogeBoxState extends State<DialogeBox> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(top: 50),
-        child: AlertDialog(
-          elevation: 0.0,
-          // icon: Image.asset('icons/cancel 1.png'),
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          content: Container(
-            height: 100,
-            child: Directionality(
-              textDirection: TextDirection.rtl,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Image.asset(
-                    'icons/cancel 1.png',
-                    scale: 1.2,
-                  ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      "از حذف کامل لیست جستجو های اخیر خویش اطمینان دارید؟",
-                      style: TextStyle(
-                        fontFamily: 'Yekan',
-                        color: Theme.of(context).textTheme.headline1?.color,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      ),
+    return Padding(
+      padding: const EdgeInsets.only(top: 50),
+      child: AlertDialog(
+        elevation: 0.0,
+        // icon: Image.asset('icons/cancel 1.png'),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        content: Container(
+          height: 100,
+          child: Directionality(
+            textDirection: TextDirection.rtl,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Image.asset(
+                  'icons/cancel 1.png',
+                  scale: 1.2,
+                ),
+                Container(
+                  height: 40,
+                  child: Text(
+                    "از حذف کامل لیست جستجو های اخیر خویش اطمینان دارید؟",
+                    style: TextStyle(
+                      fontFamily: 'Yekan',
+                      color: Theme.of(context).textTheme.headline1?.color,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-          actions: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
+        ),
+        actions: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    Get.back();
+                  });
+                },
+                child: Container(
                   height: 32,
                   width: 70,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100),
                       color: Colors.red),
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        Get.back();
-                      });
-                    },
-                    child: Center(
-                      child: Text('نخیر',
-                          style: TextStyle(
-                            fontFamily: 'Yekan',
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          )),
-                    ),
+                  child: Center(
+                    child: Text('نخیر',
+                        style: TextStyle(
+                          fontFamily: 'Yekan',
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        )),
                   ),
                 ),
-                SizedBox(width: 15),
-                Container(
+              ),
+              SizedBox(width: 15),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    db.clearFavorit();
+                    db.updateDataBase();
+                    db.loadData();
+                    Get.back();
+                  });
+                },
+                child: Container(
                   height: 32,
                   width: 70,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100),
                       color: Colors.green),
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        db.clearFavorit();
-                        db.updateDataBase();
-                        Get.back();
-                       
-                      });
-                    },
-                    child: Center(
-                      child: Text('بلی',
-                          style: TextStyle(
-                            fontFamily: 'Yekan',
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          )),
-                    ),
+                  child: Center(
+                    child: Text('بلی',
+                        style: TextStyle(
+                          fontFamily: 'Yekan',
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        )),
                   ),
                 ),
-              ],
-            )
-          ],
-        ),
+              ),
+            ],
+          )
+        ],
       ),
     );
   }
@@ -146,5 +144,8 @@ class _DialogeBoxState extends State<DialogeBox> {
         return DialogeBox();
       },
     );
+    setState(() {
+      db.updateDataBase();
+    });
   }
 }

@@ -60,6 +60,8 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTable = screenWidth > 600;
     return Column(
       children: [
         GestureDetector(

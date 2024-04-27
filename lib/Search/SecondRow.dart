@@ -31,8 +31,13 @@ class _secondRowState extends State<secondRow> {
         children: [
           GestureDetector(
             onTap: () {
-              setState(() async {
-                ShowDilog();
+              setState(() {
+                 showDialog(
+      context: context,
+      builder: (context) {
+        return DialogeBox();
+      },
+    );
               });
             },
             child: Text("پاک کردن",

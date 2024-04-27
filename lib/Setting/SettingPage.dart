@@ -32,7 +32,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
   var listColor = Color.fromARGB(255, 97, 158, 152);
   Color MyButtonColor = Colors.transparent;
   int fontOption = 0;
-  ToDodatabase6 db = new ToDodatabase6();
+  ToDo_FontController db = new ToDo_FontController();
   ThemeDatabase ThemeClass = ThemeDatabase();
 
   @override
@@ -63,7 +63,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
     });
   }
 
-  List lable_slider = ["ریز", "کمی بزرگ", "بزرگ", "خیلی بزرگ ", "زیادی بزرگ"];
+  List lable_slider = ["ریز", "کمی بزرگ", "معمولی", "خیلی بزرگ ", "بزرگ"];
   @override
   void updatePrices(double added, int removed) {
     int extra = added ~/ 5 * 2;
@@ -195,6 +195,14 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                         child: SliderTheme(
                                           data:
                                               SliderTheme.of(context).copyWith(
+                                            valueIndicatorTextStyle: TextStyle(
+                                                fontSize: 12,
+                                                fontFamily: "YekanBakh",
+                                                fontWeight: FontWeight.w400,
+                                                color: Color.fromRGBO(
+                                                    0, 150, 136, 1)),
+                                            valueIndicatorColor:
+                                                Colors.transparent,
                                             activeTrackColor: Color.fromRGBO(
                                                 147,
                                                 147,
@@ -208,11 +216,13 @@ class _MySettingsPageState extends State<MySettingsPage> {
 
                                             overlayColor: Colors
                                                 .transparent, // Customizing overlay color to transparent
+
                                             thumbShape: RoundSliderThumbShape(
                                               elevation: 0,
                                               enabledThumbRadius:
                                                   8.0, // Width and height of main dot
                                             ),
+
                                             overlayShape:
                                                 RoundSliderOverlayShape(
                                               overlayRadius:
@@ -224,9 +234,9 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                           ),
                                           child: Slider(
                                               value: db.name,
-                                              min: 15,
+                                              min: 20,
                                               max: 60,
-                                              divisions: 4,
+                                              divisions: 2,
                                               label: lable_slider[
                                                   calculateIndex(db.name)],
                                               onChanged: (double value) {
