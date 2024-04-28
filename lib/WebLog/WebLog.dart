@@ -128,7 +128,6 @@ class _messageState extends State<message> {
                               ]
                             : [],
                       ),
-                      height: 350,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -146,13 +145,16 @@ class _messageState extends State<message> {
                             ),
                             child: Directionality(
                                 textDirection: TextDirection.rtl,
-                                child: Text(
-                                  textAlign: TextAlign.right,
-                                  row[1].toString(),
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: db6.title_Web_Main,
-                                      fontFamily: dbFont.FontFamily),
+                                child: Container(
+                                  height: 70,
+                                  child: Text(
+                                    textAlign: TextAlign.right,
+                                    row[1].toString(),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: db6.title_Web_Main,
+                                        fontFamily: dbFont.FontFamily),
+                                  ),
                                 )),
                           )
                         ],

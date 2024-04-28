@@ -110,7 +110,7 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
             itemBuilder: (context, index) {
               int realIndex = _todoDatabase.favorite.length > 3
                   ? _todoDatabase.favorite.length - 3 + index
-                  : index;
+                  : index; 
               return Padding(
                 padding: const EdgeInsets.only(bottom: 10),
                 child: Container(
