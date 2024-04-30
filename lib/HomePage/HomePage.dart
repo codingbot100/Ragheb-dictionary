@@ -53,8 +53,19 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     } else {
       Recent_db.loadData();
     }
-    toDoRecent.loadData();
-    toDo_favorite.loadData();
+    if (_meBox.get("TODORECENT") == null) {
+      toDoRecent.createInitialData();
+    } else {
+      toDoRecent.loadData();
+    }
+    // toDoRecent.loadData();
+
+    if (_meBox.get("TODOLIST") == null) {
+      toDo_favorite.createInitialData();
+    } else {
+      toDo_favorite.loadData();
+    }
+    // toDo_favorite.loadData();
     Recent_db.loadData();
     super.initState();
   }

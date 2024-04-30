@@ -113,7 +113,7 @@ class _Web_Log_DetailState extends State<Web_Log_Detail> {
                                     children: <Widget>[
                                       // Background image
                                       Image.asset(
-                                        "images2/${widget.imageList[index % widget.imageList.length]}",
+                                        "web_images/${widget.imageList[index % widget.imageList.length]}",
                                         width: double.infinity,
                                         height: double.infinity,
                                         fit: BoxFit.cover,
@@ -132,7 +132,7 @@ class _Web_Log_DetailState extends State<Web_Log_Detail> {
                                         color: themeManager.themebo.value
                                             ? Color.fromRGBO(0, 150, 137, 1)
                                             : Color.fromRGBO(82, 82, 82, 1),
-                                        fontSize: db6.title_Web,
+                                        fontSize: db6.title_Web - 6,
                                         fontWeight: FontWeight.w700,
                                         fontFamily: DB_fontFamily.FontFamily,
                                       ),

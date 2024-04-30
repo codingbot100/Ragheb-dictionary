@@ -19,16 +19,16 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
   final themeManger = Get.put(ThemeManager());
 
   final myItems1 = [
-    "images2/1.jpg",
-    "images2/2.jpg",
-    "images2/4.jpg",
-    "images2/5.jpg",
-    "images2/6.jpg",
-    "images2/7.jpg",
-    "images2/8.jpg",
-    "images2/8.jpg",
-    "images2/9.jpg",
-    "images2/8.jpg",
+    "web_images/1.jpg",
+    "web_images/2.jpg",
+    "web_images/4.jpg",
+    "web_images/5.jpg",
+    "web_images/6.jpg",
+    "web_images/7.jpg",
+    "web_images/8.jpg",
+    "web_images/8.jpg",
+    "web_images/9.jpg",
+    "web_images/8.jpg",
   ];
   final myItems = [
     "1.jpg",

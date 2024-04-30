@@ -150,7 +150,7 @@ class _RecentpageMainState extends State<RecentpageMain> {
                       title: Text(
                         item["name"]!,
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 18,
                           fontFamily: db_font.FontFamily,
                           fontWeight: FontWeight.w900,
                         ),

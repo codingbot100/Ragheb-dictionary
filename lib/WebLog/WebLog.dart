@@ -97,7 +97,7 @@ class _messageState extends State<message> {
                       Get.to(
                           () => Web_Log_Detail(
                                 image:
-                                    "images2/${imageList[csvData.indexOf(row) % imageList.length]}",
+                                    "web_images/${imageList[csvData.indexOf(row) % imageList.length]}",
                                 title: row[1].toString(),
                                 main_Contant: row[0].toString(),
                                 csvData: csvData,
@@ -136,7 +136,7 @@ class _messageState extends State<message> {
                                   topLeft: Radius.circular(12),
                                   topRight: Radius.circular(12)),
                               child: Image.asset(
-                                "images2/${imageList[csvData.indexOf(row) % imageList.length]}",
+                                "web_images/${imageList[csvData.indexOf(row) % imageList.length]}",
                               )),
                           Padding(
                             padding: EdgeInsets.only(

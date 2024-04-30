@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:ragheb_dictionary/Search/DataBase/splashData.dart';
-
-void main(List<String> args) {
-  runApp(SplashScreen());
-}
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -24,20 +19,18 @@ class _SplashScreenState extends State<SplashScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                 height: 500,
+                height: 500,
                 width: double.infinity,
                 child: Image.asset(
-                 
-                  
+                  'svg_images/s_image.png',
                   color: Colors.transparent,
                   fit: BoxFit.cover,
-                  'Image_WelcomPage/s_image.png',
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 20),
                 child: SvgPicture.asset(
-                  'Image_WelcomPage/Main Logo.svg',
+                  'svg_images/Main Logo.svg',
                 ),
               ),
               Padding(
@@ -59,5 +52,3 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 }
-
-// 

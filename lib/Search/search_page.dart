@@ -296,7 +296,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
                   child: ListView.separated(
                       separatorBuilder: (context, index) {
                         return Padding(
-                          padding: const EdgeInsets.only(left: 30, right: 20),
+                          padding: const EdgeInsets.only(left: 15, right: 15),
                           child: Divider(
                             thickness: 0.5,
                             color: Color.fromRGBO(0, 150, 136, 1),
@@ -312,7 +312,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
                         return Container(
                           height: 42,
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 12, right: 12),
+                            padding: const EdgeInsets.only(),
                             child: ListTile(
                               leading: IconButton(
                                   onPressed: () {

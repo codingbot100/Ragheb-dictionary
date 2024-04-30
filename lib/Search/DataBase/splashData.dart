@@ -12,8 +12,7 @@ class splashclass extends GetxController {
   }
 
   void loadData() {
-    checkPage.value = _meBox2.get("checkpage") ??
-        false; // Initialize themebo with the value from Hive or default to false
+    checkPage.value = _meBox2.get("checkpage") ?? false; // Initialize themebo with the value from Hive or default to false
   }
 
   void updateDataBase() {

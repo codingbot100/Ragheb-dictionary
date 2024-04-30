@@ -32,7 +32,7 @@ class _secondRowState extends State<secondRow> {
             child: Text("پاک کردن",
                 style: TextStyle(
                   fontFamily: 'YekanBakh',
-                  fontSize: 12,
+                  fontSize: 10,
                   // color: Color.fromRGBO(0, 0, 0, 0.7)
                 )),
           ),
@@ -46,7 +46,7 @@ class _secondRowState extends State<secondRow> {
           Text("جستجو های اخیر",
               style: TextStyle(
                 fontFamily: 'YekanBakh',
-                fontSize: 12,
+                fontSize: 10,
                 // color: Color.fromRGBO(0, 0, 0, 0.7)
               ))
         ],

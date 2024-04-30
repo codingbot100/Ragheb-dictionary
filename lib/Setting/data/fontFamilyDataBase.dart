@@ -7,7 +7,7 @@ class ToDoDataBaseFont {
   final _meBox2 = Hive.box('mybox2');
 
   void createInitialData() {
-    // FontFamily = 'YekanBakh';
+    FontFamily = 'YekanBakh';
     borderFont = 0;
   }
 

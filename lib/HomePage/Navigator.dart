@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:ragheb_dictionary/Search/FavoritePage%20.dart';
 import 'package:ragheb_dictionary/WebLog/WebLog.dart';
@@ -94,8 +93,8 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
                         child: IconButton(
                           icon: SvgPicture.asset(
                             _currentIndex == 0
-                                ? 'Image_WelcomPage/clicked_home.svg'
-                                : 'Image_WelcomPage/click_home.svg',
+                                ? 'svg_images/clicked_home.svg'
+                                : 'svg_images/click_home.svg',
                           ),
                           onPressed: () => setState(() => _currentIndex = 0),
                         ),
@@ -106,8 +105,8 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
                         child: IconButton(
                           icon: SvgPicture.asset(
                             _currentIndex == 1
-                                ? 'Image_WelcomPage/Clicked_weblog.svg'
-                                : 'Image_WelcomPage/Click_welog.svg',
+                                ? 'svg_images/Clicked_weblog.svg'
+                                : 'svg_images/Click_welog.svg',
                           ),
                           onPressed: () => setState(() => _currentIndex = 1),
                         ),
@@ -119,8 +118,8 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
                         child: IconButton(
                           icon: SvgPicture.asset(
                             _currentIndex == 3
-                                ? 'Image_WelcomPage/State=Enable.svg'
-                                : 'Image_WelcomPage/State=Disable.svg',
+                                ? 'svg_images/State=Enable.svg'
+                                : 'svg_images/State=Disable.svg',
                             color: Color.fromRGBO(111, 111, 111, 1),
                           ),
                           onPressed: () => setState(() => _currentIndex = 3),
@@ -132,8 +131,8 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
                         child: IconButton(
                           icon: SvgPicture.asset(
                             _currentIndex == 4
-                                ? 'Image_WelcomPage/clicked_setting.svg'
-                                : 'Image_WelcomPage/setting2.svg',
+                                ? 'svg_images/clicked_setting.svg'
+                                : 'svg_images/setting2.svg',
                           ),
                           onPressed: () => setState(() => _currentIndex = 4),
                         ),

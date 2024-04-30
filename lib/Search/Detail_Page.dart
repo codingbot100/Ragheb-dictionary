@@ -88,7 +88,7 @@ class _DetailPageState extends State<DetailPage> {
           'image': 'images/new.png',
         };
         db.favorite.add(newItem);
-        updateImage('images/Enable (1).png'); // Update image immediately
+        updateImage('icons/Enable (1).png'); // Update image immediately
       } else {
         // Find the item with the same name as itemName
         Map<dynamic, dynamic>? itemToRemove;
@@ -101,7 +101,7 @@ class _DetailPageState extends State<DetailPage> {
         // Remove the item if found
         if (itemToRemove != null) {
           db.favorite.remove(itemToRemove);
-          updateImage('images/Disable (1).png'); // Update image immediately
+          updateImage('icons/Disable (1).png'); // Update image immediately
         }
       }
       db.updateDataBase();
@@ -185,11 +185,15 @@ class _DetailPageState extends State<DetailPage> {
                                             name, description, footnote);
                                       });
                                     },
-                                    icon: Image.asset(
-                                      isFavorite
-                                          ? 'images/Enable (1).png'
-                                          : 'images/Disable (1).png',
-                                      color: Colors.green,
+                                    icon: AnimatedContainer(
+                                      duration: Duration(milliseconds: 300),
+                                      curve: Curves.easeInBack,
+                                      child: Image.asset(
+                                        isFavorite
+                                            ? 'icons/Enable (1).png'
+                                            : 'icons/Disable (1).png',
+                                        color: Colors.green,
+                                      ),
                                     )),
                               ),
                               Flexible(

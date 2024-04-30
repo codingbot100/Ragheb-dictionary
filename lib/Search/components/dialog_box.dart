@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Search/DataBase/recent_Search.dart';
@@ -43,22 +44,29 @@ class _DialogeBoxState extends State<DialogeBox> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Image.asset(
-                  'icons/cancel 1.png',
-                  scale: 1.2,
-                ),
                 Container(
                   height: 40,
-                  child: Text(
-                    "از حذف کامل لیست جستجو های اخیر خویش اطمینان دارید؟",
-                    style: TextStyle(
-                      fontFamily: 'Yekan',
-                      color: Theme.of(context).textTheme.headline1?.color,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  child: Image.asset(
+                    'icons/cancel 1.png',
                   ),
                 ),
+                Container(
+                  child: RichText(
+                    softWrap: true,
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      text:
+                          "از حذف کامل لیست جستجو های اخیر خویش اطمینان دارید؟",
+                      style: TextStyle(
+                        fontFamily: 'Yekan',
+                        letterSpacing: 1,
+                        color: Theme.of(context).textTheme.headline1?.color,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                )
               ],
             ),
           ),
@@ -78,7 +86,7 @@ class _DialogeBoxState extends State<DialogeBox> {
                   width: 70,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100),
-                      color: Colors.red),
+                      color: Colors.green),
                   child: Center(
                     child: Text('نخیر',
                         style: TextStyle(
@@ -105,7 +113,7 @@ class _DialogeBoxState extends State<DialogeBox> {
                   width: 70,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100),
-                      color: Colors.green),
+                      color: Colors.red),
                   child: Center(
                     child: Text('بلی',
                         style: TextStyle(

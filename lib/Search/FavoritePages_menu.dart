@@ -110,7 +110,7 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
             itemBuilder: (context, index) {
               int realIndex = _todoDatabase.favorite.length > 3
                   ? _todoDatabase.favorite.length - 3 + index
-                  : index; 
+                  : index;
               return Padding(
                 padding: const EdgeInsets.only(bottom: 10),
                 child: Container(
@@ -152,15 +152,18 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
                       // ),
                       title: Text(
                         "${_todoDatabase.favorite[realIndex]['name']}",
-                        style: TextStyle(fontFamily: db_font.FontFamily,
-                          fontSize: 20,
+                        style: TextStyle(
+                          fontFamily: db_font.FontFamily,
+                          fontSize: 18,
                           fontWeight: FontWeight.w900,
                         ),
                       ),
                       trailing: Text(
                           formatDateTime(
                               _todoDatabase.favorite[realIndex]['date']),
-                          style: TextStyle(color: Colors.grey.shade500,fontFamily: db_font.FontFamily)),
+                          style: TextStyle(
+                              color: Colors.grey.shade500,
+                              fontFamily: db_font.FontFamily)),
                       onTap: () {
                         Get.to(
                             () => DetailPage(
