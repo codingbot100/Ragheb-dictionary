@@ -5,8 +5,6 @@
 <img width="390" alt="8" src="https://github.com/codingbot100/Ragheb-dictionary/assets/129599209/783ab606-c867-4e69-a612-14bcc62b49d0">
 <img width="390" alt="6" src="https://github.com/codingbot100/Ragheb-dictionary/assets/129599209/3702a6f9-20fb-45d3-8430-681477ba75d8">
 <img width="390" alt="5" src="https://github.com/codingbot100/Ragheb-dictionary/assets/129599209/3a14c641-2e46-461b-9e85-4b36a18c41ea">
-![2](https://github.com/codingbot100/Ragheb-dictionary/assets/129599209/b86c2085-0866-4a71-9dae-39781fb0a1c5)
-<img width="390" alt="3" src="https://github.com/codingbot100/Ragheb-dictionary/assets/129599209/b5ea0096-b1ca-4561-975f-0fe1196043cb">
 <img width="390" alt="4" src="https://github.com/codingbot100/Ragheb-dictionary/assets/129599209/cf43e201-a6b1-47ec-9128-e3fe784ddb53">
 <img width="390" alt="7" src="https://github.com/codingbot100/Ragheb-dictionary/assets/129599209/2b211d6f-8e6e-4265-a232-b6a9be844ba2">
 <img width="390" alt="13" src="https://github.com/codingbot100/Ragheb-dictionary/assets/129599209/1b8aa079-2e11-4505-a960-71cabebf818f">
