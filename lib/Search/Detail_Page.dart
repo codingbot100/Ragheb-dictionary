@@ -17,6 +17,8 @@ class DetailPage extends StatefulWidget {
   final List<Map<String, String>> dataList;
   final int initialPageIndex;
   final bool showFavorite;
+  final String page;
+  void Function(String name, String descriprion, String footnote) onRemove;
 
   DetailPage({
     Key? key,
@@ -26,6 +28,8 @@ class DetailPage extends StatefulWidget {
     required this.dataList,
     required this.initialPageIndex,
     required this.showFavorite,
+    required this.page,
+    required this.onRemove,
   }) : super(key: key);
 
   @override
@@ -112,6 +116,31 @@ class _DetailPageState extends State<DetailPage> {
     });
   }
 
+  void remove_Favorite(String name, String description, String footnote) {
+    setState(() {
+      // Find the item with the same name, description, and footnote
+      Map<dynamic, dynamic>? itemToRemove;
+      for (var item in db.favorite) {
+        if (item['name'] == name &&
+            item['description'] == description &&
+            item['footnote'] == footnote) {
+          itemToRemove = item;
+          break;
+        }
+      }
+
+      // Remove the item if found
+      if (itemToRemove != null) {
+        db.favorite.remove(itemToRemove);
+        db.updateDataBase(); // Update the database after removing the item
+        db.updateImageState(
+            name, 'icons/Disable (1).png'); // Update image state in Hive
+        db.updateDataBase();
+      }
+    });
+    Get.back();
+  }
+
   void updateImage(String newImage) {
     setState(() {
       image = newImage;
@@ -178,41 +207,59 @@ class _DetailPageState extends State<DetailPage> {
                 ),
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Visibility(
-                          visible: widget.showFavorite,
-                          child: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  addToFavorite(name, description, footnote);
-                                });
-                              },
-                              child: Image.asset(
-                                isFavorite
-                                    ? 'icons/Enable (1).png'
-                                    : 'icons/Disable (1).png',
-                                color: Color.fromRGBO(153, 153, 153, 1),
-                                scale: 2.5,
-                              )),
-                        ),
-                        IntrinsicWidth(
-                          stepHeight: 20,
-                          child: Text(
-                            widget.dataList[index]['name']!,
-                            style: TextStyle(
-                              fontFamily: DB_fontFamily.FontFamily,
-                              fontSize: FontSize_db.titile_name,
-                              fontWeight: FontWeight.w700,
-                              // color: Theme.of(context)
-                              //     .textTheme
-                              //     .bodyText1
-                              //     ?.color, // Use color from i
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          widget.page == "mainpage"
+                              ? GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      addToFavorite(
+                                          name, description, footnote);
+                                    });
+                                  },
+                                  child: Image.asset(
+                                    isFavorite
+                                        ? 'icons/Enable (1).png'
+                                        : 'icons/Disable (1).png',
+                                    color: Color.fromRGBO(153, 153, 153, 1),
+                                    scale: 2.5,
+                                  ))
+                              : widget.page == "favoritePage"
+                                  ? GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          widget.onRemove(
+                                              name, description, footnote);
+                                          remove_Favorite(
+                                              name, description, footnote);
+                                        });
+                                      },
+                                      child: Image.asset(
+                                        'icons/Enable (1).png',
+                                        color: Color.fromRGBO(153, 153, 153, 1),
+                                        scale: 2.5,
+                                      ))
+                                  : SizedBox(),
+                          IntrinsicWidth(
+                            stepHeight: 20,
+                            child: Text(
+                              widget.dataList[index]['name']!,
+                              style: TextStyle(
+                                fontFamily: DB_fontFamily.FontFamily,
+                                fontSize: FontSize_db.titile_name,
+                                fontWeight: FontWeight.w700,
+                                // color: Theme.of(context)
+                                //     .textTheme
+                                //     .bodyText1
+                                //     ?.color, // Use color from i
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     SizedBox(height: 20),
                     Expanded(
@@ -230,7 +277,7 @@ class _DetailPageState extends State<DetailPage> {
                                     fontFamily: DB_fontFamily.FontFamily,
                                     fontSize: FontSize_db.Descrption,
                                     letterSpacing: 0.3,
-                                    fontWeight: FontWeight.w500,
+                                    fontWeight: FontWeight.w600,
                                     color: Theme.of(context)
                                         .textTheme
                                         .displayLarge
@@ -271,7 +318,7 @@ class _DetailPageState extends State<DetailPage> {
                                                   fontFamily:
                                                       DB_fontFamily.FontFamily,
                                                   fontSize: FontSize_db.FootNot,
-                                                  fontWeight: FontWeight.w300,
+                                                  fontWeight: FontWeight.w500,
                                                   color: Theme.of(context)
                                                       .textTheme
                                                       .bodyMedium

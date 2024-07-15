@@ -15,6 +15,7 @@ class ToDo_favorite {
 
   void updateDataBase() {
     _meBox.put('TODOLIST', favorite);
+    // favorite.assignAll(favorite);
   }
 
   void updateImageState(String name, String newImage) {

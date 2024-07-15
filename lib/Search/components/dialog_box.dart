@@ -59,7 +59,7 @@ class _DialogeBoxState extends State<DialogeBox> {
                       style: TextStyle(
                         fontFamily: 'Yekan',
                         letterSpacing: 1,
-                        // color: Theme.of(context).textTheme.headline1?.color,
+                        color: Theme.of(context).textTheme.displayLarge?.color,
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
@@ -85,7 +85,7 @@ class _DialogeBoxState extends State<DialogeBox> {
                   width: 70,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100),
-                      color: Colors.green),
+                      color: Color.fromRGBO(0, 0, 0, 0.2)),
                   child: Center(
                     child: Text('نخیر',
                         style: TextStyle(
@@ -112,7 +112,7 @@ class _DialogeBoxState extends State<DialogeBox> {
                   width: 70,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100),
-                      color: Colors.red),
+                      color: Color.fromRGBO(215, 0, 0, 1)),
                   child: Center(
                     child: Text('بلی',
                         style: TextStyle(

@@ -158,6 +158,10 @@ class _RecentpageMainState extends State<RecentpageMain> {
                       onTap: () {
                         Get.to(
                           () => DetailPage(
+                             onRemove: (name, descriprion, footnote) {
+                                
+                              },
+                            page: "",
                             name: item['name']!,
                             description: item['description']!,
                             footnote: item['footnote']!,

@@ -179,7 +179,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                           ? false
                                           : true,
                                       child: TextRow(
-                                          3, 'مرور همه', 'ذخیره شده ها ')),
+                                          4, 'مرور همه', 'ذخیره شده ها ')),
                                   Container(
                                     height: (toDo_favorite.favorite.length <= 3)
                                         ? toDo_favorite.favorite.length * 60

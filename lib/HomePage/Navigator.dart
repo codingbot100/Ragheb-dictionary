@@ -35,21 +35,54 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
       Home(
         SearchPage: (int currentPage) {
           setState(() {
+            perviouseIndex = _currentIndex;
+
             _currentIndex = currentPage;
           });
         },
         onPageChange: (int currentPage) {
           setState(() {
-            _currentIndex = currentPage;
+            perviouseIndex = _currentIndex;
+
+            _currentIndex = 2;
+            print(_currentIndex);
           });
         },
       ),
-      message(),
+      message(
+        onIndex: () {
+          setState(() {
+            perviouseIndex = _currentIndex;
+
+            _currentIndex = 2;
+            print(_currentIndex);
+          });
+        },
+      ),
       SearchPage(
         isShow: isShow,
       ),
-      FavoritPage_Me(),
-      MySettingsPage(),
+      FavoritPage_Me(
+        onchange: () {
+          setState(() {
+            perviouseIndex = _currentIndex;
+
+            _currentIndex = 2;
+
+            print(_currentIndex);
+          });
+        },
+      ),
+      MySettingsPage(
+        onChange: () {
+          setState(() {
+            perviouseIndex = _currentIndex;
+
+            _currentIndex = 2;
+            print(_currentIndex);
+          });
+        },
+      ),
     ];
   }
 
@@ -114,6 +147,7 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
                               perviouseIndex = 0;
 
                               _currentIndex = 0;
+                              print(_currentIndex);
                             }),
                           ),
                         ),
@@ -130,8 +164,9 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
                             height: 25,
                           ),
                           onPressed: () => setState(() {
-                            perviouseIndex = _currentIndex;
+                            perviouseIndex = 1;
                             _currentIndex = 1;
+                            print(_currentIndex);
                           }),
                         ),
                       ),
@@ -148,8 +183,9 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
                             height: 27,
                           ),
                           onPressed: () => setState(() {
-                            perviouseIndex = _currentIndex;
+                            perviouseIndex = 3;
                             _currentIndex = 3;
+                            print(_currentIndex);
                           }),
                         ),
                       ),
@@ -166,6 +202,7 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
                                 onPressed: () {
                                   setState(() {
                                     _currentIndex = perviouseIndex;
+                                    print(_currentIndex);
                                   });
                                 },
                                 icon: Image.asset(
@@ -186,8 +223,9 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
                                   height: 25,
                                 ),
                                 onPressed: () => setState(() {
-                                  perviouseIndex = _currentIndex;
+                                  perviouseIndex = 4;
                                   _currentIndex = 4;
+                                  print(_currentIndex);
                                 }),
                               ),
                             ),

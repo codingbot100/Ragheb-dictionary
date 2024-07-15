@@ -9,10 +9,17 @@ import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeData.dart
 import 'package:ragheb_dictionary/Setting/settingsPages/About_us.dart';
 import 'package:ragheb_dictionary/Setting/settingsPages/about_ragheb_dictionary.dart';
 import 'package:ragheb_dictionary/Setting/info_page.dart';
+import 'package:ragheb_dictionary/Widgets/Panel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
 
 class MySettingsPage extends StatefulWidget {
+  final void Function() onChange;
+  MySettingsPage({
+    super.key,
+    required this.onChange,
+  });
+
   @override
   _MySettingsPageState createState() => _MySettingsPageState();
 }
@@ -34,7 +41,8 @@ class _MySettingsPageState extends State<MySettingsPage> {
   int fontOption = 0;
   ToDo_FontController db = new ToDo_FontController();
   ThemeDatabase ThemeClass = ThemeDatabase();
-
+  int index = 2;
+  final ThemeManager themeManager = Get.find();
   @override
   void initState() {
     themeclass.loadData();
@@ -105,16 +113,12 @@ class _MySettingsPageState extends State<MySettingsPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: Text(
-                      'تنظیمات',
-                      textAlign: TextAlign.end,
-                      style: TextStyle(
-                        fontFamily: Db_Font.FontFamily,
-                        fontSize: fontSizeTitle,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
+                    padding: const EdgeInsets.only(left: 5, right: 5),
+                    child: Panel(
+                        onChange: () {
+                          widget.onChange();
+                        },
+                        Title: "تنظیمات"),
                   ),
                   Column(
                     children: [
@@ -127,7 +131,9 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                     .primaryContainer,
                                 width: 1),
                             borderRadius: BorderRadius.circular(15.0),
-                            color: Theme.of(context).colorScheme.surface,
+                            color: !themeManager.themebo.value
+                                ? Color.fromRGBO(255, 255, 255, 0.5)
+                                : Color.fromRGBO(28, 28, 28, 1),
                             boxShadow: thememanger.themebo.value != true
                                 ? [
                                     BoxShadow(
@@ -156,7 +162,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                           ? Color.fromRGBO(82, 82, 82, 1)
                                           : Color.fromRGBO(153, 153, 153, 1),
                                       fontFamily: "YekanBakh",
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w600,
                                       fontSize: 14,
                                     ),
                                   ),
@@ -178,7 +184,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                           ? Color.fromRGBO(82, 82, 82, 1)
                                           : Color.fromRGBO(153, 153, 153, 1),
                                       fontFamily: "YekanBakh",
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w600,
                                       fontSize: 14.0,
                                     ),
                                   ),
@@ -244,7 +250,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                 ],
                               ),
                               Container(
-                                height: 60,
+                                height: 85,
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
@@ -264,9 +270,16 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                     Padding(
                                       padding: const EdgeInsets.only(right: 10),
                                       child: Text(
+                                        softWrap: true,
                                         "بهترین شما نافع ترین تان به بقیه است. (حدیث شریف)",
                                         style: TextStyle(
-                                          fontSize: 17,
+                                          fontSize: db.FootNot < 17
+                                              ? 17
+                                              : db.FootNot < 20
+                                                  ? 20
+                                                  : db.FootNot < 22
+                                                      ? 22
+                                                      : 22,
                                           fontWeight: FontWeight.w600,
                                           color: thememanger.themebo.value !=
                                                   true
@@ -375,7 +388,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
                         ? Color.fromRGBO(0, 150, 137, 1)
                         : Colors.white,
                 fontFamily: 'YekanBakh',
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w600,
                 fontSize: 13,
               ),
             ),

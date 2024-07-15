@@ -17,6 +17,7 @@ class Mylist extends StatefulWidget {
 }
 
 class _MylistState extends State<Mylist> {
+  ThemeManager themeManager = Get.find();
   ThemeDatabase themeDatabase = ThemeDatabase();
   final thememanger = Get.put(ThemeManager());
 
@@ -43,11 +44,14 @@ class _MylistState extends State<Mylist> {
       child: Center(
         child: Container(
           decoration: BoxDecoration(
+              color: !themeManager.themebo.value
+                  ? Color.fromRGBO(255, 255, 255, 0.5)
+                  : Color.fromRGBO(28, 28, 28, 1),
               border: Border.all(
                   color: Theme.of(context).colorScheme.primaryContainer,
                   width: 1),
               borderRadius: BorderRadius.circular(12.0),
-              color: Theme.of(context).colorScheme.surface, // boxShadow: [
+              // color: Theme.of(context).colorScheme.surface, // boxShadow: [
               boxShadow: thememanger.themebo.value != true
                   ? [
                       BoxShadow(

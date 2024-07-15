@@ -339,6 +339,8 @@ class _SearchPageState extends State<SearchPage> {
                               onTap: () {
                                 Get.to(
                                   () => DetailPage(
+                                    onRemove: (name, descriprion, footnote) {},
+                                    page: "",
                                     name: item['name']!,
                                     description: item['description']!,
                                     footnote: item['footnote']!,
@@ -404,6 +406,8 @@ class _SearchPageState extends State<SearchPage> {
                             onTap: () {
                               Get.to(
                                 () => DetailPage(
+                                  onRemove: (name, descriprion, footnote) {},
+                                  page: "mainpage",
                                   name: item['name']!,
                                   description: item['description']!,
                                   footnote: item['footnote']!,

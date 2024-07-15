@@ -5,8 +5,12 @@ import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
 import 'package:ragheb_dictionary/Search/DataBase/todo_favorite.dart';
 import 'package:ragheb_dictionary/Search/Detail_Page.dart';
+import 'package:ragheb_dictionary/Widgets/Panel.dart';
 
+// ignore: must_be_immutable
 class FavoritPage_Me extends StatefulWidget {
+  void Function() onchange;
+  FavoritPage_Me({Key? key, required this.onchange}) : super(key: key);
   @override
   _FavoritPage_MeState createState() => _FavoritPage_MeState();
 }
@@ -20,6 +24,7 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
   @override
   void initState() {
     db_font.loadData();
+    // _todoDatabase.updateDataBase();
     if (_meBox.get('TODOSlid') == null) {
       db6.createInitialData();
     } else {
@@ -55,6 +60,30 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
   String _getPeriod(DateTime dateTime) {
     return dateTime.hour < 12 ? "" : "";
   }
+   void remove_Favorite(String name, String description, String footnote) {
+    setState(() {
+      // Find the item with the same name, description, and footnote
+      Map<dynamic, dynamic>? itemToRemove;
+      for (var item in _todoDatabase.favorite) {
+        if (item['name'] == name &&
+            item['description'] == description &&
+            item['footnote'] == footnote) {
+          itemToRemove = item;
+          break;
+        }
+      }
+
+      // Remove the item if found
+      if (itemToRemove != null) {
+        _todoDatabase.favorite.remove(itemToRemove);
+        _todoDatabase.updateDataBase(); // Update the database after removing the item
+        _todoDatabase.updateImageState(
+            name, 'icons/Disable (1).png'); // Update image state in Hive
+        _todoDatabase.updateDataBase();
+      }
+    });
+    Get.back();
+  }
 
   String _getMonthAbbreviation(int month) {
     final monthAbbreviations = [
@@ -81,27 +110,15 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
       body: SafeArea(
         child: Column(
           children: [
-            Container(
-              height: 45,
+            Padding(
+              padding: const EdgeInsets.only(top: 20, left: 15, right: 15),
               child: Directionality(
                   textDirection: TextDirection.rtl,
-                  child: ListTile(
-                    shape: RoundedRectangleBorder(side: BorderSide.none),
-                    tileColor: Colors.transparent,
-                    title: Padding(
-                      padding: const EdgeInsets.only(top: 15),
-                      child: Text(
-                        'ذخیره شده ها ',
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: db_font.FontFamily,
-                            fontWeight: FontWeight.w900),
-                      ),
-                    ),
-                  )),
-            ),
-            SizedBox(
-              height: 15,
+                  child: Panel(
+                      onChange: () {
+                        widget.onchange();
+                      },
+                      Title: "ذخیره شده ها")),
             ),
             Visibility(
                 visible: _todoDatabase.favorite.isEmpty ? true : false,
@@ -145,6 +162,8 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
                       onTap: () {
                         Get.to(
                           () => DetailPage(
+                            onRemove: remove_Favorite,
+                            page: "favoritePage",
                             name: "${_todoDatabase.favorite[index]['name']}",
                             description:
                                 "${_todoDatabase.favorite[index]['description']}",

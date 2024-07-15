@@ -8,8 +8,15 @@ import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeData.dart';
+import 'package:ragheb_dictionary/Widgets/Panel.dart';
 
 class message extends StatefulWidget {
+  final void Function() onIndex;
+  message({
+    super.key,
+    required this.onIndex,
+  });
+
   @override
   _messageState createState() => _messageState();
 }
@@ -73,20 +80,15 @@ class _messageState extends State<message> {
             padding: const EdgeInsets.only(right: 15, left: 15),
             child: Column(
               children: [
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 20, bottom: 20),
-                    child: Text(
-                      'وبلاگ راغب',
-                      style: TextStyle(
-                        fontSize: isTablet ? 20 : 20,
-                        fontFamily: dbFont.FontFamily,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                  ),
-                ),
+                Padding(
+                    padding: const EdgeInsets.only(top: 20, right: 5),
+                    child: Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: Panel(
+                            onChange: () {
+                              widget.onIndex();
+                            },
+                            Title: "وبلاگ راغب"))),
                 Expanded(
                   child: ListView.builder(
                     itemCount: csvData.length,

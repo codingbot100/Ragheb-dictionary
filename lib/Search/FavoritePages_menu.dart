@@ -46,6 +46,32 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
     _todoDatabase.loadData();
   }
 
+  void remove_Favorite(String name, String description, String footnote) {
+    setState(() {
+      // Find the item with the same name, description, and footnote
+      Map<dynamic, dynamic>? itemToRemove;
+      for (var item in _todoDatabase.favorite) {
+        if (item['name'] == name &&
+            item['description'] == description &&
+            item['footnote'] == footnote) {
+          itemToRemove = item;
+          break;
+        }
+      }
+
+      // Remove the item if found
+      if (itemToRemove != null) {
+        _todoDatabase.favorite.remove(itemToRemove);
+        _todoDatabase
+            .updateDataBase(); // Update the database after removing the item
+        _todoDatabase.updateImageState(
+            name, 'icons/Disable (1).png'); // Update image state in Hive
+        _todoDatabase.updateDataBase();
+      }
+    });
+    Get.back();
+  }
+
   void _initHive() async {
     await Hive.initFlutter();
     await Hive.openBox('mybox');
@@ -134,22 +160,22 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
                   child: Directionality(
                     textDirection: TextDirection.rtl,
                     child: ListTile(
-                      leading: Image.asset(
-                        icons,
-                        scale: 1,
-                      ),
-                      // leading: IconButton(
-                      //   onPressed: () {
-                      //     setState(() {
-                      //       // _todoDatabase.favorite.removeAt(realIndex);
-                      //       // _todoDatabase.updateDataBase();
-                      //     });
-                      //   },
-                      //   icon: Image.asset(
-                      //     icons,
-                      //     scale: 1,
-                      //   ),
+                      // leading: Image.asset(
+                      //   icons,
+                      //   scale: 1,
                       // ),
+                      leading: IconButton(
+                        onPressed: () {
+                          remove_Favorite(
+                              _todoDatabase.favorite[realIndex]['name'],
+                              _todoDatabase.favorite[realIndex]['description'],
+                              _todoDatabase.favorite[realIndex]['footnote']);
+                        },
+                        icon: Image.asset(
+                          icons,
+                          scale: 1,
+                        ),
+                      ),
                       title: Text(
                         "${_todoDatabase.favorite[realIndex]['name']}",
                         style: TextStyle(
@@ -167,6 +193,8 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
                       onTap: () {
                         Get.to(
                             () => DetailPage(
+                                  onRemove: remove_Favorite,
+                                  page: "favoritePage",
                                   name:
                                       "${_todoDatabase.favorite[index]['name']}",
                                   description:
