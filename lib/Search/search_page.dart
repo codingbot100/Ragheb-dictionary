@@ -1,5 +1,4 @@
 // ignore_for_file: must_be_immutable, unnecessary_null_comparison
-
 import "package:flutter/material.dart";
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
@@ -12,15 +11,15 @@ import 'package:ragheb_dictionary/Search/DataBase/isShow.dart';
 import 'package:ragheb_dictionary/Search/DataBase/recent_Search.dart';
 import 'package:ragheb_dictionary/Search/Detail_Page.dart';
 
-class SearchPageMe extends StatefulWidget {
+class SearchPage extends StatefulWidget {
   bool isShow;
-  SearchPageMe({super.key, required this.isShow});
+  SearchPage({super.key, required this.isShow});
 
   @override
-  State<SearchPageMe> createState() => _SearchPageMeState();
+  State<SearchPage> createState() => _SearchPageState();
 }
 
-class _SearchPageMeState extends State<SearchPageMe> {
+class _SearchPageState extends State<SearchPage> {
   int selectedPageIndex = 0;
   final _meBox = Hive.box('mybox');
   ToDo_FontController db6 = ToDo_FontController();
@@ -157,7 +156,7 @@ class _SearchPageMeState extends State<SearchPageMe> {
   @override
   Widget build(BuildContext context) {
     final filteredList1 = filterDataList();
-
+    double ScreenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       // backgroundColor: Color(0xFFF5F5DC),
       body: Padding(
@@ -168,19 +167,21 @@ class _SearchPageMeState extends State<SearchPageMe> {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 15, right: 15),
+                    padding: EdgeInsets.only(
+                        left: ScreenWidth > 600 ? 30 : 15,
+                        right: ScreenWidth > 600 ? 30 : 15),
                     child: MouseRegion(
                       onEnter: (event) {
-                        setState(() {
-                          Get.find<show>().isShow.value = true;
-                          print(ShowClass.isShow.value);
-                        });
-                      },
-                      onExit: (event) {
-                        setState(() {
-                          Get.find<show>().isShow.value = false;
-                          print(ShowClass.isShow.value);
-                        });
+                        //   setState(() {
+                        //     Get.find<show>().isShow.value = true;
+                        //     print(ShowClass.isShow.value);
+                        //   });
+                        // },
+                        // onExit: (event) {
+                        //   setState(() {
+                        //     Get.find<show>().isShow.value = false;
+                        //     print(ShowClass.isShow.value);
+                        //   });
                       },
                       child: Container(
                         height: 45,
@@ -307,7 +308,6 @@ class _SearchPageMeState extends State<SearchPageMe> {
                       itemCount: filteredList1.length,
                       itemBuilder: (context, index) {
                         int realIndex = index % filteredList1.length;
-
                         final item = filteredList1[realIndex];
                         return Container(
                           height: 42,

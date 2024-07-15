@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ragheb_dictionary/Search/FavoritePage%20.dart';
@@ -19,7 +21,7 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
   late List<Widget> buildScreens;
   late bool isShow;
   final ShowClass = Get.put(show());
-
+  int perviouseIndex = 0;
   final thememanger = Get.put(ThemeManager());
   @override
   void initState() {
@@ -31,6 +33,11 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
     _currentIndex = 0;
     buildScreens = [
       Home(
+        SearchPage: (int currentPage) {
+          setState(() {
+            _currentIndex = currentPage;
+          });
+        },
         onPageChange: (int currentPage) {
           setState(() {
             _currentIndex = currentPage;
@@ -38,7 +45,7 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
         },
       ),
       message(),
-      SearchPageMe(
+      SearchPage(
         isShow: isShow,
       ),
       FavoritPage_Me(),
@@ -60,10 +67,10 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
       ),
       bottomNavigationBar: Obx(() => AnimatedContainer(
             duration: Duration(milliseconds: 500),
-            height: !ShowFab ? 65 : 0,
+            height: !ShowFab ? 87 : 0,
             curve: Curves.fastEaseInToSlowEaseOut,
             child: AnimatedContainer(
-              duration: Duration(milliseconds: 1),
+              duration: Duration(milliseconds: 100),
               curve: Curves.fastEaseInToSlowEaseOut,
               decoration: BoxDecoration(
                 boxShadow: thememanger.themebo.value
@@ -77,26 +84,38 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
                       ],
               ),
               child: BottomAppBar(
-                notchMargin: 7,
+                // coloColor.fromRGBO(224, 224, 224, 0.678)24),
+                // notchMargin: 7,
                 height: 65,
-                shape: CircularNotchedRectangle(),
-                color: Theme.of(context).bottomAppBarColor,
+                // shape: CircularNotchedRectangle(),
+                color: Theme.of(context).bottomAppBarTheme.color,
                 child: Directionality(
-                  textDirection: TextDirection.ltr,
+                  textDirection: TextDirection.rtl,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      AnimatedContainer(
-                        duration: Duration(milliseconds: 300),
-                        curve: Curves.bounceInOut,
-                        width: 55,
-                        child: IconButton(
-                          icon: SvgPicture.asset(
-                            _currentIndex == 0
-                                ? 'svg_images/clicked_home.svg'
-                                : 'svg_images/click_home.svg',
+                      Padding(
+                        padding: const EdgeInsets.only(top: 3),
+                        child: AnimatedContainer(
+                          duration: Duration(milliseconds: 300),
+                          curve: Curves.bounceInOut,
+                          width: 40,
+                          height: 40,
+                          child: IconButton(
+                            icon: SvgPicture.asset(
+                              _currentIndex == 0
+                                  ? 'svg_images/clicked_home.svg'
+                                  : 'svg_images/click_home.svg',
+                              width: 45,
+                              height: 40,
+                            ),
+                            onPressed: () => setState(() {
+                              perviouseIndex = 0;
+
+                              _currentIndex = 0;
+                            }),
                           ),
-                          onPressed: () => setState(() => _currentIndex = 0),
                         ),
                       ),
                       AnimatedContainer(
@@ -107,11 +126,15 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
                             _currentIndex == 1
                                 ? 'svg_images/Clicked_weblog.svg'
                                 : 'svg_images/Click_welog.svg',
+                            width: 25,
+                            height: 25,
                           ),
-                          onPressed: () => setState(() => _currentIndex = 1),
+                          onPressed: () => setState(() {
+                            perviouseIndex = _currentIndex;
+                            _currentIndex = 1;
+                          }),
                         ),
                       ),
-                      SizedBox(), // Spacer for the center space
                       AnimatedContainer(
                         duration: Duration(milliseconds: 300),
                         curve: Curves.bounceInOut,
@@ -121,46 +144,77 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
                                 ? 'svg_images/State=Enable.svg'
                                 : 'svg_images/State=Disable.svg',
                             color: Color.fromRGBO(111, 111, 111, 1),
+                            width: 27,
+                            height: 27,
                           ),
-                          onPressed: () => setState(() => _currentIndex = 3),
+                          onPressed: () => setState(() {
+                            perviouseIndex = _currentIndex;
+                            _currentIndex = 3;
+                          }),
                         ),
                       ),
-                      AnimatedContainer(
-                        duration: Duration(milliseconds: 300),
-                        curve: Curves.bounceInOut,
-                        child: IconButton(
-                          icon: SvgPicture.asset(
-                            _currentIndex == 4
-                                ? 'svg_images/clicked_setting.svg'
-                                : 'svg_images/setting2.svg',
-                          ),
-                          onPressed: () => setState(() => _currentIndex = 4),
-                        ),
-                      ),
+                      // _currentIndex == 2
+                      //     ? IconButton(
+                      //         onPressed: () {
+                      //           Get.back();
+                      //         },
+                      //         icon: Icon(Icons.arrow_forward))
+                      //     :
+                      _currentIndex == 2
+                          ? Container(
+                              child: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _currentIndex = perviouseIndex;
+                                  });
+                                },
+                                icon: Image.asset(
+                                  'icons/back.png',
+                                  scale: 4.5,
+                                ),
+                              ),
+                            )
+                          : AnimatedContainer(
+                              duration: Duration(milliseconds: 300),
+                              curve: Curves.bounceInOut,
+                              child: IconButton(
+                                icon: SvgPicture.asset(
+                                  _currentIndex == 4
+                                      ? 'svg_images/clicked_setting.svg'
+                                      : 'svg_images/setting2.svg',
+                                  width: 25,
+                                  height: 25,
+                                ),
+                                onPressed: () => setState(() {
+                                  perviouseIndex = _currentIndex;
+                                  _currentIndex = 4;
+                                }),
+                              ),
+                            ),
                     ],
                   ),
                 ),
               ),
             ),
           )),
-      floatingActionButton: Visibility(
-        visible: !ShowFab,
-        child: ClipOval(
-          child: FloatingActionButton(
-            foregroundColor: Colors.transparent,
-            onPressed: () => setState(() => _currentIndex = 2),
-            tooltip: 'Search',
-            child: Icon(
-              Icons.search,
-              color: Colors.white,
-            ),
-            elevation: 2.0,
-            backgroundColor: Color(0xFF009688),
-          ),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
+      // floatingActionButton: Visibility(
+      //   visible: !ShowFab,
+      //   child: ClipOval(
+      //     child: FloatingActionButton(
+      //       foregroundColor: Colors.transparent,
+      //       onPressed: () => setState(() => _currentIndex = 2),
+      //       tooltip: 'Search',
+      //       child: Icon(
+      //         Icons.search,
+      //         color: Colors.white,
+      //       ),
+      //       elevation: 2.0,
+      //       backgroundColor: Color(0xFF009688),
+      //     ),
+      //   ),
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
     );
   }
 }

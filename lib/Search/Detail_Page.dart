@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
@@ -116,18 +119,33 @@ class _DetailPageState extends State<DetailPage> {
     });
   }
 
-  _copy(String name1, descriprion1, footnote1) {
-    final String combinedText = "$name1\n$descriprion1\n$footnote1";
+  bool isShow = false;
+  void _copy(String name1, String description1, String footnote1) {
+    final String combinedText = "$name1\n$description1\n$footnote1";
     final data = ClipboardData(text: combinedText);
     Clipboard.setData(data);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: Colors.green,
-        duration: Duration(seconds: 2),
-        content: Directionality(
-            textDirection: TextDirection.rtl, child: Text('محتوا کاپی شد ')),
-      ),
-    );
+
+    if (!isShow) {
+      // Check if snackbar is not already showing
+      isShow = true;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.lightGreen,
+          duration: Duration(seconds: 2),
+          content: Directionality(
+            textDirection: TextDirection.rtl,
+            child: Text('محتوا کاپی شد '),
+          ),
+        ),
+      );
+
+      // Reset isShow after 2 seconds
+      Timer(Duration(seconds: 2), () {
+        setState(() {
+          isShow = false;
+        });
+      });
+    }
   }
 
   void shareText(String name, descrption, footnot) {
@@ -153,163 +171,138 @@ class _DetailPageState extends State<DetailPage> {
               db.favorite.any((item) => item['description'] == description);
               db.favorite.any((item) => item['name'] == footnote);
               return Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: InteractiveViewer(
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 60,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20.0)
-                            //   boxShadow: [
-                            //     BoxShadow(
-                            //       color: Color(0xFFE0E0BF),
-                            //       blurRadius: 10.0,
-                            //       offset: Offset(10,
-                            //           20),
-                            //     ),
-                            //    ],
+                padding: const EdgeInsets.only(
+                  top: 15,
+                  left: 15,
+                  right: 15,
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Visibility(
+                          visible: widget.showFavorite,
+                          child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  addToFavorite(name, description, footnote);
+                                });
+                              },
+                              child: Image.asset(
+                                isFavorite
+                                    ? 'icons/Enable (1).png'
+                                    : 'icons/Disable (1).png',
+                                color: Color.fromRGBO(153, 153, 153, 1),
+                                scale: 2.5,
+                              )),
+                        ),
+                        IntrinsicWidth(
+                          stepHeight: 20,
+                          child: Text(
+                            widget.dataList[index]['name']!,
+                            style: TextStyle(
+                              fontFamily: DB_fontFamily.FontFamily,
+                              fontSize: FontSize_db.titile_name,
+                              fontWeight: FontWeight.w700,
+                              // color: Theme.of(context)
+                              //     .textTheme
+                              //     .bodyText1
+                              //     ?.color, // Use color from i
                             ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 15, right: 20, bottom: 13),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Visibility(
-                                visible: widget.showFavorite,
-                                child: IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        addToFavorite(
-                                            name, description, footnote);
-                                      });
-                                    },
-                                    icon: AnimatedContainer(
-                                      duration: Duration(milliseconds: 300),
-                                      curve: Curves.easeInBack,
-                                      child: Image.asset(
-                                        isFavorite
-                                            ? 'icons/Enable (1).png'
-                                            : 'icons/Disable (1).png',
-                                        color: Colors.green,
-                                      ),
-                                    )),
-                              ),
-                              Flexible(
-                                child: Container(
-                                  height: 60,
-                                  child: Text(
-                                    widget.dataList[index]['name']!,
-                                    style: TextStyle(
-                                      fontFamily: DB_fontFamily.FontFamily,
-                                      fontSize: FontSize_db.titile_name,
-                                      fontWeight: FontWeight.w900,
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1
-                                          ?.color, // Use color from i
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
                           ),
                         ),
-                      ),
-                      Expanded(
-                          child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 20, right: 20, top: 40),
-                              child: Container(
-                                width: double.infinity,
-                                child: RichText(
-                                    textDirection: TextDirection.rtl,
-                                    textAlign: TextAlign.justify,
-                                    text: TextSpan(
-                                      text: widget.dataList[index]
-                                          ['description']!,
-                                      style: TextStyle(
-                                        fontFamily: DB_fontFamily.FontFamily,
-                                        fontSize: FontSize_db.Descrption,
-                                        letterSpacing: 0.3,
-                                        fontWeight: FontWeight.w900,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .headline1
-                                            ?.color, // Use color from iconTheme
-                                      ),
-                                    )),
-                              ),
-                            ),
-                            SizedBox(height: 16),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 20, right: 20, top: 40),
-                              child: Visibility(
-                                visible: widget.dataList[_currentPageIndex]
-                                        ['footnote'] !=
-                                    'n/a',
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: Theme.of(context).bottomAppBarColor,
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    Expanded(
+                        child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            child: RichText(
+                                textDirection: TextDirection.rtl,
+                                textAlign: TextAlign.justify,
+                                text: TextSpan(
+                                  text: widget.dataList[index]['description']!,
+                                  style: TextStyle(
+                                    fontFamily: DB_fontFamily.FontFamily,
+                                    fontSize: FontSize_db.Descrption,
+                                    letterSpacing: 0.3,
+                                    fontWeight: FontWeight.w500,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .displayLarge
+                                        ?.color,
+                                    //     ?.color, // Use color from iconTheme
                                   ),
-                                  child: Center(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(
-                                        15,
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: RichText(
-                                                textDirection:
-                                                    TextDirection.rtl,
-                                                textAlign: TextAlign.justify,
-                                                text: TextSpan(
-                                                  text: widget.dataList[
-                                                          _currentPageIndex]
-                                                      ['footnote']!,
-                                                  style: TextStyle(
-                                                    fontFamily: DB_fontFamily
-                                                        .FontFamily,
-                                                    fontSize:
-                                                        FontSize_db.FootNot,
-                                                    fontWeight: FontWeight.w900,
-                                                    color: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText2
-                                                        ?.color, // Use color from i
-                                                  ),
-                                                )),
-                                          ),
-                                        ],
-                                      ),
+                                )),
+                          ),
+                          SizedBox(height: 16),
+                          Padding(
+                            padding: const EdgeInsets.only(),
+                            child: Visibility(
+                              visible: widget.dataList[_currentPageIndex]
+                                      ['footnote'] !=
+                                  'n/a',
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color:
+                                      Theme.of(context).bottomAppBarTheme.color,
+                                ),
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(
+                                      15,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: RichText(
+                                              textDirection: TextDirection.rtl,
+                                              textAlign: TextAlign.justify,
+                                              text: TextSpan(
+                                                text: widget.dataList[
+                                                        _currentPageIndex]
+                                                    ['footnote']!,
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      DB_fontFamily.FontFamily,
+                                                  fontSize: FontSize_db.FootNot,
+                                                  fontWeight: FontWeight.w300,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyMedium
+                                                      ?.color, // Use color from i
+                                                ),
+                                              )),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 20, right: 20, top: 30),
-                              child: Divider(
-                                // color: Color.fromRGBO(147, 147, 147, 1),
-                                thickness: 0.5,
-                              ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 30),
+                            child: Divider(
+                              // color: Color.fromRGBO(147, 147, 147, 1),
+                              thickness: 0.5,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  bottom: 50, right: 30, left: 30),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  IconButton(
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              bottom: 50,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Tooltip(
+                                  message: "کاپی شد",
+                                  child: IconButton(
                                     onPressed: () {
                                       _copy(name, description, footnote);
                                     },
@@ -318,38 +311,38 @@ class _DetailPageState extends State<DetailPage> {
                                       scale: 1.5,
                                     ),
                                   ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "اشتراک گذاری",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontFamily: DB_fontFamily.FontFamily,
-                                          fontWeight: FontWeight.w900,
-                                        ),
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "اشتراک گذاری",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontFamily: DB_fontFamily.FontFamily,
+                                        fontWeight: FontWeight.w900,
                                       ),
-                                      SizedBox(
-                                        width: 2,
-                                      ),
-                                      IconButton(
-                                          onPressed: () {
-                                            shareText(
-                                                name, description, footnote);
-                                          },
-                                          icon: Image.asset(
-                                            "icons/Vector (5).png",
-                                            scale: 1.5,
-                                          ))
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ))
-                    ],
-                  ),
+                                    ),
+                                    SizedBox(
+                                      width: 2,
+                                    ),
+                                    IconButton(
+                                        onPressed: () {
+                                          shareText(
+                                              name, description, footnote);
+                                        },
+                                        icon: Image.asset(
+                                          "icons/Vector (5).png",
+                                          scale: 1.5,
+                                        ))
+                                  ],
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ))
+                  ],
                 ),
               );
             }),

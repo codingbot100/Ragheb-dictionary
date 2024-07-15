@@ -89,8 +89,7 @@ class ThemeData_1 {
       unselectedWidgetColor: DarkModeColors.unselectedColorIndicator,
       listTileTheme: ListTileThemeData(
           textColor: DarkModeColors.textColormiddle,
-          // tileColor: DarkModeColors.ListTile,
-
+          tileColor: DarkModeColors.ListTile,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
             side: BorderSide(color: DarkModeColors.borderColor),
@@ -98,27 +97,29 @@ class ThemeData_1 {
       iconTheme: IconThemeData(color: DarkModeColors.buttonColor),
       iconButtonTheme: IconButtonThemeData(
           style: ButtonStyle(
-              iconColor: MaterialStatePropertyAll(DarkModeColors.buttonColor))),
+              iconColor: WidgetStateProperty.all(DarkModeColors.buttonColor))),
       primaryColor: DarkModeColors.primaryColor,
       secondaryHeaderColor: DarkModeColors.seconderColor,
       scaffoldBackgroundColor: DarkModeColors.backgroundColor,
       appBarTheme: AppBarTheme(color: DarkModeColors.appBarColor),
-      bottomAppBarColor: DarkModeColors.bottomNavColor,
+      // bottomAppBarColor: DarkModeColors.bottomNavColor,
+      bottomAppBarTheme:
+          BottomAppBarTheme(color: DarkModeColors.bottomNavColor),
       textTheme: TextTheme(
-        headline1: TextStyle(
+        displayLarge: TextStyle(
           color: DarkModeColors.descriptionColor,
         ),
-        bodyText1: TextStyle(
+        bodyLarge: TextStyle(
           color: DarkModeColors.textColorlarge,
         ),
-        bodyText2: TextStyle(
+        bodyMedium: TextStyle(
           color: DarkModeColors.textColormiddle,
         ),
-        button: TextStyle(color: DarkModeColors.buttonColor),
-        headline6: TextStyle(color: DarkModeColors.textColormiddle),
+        labelLarge: TextStyle(color: DarkModeColors.buttonColor),
+        headlineSmall: TextStyle(color: DarkModeColors.textColormiddle),
       ),
       colorScheme: ColorScheme.fromSwatch().copyWith(
-          background:
+          surface:
               Color.fromRGBO(0, 0, 0, 0.2), // Set the background color here
           primaryContainer: DarkModeColors.borderColor,
           secondaryContainer: DarkModeColors.contantinerSetting),
@@ -176,31 +177,33 @@ class ThemeData_1 {
             side: BorderSide(width: 0.7, color: LightModeColors.borderColor),
           )),
       iconTheme: IconThemeData(color: LightModeColors.buttonColor),
-      // iconButtonTheme: IconButtonThemeData(
-      //     style: ButtonStyle(
-      //         iconColor: MaterialStatePropertyAll(LightModeColors.buttonColor))),
+      iconButtonTheme: IconButtonThemeData(
+          style: ButtonStyle(
+              iconColor:
+                  WidgetStateProperty.all(LightModeColors.buttonColor))),
       primaryColor: LightModeColors.primaryColor,
       secondaryHeaderColor: LightModeColors.seconderColor,
       scaffoldBackgroundColor: LightModeColors.backgroundColor,
-      bottomAppBarColor: LightModeColors.bottomNavColor,
+      // bottomAppBarColor: LightModeColors.bottomNavColor,
       bottomAppBarTheme: BottomAppBarTheme(
+        color: LightModeColors.bottomNavColor,
         shadowColor: Color.fromRGBO(245, 245, 220, 1),
       ),
       textTheme: TextTheme(
-        headline1: TextStyle(
+        displayLarge: TextStyle(
           color: LightModeColors.descriptionColor,
         ),
-        bodyText1: TextStyle(
+        bodyLarge: TextStyle(
           color: LightModeColors.textColorlarge,
         ),
-        bodyText2: TextStyle(
+        bodyMedium: TextStyle(
           color: LightModeColors.textColormiddle,
         ),
-        // button: TextStyle(color: LightModeColors.buttonColor),
-        headline6: TextStyle(color: LightModeColors.textColormiddle),
+        labelLarge: TextStyle(color: LightModeColors.buttonColor),
+        headlineSmall: TextStyle(color: LightModeColors.textColormiddle),
       ),
       colorScheme: ColorScheme.fromSwatch().copyWith(
-          background:
+          surface:
               Color.fromRGBO(245, 245, 220, 1), // Set the background color here
           primaryContainer: LightModeColors.borderColor,
           secondaryContainer: LightModeColors.contantinerSetting),

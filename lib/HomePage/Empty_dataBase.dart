@@ -37,7 +37,7 @@ class _No_RepState extends State<No_Rep> {
                     text:
                         "برای نمایش بخش های جذاب اپلیکیشن، جستجو کنید و لیست علاقه‌مندی های خویش را بسازید",
                     style: TextStyle(
-                        fontFamily: "Inter",
+                        fontFamily: "YekanBakh",
                         color: Color.fromRGBO(0, 150, 136, 1),
                         fontSize: 12,
                         fontWeight: FontWeight.w300),

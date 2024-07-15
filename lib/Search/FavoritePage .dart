@@ -88,12 +88,15 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
                   child: ListTile(
                     shape: RoundedRectangleBorder(side: BorderSide.none),
                     tileColor: Colors.transparent,
-                    title: Text(
-                      'ذخیره شده ها ',
-                      style: TextStyle(
-                          fontSize: 25,
-                          fontFamily: db_font.FontFamily,
-                          fontWeight: FontWeight.w900),
+                    title: Padding(
+                      padding: const EdgeInsets.only(top: 15),
+                      child: Text(
+                        'ذخیره شده ها ',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: db_font.FontFamily,
+                            fontWeight: FontWeight.w900),
+                      ),
                     ),
                   )),
             ),

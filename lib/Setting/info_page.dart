@@ -47,7 +47,7 @@ class _MylistState extends State<Mylist> {
                   color: Theme.of(context).colorScheme.primaryContainer,
                   width: 1),
               borderRadius: BorderRadius.circular(12.0),
-              color: Theme.of(context).colorScheme.background, // boxShadow: [
+              color: Theme.of(context).colorScheme.surface, // boxShadow: [
               boxShadow: thememanger.themebo.value != true
                   ? [
                       BoxShadow(

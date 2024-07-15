@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Search/DataBase/recent_Search.dart';
@@ -60,7 +59,7 @@ class _DialogeBoxState extends State<DialogeBox> {
                       style: TextStyle(
                         fontFamily: 'Yekan',
                         letterSpacing: 1,
-                        color: Theme.of(context).textTheme.headline1?.color,
+                        // color: Theme.of(context).textTheme.headline1?.color,
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),

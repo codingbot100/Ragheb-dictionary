@@ -27,10 +27,10 @@ class _MySettingsPageState extends State<MySettingsPage> {
   var fontFamile2 = 'YekanBakh';
   final fontSizeTitle = 20.0;
   double fontSizeSubTitle = 10.0;
-  final colorPrimary2 = Color(0xFFB0BEC5);
+  // final colorPrimary2 = Color(0xFFB0BEC5);
   final colorBackground2 = Color.fromARGB(255, 224, 224, 224);
-  var listColor = Color.fromARGB(255, 97, 158, 152);
-  Color MyButtonColor = Colors.transparent;
+  // var listColor = Color.fromARGB(255, 97, 158, 152);
+  // Color MyButtonColor = Colors.transparent;
   int fontOption = 0;
   ToDo_FontController db = new ToDo_FontController();
   ThemeDatabase ThemeClass = ThemeDatabase();
@@ -48,7 +48,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
     } else {
       Db_Font.loadData();
     }
-
+    Db_Font.loadData();
     super.initState();
     thememanger.loadData;
     _loadData();
@@ -86,6 +86,8 @@ class _MySettingsPageState extends State<MySettingsPage> {
   ThemeDatabase themeclass = ThemeDatabase();
   @override
   Widget build(BuildContext context) {
+    var screenWidth = MediaQuery.of(context).size.width;
+    bool isTable = screenWidth > 600;
     return Scaffold(
       // backgroundColor: Color(0xFFF5F5DC),
       body: SafeArea(
@@ -93,203 +95,227 @@ class _MySettingsPageState extends State<MySettingsPage> {
           child: Directionality(
             textDirection: TextDirection.rtl,
             child: Padding(
-              padding: const EdgeInsets.only(
+              padding: EdgeInsets.only(
                 top: 20,
+                left: isTable ? 50 : 10,
+                right: isTable ? 50 : 10,
               ),
-              child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 20),
-                      child: Text(
-                        'تنظیمات',
-                        textAlign: TextAlign.end,
-                        style: TextStyle(
-                          fontFamily: Db_Font.FontFamily,
-                          fontSize: fontSizeTitle,
-                          fontWeight: FontWeight.w700,
-                        ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: Text(
+                      'تنظیمات',
+                      textAlign: TextAlign.end,
+                      style: TextStyle(
+                        fontFamily: Db_Font.FontFamily,
+                        fontSize: fontSizeTitle,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 161,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .primaryContainer,
-                                    width: 1),
-                                borderRadius: BorderRadius.circular(15.0),
-                                color: Theme.of(context).colorScheme.background,
-                                boxShadow: thememanger.themebo.value != true
-                                    ? [
-                                        BoxShadow(
-                                          spreadRadius: 0,
-                                          color: Color.fromRGBO(0, 0, 0, 0.07),
-                                          blurRadius: 10,
-                                          offset: Offset(0, 2),
-                                        )
-                                      ]
-                                    : []),
-                            child: Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: Column(
+                  ),
+                  Column(
+                    children: [
+                      Container(
+                        height: 240,
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .primaryContainer,
+                                width: 1),
+                            borderRadius: BorderRadius.circular(15.0),
+                            color: Theme.of(context).colorScheme.surface,
+                            boxShadow: thememanger.themebo.value != true
+                                ? [
+                                    BoxShadow(
+                                      spreadRadius: 0,
+                                      color: Color.fromRGBO(0, 0, 0, 0.07),
+                                      blurRadius: 10,
+                                      offset: Offset(0, 2),
+                                    )
+                                  ]
+                                : []),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 5, right: 15, bottom: 15),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        ' نوع قلم: ',
-                                        style: TextStyle(
-                                          color: thememanger.themebo.value !=
-                                                  true
-                                              ? Color.fromRGBO(82, 82, 82, 1)
-                                              : Color.fromRGBO(
-                                                  153, 153, 153, 1),
-                                          fontFamily: "YekanBakh",
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: FontButton(
-                                            "یکان بخ", 55, 0, 'YekanBakh'),
-                                      ),
-                                      Expanded(
-                                        child: FontButton(
-                                            "  یکان", 100, 1, 'IRANSansX'),
-                                      ),
-                                      Expanded(
-                                        child: FontButton(
-                                            " وزیر مت", 60, 2, 'Vazirmatn'),
-                                      ),
-                                    ],
+                                  Text(
+                                    ' نوع قلم: ',
+                                    style: TextStyle(
+                                      color: thememanger.themebo.value != true
+                                          ? Color.fromRGBO(82, 82, 82, 1)
+                                          : Color.fromRGBO(153, 153, 153, 1),
+                                      fontFamily: "YekanBakh",
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                    ),
                                   ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        'اندازه قلم : ',
-                                        style: TextStyle(
-                                          color: thememanger.themebo.value !=
-                                                  true
-                                              ? Color.fromRGBO(82, 82, 82, 1)
-                                              : Color.fromRGBO(
-                                                  153, 153, 153, 1),
-                                          fontFamily: "YekanBakh",
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14.0,
-                                        ),
-                                      ),
-                                      Flexible(
-                                        child: SliderTheme(
-                                          data:
-                                              SliderTheme.of(context).copyWith(
-                                            valueIndicatorTextStyle: TextStyle(
-                                                fontSize: 12,
-                                                fontFamily: "YekanBakh",
-                                                fontWeight: FontWeight.w400,
-                                                color: Color.fromRGBO(
-                                                    0, 150, 136, 1)),
-                                            valueIndicatorColor:
-                                                Colors.transparent,
-                                            activeTrackColor: Color.fromRGBO(
-                                                147,
-                                                147,
-                                                147,
-                                                1), // Customizing track color
-                                            inactiveTrackColor: Color.fromRGBO(
-                                                147,
-                                                147,
-                                                147,
-                                                1), // Customizing track color
+                                  Container(
+                                      child: FontButton(
+                                          "یکان بخ", 55, 0, 'YekanBakh')),
+                                  FontButton("  یکان", 55, 1, 'IRANSansX'),
+                                  FontButton(" وزیر مت", 60, 2, 'Vazirmatn'),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'اندازه قلم : ',
+                                    style: TextStyle(
+                                      color: thememanger.themebo.value != true
+                                          ? Color.fromRGBO(82, 82, 82, 1)
+                                          : Color.fromRGBO(153, 153, 153, 1),
+                                      fontFamily: "YekanBakh",
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14.0,
+                                    ),
+                                  ),
+                                  Flexible(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 7, right: 27),
+                                      child: SliderTheme(
+                                        data: SliderTheme.of(context).copyWith(
+                                          valueIndicatorTextStyle: TextStyle(
+                                              fontSize: 12,
+                                              fontFamily: "YekanBakh",
+                                              fontWeight: FontWeight.w400,
+                                              color: Color.fromRGBO(
+                                                  0, 150, 136, 1)),
+                                          valueIndicatorColor:
+                                              Colors.transparent,
+                                          activeTrackColor: Color.fromRGBO(
+                                              147,
+                                              147,
+                                              147,
+                                              1), // Customizing track color
+                                          inactiveTrackColor: Color.fromRGBO(
+                                              147,
+                                              147,
+                                              147,
+                                              1), // Customizing track color
 
-                                            overlayColor: Colors
-                                                .transparent, // Customizing overlay color to transparent
+                                          overlayColor: Colors
+                                              .transparent, // Customizing overlay color to transparent
 
-                                            thumbShape: RoundSliderThumbShape(
-                                              elevation: 0,
-                                              enabledThumbRadius:
-                                                  8.0, // Width and height of main dot
-                                            ),
-
-                                            overlayShape:
-                                                RoundSliderOverlayShape(
-                                              overlayRadius:
-                                                  0.0, // Disabling overlay
-                                            ),
-
-                                            activeTickMarkColor: Colors
-                                                .transparent, // Hiding inactive tick marks
+                                          thumbShape: RoundSliderThumbShape(
+                                            elevation: 0,
+                                            enabledThumbRadius:
+                                                8.0, // Width and height of main dot
                                           ),
-                                          child: Slider(
-                                              value: db.name,
-                                              min: 20,
-                                              max: 60,
-                                              divisions: 2,
-                                              label: lable_slider[
-                                                  calculateIndex(db.name)],
-                                              onChanged: (double value) {
-                                                setState(() {
-                                                  db.name = value;
-                                                  db.updateDataTypes();
-                                                  db.updateDataBase();
-                                                });
-                                              }),
+
+                                          overlayShape: RoundSliderOverlayShape(
+                                            overlayRadius:
+                                                0.0, // Disabling overlay
+                                          ),
+
+                                          activeTickMarkColor: Colors
+                                              .transparent, // Hiding inactive tick marks
                                         ),
-                                      )
-                                    ],
+                                        child: Slider(
+                                            value: db.name,
+                                            min: 20,
+                                            max: 60,
+                                            divisions: 2,
+                                            label: lable_slider[
+                                                calculateIndex(db.name)],
+                                            onChanged: (double value) {
+                                              setState(() {
+                                                db.name = value;
+                                                db.updateDataTypes();
+                                                db.updateDataBase();
+                                              });
+                                            }),
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
-                            ),
+                              Container(
+                                height: 60,
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "متن آزمایشی :",
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w400,
+                                        color: thememanger.themebo.value != true
+                                            ? Color.fromRGBO(82, 82, 82, 1)
+                                            : Color.fromRGBO(153, 153, 153, 1),
+                                        fontFamily: "YekanBakh",
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 10),
+                                      child: Text(
+                                        "بهترین شما نافع ترین تان به بقیه است. (حدیث شریف)",
+                                        style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w600,
+                                          color: thememanger.themebo.value !=
+                                                  true
+                                              ? Color.fromRGBO(82, 82, 82, 1)
+                                              : Color.fromRGBO(
+                                                  153, 153, 153, 1),
+                                          fontFamily: "YekanBakh",
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
                           ),
-                          SizedBox(
-                            height: 30,
-                          ),
-                          Container(
-                            height: 120,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              textDirection: TextDirection.ltr,
-                              children: [
-                                Mylist(
-                                    listName: 'درباره فرهنگ لغت راغب',
-                                    OntapLis: () {
-                                      Get.to(() => about_ragheb_dictionary(),
-                                          transition: Transition.fadeIn,
-                                          duration:
-                                              Duration(milliseconds: 500));
-                                    }),
-                                Mylist(
-                                    listName: 'درباره سازنده گان اپلیکیشن',
-                                    OntapLis: () {
-                                      Get.to(() => about_Us(),
-                                          transition: Transition.fadeIn,
-                                          duration:
-                                              Duration(milliseconds: 500));
-                                    }),
-                                // Mylist(
-                                //     listName: 'ارئه بازخورد',
-                                //     OntapLis: () {})
-                              ],
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                    )
-                  ],
-                ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Container(
+                        height: 120,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          textDirection: TextDirection.ltr,
+                          children: [
+                            Mylist(
+                                listName: 'درباره فرهنگ لغت راغب',
+                                OntapLis: () {
+                                  Get.to(() => about_ragheb_dictionary(),
+                                      transition: Transition.fadeIn,
+                                      duration: Duration(milliseconds: 500));
+                                }),
+                            Mylist(
+                                listName: 'درباره سازنده گان اپلیکیشن',
+                                OntapLis: () {
+                                  Get.to(() => about_Us(),
+                                      transition: Transition.fadeIn,
+                                      duration: Duration(milliseconds: 500));
+                                }),
+                            // Mylist(
+                            //     listName: 'ارئه بازخورد',
+                            //     OntapLis: () {})
+                          ],
+                        ),
+                      ),
+                    ],
+                  )
+                ],
               ),
             ),
           ),
@@ -319,6 +345,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
         setState(() {
           Db_Font.FontFamily = fontFamily;
           Db_Font.borderFont = fontBorder;
+
           Db_Font.updateDataBase();
         });
       },
@@ -348,7 +375,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
                         ? Color.fromRGBO(0, 150, 137, 1)
                         : Colors.white,
                 fontFamily: 'YekanBakh',
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w500,
                 fontSize: 13,
               ),
             ),

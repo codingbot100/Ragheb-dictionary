@@ -61,7 +61,8 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final isTable = screenWidth > 600;
+    final screenheight = MediaQuery.of(context).size.height;
+
     return Column(
       children: [
         GestureDetector(
@@ -83,7 +84,8 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
             child: CarouselSlider(
               items: List.generate(
                 myItems.length,
-                (index) => _buildImageContainer(index),
+                (index) => _buildImageContainer(
+                    index, screenWidth * 50, screenheight * 20),
               ),
               options: CarouselOptions(
                 autoPlayInterval: Duration(seconds: 5),
@@ -93,7 +95,10 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
                 enlargeFactor: BorderSide.strokeAlignOutside,
                 autoPlay: true,
                 enlargeCenterPage: true,
-                aspectRatio: 20 / 8,
+                aspectRatio: 20 / 8
+                //screenheight * 110,
+                ,
+
                 onPageChanged: (index, reason) {
                   setState(() {
                     myCurrentIndex = index;
@@ -125,10 +130,10 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
     );
   }
 
-  Widget _buildImageContainer(int index) {
+  Widget _buildImageContainer(int index, double width, double height) {
     return Container(
-      height: 118,
-      width: double.infinity, // Ensure the image takes full width
+      height: height,
+      width: width, // Ensure the image takes full width
 
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8.0),

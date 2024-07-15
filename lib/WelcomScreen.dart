@@ -57,7 +57,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
               Padding(
                 padding: const EdgeInsets.only(bottom: 20),
                 child: SvgPicture.asset(
-                  'icons/Main Logo.svg',
+                  'svg_images/Main Logo.svg',
                 ),
               ),
               Padding(
@@ -107,7 +107,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                           child: Container(
                             height: 196,
                             child: SvgPicture.asset(
-                              "icons/${images[index]}",
+                              "svg_images/${images[index]}",
                             ),
                           ),
                         ),

@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -53,17 +55,40 @@ class _Web_Log_DetailState extends State<Web_Log_Detail> {
     }
   }
 
+  bool isShow = false;
+
   _copy(String name1, descriprion1) {
     final String combinedText = "$name1\n$descriprion1";
     final data = ClipboardData(text: combinedText);
     Clipboard.setData(data);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: Colors.green,
-        content: Directionality(
-            textDirection: TextDirection.rtl, child: Text('محتوا کاپی شد ')),
-      ),
-    );
+    if (!isShow) {
+      // Check if snackbar is not already showing
+      isShow = true;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.lightGreen,
+          duration: Duration(seconds: 2),
+          content: Directionality(
+            textDirection: TextDirection.rtl,
+            child: Text(
+              'محتوا کاپی شد ',
+              style: TextStyle(
+                fontFamily: DB_fontFamily.FontFamily,
+                fontSize: 17,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
+          ),
+        ),
+      );
+
+      // Reset isShow after 2 seconds
+      Timer(Duration(seconds: 2), () {
+        setState(() {
+          isShow = false;
+        });
+      });
+    }
   }
 
   void shareText(
@@ -91,140 +116,131 @@ class _Web_Log_DetailState extends State<Web_Log_Detail> {
           itemCount: widget.csvData.length,
           itemBuilder: (context, index) {
             var rowData = widget.csvData[index];
-            return Padding(
-              padding: const EdgeInsets.only(),
-              child: InteractiveViewer(
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            top: 15,
-                          ),
-                          child: Directionality(
-                            textDirection: TextDirection.rtl,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  height: 250,
-                                  child: Stack(
-                                    children: <Widget>[
-                                      // Background image
-                                      Image.asset(
-                                        "web_images/${widget.imageList[index % widget.imageList.length]}",
-                                        width: double.infinity,
-                                        height: double.infinity,
-                                        fit: BoxFit.cover,
-                                      ),
-                                      // Text overlay
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      right: 20, left: 20, bottom: 10, top: 10),
-                                  child: RichText(
-                                    textAlign: TextAlign.justify,
-                                    text: TextSpan(
-                                      style: TextStyle(
-                                        color: themeManager.themebo.value
-                                            ? Color.fromRGBO(0, 150, 137, 1)
-                                            : Color.fromRGBO(82, 82, 82, 1),
-                                        fontSize: db6.title_Web - 6,
-                                        fontWeight: FontWeight.w700,
-                                        fontFamily: DB_fontFamily.FontFamily,
-                                      ),
-                                      text: rowData[1].toString(),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 20, right: 20),
-                                  child: Container(
-                                    child: RichText(
-                                      textAlign: TextAlign.justify,
-                                      text: TextSpan(
-                                        style: TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .headline1
-                                              ?.color, // Use color from iconTheme
-                                          fontFamily: DB_fontFamily.FontFamily,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: db6.main_contant,
-                                        ),
-                                        text: rowData[0].toString(),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 20, right: 20, top: 30),
-                                  child: Divider(
-                                    // color: Color.fromRGBO(147, 147, 147, 1),
-                                    thickness: 0.5,
-                                  ),
-                                ),
-                                Directionality(
-                                  textDirection: TextDirection.ltr,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 50, right: 30, left: 30),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        IconButton(
-                                          onPressed: () {
-                                            _copy(rowData[1].toString(),
-                                                rowData[0].toString());
-                                          },
-                                          icon: Image.asset(
-                                            "icons/Union (1).png",
-                                            scale: 1.5,
-                                          ),
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              "اشتراک گذاری",
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                fontFamily:
-                                                    DB_fontFamily.FontFamily,
-                                                fontWeight: FontWeight.w900,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 2,
-                                            ),
-                                            IconButton(
-                                                onPressed: () {
-                                                  shareText(
-                                                      rowData[1].toString(),
-                                                      rowData[0].toString());
-                                                },
-                                                icon: Image.asset(
-                                                  "icons/Vector (5).png",
-                                                  scale: 1.5,
-                                                ))
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                )
-                              ],
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  top: 15,
+                ),
+                child: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 250,
+                        child: Stack(
+                          children: <Widget>[
+                            // Background image
+                            Image.asset(
+                              "web_images/${widget.imageList[index % widget.imageList.length]}",
+                              width: double.infinity,
+                              height: double.infinity,
+                              fit: BoxFit.cover,
                             ),
-                          ),
+                            // Text overlay
+                          ],
                         ),
                       ),
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15, right: 15),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(bottom: 10, top: 10),
+                              child: RichText(
+                                textAlign: TextAlign.justify,
+                                text: TextSpan(
+                                  style: TextStyle(
+                                    color: themeManager.themebo.value
+                                        ? Color.fromRGBO(0, 150, 137, 1)
+                                        : Color.fromRGBO(82, 82, 82, 1),
+                                    fontSize: db6.title_Web - 6,
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: DB_fontFamily.FontFamily,
+                                  ),
+                                  text: rowData[1].toString(),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              child: RichText(
+                                textAlign: TextAlign.justify,
+                                text: TextSpan(
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .displayLarge
+                                        ?.color, // Use color from iconTheme
+                                    fontFamily: DB_fontFamily.FontFamily,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: db6.main_contant,
+                                  ),
+                                  text: rowData[0].toString(),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 30),
+                              child: Divider(
+                                // color: Color.fromRGBO(147, 147, 147, 1),
+                                thickness: 0.5,
+                              ),
+                            ),
+                            Directionality(
+                              textDirection: TextDirection.ltr,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  bottom: 50,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    IconButton(
+                                      onPressed: () {
+                                        _copy(rowData[1].toString(),
+                                            rowData[0].toString());
+                                      },
+                                      icon: Image.asset(
+                                        "icons/Union (1).png",
+                                        scale: 1.5,
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "اشتراک گذاری",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontFamily:
+                                                DB_fontFamily.FontFamily,
+                                            fontWeight: FontWeight.w900,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 2,
+                                        ),
+                                        IconButton(
+                                            onPressed: () {
+                                              shareText(rowData[1].toString(),
+                                                  rowData[0].toString());
+                                            },
+                                            icon: Image.asset(
+                                              "icons/Vector (5).png",
+                                              scale: 1.5,
+                                            ))
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             );

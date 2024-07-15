@@ -1,6 +1,7 @@
 // ignore_for_file: unused_field
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/HomePage/Empty_dataBase.dart';
@@ -14,9 +15,11 @@ import 'package:ragheb_dictionary/Search/DataBase/recent_Search.dart';
 
 class Home extends StatefulWidget {
   final void Function(int) onPageChange;
+  final void Function(int) SearchPage;
   const Home({
     Key? key,
     required this.onPageChange,
+    required this.SearchPage,
   }) : super(key: key);
 
   @override
@@ -58,14 +61,12 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     } else {
       toDoRecent.loadData();
     }
-    // toDoRecent.loadData();
 
     if (_meBox.get("TODOLIST") == null) {
       toDo_favorite.createInitialData();
     } else {
       toDo_favorite.loadData();
     }
-    // toDo_favorite.loadData();
     Recent_db.loadData();
     super.initState();
   }
@@ -82,19 +83,19 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
-                      onPressed: () {
-                        setState(() {
-                          themeManager.changeMode();
-                          themeManager.updateDataBase();
-                          print(themeManager.themebo);
-                        });
-                      },
-                      icon: themeManager.themebo.value
-                          ? Icon(Icons.sunny, color: Colors.white)
-                          : Icon(
-                              Icons.nightlight_rounded,
-                            ),
-                      color: Colors.black),
+                    onPressed: () {
+                      setState(() {
+                        themeManager.changeMode();
+                        themeManager.updateDataBase();
+                        print(themeManager.themebo);
+                      });
+                    },
+                    icon: themeManager.themebo.value
+                        ? Icon(Icons.sunny, color: Colors.white)
+                        : SvgPicture.asset(
+                            "svg_images/moon.svg",
+                          ),
+                  ),
                   Text(
                     'فرهنگ لغت راغب',
                     style: TextStyle(
@@ -125,49 +126,96 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                       toDoRecent.favorite.isEmpty &&
                               toDo_favorite.favorite.isEmpty
                           ? Container(height: 320, width: 300, child: No_Rep())
-                          : Column(
-                              children: [
-                                Visibility(
-                                    visible: toDo_favorite.favorite.isEmpty
-                                        ? false
-                                        : true,
-                                    child: TextRow(
-                                        3, 'مرور همه', 'ذخیره شده ها ')),
-                                Container(
-                                  height: (toDo_favorite.favorite.length <= 3)
-                                      ? toDo_favorite.favorite.length * 60
-                                      : 3 * 60,
-                                  child: GetBuilder<MyController>(
-                                    builder: (controller) {
-                                      return FavoritPage_menu(
-                                        length: 0,
-                                      );
-                                    },
+                          : SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 70, bottom: 200),
+                                    child: Container(
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          widget.SearchPage(2);
+                                        },
+                                        child: Container(
+                                            alignment: Alignment.centerRight,
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: Color.fromRGBO(
+                                                      0, 150, 136, 0.5),
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(50)),
+                                            // width: 50,
+                                            height: 43,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                Text(
+                                                  "جستجو در واژه گان قرآنکریم",
+                                                  style: TextStyle(
+                                                      fontFamily: "YekanBakh",
+                                                      color: Color.fromRGBO(
+                                                          0, 150, 136, 1),
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.w400),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 10, right: 10),
+                                                  child: SvgPicture.asset(
+                                                      "svg_images/search_button.svg"),
+                                                )
+                                              ],
+                                            )),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                                Visibility(
-                                    visible: Recent_db.favorite.isEmpty
-                                        ? false
-                                        : true,
-                                    child: TextRow(
-                                        2, 'مرور همه', 'جستجو های اخیر')),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    left: 2,
-                                    right: 2,
-                                  ),
-                                  child: Container(
-                                    height: (Recent_db.favorite.length <= 3)
-                                        ? Recent_db.favorite.length * 65
-                                        : 3 * 65,
+                                  Visibility(
+                                      visible: toDo_favorite.favorite.isEmpty
+                                          ? false
+                                          : true,
+                                      child: TextRow(
+                                          3, 'مرور همه', 'ذخیره شده ها ')),
+                                  Container(
+                                    height: (toDo_favorite.favorite.length <= 3)
+                                        ? toDo_favorite.favorite.length * 60
+                                        : 3 * 60,
                                     child: GetBuilder<MyController>(
                                       builder: (controller) {
-                                        return RecentpageMain();
+                                        return FavoritPage_menu(
+                                          length: 0,
+                                        );
                                       },
                                     ),
                                   ),
-                                ),
-                              ],
+                                  Visibility(
+                                      visible: Recent_db.favorite.isEmpty
+                                          ? false
+                                          : true,
+                                      child: TextRow(
+                                          2, 'مرور همه', 'جستجو های اخیر')),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 2,
+                                      right: 2,
+                                    ),
+                                    child: Container(
+                                      height: (Recent_db.favorite.length <= 3)
+                                          ? Recent_db.favorite.length * 65
+                                          : 3 * 65,
+                                      child: GetBuilder<MyController>(
+                                        builder: (controller) {
+                                          return RecentpageMain();
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             )
                     ],
                   ),
