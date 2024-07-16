@@ -14,7 +14,7 @@ class _secondRowState extends State<secondRow> {
 
   void removeAll() {
     setState(() {
-      db.favorite.clear();
+      db.RecentSearch.clear();
       db.updateDataBase();
     });
   }
@@ -32,12 +32,14 @@ class _secondRowState extends State<secondRow> {
           GestureDetector(
             onTap: () {
               setState(() {
-                 showDialog(
-      context: context,
-      builder: (context) {
-        return DialogeBox();
-      },
-    );
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return DialogeBox(
+                      onClear: () {},
+                    );
+                  },
+                );
               });
             },
             child: Text("پاک کردن",
@@ -71,7 +73,9 @@ class _secondRowState extends State<secondRow> {
     showDialog(
       context: context,
       builder: (context) {
-        return DialogeBox();
+        return DialogeBox(
+          onClear: () {},
+        );
       },
     );
   }

@@ -31,10 +31,10 @@ class _PanelState extends State<Panel> {
             widget.Title,
             textAlign: TextAlign.end,
             style: TextStyle(
-              fontFamily: Db_Font.FontFamily,
-              fontSize: 20,
-              fontWeight: FontWeight.w900,
-            ),
+                fontFamily: Db_Font.FontFamily,
+                fontSize: 20,
+                fontWeight: FontWeight.w900,
+                color: Color.fromRGBO(0, 153, 136, 1)),
           ),
           IconButton(
             onPressed: () {

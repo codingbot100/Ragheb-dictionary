@@ -13,7 +13,7 @@ class LightModeColors {
   static final TextFieldBorder = Color.fromRGBO(0, 150, 136, 1);
   static final buttonColor = Color.fromARGB(255, 5, 72, 65);
   static final ListTile = Color.fromRGBO(33, 33, 33, 1);
-  static final borderColor = Colors.transparent;
+  static final borderColor = Color.fromRGBO(0, 0, 0, 0.1);
   static final indicatorColor = Color.fromRGBO(0, 150, 136, 1);
   static final unselectedColorIndicator = Color.fromRGBO(82, 82, 82, 1);
   static final inputDecorationTheme = Color.fromRGBO(26, 26, 26, 1);
@@ -92,7 +92,7 @@ class ThemeData_1 {
           tileColor: DarkModeColors.ListTile,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
-            side: BorderSide(color: DarkModeColors.borderColor),
+            side: BorderSide(width: 0.5, color: DarkModeColors.borderColor),
           )),
       iconTheme: IconThemeData(color: DarkModeColors.buttonColor),
       iconButtonTheme: IconButtonThemeData(
@@ -101,7 +101,9 @@ class ThemeData_1 {
       primaryColor: DarkModeColors.primaryColor,
       secondaryHeaderColor: DarkModeColors.seconderColor,
       scaffoldBackgroundColor: DarkModeColors.backgroundColor,
-      appBarTheme: AppBarTheme(color: DarkModeColors.appBarColor),
+      appBarTheme: AppBarTheme(
+          color: DarkModeColors.appBarColor,
+          iconTheme: IconThemeData(color: Color.fromRGBO(0, 150, 136, 1))),
       // bottomAppBarColor: DarkModeColors.bottomNavColor,
       bottomAppBarTheme:
           BottomAppBarTheme(color: DarkModeColors.bottomNavColor),
@@ -162,10 +164,11 @@ class ThemeData_1 {
           enabledThumbRadius: 6.0,
           disabledThumbRadius: 6.0,
         ),
+
         trackHeight: 6,
         minThumbSeparation: 4,
         activeTrackColor: LightModeColors.sliderThumb,
-        // thumbColor: LightModeColors.sliderThumb,
+        // thumbC0.3olor: LightModeColors.sliderThumb,
         overlayColor: LightModeColors.sliderThumb,
         // inactiveTickMarkColor: DarkModeColors.sliderThumb,
         // inactiveTrackColor: LightModeColors.sliderThumb
@@ -179,8 +182,7 @@ class ThemeData_1 {
       iconTheme: IconThemeData(color: LightModeColors.buttonColor),
       iconButtonTheme: IconButtonThemeData(
           style: ButtonStyle(
-              iconColor:
-                  WidgetStateProperty.all(LightModeColors.buttonColor))),
+              iconColor: WidgetStateProperty.all(LightModeColors.buttonColor))),
       primaryColor: LightModeColors.primaryColor,
       secondaryHeaderColor: LightModeColors.seconderColor,
       scaffoldBackgroundColor: LightModeColors.backgroundColor,
@@ -207,6 +209,9 @@ class ThemeData_1 {
               Color.fromRGBO(245, 245, 220, 1), // Set the background color here
           primaryContainer: LightModeColors.borderColor,
           secondaryContainer: LightModeColors.contantinerSetting),
+      appBarTheme: AppBarTheme(
+          color: DarkModeColors.appBarColor,
+          iconTheme: IconThemeData(color: Color.fromRGBO(0, 150, 136, 1))),
     );
   }
 }

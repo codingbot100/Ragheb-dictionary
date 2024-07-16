@@ -41,7 +41,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   ];
   int myCurrentIndex = 0;
   final fontFamile = 'Yekan';
-  final fontSizeTitle = 18.0;
+  final fontSizeTitle = 19.0;
   final fontSizeSubTitle = 10.0;
   final colorPrimary = Color(0xFF009688);
   final colorBackground = Color(0xFFF5F5DC);
@@ -78,7 +78,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(right: 15, left: 15, top: 15),
+              padding: const EdgeInsets.only(right: 15, top: 15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -91,7 +91,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                       });
                     },
                     icon: themeManager.themebo.value
-                        ? Icon(Icons.sunny, color: Colors.white)
+                        ? Icon(Icons.sunny,
+                            color: Color.fromRGBO(245, 245, 220, 1))
                         : SvgPicture.asset(
                             "svg_images/moon.svg",
                           ),
@@ -99,6 +100,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   Text(
                     'فرهنگ لغت راغب',
                     style: TextStyle(
+                      color: Color.fromRGBO(0, 153, 136, 1),
                       fontSize: fontSizeTitle,
                       fontFamily: Db_Font.FontFamily,
                       fontWeight: FontWeight.w900,
@@ -114,16 +116,14 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 10.0, top: 25.0),
-                        child: Container(
-                          child: TextRow(1, 'مرور همه', 'مقالات وبلاگ'),
-                        ),
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: TextRow(1, "< مرور همه ", 'مقالات وبلاگ'),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 10),
                         child: CarouselSlider1(),
                       ),
-                      toDoRecent.favorite.isEmpty &&
+                      toDoRecent.RecentSearch.isEmpty &&
                               toDo_favorite.favorite.isEmpty
                           ? Container(height: 320, width: 300, child: No_Rep())
                           : SingleChildScrollView(
@@ -179,7 +179,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                           ? false
                                           : true,
                                       child: TextRow(
-                                          4, 'مرور همه', 'ذخیره شده ها ')),
+                                          3, "< مرور همه ", 'ذخیره شده ها ')),
                                   Container(
                                     height: (toDo_favorite.favorite.length <= 3)
                                         ? toDo_favorite.favorite.length * 60
@@ -193,19 +193,20 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                     ),
                                   ),
                                   Visibility(
-                                      visible: Recent_db.favorite.isEmpty
+                                      visible: Recent_db.RecentSearch.isEmpty
                                           ? false
                                           : true,
                                       child: TextRow(
-                                          2, 'مرور همه', 'جستجو های اخیر')),
+                                          2, "< مرور همه ", 'جستجو های اخیر')),
                                   Padding(
                                     padding: const EdgeInsets.only(
                                       left: 2,
                                       right: 2,
                                     ),
                                     child: Container(
-                                      height: (Recent_db.favorite.length <= 3)
-                                          ? Recent_db.favorite.length * 65
+                                      height: (Recent_db.RecentSearch.length <=
+                                              3)
+                                          ? Recent_db.RecentSearch.length * 65
                                           : 3 * 65,
                                       child: GetBuilder<MyController>(
                                         builder: (controller) {
@@ -230,7 +231,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   Widget TextRow(int _currentpage, String FirstTitel, secondtitle) {
     return Container(
-      height: 20,
+      height: 50,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -238,20 +239,25 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             onTap: () {
               widget.onPageChange(_currentpage);
             },
-            child: Text(
-              FirstTitel,
-              style: TextStyle(
-                fontFamily: fontFamile,
-                fontSize: fontSizeSubTitle,
-                // color: colorPrimary,
+            child: Container(
+              width: 50,
+              height: 30,
+              child: Text(
+                FirstTitel,
+                style: TextStyle(
+                  fontFamily: fontFamile,
+                  fontSize: fontSizeSubTitle,
+                  // color: colorPrimary,
+                ),
               ),
             ),
           ),
           SizedBox(
-            width: 6,
+            width: 8,
           ),
           Expanded(
-            child: Container(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 14),
               child: Divider(
                 height: 1,
                 thickness: 0.5,
@@ -260,14 +266,17 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             ),
           ),
           SizedBox(
-            width: 5,
+            width: 12,
           ),
-          Text(
-            secondtitle,
-            style: TextStyle(
-              fontFamily: fontFamile,
-              fontSize: fontSizeSubTitle,
-              // color: colorPrimary,
+          Container(
+            height: 30,
+            child: Text(
+              secondtitle,
+              style: TextStyle(
+                fontFamily: fontFamile,
+                fontSize: fontSizeSubTitle,
+                // color: colorPrimary,
+              ),
             ),
           ),
         ],

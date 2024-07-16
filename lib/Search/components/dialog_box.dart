@@ -6,8 +6,11 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Search/DataBase/recent_Search.dart';
 
 class DialogeBox extends StatefulWidget {
+  final void Function() onClear;
+
   DialogeBox({
     Key? key,
+    required this.onClear,
   }) : super(key: key);
 
   @override
@@ -101,9 +104,7 @@ class _DialogeBoxState extends State<DialogeBox> {
               GestureDetector(
                 onTap: () {
                   setState(() {
-                    db.clearFavorit();
-                    db.updateDataBase();
-                    db.loadData();
+                    widget.onClear();
                     Get.back();
                   });
                 },
@@ -144,15 +145,15 @@ class _DialogeBoxState extends State<DialogeBox> {
   //   );
   // }
 
-  void updateTask() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return DialogeBox();
-      },
-    );
-    setState(() {
-      db.updateDataBase();
-    });
-  }
+  // void updateTask() {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) {
+  //       return DialogeBox();
+  //     },
+  //   );
+  //   setState(() {
+  //     db.updateDataBase();
+  //   });
+  // }
 }

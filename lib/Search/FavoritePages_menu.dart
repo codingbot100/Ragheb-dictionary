@@ -138,7 +138,7 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
                   ? _todoDatabase.favorite.length - 3 + index
                   : index;
               return Padding(
-                padding: const EdgeInsets.only(bottom: 10),
+                padding: const EdgeInsets.only(bottom: 13),
                 child: Container(
                   decoration: BoxDecoration(
                     color: thememanger.themebo.value != true

@@ -10,7 +10,6 @@ import 'package:ragheb_dictionary/Setting/settingsPages/About_us.dart';
 import 'package:ragheb_dictionary/Setting/settingsPages/about_ragheb_dictionary.dart';
 import 'package:ragheb_dictionary/Setting/info_page.dart';
 import 'package:ragheb_dictionary/Widgets/Panel.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
 
 class MySettingsPage extends StatefulWidget {
@@ -59,17 +58,17 @@ class _MySettingsPageState extends State<MySettingsPage> {
     Db_Font.loadData();
     super.initState();
     thememanger.loadData;
-    _loadData();
+    // _loadData();
   }
 
-  _loadData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      fontFamile2 = prefs.getString('fontFamile2') ?? 'YekanBakh';
-      fontOption = prefs.getInt('value') ?? 0;
-      fontSizeSubTitle = prefs.getDouble("value1") ?? 13.0;
-    });
-  }
+  // _loadData() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     fontFamile2 = prefs.getString('fontFamile2') ?? 'YekanBakh';
+  //     fontOption = prefs.getInt('value') ?? 0;
+  //     fontSizeSubTitle = prefs.getDouble("value1") ?? 13.0;
+  //   });
+  // }
 
   List lable_slider = ["ریز", "کمی بزرگ", "معمولی", "خیلی بزرگ ", "بزرگ"];
   @override

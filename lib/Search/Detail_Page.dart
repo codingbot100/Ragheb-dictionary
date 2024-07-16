@@ -10,6 +10,7 @@ import 'package:ragheb_dictionary/Search/DataBase/todo_favorite.dart';
 import 'package:ragheb_dictionary/Search/components/BottomNavBar.dart';
 import 'package:share_plus/share_plus.dart';
 
+// ignore: must_be_immutable
 class DetailPage extends StatefulWidget {
   final String name;
   final String description;
@@ -159,11 +160,17 @@ class _DetailPageState extends State<DetailPage> {
       isShow = true;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          backgroundColor: Colors.lightGreen,
+          backgroundColor: Color.fromRGBO(0, 150, 136, 1),
           duration: Duration(seconds: 2),
           content: Directionality(
             textDirection: TextDirection.rtl,
-            child: Text('محتوا کاپی شد '),
+            child: Text(
+              'محتوا کاپی شد ',
+              style: TextStyle(
+                  fontSize: 17,
+                  fontFamily: "YekanBakh",
+                  fontWeight: FontWeight.w600),
+            ),
           ),
         ),
       );
@@ -224,7 +231,9 @@ class _DetailPageState extends State<DetailPage> {
                                     isFavorite
                                         ? 'icons/Enable (1).png'
                                         : 'icons/Disable (1).png',
-                                    color: Color.fromRGBO(153, 153, 153, 1),
+                                    color: isFavorite
+                                        ? Color.fromRGBO(0, 150, 136, 1)
+                                        : Color.fromRGBO(111, 111, 111, 1),
                                     scale: 2.5,
                                   ))
                               : widget.page == "favoritePage"
@@ -248,14 +257,10 @@ class _DetailPageState extends State<DetailPage> {
                             child: Text(
                               widget.dataList[index]['name']!,
                               style: TextStyle(
-                                fontFamily: DB_fontFamily.FontFamily,
-                                fontSize: FontSize_db.titile_name,
-                                fontWeight: FontWeight.w700,
-                                // color: Theme.of(context)
-                                //     .textTheme
-                                //     .bodyText1
-                                //     ?.color, // Use color from i
-                              ),
+                                  fontFamily: DB_fontFamily.FontFamily,
+                                  fontSize: FontSize_db.titile_name,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color.fromRGBO(0, 150, 136, 1)),
                             ),
                           ),
                         ],
@@ -361,12 +366,17 @@ class _DetailPageState extends State<DetailPage> {
                                 ),
                                 Row(
                                   children: [
-                                    Text(
-                                      "اشتراک گذاری",
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontFamily: DB_fontFamily.FontFamily,
-                                        fontWeight: FontWeight.w900,
+                                    GestureDetector(
+                                      onTap: () {
+                                        shareText(name, description, footnote);
+                                      },
+                                      child: Text(
+                                        "اشتراک گذاری",
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontFamily: DB_fontFamily.FontFamily,
+                                          fontWeight: FontWeight.w900,
+                                        ),
                                       ),
                                     ),
                                     SizedBox(

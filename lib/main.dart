@@ -12,7 +12,8 @@ import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/Theme_Color.da
 import 'package:ragheb_dictionary/WelcomScreen.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeData.dart';
-main() async {
+
+  main() async {
   await Hive.initFlutter();
   WidgetsFlutterBinding.ensureInitialized();
   var box = await Hive.openBox('mybox');
@@ -35,7 +36,10 @@ class SplashScreen_Animated extends StatelessWidget {
           SvgPicture.asset(
             'svg_images/Main Logo.svg',
             
-            color: Colors.white,
+              colorFilter: ColorFilter.mode(
+            Colors.white, 
+            BlendMode.srcIn,
+          ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 30),

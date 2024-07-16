@@ -10,18 +10,18 @@ import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeData.dart';
 import 'package:ragheb_dictionary/Widgets/Panel.dart';
 
-class message extends StatefulWidget {
+class WebLog extends StatefulWidget {
   final void Function() onIndex;
-  message({
+  WebLog({
     super.key,
     required this.onIndex,
   });
 
   @override
-  _messageState createState() => _messageState();
+  _WebLogState createState() => _WebLogState();
 }
 
-class _messageState extends State<message> {
+class _WebLogState extends State<WebLog> {
   ThemeDatabase themeDatabase = ThemeDatabase();
 
   List<List<dynamic>> csvData = [];

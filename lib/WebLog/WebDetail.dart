@@ -66,17 +66,16 @@ class _Web_Log_DetailState extends State<Web_Log_Detail> {
       isShow = true;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          backgroundColor: Colors.lightGreen,
+          backgroundColor: Color.fromRGBO(0, 150, 136, 1),
           duration: Duration(seconds: 2),
           content: Directionality(
             textDirection: TextDirection.rtl,
             child: Text(
               'محتوا کاپی شد ',
               style: TextStyle(
-                fontFamily: DB_fontFamily.FontFamily,
-                fontSize: 17,
-                fontWeight: FontWeight.w900,
-              ),
+                  fontSize: 17,
+                  fontFamily: "YekanBakh",
+                  fontWeight: FontWeight.w600),
             ),
           ),
         ),
@@ -209,13 +208,19 @@ class _Web_Log_DetailState extends State<Web_Log_Detail> {
                                     ),
                                     Row(
                                       children: [
-                                        Text(
-                                          "اشتراک گذاری",
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontFamily:
-                                                DB_fontFamily.FontFamily,
-                                            fontWeight: FontWeight.w900,
+                                        GestureDetector(
+                                          onTap: () {
+                                            shareText(rowData[1].toString(),
+                                                rowData[0].toString());
+                                          },
+                                          child: Text(
+                                            "اشتراک گذاری",
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontFamily:
+                                                  DB_fontFamily.FontFamily,
+                                              fontWeight: FontWeight.w900,
+                                            ),
                                           ),
                                         ),
                                         SizedBox(

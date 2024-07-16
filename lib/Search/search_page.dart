@@ -1,7 +1,9 @@
 // ignore_for_file: must_be_immutable, unnecessary_null_comparison
+import 'dart:async';
 import "package:flutter/material.dart";
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Search/components/secondRow.dart';
@@ -24,7 +26,7 @@ class _SearchPageState extends State<SearchPage> {
   final _meBox = Hive.box('mybox');
   ToDo_FontController db6 = ToDo_FontController();
   final ShowClass = Get.put(show());
-  ToDoRecent db = ToDoRecent();
+  ToDoRecent RecentData = ToDoRecent();
   late List<Map<String, Widget>> pages;
   final FocusNode _searchFocus = FocusNode();
   List<Map<String, String>> dataList = [];
@@ -61,6 +63,7 @@ class _SearchPageState extends State<SearchPage> {
     });
   }
 
+  void ClearAll() {}
   void _performSearch(String searchText) {
     if (searchText.isNotEmpty) {
       // Filter dataList based on searchText
@@ -81,9 +84,9 @@ class _SearchPageState extends State<SearchPage> {
     dbFont.loadData();
 
     if (_meBox.get('TODORECENT') == null) {
-      db.createInitialData();
+      RecentData.createInitialData();
     } else {
-      db.loadData();
+      RecentData.loadData();
     }
 
     loadData();
@@ -98,10 +101,10 @@ class _SearchPageState extends State<SearchPage> {
       // Check if searchText exists in dataList based on the "name" field
       bool searchTextExists = dataList.any((item) => item['name'] == name);
 
-      if (searchTextExists && !db.favorite.contains(name)) {
-        db.favorite.add(name);
-        db.updateDataBase();
-        print(db.favorite);
+      if (searchTextExists && !RecentData.RecentSearch.contains(name)) {
+        RecentData.RecentSearch.add(name);
+        RecentData.updateDataBase();
+        print(RecentData.RecentSearch);
       }
 
       // تنظیم خصوصیات TextField
@@ -118,22 +121,23 @@ class _SearchPageState extends State<SearchPage> {
           .toList();
     }
 
-    if (db.favorite.length >= 30) {
-      db.favorite.removeRange(0, 1);
+    if (RecentData.RecentSearch.length >= 30) {
+      RecentData.RecentSearch.removeRange(0, 1);
     }
   }
 
   void remove(int index) {
     setState(() {
-      db.favorite.removeAt(index);
-      db.dateAndTime.removeAt(index);
-      db.updateDataBase();
+      RecentData.RecentSearch.removeAt(index);
+      RecentData.dateAndTime.removeAt(index);
+      RecentData.updateDataBase();
     });
   }
 
   void removeAll() {
     setState(() {
-      db.favorite.clear();
+      RecentData.RecentSearch.clear();
+      RecentData.updateDataBase();
     });
   }
 
@@ -146,7 +150,7 @@ class _SearchPageState extends State<SearchPage> {
   List<Map<String, String>> filterDataList() {
     List<Map<String, String>> filteredList = [];
     for (var item in dataList) {
-      if (db.favorite.contains(item["name"])) {
+      if (RecentData.RecentSearch.contains(item["name"])) {
         filteredList.add(item);
       }
     }
@@ -159,70 +163,74 @@ class _SearchPageState extends State<SearchPage> {
     double ScreenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       // backgroundColor: Color(0xFFF5F5DC),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 50),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                        left: ScreenWidth > 600 ? 30 : 15,
-                        right: ScreenWidth > 600 ? 30 : 15),
-                    child: MouseRegion(
-                      onEnter: (event) {
-                        //   setState(() {
-                        //     Get.find<show>().isShow.value = true;
-                        //     print(ShowClass.isShow.value);
-                        //   });
-                        // },
-                        // onExit: (event) {
-                        //   setState(() {
-                        //     Get.find<show>().isShow.value = false;
-                        //     print(ShowClass.isShow.value);
-                        //   });
-                      },
-                      child: Container(
-                        height: 45,
-                        child: Focus(
-                          onFocusChange: (hasFocus) {
-                            setState(() {
-                              isShow = hasFocus;
-                              widget.isShow = hasFocus;
-                              ShowClass.isShow.value = !ShowClass.isShow.value;
-                            });
-                          },
-                          child: TextField(
-                            // focusNode: _searchFocus,
-                            // autofocus: showFouse,
-                            autofocus: db.favorite.isEmpty ? true : false,
-                            controller: _searchController,
-                            cursorColor: Color.fromRGBO(0, 150, 136, 0.5),
-                            cursorHeight: 14,
-                            autocorrect: false,
-                            enableSuggestions: false,
-                            cursorOpacityAnimates: true,
-                            keyboardAppearance: Brightness.dark,
-                            keyboardType: TextInputType.name,
-                            textAlignVertical: TextAlignVertical.center,
-                            style: TextStyle(
-                              fontFamily: dbFont.FontFamily,
-                              fontSize: 16,
-                            ),
-                            textAlign: TextAlign.right,
-                            onChanged: (value) {
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 25),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          left: ScreenWidth > 600 ? 30 : 15,
+                          right: ScreenWidth > 600 ? 30 : 15),
+                      child: MouseRegion(
+                        onEnter: (event) {
+                          //   setState(() {
+                          //     Get.find<show>().isShow.value = true;
+                          //     print(ShowClass.isShow.value);
+                          //   });
+                          // },
+                          // onExit: (event) {
+                          //   setState(() {
+                          //     Get.find<show>().isShow.value = false;
+                          //     print(ShowClass.isShow.value);
+                          //   });
+                        },
+                        child: Container(
+                          height: 45,
+                          child: Focus(
+                            onFocusChange: (hasFocus) {
                               setState(() {
-                                filteredList = dataList
-                                    .where((task) => task['name']!
-                                        .toLowerCase()
-                                        .contains(value.toLowerCase()))
-                                    .toList();
-                                _performSearch(value);
-                                showFouse = true;
+                                isShow = hasFocus;
+                                widget.isShow = hasFocus;
+                                ShowClass.isShow.value =
+                                    !ShowClass.isShow.value;
                               });
                             },
-                            decoration: InputDecoration(
+                            child: TextField(
+                              // focusNode: _searchFocus,
+                              // autofocus: showFouse,
+                              autofocus: RecentData.RecentSearch.isEmpty
+                                  ? true
+                                  : false,
+                              controller: _searchController,
+                              cursorColor: Color.fromRGBO(0, 150, 136, 0.5),
+                              cursorHeight: 14,
+                              autocorrect: false,
+                              enableSuggestions: false,
+                              cursorOpacityAnimates: true,
+                              keyboardAppearance: Brightness.dark,
+                              keyboardType: TextInputType.name,
+                              textAlignVertical: TextAlignVertical.center,
+                              style: TextStyle(
+                                fontFamily: dbFont.FontFamily,
+                                fontSize: 16,
+                              ),
+                              textAlign: TextAlign.right,
+                              onChanged: (value) {
+                                setState(() {
+                                  filteredList = dataList
+                                      .where((task) => task['name']!
+                                          .toLowerCase()
+                                          .contains(value.toLowerCase()))
+                                      .toList();
+                                  _performSearch(value);
+                                  showFouse = true;
+                                });
+                              },
+                              decoration: InputDecoration(
                                 prefixIcon: Visibility(
                                   visible: _searchController.text.isEmpty
                                       ? false
@@ -251,81 +259,149 @@ class _SearchPageState extends State<SearchPage> {
                                       BorderRadius.all(Radius.circular(25.0)),
                                   borderSide: BorderSide(),
                                 ),
-                                suffixIcon: GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        _searchController.selection;
-                                      });
-                                    },
-                                    child: Icon(
-                                      Icons.search,
-                                      color: Theme.of(context).iconTheme.color,
-                                    ))),
+                                suffixIcon: IconButton(
+                                  isSelected: false,
+                                  onPressed: () {},
+                                  icon: SvgPicture.asset(
+                                    "svg_images/search_new.svg",
+                                    colorFilter: ColorFilter.mode(
+                                      Color.fromRGBO(111, 111, 111, 1),
+                                      BlendMode.srcIn,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            Visibility(
-                visible:
-                    _searchController.text.isEmpty && db.favorite.isNotEmpty
-                        ? true
-                        : false,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 15),
-                  child: secondRow(),
-                )),
-            Visibility(
-                visible: db.favorite.isEmpty && _searchController.text.isEmpty
-                    ? true
-                    : false,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: Text(
-                    "اخیر هیچ جستجوی انجام نشده است",
-                    style: TextStyle(fontFamily: dbFont.FontFamily),
+                ],
+              ),
+              Visibility(
+                  visible: _searchController.text.isEmpty &&
+                          RecentData.RecentSearch.isNotEmpty
+                      ? true
+                      : false,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 5),
+                    child: secondRow(onClear: removeAll),
+                  )),
+              Visibility(
+                  visible: RecentData.RecentSearch.isEmpty &&
+                          _searchController.text.isEmpty
+                      ? true
+                      : false,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Text(
+                      "اخیر هیچ جستجوی انجام نشده است",
+                      style: TextStyle(fontFamily: dbFont.FontFamily),
+                    ),
+                  )),
+              Visibility(
+                visible: _searchController.text.isEmpty ? true : false,
+                child: Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 30),
+                    child: ListView.separated(
+                        separatorBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(left: 15, right: 15),
+                            child: Divider(
+                              thickness: 0.5,
+                              color: Color.fromRGBO(0, 150, 136, 1),
+                            ),
+                          );
+                        },
+                        shrinkWrap: true,
+                        itemCount: filteredList1.length,
+                        itemBuilder: (context, index) {
+                          int realIndex = index % filteredList1.length;
+                          final item = filteredList1[realIndex];
+                          return Container(
+                            height: 42,
+                            child: Padding(
+                              padding: const EdgeInsets.only(),
+                              child: ListTile(
+                                leading: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        RecentData.RecentSearch.removeAt(index);
+                                        RecentData.updateDataBase();
+                                      });
+                                    },
+                                    icon: Icon(
+                                      Icons.clear,
+                                      size: 20,
+                                    ),
+                                    color: Color.fromRGBO(0, 150, 136, 1)),
+                                horizontalTitleGap:
+                                    BorderSide.strokeAlignInside,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    side: BorderSide(
+                                      color: Colors.transparent,
+                                    )),
+                                tileColor: Colors.transparent,
+                                onFocusChange: (e) {
+                                  setState(() {});
+                                },
+                                onTap: () {
+                                  Get.to(
+                                    () => DetailPage(
+                                      onRemove:
+                                          (name, descriprion, footnote) {},
+                                      page: "mainpage",
+                                      name: item['name']!,
+                                      description: item['description']!,
+                                      footnote: item['footnote']!,
+                                      dataList: filteredList1,
+                                      initialPageIndex:
+                                          filteredList1.indexOf(item),
+                                      showFavorite: true,
+                                    ),
+                                    transition: Transition.fadeIn,
+                                    duration: Duration(milliseconds: 500),
+                                  );
+                                  setState(() {
+                                    _searchFocus.unfocus();
+                                    _searchController.clear();
+                                  });
+                                },
+                                trailing: Text(
+                                  item["name"]!,
+                                  style: TextStyle(
+                                      fontFamily: dbFont.FontFamily,
+                                      fontSize: 21,
+                                      fontWeight: FontWeight.w900),
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
                   ),
-                )),
-            Visibility(
-              visible: _searchController.text.isEmpty ? true : false,
-              child: Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 30),
-                  child: ListView.separated(
-                      separatorBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(left: 15, right: 15),
-                          child: Divider(
-                            thickness: 0.5,
-                            color: Color.fromRGBO(0, 150, 136, 1),
-                          ),
-                        );
-                      },
-                      shrinkWrap: true,
-                      itemCount: filteredList1.length,
+                ),
+              ),
+              Visibility(
+                visible: _searchController.text.isEmpty ? false : true,
+                child: Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: ListView.separated(
+                      itemCount: _searchController.text.isEmpty
+                          ? dataList.length
+                          : filteredList.length,
                       itemBuilder: (context, index) {
-                        int realIndex = index % filteredList1.length;
-                        final item = filteredList1[realIndex];
+                        final item = _searchController.text.isEmpty
+                            ? dataList[index]
+                            : filteredList[index];
                         return Container(
                           height: 42,
                           child: Padding(
-                            padding: const EdgeInsets.only(),
+                            padding: const EdgeInsets.only(left: 12, right: 12),
                             child: ListTile(
-                              leading: IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      db.favorite.removeAt(index);
-                                      db.updateDataBase();
-                                    });
-                                  },
-                                  icon: Icon(
-                                    Icons.clear,
-                                    size: 20,
-                                  ),
-                                  color: Color.fromRGBO(0, 150, 136, 1)),
                               horizontalTitleGap: BorderSide.strokeAlignInside,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
@@ -333,30 +409,6 @@ class _SearchPageState extends State<SearchPage> {
                                     color: Colors.transparent,
                                   )),
                               tileColor: Colors.transparent,
-                              onFocusChange: (e) {
-                                setState(() {});
-                              },
-                              onTap: () {
-                                Get.to(
-                                  () => DetailPage(
-                                    onRemove: (name, descriprion, footnote) {},
-                                    page: "",
-                                    name: item['name']!,
-                                    description: item['description']!,
-                                    footnote: item['footnote']!,
-                                    dataList: filteredList1,
-                                    initialPageIndex:
-                                        filteredList1.indexOf(item),
-                                    showFavorite: true,
-                                  ),
-                                  transition: Transition.fadeIn,
-                                  duration: Duration(milliseconds: 500),
-                                );
-                                setState(() {
-                                  _searchFocus.unfocus();
-                                  _searchController.clear();
-                                });
-                              },
                               trailing: Text(
                                 item["name"]!,
                                 style: TextStyle(
@@ -364,87 +416,53 @@ class _SearchPageState extends State<SearchPage> {
                                     fontSize: 21,
                                     fontWeight: FontWeight.w900),
                               ),
+                              onTap: () {
+                                Get.to(
+                                  () => DetailPage(
+                                    onRemove: (name, descriprion, footnote) {},
+                                    page: "mainpage",
+                                    name: item['name']!,
+                                    description: item['description']!,
+                                    footnote: item['footnote']!,
+                                    dataList: dataList,
+                                    initialPageIndex: dataList.indexOf(item),
+                                    showFavorite: true,
+                                  ),
+                                  transition: Transition.fadeIn,
+                                  duration: Duration(milliseconds: 600),
+                                );
+
+                                setState(() {
+                                  showFouse = false;
+                                  _searchFocus.unfocus();
+                                  _searchController.clear();
+                                });
+                                Timer(
+                                    Duration(milliseconds: 100),
+                                    () => addToRecentData(
+                                        item["name"]!,
+                                        item['description']!,
+                                        item['footnote']!));
+                              },
                             ),
                           ),
                         );
-                      }),
-                ),
-              ),
-            ),
-            Visibility(
-              visible: _searchController.text.isEmpty ? false : true,
-              child: Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: ListView.separated(
-                    itemCount: _searchController.text.isEmpty
-                        ? dataList.length
-                        : filteredList.length,
-                    itemBuilder: (context, index) {
-                      final item = _searchController.text.isEmpty
-                          ? dataList[index]
-                          : filteredList[index];
-                      return Container(
-                        height: 42,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 12, right: 12),
-                          child: ListTile(
-                            horizontalTitleGap: BorderSide.strokeAlignInside,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                side: BorderSide(
-                                  color: Colors.transparent,
-                                )),
-                            tileColor: Colors.transparent,
-                            trailing: Text(
-                              item["name"]!,
-                              style: TextStyle(
-                                  fontFamily: dbFont.FontFamily,
-                                  fontSize: 21,
-                                  fontWeight: FontWeight.w900),
-                            ),
-                            onTap: () {
-                              Get.to(
-                                () => DetailPage(
-                                  onRemove: (name, descriprion, footnote) {},
-                                  page: "mainpage",
-                                  name: item['name']!,
-                                  description: item['description']!,
-                                  footnote: item['footnote']!,
-                                  dataList: dataList,
-                                  initialPageIndex: dataList.indexOf(item),
-                                  showFavorite: true,
-                                ),
-                                transition: Transition.fadeIn,
-                                duration: Duration(milliseconds: 600),
-                              );
-
-                              addToRecentData(item["name"]!,
-                                  item['description']!, item['footnote']!);
-                              setState(() {
-                                showFouse = false;
-                                _searchFocus.unfocus();
-                                _searchController.clear();
-                              });
-                            },
+                      },
+                      separatorBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 20, right: 20),
+                          child: Divider(
+                            thickness: 0.5,
+                            color: Color.fromRGBO(0, 150, 136, 0.5),
                           ),
-                        ),
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(left: 20, right: 20),
-                        child: Divider(
-                          thickness: 0.5,
-                          color: Color.fromRGBO(0, 150, 136, 0.5),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );

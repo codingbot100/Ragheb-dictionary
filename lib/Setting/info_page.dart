@@ -55,8 +55,11 @@ class _MylistState extends State<Mylist> {
               boxShadow: thememanger.themebo.value != true
                   ? [
                       BoxShadow(
-                          offset: Offset(2, 2),
-                          color: Theme.of(context).shadowColor)
+                        spreadRadius: 0,
+                        color: Color.fromRGBO(0, 0, 0, 0.07),
+                        blurRadius: 10,
+                        offset: Offset(0, 2),
+                      )
                     ]
                   : []),
           alignment: Alignment.center,

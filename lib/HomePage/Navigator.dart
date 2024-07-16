@@ -37,19 +37,19 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
           setState(() {
             perviouseIndex = _currentIndex;
 
-            _currentIndex = currentPage;
+            _currentIndex = 2;
           });
         },
         onPageChange: (int currentPage) {
           setState(() {
-            perviouseIndex = _currentIndex;
+            // perviouseIndex = _currentIndex;
 
-            _currentIndex = 2;
+            _currentIndex = currentPage;
             print(_currentIndex);
           });
         },
       ),
-      message(
+      WebLog(
         onIndex: () {
           setState(() {
             perviouseIndex = _currentIndex;
@@ -106,16 +106,16 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
               duration: Duration(milliseconds: 100),
               curve: Curves.fastEaseInToSlowEaseOut,
               decoration: BoxDecoration(
-                boxShadow: thememanger.themebo.value
-                    ? []
-                    : [
-                        BoxShadow(
-                          color: Color.fromRGBO(245, 245, 220, 1),
-                          blurRadius: 20.0,
-                          offset: Offset(0, -20),
-                        )
-                      ],
-              ),
+                  // boxShadow: thememanger.themebo.value
+                  //     ? []
+                  //     : [
+                  //         BoxShadow(
+                  //           color: Color.fromRGBO(245, 245, 220, 1),
+                  //           blurRadius: 20.0,
+                  //           offset: Offset(0, -20),
+                  //         )
+                  //       ],
+                  ),
               child: BottomAppBar(
                 // coloColor.fromRGBO(224, 224, 224, 0.678)24),
                 // notchMargin: 7,
@@ -178,7 +178,9 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
                             _currentIndex == 3
                                 ? 'svg_images/State=Enable.svg'
                                 : 'svg_images/State=Disable.svg',
-                            color: Color.fromRGBO(111, 111, 111, 1),
+                            color: _currentIndex == 3
+                                ? Color.fromRGBO(0, 150, 136, 1)
+                                : Color.fromRGBO(111, 111, 111, 1),
                             width: 27,
                             height: 27,
                           ),

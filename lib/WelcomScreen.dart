@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:ragheb_dictionary/HomePage/Navigator.dart';
 import 'package:ragheb_dictionary/Search/DataBase/splashData.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -190,7 +189,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                         fontFamily: "YekanBakh",
                                       ),
                                     ),
-                                    Icon(Iconsax.arrow_right_14,
+                                    Icon(Icons.arrow_right_sharp,
                                         color: Colors.white),
                                   ],
                                 ),

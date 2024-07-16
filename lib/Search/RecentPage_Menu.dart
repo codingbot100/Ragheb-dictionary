@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:ragheb_dictionary/Search/DataBase/todo_favorite.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
 import 'package:ragheb_dictionary/Search/DataBase/recent_Search.dart';
@@ -16,8 +17,10 @@ class RecentpageMain extends StatefulWidget {
 class _RecentpageMainState extends State<RecentpageMain> {
   final _meBox = Hive.box('mybox');
   ToDo_FontController db6 = ToDo_FontController();
+  ToDo_favorite _todoDatabase = ToDo_favorite();
+
   ToDoDataBaseFont db_font = new ToDoDataBaseFont();
-  ToDoRecent db = ToDoRecent();
+  ToDoRecent RecentData = ToDoRecent();
   List<Map<String, String>> dataList = [];
   List<String> recentSearches = [];
   bool isShow = false;
@@ -46,9 +49,9 @@ class _RecentpageMainState extends State<RecentpageMain> {
   void initState() {
     db_font.loadData();
     if (_meBox.get('TODORECENT') == null) {
-      db.createInitialData();
+      RecentData.createInitialData();
     } else {
-      db.loadData();
+      RecentData.loadData();
     }
     loadData();
     db6.createInitialData();
@@ -59,7 +62,7 @@ class _RecentpageMainState extends State<RecentpageMain> {
   List<Map<String, String>> filterDataList() {
     List<Map<String, String>> filteredList = [];
     for (var item in dataList) {
-      if (db.favorite.contains(item['name'])) {
+      if (RecentData.RecentSearch.contains(item['name'])) {
         filteredList.add(item);
       }
     }
@@ -110,6 +113,32 @@ class _RecentpageMainState extends State<RecentpageMain> {
     return monthAbbreviations[month - 1];
   }
 
+  void remove_Favorite(String name, String description, String footnote) {
+    setState(() {
+      // Find the item with the same name, description, and footnote
+      Map<dynamic, dynamic>? itemToRemove;
+      for (var item in _todoDatabase.favorite) {
+        if (item['name'] == name &&
+            item['description'] == description &&
+            item['footnote'] == footnote) {
+          itemToRemove = item;
+          break;
+        }
+      }
+
+      // Remove the item if found
+      if (itemToRemove != null) {
+        _todoDatabase.favorite.remove(itemToRemove);
+        _todoDatabase
+            .updateDataBase(); // Update the database after removing the item
+        _todoDatabase.updateImageState(
+            name, 'icons/Disable (1).png'); // Update image state in Hive
+        _todoDatabase.updateDataBase();
+      }
+    });
+    Get.back();
+  }
+
   @override
   Widget build(BuildContext context) {
     final filteredList = filterDataList();
@@ -158,10 +187,8 @@ class _RecentpageMainState extends State<RecentpageMain> {
                       onTap: () {
                         Get.to(
                           () => DetailPage(
-                             onRemove: (name, descriprion, footnote) {
-                                
-                              },
-                            page: "",
+                            onRemove: remove_Favorite,
+                            page: "mainpage",
                             name: item['name']!,
                             description: item['description']!,
                             footnote: item['footnote']!,
