@@ -147,18 +147,21 @@ class _Web_Log_DetailState extends State<Web_Log_Detail> {
                             Padding(
                               padding:
                                   const EdgeInsets.only(bottom: 10, top: 10),
-                              child: RichText(
-                                textAlign: TextAlign.justify,
-                                text: TextSpan(
-                                  style: TextStyle(
-                                    color: themeManager.themebo.value
-                                        ? Color.fromRGBO(0, 150, 137, 1)
-                                        : Color.fromRGBO(82, 82, 82, 1),
-                                    fontSize: db6.title_Web - 6,
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily: DB_fontFamily.FontFamily,
+                              child: Align(
+                                alignment: Alignment.topRight,
+                                child: RichText(
+                                  textAlign: TextAlign.justify,
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                      color: themeManager.themebo.value
+                                          ? Color.fromRGBO(0, 150, 137, 1)
+                                          : Color.fromRGBO(82, 82, 82, 1),
+                                      fontSize: db6.title_Web - 6,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: DB_fontFamily.FontFamily,
+                                    ),
+                                    text: rowData[1].toString(),
                                   ),
-                                  text: rowData[1].toString(),
                                 ),
                               ),
                             ),

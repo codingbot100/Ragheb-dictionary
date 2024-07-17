@@ -49,14 +49,19 @@ class _WebLogState extends State<WebLog> {
   List<String> imageList = [
     "1.jpg",
     "2.jpg",
+    "3.jpg",
     "4.jpg",
     "5.jpg",
     "6.jpg",
     "7.jpg",
     "8.jpg",
-    "8.jpg",
     "9.jpg",
-    "8.jpg",
+    "10.jpg",
+    "11.jpg",
+    "13.jpg",
+    "12.jpg",
+    "14.jpg",
+    "15.jpg",
   ];
 
   Future<void> loadCsvData() async {
@@ -113,6 +118,7 @@ class _WebLogState extends State<WebLog> {
                             );
                           },
                           child: Container(
+                            height: 350,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12.0),
                               border: Border.all(
@@ -134,34 +140,77 @@ class _WebLogState extends State<WebLog> {
                                   : [],
                             ),
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(12),
-                                    topRight: Radius.circular(12),
-                                  ),
-                                  child: Image.asset(
-                                    "web_images/${imageList[index % imageList.length]}",
+                                Container(
+                                  width: double
+                                      .infinity, // Ensure the container takes the full width
+
+                                  height: 195,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(12),
+                                      topRight: Radius.circular(12),
+                                    ),
+                                    child: Image.asset(
+                                      "web_images/${imageList[index % imageList.length]}",
+                                      fit: BoxFit.fitWidth,
+                                    ),
                                   ),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(
-                                    top: isTablet ? 12 : 8,
-                                    right: isTablet ? 16 : 8,
+                                    top: isTablet ? 17 : 14,
+                                    right: isTablet ? 17 : 14,
                                   ),
                                   child: Directionality(
                                     textDirection: TextDirection.rtl,
-                                    child: Container(
-                                      height: 70,
-                                      child: Text(
-                                        textAlign: TextAlign.right,
-                                        row[1].toString(),
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: db6.title_Web_Main,
-                                          fontFamily: dbFont.FontFamily,
+                                    child: IntrinsicWidth(
+                                      stepHeight: 1,
+                                      child: Container(
+                                        child: Text(
+                                          textAlign: TextAlign.right,
+                                          row[1].toString(),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 22,
+                                              fontFamily: dbFont.FontFamily,
+                                              color: !thememanger.themebo.value
+                                                  ? Color.fromRGBO(
+                                                      0, 150, 136, 1)
+                                                  : Colors.white),
                                         ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: isTablet ? 17 : 5,
+                                      right: isTablet ? 17 : 14,
+                                      left: 14),
+                                  child: Directionality(
+                                    textDirection: TextDirection.rtl,
+                                    child: Container(
+                                      // height: 76,
+                                      child: RichText(
+                                        softWrap: true,
+                                        overflow: TextOverflow
+                                            .ellipsis, // This will hide the overflow text with ellipsis
+                                        maxLines: 3,
+                                        text: TextSpan(
+                                          text: row[0].toString(),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 14,
+                                              fontFamily: dbFont.FontFamily,
+                                              color: thememanger.themebo.value
+                                                  ? Color.fromRGBO(
+                                                      204, 204, 204, 1)
+                                                  : Color.fromRGBO(
+                                                      111, 111, 111, 1)),
+                                        ),
+                                        textAlign: TextAlign.justify,
                                       ),
                                     ),
                                   ),

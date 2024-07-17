@@ -41,7 +41,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   ];
   int myCurrentIndex = 0;
   final fontFamile = 'Yekan';
-  final fontSizeTitle = 19.0;
+  final fontSizeTitle = 18.0;
   final fontSizeSubTitle = 10.0;
   final colorPrimary = Color(0xFF009688);
   final colorBackground = Color(0xFFF5F5DC);

@@ -98,144 +98,144 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
           return FadeTransition(opacity: animation, child: child);
         },
       ),
-      bottomNavigationBar: Obx(() => AnimatedContainer(
-            duration: Duration(milliseconds: 500),
-            height: !ShowFab ? 87 : 0,
+      bottomNavigationBar: AnimatedContainer(
+          duration: Duration(milliseconds: 500),
+          height: !ShowFab ? 87 : 0,
+          curve: Curves.fastEaseInToSlowEaseOut,
+          child: AnimatedContainer(
+            duration: Duration(milliseconds: 100),
             curve: Curves.fastEaseInToSlowEaseOut,
-            child: AnimatedContainer(
-              duration: Duration(milliseconds: 100),
-              curve: Curves.fastEaseInToSlowEaseOut,
-              decoration: BoxDecoration(
-                  // boxShadow: thememanger.themebo.value
-                  //     ? []
-                  //     : [
-                  //         BoxShadow(
-                  //           color: Color.fromRGBO(245, 245, 220, 1),
-                  //           blurRadius: 20.0,
-                  //           offset: Offset(0, -20),
-                  //         )
-                  //       ],
-                  ),
-              child: BottomAppBar(
-                // coloColor.fromRGBO(224, 224, 224, 0.678)24),
-                // notchMargin: 7,
-                height: 65,
-                // shape: CircularNotchedRectangle(),
-                color: Theme.of(context).bottomAppBarTheme.color,
-                child: Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 3),
-                        child: AnimatedContainer(
-                          duration: Duration(milliseconds: 300),
-                          curve: Curves.bounceInOut,
-                          width: 40,
-                          height: 40,
-                          child: IconButton(
-                            icon: SvgPicture.asset(
-                              _currentIndex == 0
-                                  ? 'svg_images/clicked_home.svg'
-                                  : 'svg_images/click_home.svg',
-                              width: 45,
-                              height: 40,
-                            ),
-                            onPressed: () => setState(() {
-                              perviouseIndex = 0;
+            decoration: BoxDecoration(
+                // boxShadow: thememanger.themebo.value
+                //     ? []
+                //     : [
+                //         BoxShadow(
+                //           color: Color.fromRGBO(245, 245, 220, 1),
+                //           blurRadius: 20.0,
+                //           offset: Offset(0, -20),
+                //         )
+                //       ],
+                ),
+            child: BottomAppBar(
+              // coloColor.fromRGBO(224, 224, 224, 0.678)24),
+              // notchMargin: 7,
+              height: 65,
+              // shape: CircularNotchedRectangle(),
+              color: Theme.of(context).bottomAppBarTheme.color,
+              child: Directionality(
+                textDirection: TextDirection.rtl,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 3),
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.bounceInOut,
+                        width: 40,
+                        height: 40,
+                        child: IconButton(
+                          icon: SvgPicture.asset(
+                            _currentIndex == 0
+                                ? 'svg_images/clicked_home.svg'
+                                : 'svg_images/click_home.svg',
+                            width: 45,
+                            height: 40,
+                          ),
+                          onPressed: () => setState(() {
+                            perviouseIndex = 0;
 
-                              _currentIndex = 0;
-                              print(_currentIndex);
-                            }),
-                          ),
-                        ),
-                      ),
-                      AnimatedContainer(
-                        duration: Duration(milliseconds: 300),
-                        curve: Curves.bounceInOut,
-                        child: IconButton(
-                          icon: SvgPicture.asset(
-                            _currentIndex == 1
-                                ? 'svg_images/Clicked_weblog.svg'
-                                : 'svg_images/Click_welog.svg',
-                            width: 25,
-                            height: 25,
-                          ),
-                          onPressed: () => setState(() {
-                            perviouseIndex = 1;
-                            _currentIndex = 1;
+                            _currentIndex = 0;
                             print(_currentIndex);
                           }),
                         ),
                       ),
-                      AnimatedContainer(
-                        duration: Duration(milliseconds: 300),
-                        curve: Curves.bounceInOut,
-                        child: IconButton(
-                          icon: SvgPicture.asset(
-                            _currentIndex == 3
-                                ? 'svg_images/State=Enable.svg'
-                                : 'svg_images/State=Disable.svg',
-                            color: _currentIndex == 3
-                                ? Color.fromRGBO(0, 150, 136, 1)
-                                : Color.fromRGBO(111, 111, 111, 1),
-                            width: 27,
-                            height: 27,
-                          ),
-                          onPressed: () => setState(() {
-                            perviouseIndex = 3;
-                            _currentIndex = 3;
-                            print(_currentIndex);
-                          }),
+                    ),
+                    AnimatedContainer(
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.bounceInOut,
+                      child: IconButton(
+                        icon: SvgPicture.asset(
+                          _currentIndex == 1
+                              ? 'svg_images/Clicked_weblog.svg'
+                              : 'svg_images/Click_welog.svg',
+                          width: 25,
+                          height: 25,
                         ),
+                        onPressed: () => setState(() {
+                          perviouseIndex = 1;
+                          _currentIndex = 1;
+                          print(_currentIndex);
+                        }),
                       ),
-                      // _currentIndex == 2
-                      //     ? IconButton(
-                      //         onPressed: () {
-                      //           Get.back();
-                      //         },
-                      //         icon: Icon(Icons.arrow_forward))
-                      //     :
-                      _currentIndex == 2
-                          ? Container(
-                              child: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _currentIndex = perviouseIndex;
-                                    print(_currentIndex);
-                                  });
-                                },
-                                icon: Image.asset(
-                                  'icons/back.png',
-                                  scale: 4.5,
-                                ),
-                              ),
-                            )
-                          : AnimatedContainer(
-                              duration: Duration(milliseconds: 300),
-                              curve: Curves.bounceInOut,
-                              child: IconButton(
-                                icon: SvgPicture.asset(
-                                  _currentIndex == 4
-                                      ? 'svg_images/clicked_setting.svg'
-                                      : 'svg_images/setting2.svg',
-                                  width: 25,
-                                  height: 25,
-                                ),
-                                onPressed: () => setState(() {
-                                  perviouseIndex = 4;
-                                  _currentIndex = 4;
+                    ),
+                    AnimatedContainer(
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.bounceInOut,
+                      child: IconButton(
+                        icon: SvgPicture.asset(
+                          _currentIndex == 3
+                              ? 'svg_images/State=Enable.svg'
+                              : 'svg_images/State=Disable.svg',
+                          color: _currentIndex == 3
+                              ? Color.fromRGBO(0, 150, 136, 1)
+                              : Color.fromRGBO(111, 111, 111, 1),
+                          width: 27,
+                          height: 27,
+                        ),
+                        onPressed: () => setState(() {
+                          perviouseIndex = 3;
+                          _currentIndex = 3;
+                          print(_currentIndex);
+                        }),
+                      ),
+                    ),
+                    // _currentIndex == 2
+                    //     ? IconButton(
+                    //         onPressed: () {
+                    //           Get.back();
+                    //         },
+                    //         icon: Icon(Icons.arrow_forward))
+                    //     :
+                    _currentIndex == 2
+                        ? Container(
+                            child: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _currentIndex = perviouseIndex;
                                   print(_currentIndex);
-                                }),
+                                });
+                              },
+                              icon: Image.asset(
+                                'icons/back.png',
+                                scale: 4.5,
                               ),
                             ),
-                    ],
-                  ),
+                          )
+                        : AnimatedContainer(
+                            duration: Duration(milliseconds: 300),
+                            curve: Curves.bounceInOut,
+                            child: IconButton(
+                              icon: SvgPicture.asset(
+                                _currentIndex == 4
+                                    ? 'svg_images/clicked_setting.svg'
+                                    : 'svg_images/setting2.svg',
+                                width: 25,
+                                height: 25,
+                              ),
+                              onPressed: () => setState(() {
+                                perviouseIndex = 4;
+                                _currentIndex = 4;
+                                print(_currentIndex);
+                              }),
+                            ),
+                          ),
+                  ],
                 ),
               ),
             ),
+            // ),
           )),
       // floatingActionButton: Visibility(
       //   visible: !ShowFab,

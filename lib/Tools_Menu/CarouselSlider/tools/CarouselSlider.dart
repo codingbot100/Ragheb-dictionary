@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -30,8 +32,8 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
     "web_images/9.jpg",
     "web_images/10.jpg",
     "web_images/11.jpg",
-    "web_images/12.jpg",
     "web_images/13.jpg",
+    "web_images/12.jpg",
     "web_images/14.jpg",
     "web_images/15.jpg",
   ];
@@ -47,8 +49,8 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
     "9.jpg",
     "10.jpg",
     "11.jpg",
-    "12.jpg",
     "13.jpg",
+    "12.jpg",
     "14.jpg",
     "15.jpg",
   ];
@@ -93,9 +95,15 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
             width: MediaQuery.of(context).size.width,
             child: CarouselSlider(
               items: List.generate(
-                myItems.length,
+                14,
                 (index) => _buildImageContainer(
-                    index, screenWidth * 50, screenheight * 20),
+                  index,
+                  screenWidth * 50,
+                  screenheight * 20,
+                  csvData.isNotEmpty
+                      ? csvData[myCurrentIndex % csvData.length][1].toString()
+                      : '',
+                ),
               ),
               options: CarouselOptions(
                 autoPlayInterval: Duration(seconds: 5),
@@ -103,7 +111,7 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
                 animateToClosest: true,
                 viewportFraction: 1.0,
                 enlargeFactor: BorderSide.strokeAlignOutside,
-                autoPlay: true,
+                autoPlay: false,
                 enlargeCenterPage: true,
                 aspectRatio: 20 / 8
                 //screenheight * 110,
@@ -139,16 +147,66 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
     );
   }
 
-  Widget _buildImageContainer(int index, double width, double height) {
-    return Container(
-      height: height,
-      width: width, // Ensure the image takes full width
-
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(8.0),
-        child: Image.asset(
-          myItems1[index],
-          fit: BoxFit.cover,
+  Widget _buildImageContainer(
+      int index, double width, double height, String title) {
+    return Center(
+      child: Container(
+        height: height,
+        width: width,
+        child: Stack(
+          children: [
+            // The background image
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                image: DecorationImage(
+                  image: AssetImage(myItems1[index]),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            // The filtered row taking the full width
+            Positioned(
+              // left: 0,
+              // right: 0,
+              // bottom: 0,
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(8),
+                  topRight: Radius.circular(8),
+                ),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                  child: Container(
+                    width: double.infinity,
+                    color: Colors.black.withOpacity(0.2),
+                    padding: EdgeInsets.symmetric(vertical: 8.0),
+                    child: Wrap(
+                      textDirection: TextDirection.rtl,
+                      crossAxisAlignment: WrapCrossAlignment.start,
+                      alignment: WrapAlignment.start,
+                      // mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 10, left: 10),
+                          child: Text(
+                            textDirection: TextDirection.rtl,
+                            softWrap: true,
+                            title,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: "YekanBakh",
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
