@@ -29,8 +29,9 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with TickerProviderStateMixin {
   final MyController _myController = Get.put(MyController());
   final ThemeManager themeManager = Get.find();
-  ToDoRecent Recent_db = ToDoRecent();
   ToDoDataBaseFont Db_Font = ToDoDataBaseFont();
+  ToDoRecent Recent_db = ToDoRecent();
+
   ToDo_favorite toDo_favorite = ToDo_favorite();
   final _meBox = Hive.box('mybox');
   final myItems = [
@@ -50,24 +51,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   @override
   void initState() {
     Db_Font.loadData();
-    themeManager.loadData();
-    if (_meBox.get('TODORECENT') == null) {
-      Recent_db.createInitialData();
-    } else {
-      Recent_db.loadData();
-    }
-    if (_meBox.get("TODORECENT") == null) {
-      toDoRecent.createInitialData();
-    } else {
-      toDoRecent.loadData();
-    }
-
     if (_meBox.get("TODOLIST") == null) {
       toDo_favorite.createInitialData();
     } else {
       toDo_favorite.loadData();
     }
     Recent_db.loadData();
+
     super.initState();
   }
 
@@ -198,23 +188,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                           : true,
                                       child: TextRow(
                                           2, "< مرور همه ", 'جستجو های اخیر')),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      left: 2,
-                                      right: 2,
-                                    ),
-                                    child: Container(
-                                      height: (Recent_db.RecentSearch.length <=
-                                              3)
-                                          ? Recent_db.RecentSearch.length * 65
-                                          : 3 * 65,
-                                      child: GetBuilder<MyController>(
-                                        builder: (controller) {
-                                          return RecentpageMain();
-                                        },
-                                      ),
-                                    ),
-                                  ),
+                                  RecentPageHomePage()
                                 ],
                               ),
                             )

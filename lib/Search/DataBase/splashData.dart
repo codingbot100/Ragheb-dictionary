@@ -1,21 +1,27 @@
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-
 class splashclass extends GetxController {
-  var checkPage = false.obs;
+  RxBool checkPage = false.obs;
 
-  final _meBox2 = Hive.box('mybox2');
-  void savePage() {
-    checkPage.value = true;
-    _meBox2.put('theme', checkPage.value);
+  @override
+  void onInit() {
+    super.onInit();
+    checkIfWelcomeScreenShown();
   }
 
-  void loadData() {
-    checkPage.value = _meBox2.get("checkpage") ?? false; // Initialize themebo with the value from Hive or default to false
+  void checkIfWelcomeScreenShown() async {
+    var box = Hive.box('mybox');
+    bool? hasShownWelcomeScreen = box.get('hasShownWelcomeScreen');
+    if (hasShownWelcomeScreen == null || !hasShownWelcomeScreen) {
+      checkPage.value = false;
+    } else {
+      checkPage.value = true;
+    }
   }
 
-  void updateDataBase() {
-    _meBox2.put('checkpage', checkPage.value); // Store the value of themebo in Hive
+  void setWelcomeScreenShown() {
+    var box = Hive.box('mybox');
+    box.put('hasShownWelcomeScreen', true);
   }
 }

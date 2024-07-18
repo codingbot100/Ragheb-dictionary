@@ -1,5 +1,5 @@
+import 'package:csv/csv.dart';
 import "package:flutter/material.dart";
-import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -8,6 +8,37 @@ import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
 import 'package:ragheb_dictionary/Search/DataBase/recent_Search.dart';
 import 'package:ragheb_dictionary/Search/Detail_Page.dart';
+
+class RecentPageHomePage extends StatefulWidget {
+  const RecentPageHomePage({super.key});
+
+  @override
+  State<RecentPageHomePage> createState() => _RecentPageHomePageState();
+}
+
+class _RecentPageHomePageState extends State<RecentPageHomePage> {
+  ToDoRecent Recent_db = ToDoRecent();
+  @override
+  void initState() {
+    Recent_db.loadData();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        left: 2,
+        right: 2,
+      ),
+      child: Container(
+          height: (Recent_db.RecentSearch.length <= 3)
+              ? Recent_db.RecentSearch.length * 65
+              : 3 * 65,
+          child: RecentpageMain()),
+    );
+  }
+}
 
 class RecentpageMain extends StatefulWidget {
   @override
@@ -26,23 +57,33 @@ class _RecentpageMainState extends State<RecentpageMain> {
   bool isShow = false;
 
   Future<void> loadData() async {
-    String data =
-        await rootBundle.loadString('assets/Raqib Database - Sheet1 (2).csv');
-    List<String> lines = LineSplitter.split(data).toList();
-    List<Map<String, String>> newDataList = [];
-    for (int i = 1; i < lines.length; i++) {
-      List<String> cells = lines[i].split(',');
-      Map<String, String> item = {
-        "footnote": cells[0],
-        "description": cells[1],
-        "name": cells[2],
-        "favorites": cells[3],
-      };
-      newDataList.add(item);
+    try {
+      String data =
+          await rootBundle.loadString('assets/Raqib Database - Sheet1 (2).csv');
+      List<List<dynamic>> csvTable = CsvToListConverter().convert(data);
+
+      List<Map<String, String>> newDataList = [];
+      for (int i = 1; i < csvTable.length; i++) {
+        List<dynamic> row = csvTable[i];
+        if (row.length < 4) {
+          print("Skipping row $i: not enough columns");
+          continue;
+        }
+        Map<String, String> item = {
+          "footnote": row[0].toString(),
+          "description": row[1].toString(),
+          "name": row[2].toString(),
+          "favorites": row[3].toString()
+        };
+        newDataList.add(item);
+      }
+
+      setState(() {
+        dataList = newDataList;
+      });
+    } catch (e) {
+      print("Error loading CSV data: $e");
     }
-    setState(() {
-      dataList = newDataList;
-    });
   }
 
   @override

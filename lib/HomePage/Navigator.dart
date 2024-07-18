@@ -92,14 +92,14 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
     return Scaffold(
       body: AnimatedSwitcher(
         // switchInCurve: Curves.fastOutSlowIn,
-        duration: Duration(milliseconds: 350),
+        duration: Duration(milliseconds: buildScreens[_currentIndex] == 0 ? 0 : 350),
         child: buildScreens[_currentIndex],
         transitionBuilder: (child, animation) {
           return FadeTransition(opacity: animation, child: child);
         },
       ),
       bottomNavigationBar: AnimatedContainer(
-          duration: Duration(milliseconds: 500),
+          duration: Duration(milliseconds: 300),
           height: !ShowFab ? 87 : 0,
           curve: Curves.fastEaseInToSlowEaseOut,
           child: AnimatedContainer(
@@ -131,7 +131,7 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
                     Padding(
                       padding: const EdgeInsets.only(top: 3),
                       child: AnimatedContainer(
-                        duration: Duration(milliseconds: 300),
+                        duration: Duration(milliseconds: 0),
                         curve: Curves.bounceInOut,
                         width: 40,
                         height: 40,
@@ -153,7 +153,7 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
                       ),
                     ),
                     AnimatedContainer(
-                      duration: Duration(milliseconds: 300),
+                      duration: Duration(milliseconds: 0),
                       curve: Curves.bounceInOut,
                       child: IconButton(
                         icon: SvgPicture.asset(
@@ -171,7 +171,7 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
                       ),
                     ),
                     AnimatedContainer(
-                      duration: Duration(milliseconds: 300),
+                      duration: Duration(milliseconds: 0),
                       curve: Curves.bounceInOut,
                       child: IconButton(
                         icon: SvgPicture.asset(
@@ -214,7 +214,7 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
                             ),
                           )
                         : AnimatedContainer(
-                            duration: Duration(milliseconds: 300),
+                            duration: Duration(milliseconds: 0),
                             curve: Curves.bounceInOut,
                             child: IconButton(
                               icon: SvgPicture.asset(

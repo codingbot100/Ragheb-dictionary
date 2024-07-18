@@ -1,7 +1,7 @@
 // ignore_for_file: must_be_immutable, unnecessary_null_comparison
 import 'dart:async';
+import 'package:csv/csv.dart';
 import "package:flutter/material.dart";
-import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -43,26 +43,34 @@ class _SearchPageState extends State<SearchPage> {
   TimeOfDay currentTime = TimeOfDay.now();
   // final _meBox2 = Hive.box('mybox2');
 
-  Future<void> loadData() async {
-    String data =
-        await rootBundle.loadString('assets/Raqib Database - Sheet1 (2).csv');
-    List<String> lines = LineSplitter.split(data).toList();
-    List<Map<String, String>> newDataList = [];
-    for (int i = 1; i < lines.length; i++) {
-      List<String> cells = lines[i].split(',');
-      Map<String, String> item = {
-        "footnote": cells[0],
-        "description": cells[1],
-        "name": cells[2],
-        "favorites": cells[3]
-      };
-      newDataList.add(item);
-    }
-    setState(() {
-      dataList = newDataList;
-    });
-  }
+ Future<void> loadData() async {
+    try {
+      String data = await rootBundle.loadString('assets/Raqib Database - Sheet1 (2).csv');
+      List<List<dynamic>> csvTable = CsvToListConverter().convert(data);
 
+      List<Map<String, String>> newDataList = [];
+      for (int i = 1; i < csvTable.length; i++) {
+        List<dynamic> row = csvTable[i];
+        if (row.length < 4) {
+          print("Skipping row $i: not enough columns");
+          continue;
+        }
+        Map<String, String> item = {
+          "footnote": row[0].toString(),
+          "description": row[1].toString(),
+          "name": row[2].toString(),
+          "favorites": row[3].toString()
+        };
+        newDataList.add(item);
+      }
+
+      setState(() {
+        dataList = newDataList;
+      });
+    } catch (e) {
+      print("Error loading CSV data: $e");
+    }
+  }
   void ClearAll() {}
   void _performSearch(String searchText) {
     if (searchText.isNotEmpty) {

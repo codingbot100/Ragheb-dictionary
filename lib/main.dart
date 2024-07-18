@@ -54,10 +54,17 @@ class SplashScreen_Animated extends StatelessWidget {
           ),
         ],
       ),
-      nextScreen: splash.checkPage.value ? MyAppNavigator() : WelcomScreen(),
+      nextScreen:Obx(() {
+        if (!splash.checkPage.value) {
+          splash.setWelcomeScreenShown();
+          return WelcomScreen();
+        } else {
+          return MyAppNavigator();
+        }
+      }),
       backgroundColor: Color.fromRGBO(0, 150, 136, 1),
       splashIconSize: 300,
-      duration: 1000,
+      duration: 500,
       splashTransition: SplashTransition.fadeTransition,
       pageTransitionType: PageTransitionType.fade,
       animationDuration: Duration(seconds: 1),
@@ -89,7 +96,7 @@ class _MyAppState extends State<MyApp> {
     });
     themeManager.loadData();
     super.initState();
-    splash.loadData();
+    // splash.loadData();
   }
 
   final splash = Get.put(splashclass());

@@ -160,22 +160,22 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
                   child: Directionality(
                     textDirection: TextDirection.rtl,
                     child: ListTile(
-                      // leading: Image.asset(
-                      //   icons,
-                      //   scale: 1,
-                      // ),
-                      leading: IconButton(
-                        onPressed: () {
-                          remove_Favorite(
-                              _todoDatabase.favorite[realIndex]['name'],
-                              _todoDatabase.favorite[realIndex]['description'],
-                              _todoDatabase.favorite[realIndex]['footnote']);
-                        },
-                        icon: Image.asset(
-                          icons,
-                          scale: 1,
-                        ),
+                      leading: Image.asset(
+                        icons,
+                        scale: 1,
                       ),
+                      // leading: IconButton(
+                      //   onPressed: () {
+                      //     remove_Favorite(
+                      //         _todoDatabase.favorite[realIndex]['name'],
+                      //         _todoDatabase.favorite[realIndex]['description'],
+                      //         _todoDatabase.favorite[realIndex]['footnote']);
+                      //   },
+                      //   icon: Image.asset(
+                      //     icons,
+                      //     scale: 1,
+                      //   ),
+                      // ),
                       title: Text(
                         "${_todoDatabase.favorite[realIndex]['name']}",
                         style: TextStyle(
