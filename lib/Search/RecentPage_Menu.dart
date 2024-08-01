@@ -238,7 +238,7 @@ class _RecentpageMainState extends State<RecentpageMain> {
                             showFavorite: false,
                           ),
                           transition: Transition.fadeIn,
-                          duration: Duration(milliseconds: 200),
+                          duration: Duration(milliseconds: 400),
                         );
                       },
                     ),

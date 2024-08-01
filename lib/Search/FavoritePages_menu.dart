@@ -26,7 +26,7 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
   late double borderRadius;
   ThemeDatabase themeDatabase = ThemeDatabase();
   final thememanger = Get.put(ThemeManager());
-  String icons = "icons/Vector (1).png";
+  String icons = 'icons/Enable (1).png';
   @override
   void initState() {
     db_font.loadData();
@@ -126,7 +126,6 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
     return Scaffold(
         body: Column(
       children: [
-        // Text('Month'),
         Expanded(
           child: ListView.builder(
             physics: NeverScrollableScrollPhysics(),
@@ -137,6 +136,7 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
               int realIndex = _todoDatabase.favorite.length > 3
                   ? _todoDatabase.favorite.length - 3 + index
                   : index;
+
               return Padding(
                 padding: const EdgeInsets.only(bottom: 13),
                 child: Container(
@@ -160,22 +160,13 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
                   child: Directionality(
                     textDirection: TextDirection.rtl,
                     child: ListTile(
-                      leading: Image.asset(
-                        icons,
-                        scale: 1,
+                      leading: Padding(
+                        padding: const EdgeInsets.only(bottom: 7),
+                        child: Image.asset(
+                          icons,
+                          scale: 3,
+                        ),
                       ),
-                      // leading: IconButton(
-                      //   onPressed: () {
-                      //     remove_Favorite(
-                      //         _todoDatabase.favorite[realIndex]['name'],
-                      //         _todoDatabase.favorite[realIndex]['description'],
-                      //         _todoDatabase.favorite[realIndex]['footnote']);
-                      //   },
-                      //   icon: Image.asset(
-                      //     icons,
-                      //     scale: 1,
-                      //   ),
-                      // ),
                       title: Text(
                         "${_todoDatabase.favorite[realIndex]['name']}",
                         style: TextStyle(
@@ -196,12 +187,12 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
                                   onRemove: remove_Favorite,
                                   page: "favoritePage",
                                   name:
-                                      "${_todoDatabase.favorite[index]['name']}",
+                                      "${_todoDatabase.favorite[realIndex]['name']}",
                                   description:
-                                      "${_todoDatabase.favorite[index]['description']}",
+                                      "${_todoDatabase.favorite[realIndex]['description']}",
                                   footnote:
-                                      "${_todoDatabase.favorite[index]['footnote']}",
-                                  initialPageIndex: index,
+                                      "${_todoDatabase.favorite[realIndex]['footnote']}",
+                                  initialPageIndex: realIndex,
                                   dataList: _todoDatabase.favorite.map((item) {
                                     return {
                                       'name': item['name'].toString(),
@@ -213,7 +204,7 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
                                   showFavorite: false,
                                 ),
                             transition: Transition.fadeIn,
-                            duration: Duration(milliseconds: 200));
+                            duration: Duration(milliseconds: 400));
                         _todoDatabase.updateDataBase();
                       },
                     ),
@@ -222,7 +213,7 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
               );
             },
           ),
-        ),
+        )
       ],
     ));
   }

@@ -17,7 +17,7 @@ class WelcomScreen extends StatefulWidget {
 }
 
 List<String> titles = [
-  "!به اپلیکشن  فرهنگ لغت راغب خوش آمدید ",
+  "به اپلیکشن  فرهنگ لغت راغب خوش آمدید ",
   "امکانات و ویژگی‌ها",
   "شروع استفاده"
 ];
@@ -53,196 +53,212 @@ class _WelcomScreenState extends State<WelcomScreen> {
     return Scaffold(
       backgroundColor: Color(0xFFF5F5DC),
       body: Padding(
-        padding: const EdgeInsets.only(top: 70),
+        padding: const EdgeInsets.only(top: 60),
         child: Center(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: SvgPicture.asset(
-                  'svg_images/Main Logo.svg',
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 50),
-                child: Text(
-                  'فرهنگ لغت راغب ',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontFamily: "YekanBakh",
-                    fontWeight: FontWeight.w900,
-                    color: Color.fromRGBO(0, 150, 136, 1),
+          child: SingleChildScrollView(
+            child: Column(
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: SvgPicture.asset(
+                    'svg_images/Main Logo.svg',
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 60, right: 60),
-                child: SizedBox(
-                  height: 450,
-                  child: PageView.builder(
-                    controller: _controller,
-                    itemCount: images.length,
-                    itemBuilder: (context, index) {
-                      return Stack(
-                        alignment: Alignment.bottomCenter,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                color: Color.fromRGBO(250, 250, 238, 1),
-                                borderRadius: BorderRadius.circular(15),
-                                boxShadow: [
-                                  BoxShadow(
-                                      spreadRadius: 0,
-                                      color: Color.fromRGBO(0, 0, 0, 0.05),
-                                      blurRadius: 20,
-                                      offset: Offset(0, 0))
-                                ]),
-                            // width: 300,
-                            // height: 400,
-                            margin: EdgeInsets.symmetric(vertical: 20),
-                            child: Center(
-                              child: Text(
-                                'Responsive Container',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            top: -25,
-                            child: IntrinsicWidth(
-                              stepHeight: 50,
-                              child: Container(
-                                child: SvgPicture.asset(
-                                  "svg_images/${images[index]}",
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                top: 170, left: 25, right: 25),
-                            child: Column(
-                              children: [
-                                Align(
-                                  alignment: Alignment.center,
-                                  child: Container(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(),
-                                          child: Align(
-                                            alignment: Alignment.centerRight,
-                                            child: Text(
-                                              titles[index],
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                fontFamily: "YekanBakh",
-                                                fontWeight: FontWeight.w900,
-                                                color: Color.fromRGBO(
-                                                    0, 150, 136, 1),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Container(
-                                          child: Directionality(
-                                            textDirection: TextDirection.rtl,
-                                            child: RichText(
-                                              textAlign: TextAlign.justify,
-                                              text: TextSpan(
-                                                text: descriptions[index],
-                                                style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontFamily: "YekanBakh",
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Color.fromRGBO(
-                                                      111, 111, 111, 1),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 50),
+                  child: Text(
+                    'فرهنگ لغت راغب ',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontFamily: "YekanBakh",
+                      fontWeight: FontWeight.w900,
+                      color: Color.fromRGBO(0, 150, 136, 1),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 50, right: 50),
+                  child: Expanded(
+                    child: SizedBox(
+                      height: 400,
+                      child: PageView.builder(
+                        controller: _controller,
+                        itemCount: images.length,
+                        itemBuilder: (context, index) {
+                          return Stack(
+                            alignment: Alignment.bottomCenter,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Color.fromRGBO(250, 250, 238, 1),
+                                      borderRadius: BorderRadius.circular(15),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            spreadRadius: 0,
+                                            color:
+                                                Color.fromRGBO(0, 0, 0, 0.05),
+                                            blurRadius: 20,
+                                            offset: Offset(0, 0))
+                                      ]),
+                                  // width: 300,
+                                  // height: 400,
+                                  margin: EdgeInsets.symmetric(vertical: 20),
+                                  child: Center(
+                                    child: Text(
+                                      'Responsive Container',
+                                      style: TextStyle(color: Colors.white),
                                     ),
                                   ),
                                 ),
-                                if (index == images.length - 1)
-                                  IconButton(
-                                      onPressed: () {
-                                        Get.to(() => MyAppNavigator(),
-                                            transition: Transition.fadeIn,
-                                            duration:
-                                                Duration(milliseconds: 500));
-                                        splash.checkPage.value = true;
-                                        // splash.savePage;
-                                        splash.update;
-                                        // splash.updateDataBase();
-                                        print(splash.checkPage.value);
-                                      },
-                                      icon: Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(40),
-                                            color:
-                                                Color.fromRGBO(0, 150, 136, 1)),
-                                        width: 130,
-                                        height: 31,
-                                        child: Row(
+                              ),
+                              Positioned(
+                                top: -25,
+                                child: IntrinsicWidth(
+                                  stepHeight: 50,
+                                  child: Container(
+                                    child: SvgPicture.asset(
+                                      "svg_images/${images[index]}",
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 170, left: 25, right: 25),
+                                child: Column(
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.center,
+                                      child: Container(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
                                           children: [
-                                            Text(
-                                              "شروع استفاده",
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.white,
-                                                fontFamily: "YekanBakh",
+                                            Align(
+                                              alignment:
+                                                  Alignment.centerRight,
+                                              child: Directionality(
+                                                textDirection:
+                                                    TextDirection.rtl,
+                                                child: Text(
+                                                  titles[index],
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontFamily: "YekanBakh",
+                                                    fontWeight:
+                                                        FontWeight.w900,
+                                                    color: Color.fromRGBO(
+                                                        0, 150, 136, 1),
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 4,
+                                              height: 10,
                                             ),
-                                            Icon(
-                                              Icons.arrow_forward,
-                                              color: Colors.white,
-                                              size: 16,
-                                            )
+                                            Container(
+                                              child: Directionality(
+                                                textDirection:
+                                                    TextDirection.rtl,
+                                                child: RichText(
+                                                  textAlign:
+                                                      TextAlign.justify,
+                                                  text: TextSpan(
+                                                    text: descriptions[index],
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontFamily: "YekanBakh",
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Color.fromRGBO(
+                                                          111, 111, 111, 1),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
                                           ],
                                         ),
-                                      )),
-                              ],
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 60),
-                child: Container(
-                  height: 9,
-                  child: AnimatedSmoothIndicator(
-                    activeIndex: myCurrentIndex,
-                    count: images.length,
-                    effect: ExpandingDotsEffect(
-                      dotHeight: 5,
-                      dotWidth: 5,
+                                      ),
+                                    ),
+                                    if (index == images.length - 1)
+                                      IconButton(
+                                          onPressed: () {
+                                            Get.to(() => MyAppNavigator(),
+                                                transition: Transition.fadeIn,
+                                                duration: Duration(
+                                                    milliseconds: 500));
+                                            splash.checkPage.value = true;
+                                            // splash.savePage;
+                                            splash.update;
+                                            // splash.updateDataBase();
+                                            print(splash.checkPage.value);
+                                          },
+                                          icon: Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(40),
+                                                color: Color.fromRGBO(
+                                                    0, 150, 136, 1)),
+                                            width: 130,
+                                            height: 31,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  "شروع استفاده",
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: Colors.white,
+                                                    fontFamily: "YekanBakh",
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 4,
+                                                ),
+                                                Icon(
+                                                  Icons.arrow_forward,
+                                                  color: Colors.white,
+                                                  size: 16,
+                                                )
+                                              ],
+                                            ),
+                                          )),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
                     ),
-                    curve: Curves.easeInBack,
                   ),
                 ),
-              ),
-            ],
+                Padding(
+                  padding: const EdgeInsets.only(top: 60),
+                  child: Container(
+                    height: 9,
+                    child: AnimatedSmoothIndicator(
+                      activeIndex: myCurrentIndex,
+                      count: images.length,
+                      effect: ExpandingDotsEffect(
+                        activeDotColor: Color.fromRGBO(0, 150, 136, 1),
+                        dotHeight: 5,
+                        dotWidth: 5,
+                      ),
+                      curve: Curves.easeInBack,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

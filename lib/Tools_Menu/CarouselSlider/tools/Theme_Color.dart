@@ -160,25 +160,22 @@ class ThemeData_1 {
             borderRadius: BorderRadius.circular(25.0),
           )),
       sliderTheme: SliderThemeData(
-        thumbShape: RoundSliderThumbShape(
-          enabledThumbRadius: 6.0,
-          disabledThumbRadius: 6.0,
-        ),
-
-        trackHeight: 6,
-        minThumbSeparation: 4,
-        activeTrackColor: LightModeColors.sliderThumb,
-        // thumbC0.3olor: LightModeColors.sliderThumb,
-        overlayColor: LightModeColors.sliderThumb,
-        // inactiveTickMarkColor: DarkModeColors.sliderThumb,
-        // inactiveTrackColor: LightModeColors.sliderThumb
-      ),
+          thumbShape: RoundSliderThumbShape(
+            enabledThumbRadius: 6.0,
+          ),
+          trackHeight: 6,
+          minThumbSeparation: 4,
+          activeTrackColor: LightModeColors.sliderThumb,
+          thumbColor: LightModeColors.sliderThumb,
+          overlayColor: LightModeColors.sliderThumb,
+          // inactiveTickMarkColor: DarkModeColors.sliderThumb,
+          inactiveTrackColor: LightModeColors.sliderThumb),
       unselectedWidgetColor: LightModeColors.unselectedColorIndicator,
       listTileTheme: ListTileThemeData(
           textColor: LightModeColors.textColormiddle,
           shape: RoundedRectangleBorder(
-            side: BorderSide(width: 0.7, color: LightModeColors.borderColor),
-          )),
+              // side: BorderSide(width: 0.7, color: LightModeColors.borderColor),
+              )),
       iconTheme: IconThemeData(color: LightModeColors.buttonColor),
       iconButtonTheme: IconButtonThemeData(
           style: ButtonStyle(

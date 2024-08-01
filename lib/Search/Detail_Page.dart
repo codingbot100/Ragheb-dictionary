@@ -109,6 +109,7 @@ class _DetailPageState extends State<DetailPage> {
         // Remove the item if found
         if (itemToRemove != null) {
           db.favorite.remove(itemToRemove);
+          // widget.onRemove(name, descriprion, footnote);
           updateImage('icons/Disable (1).png'); // Update image immediately
         }
       }

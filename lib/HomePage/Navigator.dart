@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ragheb_dictionary/Search/DataBase/todo_favorite.dart';
 import 'package:ragheb_dictionary/Search/FavoritePage%20.dart';
 import 'package:ragheb_dictionary/WebLog/WebLog.dart';
 import 'package:ragheb_dictionary/HomePage/HomePage.dart';
@@ -23,9 +24,12 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
   final ShowClass = Get.put(show());
   int perviouseIndex = 0;
   final thememanger = Get.put(ThemeManager());
+  ToDo_favorite toDo_favorite = ToDo_favorite();
+
   @override
   void initState() {
     super.initState();
+    toDo_favorite.loadData();
     isShow = false;
     setState(() {
       ShowClass.isShow.value;
@@ -92,7 +96,8 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
     return Scaffold(
       body: AnimatedSwitcher(
         // switchInCurve: Curves.fastOutSlowIn,
-        duration: Duration(milliseconds: buildScreens[_currentIndex] == 0 ? 0 : 350),
+        duration:
+            Duration(milliseconds: buildScreens[_currentIndex] == 0 ? 0 : 350),
         child: buildScreens[_currentIndex],
         transitionBuilder: (child, animation) {
           return FadeTransition(opacity: animation, child: child);
@@ -117,10 +122,12 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
                 //       ],
                 ),
             child: BottomAppBar(
-              // coloColor.fromRGBO(224, 224, 224, 0.678)24),
-              // notchMargin: 7,
+              // colo:Color.fromRGBO(224, 224, 224, 0.678),
+              notchMargin: 7,
               height: 65,
-              // shape: CircularNotchedRectangle(),
+              shape: toDo_favorite.favorite.isEmpty
+                  ? CircularNotchedRectangle()
+                  : null,
               color: Theme.of(context).bottomAppBarTheme.color,
               child: Directionality(
                 textDirection: TextDirection.rtl,
@@ -130,66 +137,52 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 3),
-                      child: AnimatedContainer(
-                        duration: Duration(milliseconds: 0),
-                        curve: Curves.bounceInOut,
-                        width: 40,
-                        height: 40,
-                        child: IconButton(
-                          icon: SvgPicture.asset(
-                            _currentIndex == 0
-                                ? 'svg_images/clicked_home.svg'
-                                : 'svg_images/click_home.svg',
-                            width: 45,
-                            height: 40,
-                          ),
-                          onPressed: () => setState(() {
-                            perviouseIndex = 0;
-
-                            _currentIndex = 0;
-                            print(_currentIndex);
-                          }),
-                        ),
-                      ),
-                    ),
-                    AnimatedContainer(
-                      duration: Duration(milliseconds: 0),
-                      curve: Curves.bounceInOut,
                       child: IconButton(
                         icon: SvgPicture.asset(
-                          _currentIndex == 1
-                              ? 'svg_images/Clicked_weblog.svg'
-                              : 'svg_images/Click_welog.svg',
+                          _currentIndex == 0
+                              ? 'svg_images/clicked_home.svg'
+                              : 'svg_images/click_home.svg',
                           width: 25,
                           height: 25,
                         ),
                         onPressed: () => setState(() {
-                          perviouseIndex = 1;
-                          _currentIndex = 1;
+                          perviouseIndex = 0;
+
+                          _currentIndex = 0;
                           print(_currentIndex);
                         }),
                       ),
                     ),
-                    AnimatedContainer(
-                      duration: Duration(milliseconds: 0),
-                      curve: Curves.bounceInOut,
-                      child: IconButton(
-                        icon: SvgPicture.asset(
-                          _currentIndex == 3
-                              ? 'svg_images/State=Enable.svg'
-                              : 'svg_images/State=Disable.svg',
-                          color: _currentIndex == 3
-                              ? Color.fromRGBO(0, 150, 136, 1)
-                              : Color.fromRGBO(111, 111, 111, 1),
-                          width: 27,
-                          height: 27,
-                        ),
-                        onPressed: () => setState(() {
-                          perviouseIndex = 3;
-                          _currentIndex = 3;
-                          print(_currentIndex);
-                        }),
+                    IconButton(
+                      icon: SvgPicture.asset(
+                        _currentIndex == 1
+                            ? 'svg_images/Clicked_weblog.svg'
+                            : 'svg_images/Click_welog.svg',
+                        width: 25,
+                        height: 25,
                       ),
+                      onPressed: () => setState(() {
+                        perviouseIndex = 1;
+                        _currentIndex = 1;
+                        print(_currentIndex);
+                      }),
+                    ),
+                    IconButton(
+                      icon: SvgPicture.asset(
+                        _currentIndex == 3
+                            ? 'svg_images/State=Enable.svg'
+                            : 'svg_images/State=Disable.svg',
+                        color: _currentIndex == 3
+                            ? Color.fromRGBO(0, 150, 136, 1)
+                            : Color.fromRGBO(111, 111, 111, 1),
+                        width: 27,
+                        height: 27,
+                      ),
+                      onPressed: () => setState(() {
+                        perviouseIndex = 3;
+                        _currentIndex = 3;
+                        print(_currentIndex);
+                      }),
                     ),
                     // _currentIndex == 2
                     //     ? IconButton(
@@ -199,37 +192,31 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
                     //         icon: Icon(Icons.arrow_forward))
                     //     :
                     _currentIndex == 2
-                        ? Container(
-                            child: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  _currentIndex = perviouseIndex;
-                                  print(_currentIndex);
-                                });
-                              },
-                              icon: Image.asset(
-                                'icons/back.png',
-                                scale: 4.5,
-                              ),
+                        ? IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _currentIndex = perviouseIndex;
+                                print(_currentIndex);
+                              });
+                            },
+                            icon: Image.asset(
+                              'icons/back.png',
+                              scale: 4.5,
                             ),
                           )
-                        : AnimatedContainer(
-                            duration: Duration(milliseconds: 0),
-                            curve: Curves.bounceInOut,
-                            child: IconButton(
-                              icon: SvgPicture.asset(
-                                _currentIndex == 4
-                                    ? 'svg_images/clicked_setting.svg'
-                                    : 'svg_images/setting2.svg',
-                                width: 25,
-                                height: 25,
-                              ),
-                              onPressed: () => setState(() {
-                                perviouseIndex = 4;
-                                _currentIndex = 4;
-                                print(_currentIndex);
-                              }),
+                        : IconButton(
+                            icon: SvgPicture.asset(
+                              _currentIndex == 4
+                                  ? 'svg_images/clicked_setting.svg'
+                                  : 'svg_images/setting2.svg',
+                              width: 25,
+                              height: 25,
                             ),
+                            onPressed: () => setState(() {
+                              perviouseIndex = 4;
+                              _currentIndex = 4;
+                              print(_currentIndex);
+                            }),
                           ),
                   ],
                 ),
@@ -237,24 +224,25 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
             ),
             // ),
           )),
-      // floatingActionButton: Visibility(
-      //   visible: !ShowFab,
-      //   child: ClipOval(
-      //     child: FloatingActionButton(
-      //       foregroundColor: Colors.transparent,
-      //       onPressed: () => setState(() => _currentIndex = 2),
-      //       tooltip: 'Search',
-      //       child: Icon(
-      //         Icons.search,
-      //         color: Colors.white,
-      //       ),
-      //       elevation: 2.0,
-      //       backgroundColor: Color(0xFF009688),
-      //     ),
-      //   ),
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
+      floatingActionButton: Visibility(
+        visible: !ShowFab && toDo_favorite.favorite.isEmpty,
+        child: ClipOval(
+          child: FloatingActionButton(
+            foregroundColor: Colors.transparent,
+            onPressed: () => setState(() => _currentIndex = 2),
+            tooltip: 'Search',
+            child: SvgPicture.asset(
+              "svg_images/search_button.svg",
+              height: 30,
+              color: Colors.white,
+            ),
+            elevation: 2.0,
+            backgroundColor: Color(0xFF009688),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
     );
   }
 }

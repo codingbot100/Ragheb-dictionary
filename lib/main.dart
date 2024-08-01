@@ -13,7 +13,7 @@ import 'package:ragheb_dictionary/WelcomScreen.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeData.dart';
 
-  main() async {
+main() async {
   await Hive.initFlutter();
   WidgetsFlutterBinding.ensureInitialized();
   var box = await Hive.openBox('mybox');
@@ -29,32 +29,45 @@ class SplashScreen_Animated extends StatelessWidget {
   final splash = Get.put(splashclass());
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
     return AnimatedSplashScreen(
-      splash: Column(
-        // mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            'svg_images/Main Logo.svg',
-            
-              colorFilter: ColorFilter.mode(
-            Colors.white, 
-            BlendMode.srcIn,
-          ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 30),
-            child: Text(
-              'فرهنگ لغت راغب ',
-              style: TextStyle(
-                  fontSize: 24,
-                  fontFamily: "YekanBakh",
-                  fontWeight: FontWeight.w900,
-                  color: Colors.white),
+      splash: SingleChildScrollView(
+        child: Column(
+          // mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: double.infinity,
+              height: height * 0.73,
+              child: Image.asset(
+                "svg_images/s_image.png",
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.only(top: 45),
+              child: SvgPicture.asset(
+                'svg_images/Main Logo.svg',
+                colorFilter: ColorFilter.mode(
+                  Color.fromRGBO(0, 150, 136, 1),
+                  BlendMode.srcIn,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 15),
+              child: Text(
+                'فرهنگ لغت راغب ',
+                style: TextStyle(
+                    fontSize: 24,
+                    fontFamily: "YekanBakh",
+                    fontWeight: FontWeight.w900,
+                    color: Color.fromRGBO(0, 150, 136, 1)),
+              ),
+            ),
+          ],
+        ),
       ),
-      nextScreen:Obx(() {
+      nextScreen: Obx(() {
         if (!splash.checkPage.value) {
           splash.setWelcomeScreenShown();
           return WelcomScreen();
@@ -62,9 +75,9 @@ class SplashScreen_Animated extends StatelessWidget {
           return MyAppNavigator();
         }
       }),
-      backgroundColor: Color.fromRGBO(0, 150, 136, 1),
-      splashIconSize: 300,
-      duration: 500,
+      backgroundColor: Color.fromRGBO(245, 245, 220, 1),
+      splashIconSize: double.infinity,
+      duration: 250,
       splashTransition: SplashTransition.fadeTransition,
       pageTransitionType: PageTransitionType.fade,
       animationDuration: Duration(seconds: 1),

@@ -44,7 +44,7 @@ class _PanelState extends State<Panel> {
             icon: SvgPicture.asset(
               "svg_images/search_new.svg",
               colorFilter: ColorFilter.mode(
-                Color.fromRGBO(111, 111, 111, 1),
+                Color.fromRGBO(0, 150, 136, 1),
                 BlendMode.srcIn,
               ),
             ),

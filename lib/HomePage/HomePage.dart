@@ -82,7 +82,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                     },
                     icon: themeManager.themebo.value
                         ? Icon(Icons.sunny,
-                            color: Color.fromRGBO(245, 245, 220, 1))
+                            color: Color.fromRGBO(0, 150, 136, 1))
                         : SvgPicture.asset(
                             "svg_images/moon.svg",
                           ),
@@ -137,7 +137,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                                 borderRadius:
                                                     BorderRadius.circular(50)),
                                             // width: 50,
-                                            height: 43,
+                                            height: 47,
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.end,
@@ -148,16 +148,18 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                                       fontFamily: "YekanBakh",
                                                       color: Color.fromRGBO(
                                                           0, 150, 136, 1),
-                                                      fontSize: 15,
+                                                      fontSize: 18,
                                                       fontWeight:
-                                                          FontWeight.w400),
+                                                          FontWeight.w600),
                                                 ),
                                                 Padding(
                                                   padding:
                                                       const EdgeInsets.only(
                                                           left: 10, right: 10),
                                                   child: SvgPicture.asset(
-                                                      "svg_images/search_button.svg"),
+                                                    "svg_images/search_button.svg",
+                                                    height: 25,
+                                                  ),
                                                 )
                                               ],
                                             )),
@@ -182,12 +184,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                       },
                                     ),
                                   ),
-                                  Visibility(
-                                      visible: Recent_db.RecentSearch.isEmpty
-                                          ? false
-                                          : true,
-                                      child: TextRow(
-                                          2, "< مرور همه ", 'جستجو های اخیر')),
+                                  TextRow(2, "< مرور همه ", 'جستجو های اخیر'),
                                   RecentPageHomePage()
                                 ],
                               ),

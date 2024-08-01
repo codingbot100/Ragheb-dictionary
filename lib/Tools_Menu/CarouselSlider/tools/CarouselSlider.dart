@@ -95,7 +95,7 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
             width: MediaQuery.of(context).size.width,
             child: CarouselSlider(
               items: List.generate(
-                14,
+                5,
                 (index) => _buildImageContainer(
                   index,
                   screenWidth * 50,
@@ -111,7 +111,7 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
                 animateToClosest: true,
                 viewportFraction: 1.0,
                 enlargeFactor: BorderSide.strokeAlignOutside,
-                autoPlay: false,
+                autoPlay: true,
                 enlargeCenterPage: true,
                 aspectRatio: 20 / 8
                 //screenheight * 110,
@@ -131,7 +131,7 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
             height: 9,
             child: AnimatedSmoothIndicator(
               activeIndex: myCurrentIndex,
-              count: myItems.length,
+              count: 5,
               effect: ExpandingDotsEffect(
                   dotHeight: 5,
                   dotWidth: 10,

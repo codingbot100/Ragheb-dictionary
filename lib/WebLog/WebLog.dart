@@ -169,6 +169,10 @@ class _WebLogState extends State<WebLog> {
                                       stepHeight: 1,
                                       child: Container(
                                         child: Text(
+                                          softWrap: true,
+                                          overflow: TextOverflow
+                                              .ellipsis, // This will hide the overflow text with ellipsis
+                                          maxLines: 2,
                                           textAlign: TextAlign.right,
                                           row[1].toString(),
                                           style: TextStyle(
@@ -210,7 +214,7 @@ class _WebLogState extends State<WebLog> {
                                                   : Color.fromRGBO(
                                                       111, 111, 111, 1)),
                                         ),
-                                        textAlign: TextAlign.justify,
+                                        textAlign: TextAlign.right,
                                       ),
                                     ),
                                   ),
