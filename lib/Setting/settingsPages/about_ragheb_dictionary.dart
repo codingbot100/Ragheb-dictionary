@@ -34,7 +34,10 @@ class _about_ragheb_dictionaryState extends State<about_ragheb_dictionary> {
                     onPressed: () {
                       Get.back();
                     },
-                    icon: Icon(Icons.arrow_back),
+                    icon: Icon(
+                      Icons.arrow_back,
+                      color: Color.fromRGBO(243, 243, 243, 1),
+                    ),
                     color: Color.fromRGBO(0, 150, 136, 1),
                   ),
                   Text(
@@ -62,7 +65,7 @@ class _about_ragheb_dictionaryState extends State<about_ragheb_dictionary> {
                       'ترجمه لغات و اصطلاحات راغب',
                       style: TextStyle(
                         fontFamily: fontFamile2,
-                        fontSize: 16,
+                        fontSize: 18,
                         fontWeight: FontWeight.w900,
                         color: themeManager.themebo.value
                             ? Color.fromRGBO(255, 255, 255, 1)
@@ -89,9 +92,9 @@ class _about_ragheb_dictionaryState extends State<about_ragheb_dictionary> {
                               " . ",
                           style: TextStyle(
                             fontFamily: fontFamile2,
-                            fontSize: 14,
+                            fontSize: 16,
                             letterSpacing: 1.5,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w900,
                             color: !themeManager.themebo.value
                                 ? Color.fromRGBO(82, 82, 82, 1)
                                 : Color.fromRGBO(204, 204, 204, 1),
@@ -111,9 +114,9 @@ class _about_ragheb_dictionaryState extends State<about_ragheb_dictionary> {
                               "تیم توسعه‌ دهنده HadidTech همواره در تلاش است تا با به‌روزرسانی‌های منظم و افزودن ویژگی‌های جدید، تجربه‌ی کاربری بهتری را برای کاربران فراهم آورد.",
                           style: TextStyle(
                             fontFamily: fontFamile2,
-                            fontSize: 14,
+                            fontSize: 16,
                             letterSpacing: 1.5,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w900,
                             color: !themeManager.themebo.value
                                 ? Color.fromRGBO(82, 82, 82, 1)
                                 : Color.fromRGBO(204, 204, 204, 1),

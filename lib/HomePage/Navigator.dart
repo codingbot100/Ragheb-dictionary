@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ragheb_dictionary/Search/DataBase/recent_Search.dart';
 import 'package:ragheb_dictionary/Search/DataBase/todo_favorite.dart';
 import 'package:ragheb_dictionary/Search/FavoritePage%20.dart';
 import 'package:ragheb_dictionary/WebLog/WebLog.dart';
@@ -25,10 +26,11 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
   int perviouseIndex = 0;
   final thememanger = Get.put(ThemeManager());
   ToDo_favorite toDo_favorite = ToDo_favorite();
-
+  ToDoRecent toDo_recent = ToDoRecent();
   @override
   void initState() {
     super.initState();
+    toDo_recent.loadData();
     toDo_favorite.loadData();
     isShow = false;
     setState(() {
@@ -125,7 +127,8 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
               // colo:Color.fromRGBO(224, 224, 224, 0.678),
               notchMargin: 7,
               height: 65,
-              shape: toDo_favorite.favorite.isEmpty
+              shape: toDo_favorite.favorite.isEmpty &&
+                      toDo_recent.RecentSearch.isEmpty
                   ? CircularNotchedRectangle()
                   : null,
               color: Theme.of(context).bottomAppBarTheme.color,
@@ -224,25 +227,27 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
             ),
             // ),
           )),
-      floatingActionButton: Visibility(
-        visible: !ShowFab && toDo_favorite.favorite.isEmpty,
-        child: ClipOval(
-          child: FloatingActionButton(
-            foregroundColor: Colors.transparent,
-            onPressed: () => setState(() => _currentIndex = 2),
-            tooltip: 'Search',
-            child: SvgPicture.asset(
-              "svg_images/search_button.svg",
-              height: 30,
-              color: Colors.white,
-            ),
-            elevation: 2.0,
-            backgroundColor: Color(0xFF009688),
-          ),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
+      // floatingActionButton: Visibility(
+      //   visible: !ShowFab &&
+      //       toDo_favorite.favorite.isEmpty &&
+      //       toDo_recent.RecentSearch.isEmpty,
+      //   child: ClipOval(
+      //     child: FloatingActionButton(
+      //       foregroundColor: Colors.transparent,
+      //       onPressed: () => setState(() => _currentIndex = 2),
+      //       tooltip: 'Search',
+      //       child: SvgPicture.asset(
+      //         "svg_images/search_button.svg",
+      //         height: 30,
+      //         color: Colors.white,
+      //       ),
+      //       elevation: 2.0,
+      //       backgroundColor: Color(0xFF009688),
+      //     ),
+      //   ),
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
     );
   }
 }

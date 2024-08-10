@@ -35,7 +35,7 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
     "web_images/13.jpg",
     "web_images/12.jpg",
     "web_images/14.jpg",
-    "web_images/15.jpg",
+    "web_images/14.jpg",
   ];
   final myItems = [
     "1.jpg",
@@ -52,7 +52,7 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
     "13.jpg",
     "12.jpg",
     "14.jpg",
-    "15.jpg",
+    "14.jpg",
   ];
   int myCurrentIndex = 0;
   @override

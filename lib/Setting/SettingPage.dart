@@ -70,7 +70,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
   //   });
   // }
 
-  List lable_slider = ["ریز", "کمی بزرگ", "معمولی", "خیلی بزرگ ", "بزرگ"];
+  List lable_slider = ["ریز", "ریز", "معمولی", "بزرگ ", "بزرگ"];
   @override
   void updatePrices(double added, int removed) {
     int extra = added ~/ 5 * 2;
@@ -231,8 +231,10 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                         ),
                                         child: Slider(
                                             value: db.name,
-                                            min: 20,
-                                            max: 60,
+                                            // min: screenWidth * 0.07,
+                                            // max: screenWidth * 0.12,
+                                            min: 28,
+                                            max: 48,
                                             divisions: 2,
                                             label: lable_slider[
                                                 calculateIndex(db.name)],
@@ -241,6 +243,17 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                                 db.name = value;
                                                 db.updateDataTypes();
                                                 db.updateDataBase();
+                                                // if (value == 20) {
+
+                                                // } else if (value == 40) {
+                                                //   db.name = 30;
+                                                //   db.updateDataTypes();
+                                                //   db.updateDataBase();
+                                                // } else if (value == 60) {
+                                                //   db.name = 35;
+                                                //   db.updateDataTypes();
+                                                //   db.updateDataBase();
+                                                // }
                                               });
                                             }),
                                       ),

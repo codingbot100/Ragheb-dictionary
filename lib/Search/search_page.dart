@@ -43,9 +43,10 @@ class _SearchPageState extends State<SearchPage> {
   TimeOfDay currentTime = TimeOfDay.now();
   // final _meBox2 = Hive.box('mybox2');
 
- Future<void> loadData() async {
+  Future<void> loadData() async {
     try {
-      String data = await rootBundle.loadString('assets/Raqib Database - Sheet1 (2).csv');
+      String data =
+          await rootBundle.loadString('assets/Raqib Database - Sheet1 (2).csv');
       List<List<dynamic>> csvTable = CsvToListConverter().convert(data);
 
       List<Map<String, String>> newDataList = [];
@@ -71,6 +72,7 @@ class _SearchPageState extends State<SearchPage> {
       print("Error loading CSV data: $e");
     }
   }
+
   void ClearAll() {}
   void _performSearch(String searchText) {
     if (searchText.isNotEmpty) {
@@ -252,7 +254,7 @@ class _SearchPageState extends State<SearchPage> {
                                     icon: Icon(
                                       Icons.clear,
                                       size: 15,
-                                      color: Theme.of(context).iconTheme.color,
+                                      color: Color.fromRGBO(0, 150, 136, 1),
                                     ),
                                   ),
                                 ),

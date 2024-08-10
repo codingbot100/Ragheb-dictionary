@@ -199,8 +199,8 @@ class _RecentpageMainState extends State<RecentpageMain> {
               },
               itemCount: filteredList.length > 3 ? 3 : filteredList.length,
               itemBuilder: (context, index) {
-                int realIndex = filteredList.length > 8
-                    ? filteredList.length - 8 + index
+                int realIndex = filteredList.length > 3
+                    ? filteredList.length - 3 + index
                     : index;
                 final item = filteredList[realIndex];
                 return Directionality(

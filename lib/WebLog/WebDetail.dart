@@ -126,7 +126,7 @@ class _Web_Log_DetailState extends State<Web_Log_Detail> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        height: 250,
+                        height: 430,
                         child: Stack(
                           children: <Widget>[
                             // Background image
@@ -207,6 +207,9 @@ class _Web_Log_DetailState extends State<Web_Log_Detail> {
                                       icon: Image.asset(
                                         "icons/Union (1).png",
                                         scale: 1.5,
+                                        color: !themeManager.themebo.value
+                                            ? Color.fromRGBO(82, 82, 82, 1)
+                                            : Color.fromRGBO(153, 153, 153, 1),
                                       ),
                                     ),
                                     Row(
@@ -219,10 +222,10 @@ class _Web_Log_DetailState extends State<Web_Log_Detail> {
                                           child: Text(
                                             "اشتراک گذاری",
                                             style: TextStyle(
-                                              fontSize: 16,
+                                              fontSize: 14,
                                               fontFamily:
                                                   DB_fontFamily.FontFamily,
-                                              fontWeight: FontWeight.w900,
+                                              fontWeight: FontWeight.w500,
                                             ),
                                           ),
                                         ),
@@ -237,6 +240,11 @@ class _Web_Log_DetailState extends State<Web_Log_Detail> {
                                             icon: Image.asset(
                                               "icons/Vector (5).png",
                                               scale: 1.5,
+                                              color: !themeManager.themebo.value
+                                                  ? Color.fromRGBO(
+                                                      82, 82, 82, 1)
+                                                  : Color.fromRGBO(
+                                                      153, 153, 153, 1),
                                             ))
                                       ],
                                     ),

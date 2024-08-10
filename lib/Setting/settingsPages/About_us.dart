@@ -33,8 +33,11 @@ class _about_UsState extends State<about_Us> {
                     onPressed: () {
                       Get.back();
                     },
-                    icon: Icon(Icons.arrow_back),
-                    color: Color.fromRGBO(0, 150, 136, 1),
+                    icon: Icon(
+                      Icons.arrow_back,
+                      color: Color.fromRGBO(243, 243, 243, 1),
+                    ),
+                    color: Color.fromRGBO(243, 243, 243, 1),
                   ),
                   Text(
                     "درباره ما",
@@ -61,7 +64,7 @@ class _about_UsState extends State<about_Us> {
                       "گروه برنامه نویسان حدید",
                       style: TextStyle(
                         fontFamily: fontFamile2,
-                        fontSize: 16,
+                        fontSize: 18,
                         fontWeight: FontWeight.w900,
                         color: themeManager.themebo.value
                             ? Color.fromRGBO(255, 255, 255, 1)
@@ -80,9 +83,9 @@ class _about_UsState extends State<about_Us> {
                               "شرکت Hadid Tech یک تیم توسعه‌دهنده متعهد و متخصص در حوزه فناوری اطلاعات و ارتباطات است. این تیم از ترکیبی از متخصصان با تجربه در زمینه‌های مختلف فناوری تشکیل شده است که با هم به ایجاد و توسعه نرم‌افزارها و راه‌حل‌های نوآورانه می‌پردازند.",
                           style: TextStyle(
                             fontFamily: fontFamile2,
-                            fontSize: 14,
+                            fontSize: 16,
                             letterSpacing: 1.5,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w900,
                             color: !themeManager.themebo.value
                                 ? Color.fromRGBO(82, 82, 82, 1)
                                 : Color.fromRGBO(204, 204, 204, 1),
@@ -102,9 +105,9 @@ class _about_UsState extends State<about_Us> {
                               "تیم Hadid Tech با تمرکز بر کیفیت، دقت و نوآوری، توانسته است پروژه‌های متعددی را با موفقیت به انجام برساند. اعضای این تیم از دانش و مهارت‌های به‌روز برخوردار هستند و همواره در تلاشند تا با استفاده از تکنولوژی‌های پیشرفته و متدولوژی‌های مدرن، بهترین خدمات را به مشتریان خود ارائه دهند.",
                           style: TextStyle(
                             fontFamily: fontFamile2,
-                            fontSize: 14,
+                            fontSize: 16,
                             letterSpacing: 1.5,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w900,
                             color: !themeManager.themebo.value
                                 ? Color.fromRGBO(82, 82, 82, 1)
                                 : Color.fromRGBO(204, 204, 204, 1),
@@ -124,9 +127,9 @@ class _about_UsState extends State<about_Us> {
                               "ماموریت Hadid Tech، فراهم کردن راه‌حل‌های فناوری اطلاعات است که به بهبود کارایی و بهره‌وری کسب‌وکارها کمک کند. این تیم با ارتباط موثر و همکاری نزدیک با مشتریان خود، نیازها و اهداف آنها را به خوبی درک کرده و راه‌حل‌های سفارشی و مناسب برای هر کسب‌وکار را ارائه می‌دهد.",
                           style: TextStyle(
                             fontFamily: fontFamile2,
-                            fontSize: 14,
+                            fontSize: 16,
                             letterSpacing: 1.5,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w900,
                             color: !themeManager.themebo.value
                                 ? Color.fromRGBO(82, 82, 82, 1)
                                 : Color.fromRGBO(204, 204, 204, 1),

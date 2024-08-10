@@ -26,6 +26,18 @@ class _secondRowState extends State<secondRow> {
           Container(
             // height: 36,
             child: TextButton(
+              style: ButtonStyle(
+                foregroundColor: WidgetStateProperty.all<Color>(
+                  Color.fromRGBO(0, 150, 136, 1),
+                ),
+                textStyle: WidgetStateProperty.all<TextStyle>(
+                  TextStyle(
+                    fontFamily: 'YekanBakh',
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
               onPressed: () {
                 setState(() {
                   showDialog(
@@ -38,21 +50,14 @@ class _secondRowState extends State<secondRow> {
                   );
                 });
               },
-              child: Text("پاک کردن همه",
-                  style: TextStyle(
-                    fontFamily: 'YekanBakh',
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: !themeManager.themebo.value
-                        ? Color.fromRGBO(0, 150, 136, 0.5)
-                        : Color.fromRGBO(153, 150, 153, 1),
-                  )),
+              child: Text("پاک کردن همه"),
             ),
           ),
           // SizedBox(width: 10),
           Expanded(
             child: Divider(
               thickness: 0.5,
+              color: Color.fromRGBO(0, 150, 136, 1),
             ),
           ),
           SizedBox(width: 12),
@@ -61,6 +66,7 @@ class _secondRowState extends State<secondRow> {
                 fontFamily: 'YekanBakh',
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
+                color: Color.fromRGBO(0, 150, 136, 1),
               ))
         ],
       ),

@@ -8,6 +8,7 @@ import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
 import 'package:ragheb_dictionary/Search/DataBase/todo_favorite.dart';
 import 'package:ragheb_dictionary/Search/components/BottomNavBar.dart';
+import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
 import 'package:share_plus/share_plus.dart';
 
 // ignore: must_be_immutable
@@ -42,7 +43,7 @@ class _DetailPageState extends State<DetailPage> {
   late String image;
   var _currentPageIndex = 0;
   ToDoDataBaseFont DB_fontFamily = ToDoDataBaseFont();
-
+  final ThemeManager _themeManager = Get.find();
   bool isFavorite = false;
   String currentDateAndTime = DateTime.now().toString();
   final _meBox = Hive.box('mybox');
@@ -190,6 +191,38 @@ class _DetailPageState extends State<DetailPage> {
     Share.share(message);
   }
 
+  String addNewLines(String text, int linesPerParagraph) {
+    // Split the text by spaces to handle each word or punctuation
+    List<String> words = text.split(' ');
+    StringBuffer buffer = StringBuffer();
+    int wordCount = 0;
+    int lineCount = 0;
+
+    for (int i = 0; i < words.length; i++) {
+      // Append the current word or punctuation to the buffer
+      buffer.write(words[i] + ' ');
+      wordCount++;
+
+      // Track lines based on approximate word count
+      if (wordCount % 8 == 0) {
+        lineCount++;
+      }
+
+      // Check if a new line is needed
+      if (lineCount >= linesPerParagraph &&
+          (words[i].endsWith('.') ||
+              words[i].endsWith('؟') ||
+              words[i].endsWith('!'))) {
+        buffer.write('\n'); // Add a new line
+        lineCount = 0; // Reset line counter
+        wordCount = 0; // Reset word counter
+      }
+    }
+
+    // Return the formatted text with trimmed whitespace
+    return buffer.toString().trim();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -274,23 +307,35 @@ class _DetailPageState extends State<DetailPage> {
                         children: [
                           Container(
                             width: double.infinity,
-                            child: RichText(
-                                textDirection: TextDirection.rtl,
-                                textAlign: TextAlign.justify,
-                                text: TextSpan(
-                                  text: widget.dataList[index]['description']!,
-                                  style: TextStyle(
-                                    fontFamily: DB_fontFamily.FontFamily,
-                                    fontSize: FontSize_db.Descrption,
-                                    letterSpacing: 0.3,
-                                    fontWeight: FontWeight.w600,
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .displayLarge
-                                        ?.color,
-                                    //     ?.color, // Use color from iconTheme
+                            child: Builder(
+                              builder: (context) {
+                                TextStyle style = TextStyle(
+                                  fontFamily: DB_fontFamily.FontFamily,
+                                  fontSize: FontSize_db.Descrption,
+                                  letterSpacing: 0.5,
+                                  fontWeight: FontWeight.w600,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .displayLarge
+                                      ?.color,
+                                );
+
+                                // Adjust the `linesPerParagraph` parameter as needed
+                                String processedText = addNewLines(
+                                  widget.dataList[index]['description']!,
+                                  4, // Add a new line after approximately 4 lines of text
+                                );
+
+                                return RichText(
+                                  textDirection: TextDirection.rtl,
+                                  textAlign: TextAlign.justify,
+                                  text: TextSpan(
+                                    text: processedText,
+                                    style: style,
                                   ),
-                                )),
+                                );
+                              },
+                            ),
                           ),
                           SizedBox(height: 16),
                           Padding(
@@ -314,23 +359,28 @@ class _DetailPageState extends State<DetailPage> {
                                       children: [
                                         Expanded(
                                           child: RichText(
-                                              textDirection: TextDirection.rtl,
-                                              textAlign: TextAlign.justify,
-                                              text: TextSpan(
-                                                text: widget.dataList[
+                                            textDirection: TextDirection.rtl,
+                                            textAlign: TextAlign.justify,
+                                            text: TextSpan(
+                                              text: addNewLines(
+                                                widget.dataList[
                                                         _currentPageIndex]
                                                     ['footnote']!,
-                                                style: TextStyle(
-                                                  fontFamily:
-                                                      DB_fontFamily.FontFamily,
-                                                  fontSize: FontSize_db.FootNot,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyMedium
-                                                      ?.color, // Use color from i
-                                                ),
-                                              )),
+                                                4, // Insert a new line after approximately 4 lines or at punctuation
+                                              ),
+                                              style: TextStyle(
+                                                fontFamily:
+                                                    DB_fontFamily.FontFamily,
+                                                fontSize: FontSize_db.FootNot,
+                                                fontWeight: FontWeight.w500,
+                                                letterSpacing: 0.6,
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium
+                                                    ?.color,
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -362,6 +412,9 @@ class _DetailPageState extends State<DetailPage> {
                                     icon: Image.asset(
                                       "icons/Union (1).png",
                                       scale: 1.5,
+                                      color: !_themeManager.themebo.value
+                                          ? Color.fromRGBO(82, 82, 82, 1)
+                                          : Color.fromRGBO(153, 153, 153, 1),
                                     ),
                                   ),
                                 ),
@@ -374,9 +427,9 @@ class _DetailPageState extends State<DetailPage> {
                                       child: Text(
                                         "اشتراک گذاری",
                                         style: TextStyle(
-                                          fontSize: 14,
+                                          fontSize: 13,
                                           fontFamily: DB_fontFamily.FontFamily,
-                                          fontWeight: FontWeight.w900,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                     ),
@@ -391,6 +444,10 @@ class _DetailPageState extends State<DetailPage> {
                                         icon: Image.asset(
                                           "icons/Vector (5).png",
                                           scale: 1.5,
+                                          color: !_themeManager.themebo.value
+                                              ? Color.fromRGBO(82, 82, 82, 1)
+                                              : Color.fromRGBO(
+                                                  153, 153, 153, 1),
                                         ))
                                   ],
                                 ),

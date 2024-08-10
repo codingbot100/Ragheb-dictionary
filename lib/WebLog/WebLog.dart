@@ -117,109 +117,127 @@ class _WebLogState extends State<WebLog> {
                               duration: Duration(milliseconds: 350),
                             );
                           },
-                          child: Container(
-                            height: 350,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12.0),
-                              border: Border.all(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .primaryContainer,
-                                width: 1,
+                          child: IntrinsicWidth(
+                            stepHeight: 1,
+                            child: Container(
+                              // height: 500,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12.0),
+                                border: Border.all(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .primaryContainer,
+                                  width: 1,
+                                ),
+                                color: Theme.of(context).colorScheme.surface,
+                                boxShadow: thememanger.themebo.value != true
+                                    ? [
+                                        BoxShadow(
+                                          spreadRadius: 0,
+                                          color: Theme.of(context).shadowColor,
+                                          offset: Offset(2, 2),
+                                          blurRadius: 8,
+                                        )
+                                      ]
+                                    : [],
                               ),
-                              color: Theme.of(context).colorScheme.surface,
-                              boxShadow: thememanger.themebo.value != true
-                                  ? [
-                                      BoxShadow(
-                                        spreadRadius: 0,
-                                        color: Theme.of(context).shadowColor,
-                                        offset: Offset(2, 2),
-                                        blurRadius: 8,
-                                      )
-                                    ]
-                                  : [],
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Container(
-                                  width: double
-                                      .infinity, // Ensure the container takes the full width
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  // Container(
+                                  //   width: double
+                                  //       .infinity, // Ensure the container takes the full width
 
-                                  height: 195,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(12),
-                                      topRight: Radius.circular(12),
-                                    ),
-                                    child: Image.asset(
-                                      "web_images/${imageList[index % imageList.length]}",
-                                      fit: BoxFit.fitWidth,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    top: isTablet ? 17 : 14,
-                                    right: isTablet ? 17 : 14,
-                                  ),
-                                  child: Directionality(
-                                    textDirection: TextDirection.rtl,
-                                    child: IntrinsicWidth(
-                                      stepHeight: 1,
-                                      child: Container(
-                                        child: Text(
-                                          softWrap: true,
-                                          overflow: TextOverflow
-                                              .ellipsis, // This will hide the overflow text with ellipsis
-                                          maxLines: 2,
-                                          textAlign: TextAlign.right,
-                                          row[1].toString(),
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 22,
-                                              fontFamily: dbFont.FontFamily,
-                                              color: !thememanger.themebo.value
-                                                  ? Color.fromRGBO(
-                                                      0, 150, 136, 1)
-                                                  : Colors.white),
+                                  //   height: 300,
+                                  //   child: ClipRRect(
+                                  //     borderRadius: BorderRadius.only(
+                                  //       topLeft: Radius.circular(12),
+                                  //       topRight: Radius.circular(12),
+                                  //     ),
+                                  //     child: Image.asset(
+                                  //       "web_images/${imageList[index % imageList.length]}",
+                                  //       fit: BoxFit.fitWidth,
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                  Column(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                            bottom: 20,
+                                            top: 15,
+                                            right: isTablet ? 17 : 14,
+                                          ),
+                                          child: Directionality(
+                                            textDirection: TextDirection.rtl,
+                                            child: IntrinsicWidth(
+                                              stepHeight: 1,
+                                              child: Container(
+                                                child: Text(
+                                                  softWrap: true,
+                                                  overflow: TextOverflow
+                                                      .ellipsis, // This will hide the overflow text with ellipsis
+                                                  maxLines: 2,
+                                                  textAlign: TextAlign.right,
+                                                  row[1].toString(),
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w800,
+                                                      fontSize: 23,
+                                                      fontFamily:
+                                                          dbFont.FontFamily,
+                                                      color: !thememanger
+                                                              .themebo.value
+                                                          ? Color.fromRGBO(
+                                                              82, 82, 82, 1)
+                                                          : Colors.white),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      top: isTablet ? 17 : 5,
-                                      right: isTablet ? 17 : 14,
-                                      left: 14),
-                                  child: Directionality(
-                                    textDirection: TextDirection.rtl,
-                                    child: Container(
-                                      // height: 76,
-                                      child: RichText(
-                                        softWrap: true,
-                                        overflow: TextOverflow
-                                            .ellipsis, // This will hide the overflow text with ellipsis
-                                        maxLines: 3,
-                                        text: TextSpan(
-                                          text: row[0].toString(),
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 14,
-                                              fontFamily: dbFont.FontFamily,
-                                              color: thememanger.themebo.value
-                                                  ? Color.fromRGBO(
-                                                      204, 204, 204, 1)
-                                                  : Color.fromRGBO(
-                                                      111, 111, 111, 1)),
-                                        ),
-                                        textAlign: TextAlign.right,
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              ],
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              top: isTablet ? 10 : 5,
+                                              right: isTablet ? 17 : 14,
+                                              bottom: 20,
+                                              left: 14),
+                                          child: Directionality(
+                                            textDirection: TextDirection.rtl,
+                                            child: Container(
+                                              // height: 76,
+                                              child: RichText(
+                                                softWrap: true,
+                                                overflow: TextOverflow
+                                                    .ellipsis, // This will hide the overflow text with ellipsis
+                                                maxLines: 4,
+                                                text: TextSpan(
+                                                  text: row[0].toString(),
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      fontSize: 11,
+                                                      fontFamily:
+                                                          dbFont.FontFamily,
+                                                      color: thememanger
+                                                              .themebo.value
+                                                          ? Color.fromRGBO(
+                                                              204, 204, 204, 1)
+                                                          : Color.fromRGBO(111,
+                                                              111, 111, 1)),
+                                                ),
+                                                textAlign: TextAlign.right,
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ])
+                                ],
+                              ),
                             ),
                           ),
                         ),

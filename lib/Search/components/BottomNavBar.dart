@@ -22,7 +22,7 @@ class _CustomeNavBarState extends State<CustomeNavBar> {
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
         clipBehavior: Clip.antiAlias,
-        height: 70,
+        height: 65,
         // color: Theme.of(context).bottomAppBarColor,
         shape: CircularNotchedRectangle(),
         child: Row(

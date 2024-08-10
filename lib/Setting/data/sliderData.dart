@@ -9,7 +9,7 @@ class ToDo_FontController {
   late double RecentSearch;
   late double title_Web;
   late double title_Web_Main;
-  
+
   late double main_contant;
   final _meBox = Hive.box('mybox');
 
@@ -38,6 +38,7 @@ class ToDo_FontController {
     title_Web = 30 + scalingFactor * 70;
     main_contant = 17 + scalingFactor * 50;
     title_Web_Main = 18 + scalingFactor * 50;
+    print(name);
   }
 
   void loadData() {
