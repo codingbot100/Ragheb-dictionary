@@ -98,8 +98,7 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
     return Scaffold(
       body: AnimatedSwitcher(
         // switchInCurve: Curves.fastOutSlowIn,
-        duration:
-            Duration(milliseconds: buildScreens[_currentIndex] == 0 ? 0 : 350),
+        duration: Duration(milliseconds: 200),
         child: buildScreens[_currentIndex],
         transitionBuilder: (child, animation) {
           return FadeTransition(opacity: animation, child: child);

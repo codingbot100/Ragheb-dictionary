@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -54,9 +52,11 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
     "14.jpg",
     "14.jpg",
   ];
-  int myCurrentIndex = 0;
+  late int myCurrentIndex;
   @override
   void initState() {
+    myCurrentIndex = 0;
+
     super.initState();
     loadCsvData();
   }
@@ -74,7 +74,14 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenheight = MediaQuery.of(context).size.height;
+    if (csvData.isEmpty || myCurrentIndex >= csvData.length) {
+      return Center(
+        child:
+            CircularProgressIndicator(), // Show a loading indicator or a fallback UI
+      );
+    }
 
+    final row = csvData[myCurrentIndex];
     return Column(
       children: [
         GestureDetector(
@@ -97,13 +104,13 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
               items: List.generate(
                 5,
                 (index) => _buildImageContainer(
-                  index,
-                  screenWidth * 50,
-                  screenheight * 20,
-                  csvData.isNotEmpty
-                      ? csvData[myCurrentIndex % csvData.length][1].toString()
-                      : '',
-                ),
+                    index,
+                    screenWidth,
+                    screenheight * 20,
+                    csvData.isNotEmpty
+                        ? csvData[myCurrentIndex % csvData.length][1].toString()
+                        : '',
+                    row[0]),
               ),
               options: CarouselOptions(
                 autoPlayInterval: Duration(seconds: 5),
@@ -125,22 +132,19 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 10),
-          child: Container(
-            height: 9,
-            child: AnimatedSmoothIndicator(
-              activeIndex: myCurrentIndex,
-              count: 5,
-              effect: ExpandingDotsEffect(
-                  dotHeight: 5,
-                  dotWidth: 10,
-                  activeDotColor: Color.fromRGBO(0, 150, 137, 1),
-                  dotColor: themeManger.themebo.value
-                      ? Color.fromRGBO(82, 82, 82, 1)
-                      : Colors.white),
-              curve: Curves.easeInBack,
-            ),
+        Container(
+          height: 9,
+          child: AnimatedSmoothIndicator(
+            activeIndex: myCurrentIndex,
+            count: 5,
+            effect: ExpandingDotsEffect(
+                dotHeight: 5,
+                dotWidth: 10,
+                activeDotColor: Color.fromRGBO(0, 150, 137, 1),
+                dotColor: themeManger.themebo.value
+                    ? Color.fromRGBO(82, 82, 82, 1)
+                    : Colors.white),
+            curve: Curves.easeInBack,
           ),
         ),
       ],
@@ -148,61 +152,70 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
   }
 
   Widget _buildImageContainer(
-      int index, double width, double height, String title) {
+      int index, double width, double height, String title, desciption) {
     return Center(
       child: Container(
         height: height,
-        width: width,
-        child: Stack(
+        width: double.infinity,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             // The background image
             Container(
+              width: width * 0.60,
+              height: 96,
+              padding: EdgeInsets.only(left: 8, right: 8, top: 12, bottom: 12),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                image: DecorationImage(
-                  image: AssetImage(myItems1[index]),
-                  fit: BoxFit.cover,
+                color: Color.fromRGBO(224, 224, 191, 1),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(8),
+                    bottomLeft: Radius.circular(8)),
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      textDirection: TextDirection.rtl,
+                      softWrap: true,
+                      title,
+                      style: TextStyle(
+                          color: Color.fromRGBO(0, 150, 136, 1),
+                          fontFamily: "YekanBakh",
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 6),
+                      child: Text(
+                        textDirection: TextDirection.rtl,
+                        softWrap: true,
+                        overflow: TextOverflow
+                            .ellipsis, // This will hide the overflow text with ellipsis
+                        maxLines: 2,
+                        desciption,
+                        style: TextStyle(
+                            color: Color.fromRGBO(102, 102, 102, 1),
+                            fontFamily: "YekanBakh",
+                            fontSize: 11,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
-            // The filtered row taking the full width
-            Positioned(
-              // left: 0,
-              // right: 0,
-              // bottom: 0,
-              child: ClipRRect(
+            Container(
+              width: 120,
+              height: 96,
+              decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(8),
-                  topRight: Radius.circular(8),
-                ),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-                  child: Container(
-                    width: double.infinity,
-                    color: Colors.black.withOpacity(0.2),
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
-                    child: Wrap(
-                      textDirection: TextDirection.rtl,
-                      crossAxisAlignment: WrapCrossAlignment.start,
-                      alignment: WrapAlignment.start,
-                      // mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 10, left: 10),
-                          child: Text(
-                            textDirection: TextDirection.rtl,
-                            softWrap: true,
-                            title,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: "YekanBakh",
-                                fontSize: 18,
-                                fontWeight: FontWeight.w400),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                    topRight: Radius.circular(8),
+                    bottomRight: Radius.circular(8)),
+                image: DecorationImage(
+                  image: AssetImage(myItems1[index]),
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
@@ -212,3 +225,69 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
     );
   }
 }
+
+
+// Widget _buildImageContainer(
+//       int index, double width, double height, String title) {
+//     return Center(
+//       child: Container(
+//         height: height,
+//         width: width,
+//         child: Stack(
+//           children: [
+//             // The background image
+//             Container(
+//               decoration: BoxDecoration(
+//                 borderRadius: BorderRadius.circular(8),
+//                 image: DecorationImage(
+//                   image: AssetImage(myItems1[index]),
+//                   fit: BoxFit.cover,
+//                 ),
+//               ),
+//             ),
+//             // The filtered row taking the full width
+//             Positioned(
+//               // left: 0,
+//               // right: 0,
+//               // bottom: 0,
+//               child: ClipRRect(
+//                 borderRadius: BorderRadius.only(
+//                   topLeft: Radius.circular(8),
+//                   topRight: Radius.circular(8),
+//                 ),
+//                 child: BackdropFilter(
+//                   filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+//                   child: Container(
+//                     width: double.infinity,
+//                     color: Colors.black.withOpacity(0.2),
+//                     padding: EdgeInsets.symmetric(vertical: 8.0),
+//                     child: Wrap(
+//                       textDirection: TextDirection.rtl,
+//                       crossAxisAlignment: WrapCrossAlignment.start,
+//                       alignment: WrapAlignment.start,
+//                       // mainAxisAlignment: MainAxisAlignment.end,
+//                       children: [
+//                         Padding(
+//                           padding: const EdgeInsets.only(right: 10, left: 10),
+//                           child: Text(
+//                             textDirection: TextDirection.rtl,
+//                             softWrap: true,
+//                             title,
+//                             style: TextStyle(
+//                                 color: Colors.white,
+//                                 fontFamily: "YekanBakh",
+//                                 fontSize: 18,
+//                                 fontWeight: FontWeight.w400),
+//                           ),
+//                         ),
+//                       ],
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }

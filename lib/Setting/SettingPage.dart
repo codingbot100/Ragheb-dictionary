@@ -298,7 +298,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                               ? Color.fromRGBO(82, 82, 82, 1)
                                               : Color.fromRGBO(
                                                   153, 153, 153, 1),
-                                          fontFamily: "YekanBakh",
+                                          fontFamily: Db_Font.FontFamily,
                                         ),
                                       ),
                                     )

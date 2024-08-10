@@ -217,7 +217,7 @@ class _SearchPageState extends State<SearchPage> {
                                   : false,
                               controller: _searchController,
                               cursorColor: Color.fromRGBO(0, 150, 136, 0.5),
-                              cursorHeight: 14,
+                              cursorHeight: 17,
                               autocorrect: false,
                               enableSuggestions: false,
                               cursorOpacityAnimates: true,
@@ -262,7 +262,7 @@ class _SearchPageState extends State<SearchPage> {
                                     EdgeInsets.only(top: 10.0, right: 10.0),
                                 hintText: "  ...جستجو کنید ",
                                 hintStyle: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: 17,
                                     fontFamily: dbFont.FontFamily),
                                 border: OutlineInputBorder(
                                   borderRadius:
@@ -438,21 +438,19 @@ class _SearchPageState extends State<SearchPage> {
                                     initialPageIndex: dataList.indexOf(item),
                                     showFavorite: true,
                                   ),
-                                  transition: Transition.fadeIn,
-                                  duration: Duration(milliseconds: 600),
+                                  transition: Transition.fade,
+                                  duration: Duration(milliseconds: 200),
                                 );
 
-                                setState(() {
-                                  showFouse = false;
-                                  _searchFocus.unfocus();
-                                  _searchController.clear();
+                                Timer(Duration(seconds: 1), () {
+                                  addToRecentData(item["name"]!,
+                                      item['description']!, item['footnote']!);
+                                  setState(() {
+                                    showFouse = false;
+                                    _searchFocus.unfocus();
+                                    _searchController.clear();
+                                  });
                                 });
-                                Timer(
-                                    Duration(milliseconds: 100),
-                                    () => addToRecentData(
-                                        item["name"]!,
-                                        item['description']!,
-                                        item['footnote']!));
                               },
                             ),
                           ),

@@ -76,6 +76,8 @@ class _WebLogState extends State<WebLog> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     final isTablet = screenWidth > 600;
 
     return Scaffold(
@@ -145,22 +147,22 @@ class _WebLogState extends State<WebLog> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  // Container(
-                                  //   width: double
-                                  //       .infinity, // Ensure the container takes the full width
+                                  Container(
+                                    width: double
+                                        .infinity, // Ensure the container takes the full width
 
-                                  //   height: 300,
-                                  //   child: ClipRRect(
-                                  //     borderRadius: BorderRadius.only(
-                                  //       topLeft: Radius.circular(12),
-                                  //       topRight: Radius.circular(12),
-                                  //     ),
-                                  //     child: Image.asset(
-                                  //       "web_images/${imageList[index % imageList.length]}",
-                                  //       fit: BoxFit.fitWidth,
-                                  //     ),
-                                  //   ),
-                                  // ),
+                                    height: height * 0.33,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(12),
+                                        topRight: Radius.circular(12),
+                                      ),
+                                      child: Image.asset(
+                                        "web_images/${imageList[index % imageList.length]}",
+                                        fit: BoxFit.fitWidth,
+                                      ),
+                                    ),
+                                  ),
                                   Column(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       crossAxisAlignment:

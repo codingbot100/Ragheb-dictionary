@@ -107,6 +107,7 @@ class _Web_Log_DetailState extends State<Web_Log_Detail> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SafeArea(
         child: PageView.builder(
@@ -126,7 +127,7 @@ class _Web_Log_DetailState extends State<Web_Log_Detail> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        height: 430,
+                        height: height * 0.42,
                         child: Stack(
                           children: <Widget>[
                             // Background image
