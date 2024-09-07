@@ -15,6 +15,7 @@ import 'package:ragheb_dictionary/Search/DataBase/recent_Search.dart';
 class Home extends StatefulWidget {
   final void Function(int) onPageChange;
   final void Function(int) SearchPage;
+
   const Home({
     Key? key,
     required this.onPageChange,
@@ -30,7 +31,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   final ThemeManager themeManager = Get.find();
   ToDoDataBaseFont Db_Font = ToDoDataBaseFont();
   ToDoRecent Recent_db = ToDoRecent();
-
   ToDo_favorite toDo_favorite = ToDo_favorite();
   final _meBox = Hive.box('mybox');
   final myItems = [
@@ -47,6 +47,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   final colorBackground = Color(0xFFF5F5DC);
   var colortitle;
   ToDoRecent toDoRecent = ToDoRecent();
+
   @override
   void initState() {
     toDoRecent.loadData();
@@ -63,6 +64,20 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
+    // Adjust font size based on screen width
+    double adjustedFontSizeTitle = fontSizeTitle;
+    double adjustedFontSizeSubTitle = fontSizeSubTitle;
+    if (width < 300) {
+      adjustedFontSizeTitle = fontSizeTitle * 0.8;
+      adjustedFontSizeSubTitle = fontSizeSubTitle * 0.8;
+    } else if (width > 600) {
+      adjustedFontSizeTitle = fontSizeTitle * 1.2;
+      adjustedFontSizeSubTitle = fontSizeSubTitle * 1.2;
+    }
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -91,7 +106,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                     'فرهنگ لغت راغب',
                     style: TextStyle(
                       color: Color.fromRGBO(0, 153, 136, 1),
-                      fontSize: fontSizeTitle,
+                      fontSize: adjustedFontSizeTitle,
                       fontFamily: Db_Font.FontFamily,
                       fontWeight: FontWeight.w900,
                     ),
@@ -107,71 +122,77 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(top: 10.0),
-                        child: TextRow(1, "< مرور همه ", 'مقالات وبلاگ'),
+                        child: TextRow(
+                            1,
+                            "< مرور همه ",
+                            'مقالات وبلاگ',
+                            fontFamile: fontFamile,
+                            fontSizeSubTitle: adjustedFontSizeSubTitle,
+                            colorPrimary: colorPrimary,
+                            onPageChange: widget.onPageChange,
+                            width),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: CarouselSlider1(),
-                      ),
-                      // toDoRecent.RecentSearch.isEmpty &&
-                      //         toDo_favorite.favorite.isEmpty
-                      //     ? Container(height: 320, width: 300, child: No_Rep())
-                      //     :
+                      CarouselSlider1(),
                       SingleChildScrollView(
                         child: Column(
                           children: [
                             Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 70, bottom: 200),
+                              padding: EdgeInsets.only(
+                                  top: 70, bottom: height * 0.18),
                               child: Container(
                                 child: GestureDetector(
                                   onTap: () {
                                     widget.SearchPage(2);
                                   },
                                   child: Container(
-                                      alignment: Alignment.centerRight,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                            width: 2,
-                                            color: Color.fromRGBO(
-                                                0, 150, 136, 0.5),
+                                    alignment: Alignment.centerRight,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        width: 2,
+                                        color: Color.fromRGBO(0, 150, 136, 0.5),
+                                      ),
+                                      borderRadius: BorderRadius.circular(50),
+                                    ),
+                                    height: 47,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          "جستجو در واژه گان قرآنکریم",
+                                          style: TextStyle(
+                                            fontFamily: "YekanBakh",
+                                            color:
+                                                Color.fromRGBO(0, 150, 136, 1),
+                                            fontSize: adjustedFontSizeTitle,
+                                            fontWeight: FontWeight.w600,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(50)),
-                                      // width: 50,
-                                      height: 47,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            "جستجو در واژه گان قرآنکریم",
-                                            style: TextStyle(
-                                                fontFamily: "YekanBakh",
-                                                color: Color.fromRGBO(
-                                                    0, 150, 136, 1),
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w600),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10, right: 10),
+                                          child: SvgPicture.asset(
+                                            "svg_images/search_button.svg",
+                                            height: 25,
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 10, right: 10),
-                                            child: SvgPicture.asset(
-                                              "svg_images/search_button.svg",
-                                              height: 25,
-                                            ),
-                                          )
-                                        ],
-                                      )),
+                                        )
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
                             Visibility(
-                                visible: toDo_favorite.favorite.isEmpty
-                                    ? false
-                                    : true,
-                                child:
-                                    TextRow(3, "< مرور همه ", 'ذخیره شده ها ')),
+                              visible: toDo_favorite.favorite.isNotEmpty,
+                              child: TextRow(
+                                  3,
+                                  "< مرور همه ",
+                                  'ذخیره شده ها',
+                                  fontFamile: fontFamile,
+                                  fontSizeSubTitle: adjustedFontSizeSubTitle,
+                                  colorPrimary: colorPrimary,
+                                  onPageChange: widget.onPageChange,
+                                  width),
+                            ),
                             Container(
                               height: (toDo_favorite.favorite.length <= 3)
                                   ? toDo_favorite.favorite.length * 60
@@ -185,11 +206,17 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                               ),
                             ),
                             Visibility(
-                                visible: toDoRecent.RecentSearch.isEmpty
-                                    ? false
-                                    : true,
-                                child: TextRow(
-                                    2, "< مرور همه ", 'جستجو های اخیر')),
+                              visible: toDoRecent.RecentSearch.isNotEmpty,
+                              child: TextRow(
+                                  2,
+                                  "< مرور همه ",
+                                  'جستجو های اخیر',
+                                  fontFamile: fontFamile,
+                                  fontSizeSubTitle: adjustedFontSizeSubTitle,
+                                  colorPrimary: colorPrimary,
+                                  onPageChange: widget.onPageChange,
+                                  width),
+                            ),
                             RecentPageHomePage(),
                           ],
                         ),
@@ -205,7 +232,12 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     );
   }
 
-  Widget TextRow(int _currentpage, String FirstTitel, secondtitle) {
+  Widget TextRow(
+      int currentPage, String firstTitle, String secondTitle, double width,
+      {required String fontFamile,
+      required double fontSizeSubTitle,
+      required Color colorPrimary,
+      required Function(int) onPageChange}) {
     return Container(
       height: 50,
       child: Row(
@@ -213,24 +245,21 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         children: [
           GestureDetector(
             onTap: () {
-              widget.onPageChange(_currentpage);
+              onPageChange(currentPage);
             },
             child: Container(
-              width: 50,
               height: 30,
               child: Text(
-                FirstTitel,
+                firstTitle,
                 style: TextStyle(
                   fontFamily: fontFamile,
                   fontSize: fontSizeSubTitle,
-                  // color: colorPrimary,
+                  color: colorPrimary,
                 ),
               ),
             ),
           ),
-          SizedBox(
-            width: 8,
-          ),
+          SizedBox(width: 8),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(bottom: 14),
@@ -241,17 +270,15 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               ),
             ),
           ),
-          SizedBox(
-            width: 12,
-          ),
+          SizedBox(width: 12),
           Container(
             height: 30,
             child: Text(
-              secondtitle,
+              secondTitle,
               style: TextStyle(
                 fontFamily: fontFamile,
                 fontSize: fontSizeSubTitle,
-                // color: colorPrimary,
+                color: colorPrimary,
               ),
             ),
           ),

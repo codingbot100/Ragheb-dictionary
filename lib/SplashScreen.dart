@@ -60,8 +60,9 @@ import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:ragheb_dictionary/HomePage/Navigator.dart';
 import 'package:ragheb_dictionary/Search/DataBase/splashData.dart';
+import 'package:ragheb_dictionary/Setting/welcome_screen/Phone_screen.dart';
+import 'package:ragheb_dictionary/Setting/welcome_screen/Tablet_Screen.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
-import 'package:ragheb_dictionary/WelcomScreen.dart';
 
 class SplashScreen_Animated extends StatefulWidget {
   SplashScreen_Animated({super.key});
@@ -82,7 +83,10 @@ class _SplashScreen_AnimatedState extends State<SplashScreen_Animated> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
 
+    // Define breakpoints for different device types
+    bool isTablet = screenWidth > 600; // Example breakpoint for tablets
     return SafeArea(
       child: AnimatedSplashScreen(
         splash: SingleChildScrollView(
@@ -99,9 +103,10 @@ class _SplashScreen_AnimatedState extends State<SplashScreen_Animated> {
               ),
               Padding(
                 padding:
-                    EdgeInsets.only(top: height * 0.05), // Proportional padding
+                    EdgeInsets.only(top: height * 0.03), // Proportional padding
                 child: SvgPicture.asset(
                   'svg_images/Main Logo.svg',
+                  height: height * 0.09,
                   colorFilter: ColorFilter.mode(
                     Color.fromRGBO(0, 150, 136, 1),
                     BlendMode.srcIn,
@@ -114,7 +119,7 @@ class _SplashScreen_AnimatedState extends State<SplashScreen_Animated> {
                 child: Text(
                   'فرهنگ لغت راغب ',
                   style: TextStyle(
-                    fontSize: 24,
+                    fontSize: isTablet ? 40 : 24,
                     fontFamily: "YekanBakh",
                     fontWeight: FontWeight.w900,
                     color: Color.fromRGBO(0, 150, 136, 1),
@@ -126,13 +131,18 @@ class _SplashScreen_AnimatedState extends State<SplashScreen_Animated> {
           ),
         ),
         nextScreen: Obx(() {
+          // Check if the device is a tablet based on screen width
+          bool isTablet = MediaQuery.of(context).size.shortestSide >= 600;
+
           if (!splash.checkPage.value) {
             splash.setWelcomeScreenShown();
-            return WelcomScreen();
+            // Show the appropriate screen based on the device type
+            return isTablet ? TabletWelcomScreen() : PhoneWelcomeScreen();
           } else {
             return MyAppNavigator();
           }
         }),
+
         backgroundColor: themeManager.themebo.value
             ? Color.fromRGBO(33, 33, 33, 1)
             : Color.fromRGBO(245, 245, 220, 1),

@@ -51,6 +51,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   animated_splash_screen: ^1.3.0
   page_transition: ^2.1.0
+  animations: ^2.0.11
 
   
 

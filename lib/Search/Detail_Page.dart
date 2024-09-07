@@ -282,7 +282,9 @@ class _DetailPageState extends State<DetailPage> {
                                       },
                                       child: Image.asset(
                                         'icons/Enable (1).png',
-                                        color: Color.fromRGBO(153, 153, 153, 1),
+                                        color: isFavorite
+                                            ? Color.fromRGBO(0, 150, 136, 1)
+                                            : Color.fromRGBO(111, 111, 111, 1),
                                         scale: 2.5,
                                       ))
                                   : SizedBox(),
@@ -300,7 +302,7 @@ class _DetailPageState extends State<DetailPage> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 20),
+                    // SizedBox(height: 10),
                     Expanded(
                         child: SingleChildScrollView(
                       child: Column(

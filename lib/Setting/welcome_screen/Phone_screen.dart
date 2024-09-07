@@ -6,14 +6,14 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 void main() {
-  runApp(WelcomScreen());
+  runApp(PhoneWelcomeScreen());
 }
 
-class WelcomScreen extends StatefulWidget {
-  const WelcomScreen({Key? key});
+class PhoneWelcomeScreen extends StatefulWidget {
+  const PhoneWelcomeScreen({Key? key});
 
   @override
-  _WelcomScreenState createState() => _WelcomScreenState();
+  _PhoneWelcomeScreenState createState() => _PhoneWelcomeScreenState();
 }
 
 List<String> titles = [
@@ -33,7 +33,7 @@ List<String> images = [
 ];
 int myCurrentIndex = 0;
 
-class _WelcomScreenState extends State<WelcomScreen> {
+class _PhoneWelcomeScreenState extends State<PhoneWelcomeScreen> {
   PageController _controller = PageController();
   final splash = Get.put(splashclass());
   splashclass splashData = splashclass();

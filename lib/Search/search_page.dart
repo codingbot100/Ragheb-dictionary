@@ -159,11 +159,21 @@ class _SearchPageState extends State<SearchPage> {
 
   List<Map<String, String>> filterDataList() {
     List<Map<String, String>> filteredList = [];
+
+    // Filter items based on whether they are in RecentSearch
     for (var item in dataList) {
       if (RecentData.RecentSearch.contains(item["name"])) {
         filteredList.add(item);
       }
     }
+
+    // Sort filteredList based on the order of items in RecentSearch
+    filteredList.sort((a, b) {
+      int indexA = RecentData.RecentSearch.indexOf(a["name"]);
+      int indexB = RecentData.RecentSearch.indexOf(b["name"]);
+      return indexA.compareTo(indexB);
+    });
+
     return filteredList;
   }
 
@@ -187,16 +197,16 @@ class _SearchPageState extends State<SearchPage> {
                           right: ScreenWidth > 600 ? 30 : 15),
                       child: MouseRegion(
                         onEnter: (event) {
-                          //   setState(() {
-                          //     Get.find<show>().isShow.value = true;
-                          //     print(ShowClass.isShow.value);
-                          //   });
-                          // },
-                          // onExit: (event) {
-                          //   setState(() {
-                          //     Get.find<show>().isShow.value = false;
-                          //     print(ShowClass.isShow.value);
-                          //   });
+                          setState(() {
+                            Get.find<show>().isShow.value = true;
+                            print(ShowClass.isShow.value);
+                          });
+                        },
+                        onExit: (event) {
+                          setState(() {
+                            Get.find<show>().isShow.value = false;
+                            print(ShowClass.isShow.value);
+                          });
                         },
                         child: Container(
                           height: 45,
@@ -338,8 +348,15 @@ class _SearchPageState extends State<SearchPage> {
                                 leading: IconButton(
                                     onPressed: () {
                                       setState(() {
-                                        RecentData.RecentSearch.removeAt(index);
+                                        RecentData.RecentSearch.removeAt(
+                                            realIndex);
                                         RecentData.updateDataBase();
+                                        // print(RecentData.RecentSearch);
+                                        // // print(filteredList1);
+                                        // // print(filteredList1[realIndex]);
+                                        // print(index);
+
+                                        // print(realIndex);
                                       });
                                     },
                                     icon: Icon(
@@ -365,7 +382,7 @@ class _SearchPageState extends State<SearchPage> {
                                           (name, descriprion, footnote) {},
                                       page: "mainpage",
                                       name: item['name']!,
-                                      description: item['description']!,
+                                      description: item['name']!,
                                       footnote: item['footnote']!,
                                       dataList: filteredList1,
                                       initialPageIndex:
@@ -375,6 +392,7 @@ class _SearchPageState extends State<SearchPage> {
                                     transition: Transition.fadeIn,
                                     duration: Duration(milliseconds: 500),
                                   );
+                                  print(item['footnote']);
                                   setState(() {
                                     _searchFocus.unfocus();
                                     _searchController.clear();

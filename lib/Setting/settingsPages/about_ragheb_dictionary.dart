@@ -36,7 +36,7 @@ class _about_ragheb_dictionaryState extends State<about_ragheb_dictionary> {
                     },
                     icon: Icon(
                       Icons.arrow_back,
-                      color: Color.fromRGBO(243, 243, 243, 1),
+                      color: themeManager.themebo.value?Color.fromRGBO(243, 243, 243, 1):Color.fromRGBO(0, 150, 136, 1),
                     ),
                     color: Color.fromRGBO(0, 150, 136, 1),
                   ),

@@ -35,7 +35,7 @@ class _about_UsState extends State<about_Us> {
                     },
                     icon: Icon(
                       Icons.arrow_back,
-                      color: Color.fromRGBO(243, 243, 243, 1),
+                      color: themeManager.themebo.value?Color.fromRGBO(243, 243, 243, 1):Color.fromRGBO(0, 150, 136, 1),
                     ),
                     color: Color.fromRGBO(243, 243, 243, 1),
                   ),

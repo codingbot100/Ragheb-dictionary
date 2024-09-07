@@ -113,14 +113,14 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
                     row[0]),
               ),
               options: CarouselOptions(
-                autoPlayInterval: Duration(seconds: 5),
+                autoPlayInterval: Duration(seconds: 4),
                 autoPlayCurve: Curves.linear,
                 animateToClosest: true,
                 viewportFraction: 1.0,
                 enlargeFactor: BorderSide.strokeAlignOutside,
                 autoPlay: true,
                 enlargeCenterPage: true,
-                aspectRatio: 20 / 8
+                aspectRatio: 20 / 7
                 //screenheight * 110,
                 ,
                 onPageChanged: (index, reason) {
@@ -153,76 +153,85 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
 
   Widget _buildImageContainer(
       int index, double width, double height, String title, desciption) {
-    return Center(
-      child: Container(
-        height: height,
-        width: double.infinity,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            // The background image
-            Container(
-              width: width * 0.60,
-              height: 96,
-              padding: EdgeInsets.only(left: 8, right: 8, top: 12, bottom: 12),
-              decoration: BoxDecoration(
-                color: Color.fromRGBO(224, 224, 191, 1),
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(8),
-                    bottomLeft: Radius.circular(8)),
-              ),
-              child: SingleChildScrollView(
-                child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      textDirection: TextDirection.rtl,
-                      softWrap: true,
-                      title,
-                      style: TextStyle(
-                          color: Color.fromRGBO(0, 150, 136, 1),
-                          fontFamily: "YekanBakh",
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 6),
-                      child: Text(
+    return LayoutBuilder(builder: (context, constrans) {
+      double screenWidth = constrans.maxWidth;
+      double baseWidth = width;
+
+      double scaleFactor = screenWidth / baseWidth;
+      double heightScaleFactor = height / height;
+
+      return Center(
+        child: Container(
+          width: screenWidth * 1,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              // The background image
+              Container(
+                width: screenWidth * 0.68,
+                height: 96 * heightScaleFactor, // Adjusted height
+                padding:
+                    EdgeInsets.only(left: 8, right: 8, top: 12, bottom: 12),
+                decoration: BoxDecoration(
+                  color: Color.fromRGBO(224, 224, 191, 1),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8),
+                      bottomLeft: Radius.circular(8)),
+                ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
                         textDirection: TextDirection.rtl,
                         softWrap: true,
-                        overflow: TextOverflow
-                            .ellipsis, // This will hide the overflow text with ellipsis
-                        maxLines: 2,
-                        desciption,
+                        title,
                         style: TextStyle(
-                            color: Color.fromRGBO(102, 102, 102, 1),
+                            color: Color.fromRGBO(0, 150, 136, 1),
                             fontFamily: "YekanBakh",
-                            fontSize: 11,
-                            fontWeight: FontWeight.w400),
+                            fontSize: 12 * scaleFactor, // Adjusted font size
+                            fontWeight: FontWeight.w700),
                       ),
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.only(top: 6),
+                        child: Text(
+                          textDirection: TextDirection.rtl,
+                          softWrap: true,
+                          overflow: TextOverflow
+                              .ellipsis, // This will hide the overflow text with ellipsis
+                          maxLines: 2,
+
+                          desciption,
+                          style: TextStyle(
+                              color: Color.fromRGBO(102, 102, 102, 1),
+                              fontFamily: "YekanBakh",
+                              fontSize: 11 * scaleFactor, // Adjusted font size
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Container(
-              width: 120,
-              height: 96,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(8),
-                    bottomRight: Radius.circular(8)),
-                image: DecorationImage(
-                  image: AssetImage(myItems1[index]),
-                  fit: BoxFit.cover,
+              Container(
+                width: screenWidth * 0.3,
+                height: 96 * heightScaleFactor, // Adjusted height
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(8),
+                      bottomRight: Radius.circular(8)),
+                  image: DecorationImage(
+                    image: AssetImage(myItems1[index]),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
 

@@ -61,7 +61,6 @@ class _MyAppState extends State<MyApp> {
             ? themeData_1.CreateDarkTheme(dbfont.FontFamily)
             : themeData_1.CreateLightTheme(dbfont.FontFamily),
         home: Scaffold(
-          
           body: AnimatedSwitcher(
             duration:
                 Duration(milliseconds: 1000), // Adjust the duration as needed
