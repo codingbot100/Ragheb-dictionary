@@ -16,6 +16,10 @@ class _secondRowState extends State<secondRow> {
   ThemeManager themeManager = Get.find();
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    // Define breakpoints for different device types
+    bool isTablet = screenWidth > 600;
     return Padding(
       padding: const EdgeInsets.only(
         left: 6,
@@ -33,7 +37,7 @@ class _secondRowState extends State<secondRow> {
                 textStyle: WidgetStateProperty.all<TextStyle>(
                   TextStyle(
                     fontFamily: 'YekanBakh',
-                    fontSize: 12,
+                    fontSize: isTablet ? 20 : 12,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -64,7 +68,7 @@ class _secondRowState extends State<secondRow> {
           Text("جستجو های اخیر",
               style: TextStyle(
                 fontFamily: 'YekanBakh',
-                fontSize: 12,
+                fontSize: isTablet ? 20 : 12,
                 fontWeight: FontWeight.w500,
                 color: Color.fromRGBO(0, 150, 136, 1),
               ))

@@ -9,6 +9,7 @@ class ToDo_FontController {
   late double RecentSearch;
   late double title_Web;
   late double title_Web_Main;
+  late double testText;
 
   late double main_contant;
   final _meBox = Hive.box('mybox');
@@ -23,6 +24,7 @@ class ToDo_FontController {
     main_contant = 17;
     title_Web_Main = 18;
     titile_name = 30;
+    testText = 15;
   }
 
   void updateDataTypes() {
@@ -38,6 +40,7 @@ class ToDo_FontController {
     title_Web = 30 + scalingFactor * 70;
     main_contant = 17 + scalingFactor * 50;
     title_Web_Main = 18 + scalingFactor * 50;
+    testText = 15 + scalingFactor * 20;
     print(name);
   }
 
@@ -51,6 +54,7 @@ class ToDo_FontController {
     title_Web = _meBox.get("TODOTitleWeb") ?? 30;
     main_contant = _meBox.get("TODOMainContant") ?? 17;
     title_Web_Main = _meBox.get("TODOTitleWebMain") ?? 18;
+    testText = _meBox.get("TODOtestText") ?? 15;
   }
 
   void updateDataBase() {
@@ -63,5 +67,6 @@ class ToDo_FontController {
     _meBox.put('TODOTitleWeb', title_Web);
     _meBox.put('TODOMainContant', main_contant);
     _meBox.put('TODOTitleWebMain', title_Web_Main);
+    _meBox.put('TODOtestText', testText);
   }
 }

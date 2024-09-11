@@ -108,6 +108,8 @@ class _Web_Log_DetailState extends State<Web_Log_Detail> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+    bool isTablet = screenWidth > 600;
     return Scaffold(
       body: SafeArea(
         child: PageView.builder(
@@ -126,23 +128,30 @@ class _Web_Log_DetailState extends State<Web_Log_Detail> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        height: height * 0.42,
-                        child: Stack(
-                          children: <Widget>[
-                            // Background image
-                            Image.asset(
-                              "web_images/${widget.imageList[index % widget.imageList.length]}",
-                              width: double.infinity,
-                              height: double.infinity,
-                              fit: BoxFit.cover,
-                            ),
-                            // Text overlay
-                          ],
+                      Center(
+                        child: AnimatedContainer(
+                          duration: Duration(milliseconds: 300),
+                          height: height * 0.40,
+                          width:
+                              isTablet ? screenWidth * 0.85 : screenWidth * 1,
+                          child: Stack(
+                            children: <Widget>[
+                              // Background image
+                              Image.asset(
+                                "web_images/${widget.imageList[index % widget.imageList.length]}",
+                                width: double.infinity,
+                                height: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
+                              // Text overlay
+                            ],
+                          ),
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 15, right: 15),
+                        padding: EdgeInsets.only(
+                            left: isTablet ? 30 : 15,
+                            right: isTablet ? 30 : 15),
                         child: Column(
                           children: [
                             Padding(
@@ -207,7 +216,7 @@ class _Web_Log_DetailState extends State<Web_Log_Detail> {
                                       },
                                       icon: Image.asset(
                                         "icons/Union (1).png",
-                                        scale: 1.5,
+                                        scale: isTablet ? 1.2 : 1.5,
                                         color: !themeManager.themebo.value
                                             ? Color.fromRGBO(82, 82, 82, 1)
                                             : Color.fromRGBO(153, 153, 153, 1),
@@ -220,13 +229,17 @@ class _Web_Log_DetailState extends State<Web_Log_Detail> {
                                             shareText(rowData[1].toString(),
                                                 rowData[0].toString());
                                           },
-                                          child: Text(
-                                            "اشتراک گذاری",
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              fontFamily:
-                                                  DB_fontFamily.FontFamily,
-                                              fontWeight: FontWeight.w500,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 15.0),
+                                            child: Text(
+                                              "اشتراک گذاری",
+                                              style: TextStyle(
+                                                fontSize: isTablet ? 15 : 13,
+                                                fontFamily:
+                                                    DB_fontFamily.FontFamily,
+                                                fontWeight: FontWeight.w500,
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -240,7 +253,7 @@ class _Web_Log_DetailState extends State<Web_Log_Detail> {
                                             },
                                             icon: Image.asset(
                                               "icons/Vector (5).png",
-                                              scale: 1.5,
+                                              scale: isTablet ? 1.2 : 1.5,
                                               color: !themeManager.themebo.value
                                                   ? Color.fromRGBO(
                                                       82, 82, 82, 1)
@@ -265,7 +278,7 @@ class _Web_Log_DetailState extends State<Web_Log_Detail> {
         ),
       ),
       bottomNavigationBar: Container(
-        height: 70,
+        height: isTablet ? 110 : 87,
         child: CustomeNavBar(
           dataList: widget.csvData,
           pageController: _pageController,

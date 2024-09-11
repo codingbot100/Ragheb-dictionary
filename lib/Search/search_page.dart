@@ -177,48 +177,57 @@ class _SearchPageState extends State<SearchPage> {
     return filteredList;
   }
 
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+
   @override
   Widget build(BuildContext context) {
     final filteredList1 = filterDataList();
     double ScreenWidth = MediaQuery.of(context).size.width;
+
+    // Define breakpoints for different device types
+    bool isTablet = ScreenWidth > 600;
     return Scaffold(
       // backgroundColor: Color(0xFFF5F5DC),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(top: 25),
+          padding: EdgeInsets.only(
+              top: 25, left: isTablet ? 30 : 15, right: isTablet ? 30 : 15),
           child: Column(
             children: [
               Row(
                 children: [
                   Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          left: ScreenWidth > 600 ? 30 : 15,
-                          right: ScreenWidth > 600 ? 30 : 15),
-                      child: MouseRegion(
-                        onEnter: (event) {
+                    child: MouseRegion(
+                      onEnter: (event) {
+                        setState(() {
+                          Get.find<show>().isShow.value = true;
+                          print(ShowClass.isShow.value);
+                        });
+                      },
+                      onExit: (event) {
+                        setState(() {
+                          Get.find<show>().isShow.value = false;
+                          print(ShowClass.isShow.value);
+                        });
+                      },
+                      child: Focus(
+                        onFocusChange: (hasFocus) {
                           setState(() {
-                            Get.find<show>().isShow.value = true;
-                            print(ShowClass.isShow.value);
-                          });
-                        },
-                        onExit: (event) {
-                          setState(() {
-                            Get.find<show>().isShow.value = false;
-                            print(ShowClass.isShow.value);
+                            isShow = hasFocus;
+                            widget.isShow = hasFocus;
+                            ShowClass.isShow.value = !ShowClass.isShow.value;
                           });
                         },
                         child: Container(
-                          height: 45,
-                          child: Focus(
-                            onFocusChange: (hasFocus) {
-                              setState(() {
-                                isShow = hasFocus;
-                                widget.isShow = hasFocus;
-                                ShowClass.isShow.value =
-                                    !ShowClass.isShow.value;
-                              });
-                            },
+                          height: isTablet ? 65 : 45,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Color.fromRGBO(0, 150, 136, 1),
+                            ),
+                            borderRadius:
+                                BorderRadius.circular(isTablet ? 30 : 25),
+                          ),
+                          child: Center(
                             child: TextField(
                               // focusNode: _searchFocus,
                               // autofocus: showFouse,
@@ -236,7 +245,7 @@ class _SearchPageState extends State<SearchPage> {
                               textAlignVertical: TextAlignVertical.center,
                               style: TextStyle(
                                 fontFamily: dbFont.FontFamily,
-                                fontSize: 16,
+                                fontSize: isTablet ? 26 : 17,
                               ),
                               textAlign: TextAlign.right,
                               onChanged: (value) {
@@ -255,16 +264,19 @@ class _SearchPageState extends State<SearchPage> {
                                   visible: _searchController.text.isEmpty
                                       ? false
                                       : true,
-                                  child: IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        _searchController.clear();
-                                      });
-                                    },
-                                    icon: Icon(
-                                      Icons.clear,
-                                      size: 15,
-                                      color: Color.fromRGBO(0, 150, 136, 1),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _searchController.clear();
+                                        });
+                                      },
+                                      icon: Icon(
+                                        Icons.clear,
+                                        size: isTablet ? 27 : 15,
+                                        color: Color.fromRGBO(0, 150, 136, 1),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -272,21 +284,24 @@ class _SearchPageState extends State<SearchPage> {
                                     EdgeInsets.only(top: 10.0, right: 10.0),
                                 hintText: "  ...جستجو کنید ",
                                 hintStyle: TextStyle(
-                                    fontSize: 17,
+                                    fontSize: isTablet ? 26 : 17,
                                     fontFamily: dbFont.FontFamily),
                                 border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(25.0)),
-                                  borderSide: BorderSide(),
+                                  borderSide: BorderSide.none,
                                 ),
-                                suffixIcon: IconButton(
-                                  isSelected: false,
-                                  onPressed: () {},
-                                  icon: SvgPicture.asset(
-                                    "svg_images/search_new.svg",
-                                    colorFilter: ColorFilter.mode(
-                                      Color.fromRGBO(111, 111, 111, 1),
-                                      BlendMode.srcIn,
+                                suffixIcon: Padding(
+                                  padding: const EdgeInsets.only(right: 10),
+                                  child: IconButton(
+                                    isSelected: false,
+                                    onPressed: () {},
+                                    icon: SvgPicture.asset(
+                                      "svg_images/search_new.svg",
+                                      width: isTablet ? 32 : 20,
+                                      height: isTablet ? 32 : 20,
+                                      colorFilter: ColorFilter.mode(
+                                        Color.fromRGBO(111, 111, 111, 1),
+                                        BlendMode.srcIn,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -305,7 +320,7 @@ class _SearchPageState extends State<SearchPage> {
                       ? true
                       : false,
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 5),
+                    padding: const EdgeInsets.only(top: 32, bottom: 25),
                     child: secondRow(onClear: removeAll),
                   )),
               Visibility(
@@ -317,7 +332,10 @@ class _SearchPageState extends State<SearchPage> {
                     padding: const EdgeInsets.only(top: 20),
                     child: Text(
                       "اخیر هیچ جستجوی انجام نشده است",
-                      style: TextStyle(fontFamily: dbFont.FontFamily),
+                      style: TextStyle(
+                        fontFamily: dbFont.FontFamily,
+                        fontSize: isTablet ? 26 : 15,
+                      ),
                     ),
                   )),
               Visibility(
@@ -341,69 +359,71 @@ class _SearchPageState extends State<SearchPage> {
                           int realIndex = index % filteredList1.length;
                           final item = filteredList1[realIndex];
                           return Container(
-                            height: 42,
+                            height: isTablet ? 62 : 42,
                             child: Padding(
                               padding: const EdgeInsets.only(),
-                              child: ListTile(
-                                leading: IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        RecentData.RecentSearch.removeAt(
-                                            realIndex);
-                                        RecentData.updateDataBase();
-                                        // print(RecentData.RecentSearch);
-                                        // // print(filteredList1);
-                                        // // print(filteredList1[realIndex]);
-                                        // print(index);
+                              child: Center(
+                                child: ListTile(
+                                  leading: IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          RecentData.RecentSearch.removeAt(
+                                              realIndex);
+                                          RecentData.updateDataBase();
+                                          // print(RecentData.RecentSearch);
+                                          // // print(filteredList1);
+                                          // // print(filteredList1[realIndex]);
+                                          // print(index);
 
-                                        // print(realIndex);
-                                      });
-                                    },
-                                    icon: Icon(
-                                      Icons.clear,
-                                      size: 20,
-                                    ),
-                                    color: Color.fromRGBO(0, 150, 136, 1)),
-                                horizontalTitleGap:
-                                    BorderSide.strokeAlignInside,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    side: BorderSide(
-                                      color: Colors.transparent,
-                                    )),
-                                tileColor: Colors.transparent,
-                                onFocusChange: (e) {
-                                  setState(() {});
-                                },
-                                onTap: () {
-                                  Get.to(
-                                    () => DetailPage(
-                                      onRemove:
-                                          (name, descriprion, footnote) {},
-                                      page: "mainpage",
-                                      name: item['name']!,
-                                      description: item['name']!,
-                                      footnote: item['footnote']!,
-                                      dataList: filteredList1,
-                                      initialPageIndex:
-                                          filteredList1.indexOf(item),
-                                      showFavorite: true,
-                                    ),
-                                    transition: Transition.fadeIn,
-                                    duration: Duration(milliseconds: 500),
-                                  );
-                                  print(item['footnote']);
-                                  setState(() {
-                                    _searchFocus.unfocus();
-                                    _searchController.clear();
-                                  });
-                                },
-                                trailing: Text(
-                                  item["name"]!,
-                                  style: TextStyle(
-                                      fontFamily: dbFont.FontFamily,
-                                      fontSize: 21,
-                                      fontWeight: FontWeight.w900),
+                                          // print(realIndex);
+                                        });
+                                      },
+                                      icon: Icon(
+                                        Icons.clear,
+                                        size: isTablet ? 28 : 20,
+                                      ),
+                                      color: Color.fromRGBO(0, 150, 136, 1)),
+                                  horizontalTitleGap:
+                                      BorderSide.strokeAlignInside,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      side: BorderSide(
+                                        color: Colors.transparent,
+                                      )),
+                                  tileColor: Colors.transparent,
+                                  onFocusChange: (e) {
+                                    setState(() {});
+                                  },
+                                  onTap: () {
+                                    Get.to(
+                                      () => DetailPage(
+                                        onRemove:
+                                            (name, descriprion, footnote) {},
+                                        page: "mainpage",
+                                        name: item['name']!,
+                                        description: item['name']!,
+                                        footnote: item['footnote']!,
+                                        dataList: filteredList1,
+                                        initialPageIndex:
+                                            filteredList1.indexOf(item),
+                                        showFavorite: true,
+                                      ),
+                                      transition: Transition.fadeIn,
+                                      duration: Duration(milliseconds: 500),
+                                    );
+                                    print(item['footnote']);
+                                    setState(() {
+                                      _searchFocus.unfocus();
+                                      _searchController.clear();
+                                    });
+                                  },
+                                  trailing: Text(
+                                    item["name"]!,
+                                    style: TextStyle(
+                                        fontFamily: dbFont.FontFamily,
+                                        fontSize: isTablet ? 26 : 21,
+                                        fontWeight: FontWeight.w900),
+                                  ),
                                 ),
                               ),
                             ),
@@ -416,7 +436,7 @@ class _SearchPageState extends State<SearchPage> {
                 visible: _searchController.text.isEmpty ? false : true,
                 child: Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 10),
+                    padding: const EdgeInsets.only(top: 20),
                     child: ListView.separated(
                       itemCount: _searchController.text.isEmpty
                           ? dataList.length
@@ -426,50 +446,56 @@ class _SearchPageState extends State<SearchPage> {
                             ? dataList[index]
                             : filteredList[index];
                         return Container(
-                          height: 42,
+                          height: isTablet ? 60 : 40,
                           child: Padding(
                             padding: const EdgeInsets.only(left: 12, right: 12),
-                            child: ListTile(
-                              horizontalTitleGap: BorderSide.strokeAlignInside,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  side: BorderSide(
-                                    color: Colors.transparent,
-                                  )),
-                              tileColor: Colors.transparent,
-                              trailing: Text(
-                                item["name"]!,
-                                style: TextStyle(
-                                    fontFamily: dbFont.FontFamily,
-                                    fontSize: 21,
-                                    fontWeight: FontWeight.w900),
-                              ),
-                              onTap: () {
-                                Get.to(
-                                  () => DetailPage(
-                                    onRemove: (name, descriprion, footnote) {},
-                                    page: "mainpage",
-                                    name: item['name']!,
-                                    description: item['description']!,
-                                    footnote: item['footnote']!,
-                                    dataList: dataList,
-                                    initialPageIndex: dataList.indexOf(item),
-                                    showFavorite: true,
-                                  ),
-                                  transition: Transition.fade,
-                                  duration: Duration(milliseconds: 200),
-                                );
+                            child: Center(
+                              child: ListTile(
+                                horizontalTitleGap:
+                                    BorderSide.strokeAlignInside,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    side: BorderSide(
+                                      color: Colors.transparent,
+                                    )),
+                                tileColor: Colors.transparent,
+                                trailing: Text(
+                                  item["name"]!,
+                                  style: TextStyle(
+                                      fontFamily: dbFont.FontFamily,
+                                      fontSize: isTablet ? 26 : 21,
+                                      fontWeight: FontWeight.w900),
+                                ),
+                                onTap: () {
+                                  Get.to(
+                                    () => DetailPage(
+                                      onRemove:
+                                          (name, descriprion, footnote) {},
+                                      page: "mainpage",
+                                      name: item['name']!,
+                                      description: item['description']!,
+                                      footnote: item['footnote']!,
+                                      dataList: dataList,
+                                      initialPageIndex: dataList.indexOf(item),
+                                      showFavorite: true,
+                                    ),
+                                    transition: Transition.fade,
+                                    duration: Duration(milliseconds: 200),
+                                  );
 
-                                Timer(Duration(seconds: 1), () {
-                                  addToRecentData(item["name"]!,
-                                      item['description']!, item['footnote']!);
-                                  setState(() {
-                                    showFouse = false;
-                                    _searchFocus.unfocus();
-                                    _searchController.clear();
+                                  Timer(Duration(seconds: 1), () {
+                                    addToRecentData(
+                                        item["name"]!,
+                                        item['description']!,
+                                        item['footnote']!);
+                                    setState(() {
+                                      showFouse = false;
+                                      _searchFocus.unfocus();
+                                      _searchController.clear();
+                                    });
                                   });
-                                });
-                              },
+                                },
+                              ),
                             ),
                           ),
                         );

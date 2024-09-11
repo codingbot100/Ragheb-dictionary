@@ -225,6 +225,10 @@ class _DetailPageState extends State<DetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    // Define breakpoints for different device types
+    bool isTablet = screenWidth > 600;
     return Scaffold(
       body: SafeArea(
         child: PageView.builder(
@@ -241,10 +245,10 @@ class _DetailPageState extends State<DetailPage> {
               db.favorite.any((item) => item['description'] == description);
               db.favorite.any((item) => item['name'] == footnote);
               return Padding(
-                padding: const EdgeInsets.only(
-                  top: 15,
-                  left: 15,
-                  right: 15,
+                padding: EdgeInsets.only(
+                  top: isTablet ? 40 : 15,
+                  left: isTablet ? 40 : 15,
+                  right: isTablet ? 40 : 15,
                 ),
                 child: Column(
                   children: [
@@ -268,7 +272,7 @@ class _DetailPageState extends State<DetailPage> {
                                     color: isFavorite
                                         ? Color.fromRGBO(0, 150, 136, 1)
                                         : Color.fromRGBO(111, 111, 111, 1),
-                                    scale: 2.5,
+                                    scale: isTablet ? 1.7 : 2.5,
                                   ))
                               : widget.page == "favoritePage"
                                   ? GestureDetector(
@@ -285,7 +289,7 @@ class _DetailPageState extends State<DetailPage> {
                                         color: isFavorite
                                             ? Color.fromRGBO(0, 150, 136, 1)
                                             : Color.fromRGBO(111, 111, 111, 1),
-                                        scale: 2.5,
+                                        scale: isTablet ? 1.7 : 2.5,
                                       ))
                                   : SizedBox(),
                           IntrinsicWidth(
@@ -413,7 +417,7 @@ class _DetailPageState extends State<DetailPage> {
                                     },
                                     icon: Image.asset(
                                       "icons/Union (1).png",
-                                      scale: 1.5,
+                                      scale: isTablet ? 1.2 : 1.5,
                                       color: !_themeManager.themebo.value
                                           ? Color.fromRGBO(82, 82, 82, 1)
                                           : Color.fromRGBO(153, 153, 153, 1),
@@ -426,17 +430,21 @@ class _DetailPageState extends State<DetailPage> {
                                       onTap: () {
                                         shareText(name, description, footnote);
                                       },
-                                      child: Text(
-                                        "اشتراک گذاری",
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          fontFamily: DB_fontFamily.FontFamily,
-                                          fontWeight: FontWeight.w600,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(top: 15),
+                                        child: Text(
+                                          "اشتراک گذاری",
+                                          style: TextStyle(
+                                            fontSize: isTablet ? 15 : 13,
+                                            fontFamily:
+                                                DB_fontFamily.FontFamily,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                       ),
                                     ),
                                     SizedBox(
-                                      width: 2,
+                                      width: 6,
                                     ),
                                     IconButton(
                                         onPressed: () {
@@ -445,7 +453,7 @@ class _DetailPageState extends State<DetailPage> {
                                         },
                                         icon: Image.asset(
                                           "icons/Vector (5).png",
-                                          scale: 1.5,
+                                          scale: isTablet ? 1.2 : 1.5,
                                           color: !_themeManager.themebo.value
                                               ? Color.fromRGBO(82, 82, 82, 1)
                                               : Color.fromRGBO(
@@ -465,7 +473,7 @@ class _DetailPageState extends State<DetailPage> {
             }),
       ),
       bottomNavigationBar: Container(
-        height: 70,
+        height: isTablet ? 110 : 87,
         child: CustomeNavBar(
             dataList: widget.dataList, pageController: _pageController),
       ),

@@ -26,6 +26,10 @@ class _RecentPageHomePageState extends State<RecentPageHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    // Define breakpoints for different device types
+    bool isTablet = screenWidth > 600;
     return Padding(
       padding: const EdgeInsets.only(
         left: 2,
@@ -33,8 +37,12 @@ class _RecentPageHomePageState extends State<RecentPageHomePage> {
       ),
       child: Container(
           height: (Recent_db.RecentSearch.length <= 3)
-              ? Recent_db.RecentSearch.length * 65
-              : 3 * 65,
+              ? isTablet
+                  ? Recent_db.RecentSearch.length * 90
+                  : Recent_db.RecentSearch.length * 65
+              : isTablet
+                  ? 3 * 90
+                  : 3 * 60,
           child: RecentpageMain()),
     );
   }
@@ -182,6 +190,10 @@ class _RecentpageMainState extends State<RecentpageMain> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    // Define breakpoints for different device types
+    bool isTablet = screenWidth > 600;
     final filteredList = filterDataList();
     return Scaffold(
       // backgroundColor: Color(0xFFF5F5DC),
@@ -208,39 +220,41 @@ class _RecentpageMainState extends State<RecentpageMain> {
                   child: Container(
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(25)),
-                    height: 42,
-                    child: ListTile(
-                      // horizontalTitleGap: BorderSide.strokeAlignInside,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          side: BorderSide(
-                            color: Colors.transparent,
-                          )),
-                      tileColor: Colors.transparent,
-                      title: Text(
-                        item["name"]!,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontFamily: db_font.FontFamily,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                      onTap: () {
-                        Get.to(
-                          () => DetailPage(
-                            onRemove: remove_Favorite,
-                            page: "mainpage",
-                            name: item['name']!,
-                            description: item['description']!,
-                            footnote: item['footnote']!,
-                            dataList: filteredList,
-                            initialPageIndex: filteredList.indexOf(item),
-                            showFavorite: false,
+                    height: isTablet ? 73 : 42,
+                    child: Center(
+                      child: ListTile(
+                        // horizontalTitleGap: BorderSide.strokeAlignInside,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            side: BorderSide(
+                              color: Colors.transparent,
+                            )),
+                        tileColor: Colors.transparent,
+                        title: Text(
+                          item["name"]!,
+                          style: TextStyle(
+                            fontSize: isTablet ? 28 : 18,
+                            fontFamily: db_font.FontFamily,
+                            fontWeight: FontWeight.w900,
                           ),
-                          transition: Transition.fadeIn,
-                          duration: Duration(milliseconds: 400),
-                        );
-                      },
+                        ),
+                        onTap: () {
+                          Get.to(
+                            () => DetailPage(
+                              onRemove: remove_Favorite,
+                              page: "mainpage",
+                              name: item['name']!,
+                              description: item['description']!,
+                              footnote: item['footnote']!,
+                              dataList: filteredList,
+                              initialPageIndex: filteredList.indexOf(item),
+                              showFavorite: false,
+                            ),
+                            transition: Transition.fadeIn,
+                            duration: Duration(milliseconds: 400),
+                          );
+                        },
+                      ),
                     ),
                   ),
                 );

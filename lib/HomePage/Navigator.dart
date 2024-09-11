@@ -95,7 +95,14 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
   @override
   Widget build(BuildContext context) {
     bool ShowFab = MediaQuery.of(context).viewInsets.bottom != 0;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    // Define breakpoints for different device types
+    bool isTablet = screenWidth > 600; // Example breakpoint for tablets
     return Scaffold(
+      resizeToAvoidBottomInset:
+          false, // Prevents resizing when the keyboard is open
+
       body: AnimatedSwitcher(
         // switchInCurve: Curves.fastOutSlowIn,
         duration: Duration(milliseconds: 200),
@@ -106,7 +113,13 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
       ),
       bottomNavigationBar: AnimatedContainer(
           duration: Duration(milliseconds: 300),
-          height: !ShowFab ? 87 : 0,
+          height: ShowFab
+              ? isTablet
+                  ? 110
+                  : 87
+              : isTablet
+                  ? 110
+                  : 87,
           curve: Curves.fastEaseInToSlowEaseOut,
           child: AnimatedContainer(
             duration: Duration(milliseconds: 100),
@@ -133,94 +146,96 @@ class _MyAppNavigatorState extends State<MyAppNavigator> {
               color: Theme.of(context).bottomAppBarTheme.color,
               child: Directionality(
                 textDirection: TextDirection.rtl,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 3),
-                      child: IconButton(
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 3),
+                        child: IconButton(
+                          icon: SvgPicture.asset(
+                            _currentIndex == 0
+                                ? 'svg_images/clicked_home.svg'
+                                : 'svg_images/click_home.svg',
+                            width: isTablet ? 30 : 25,
+                            height: isTablet ? 30 : 25,
+                          ),
+                          onPressed: () => setState(() {
+                            perviouseIndex = 0;
+
+                            _currentIndex = 0;
+                            print(_currentIndex);
+                          }),
+                        ),
+                      ),
+                      IconButton(
                         icon: SvgPicture.asset(
-                          _currentIndex == 0
-                              ? 'svg_images/clicked_home.svg'
-                              : 'svg_images/click_home.svg',
-                          width: 25,
-                          height: 25,
+                          _currentIndex == 1
+                              ? 'svg_images/Clicked_weblog.svg'
+                              : 'svg_images/Click_welog.svg',
+                          width: isTablet ? 30 : 25,
+                          height: isTablet ? 30 : 25,
                         ),
                         onPressed: () => setState(() {
-                          perviouseIndex = 0;
-
-                          _currentIndex = 0;
+                          perviouseIndex = 1;
+                          _currentIndex = 1;
                           print(_currentIndex);
                         }),
                       ),
-                    ),
-                    IconButton(
-                      icon: SvgPicture.asset(
-                        _currentIndex == 1
-                            ? 'svg_images/Clicked_weblog.svg'
-                            : 'svg_images/Click_welog.svg',
-                        width: 25,
-                        height: 25,
+                      IconButton(
+                        icon: SvgPicture.asset(
+                          _currentIndex == 3
+                              ? 'svg_images/State=Enable.svg'
+                              : 'svg_images/State=Disable.svg',
+                          color: _currentIndex == 3
+                              ? Color.fromRGBO(0, 150, 136, 1)
+                              : Color.fromRGBO(111, 111, 111, 1),
+                          width: isTablet ? 33 : 27,
+                          height: isTablet ? 33 : 27,
+                        ),
+                        onPressed: () => setState(() {
+                          perviouseIndex = 3;
+                          _currentIndex = 3;
+                          print(_currentIndex);
+                        }),
                       ),
-                      onPressed: () => setState(() {
-                        perviouseIndex = 1;
-                        _currentIndex = 1;
-                        print(_currentIndex);
-                      }),
-                    ),
-                    IconButton(
-                      icon: SvgPicture.asset(
-                        _currentIndex == 3
-                            ? 'svg_images/State=Enable.svg'
-                            : 'svg_images/State=Disable.svg',
-                        color: _currentIndex == 3
-                            ? Color.fromRGBO(0, 150, 136, 1)
-                            : Color.fromRGBO(111, 111, 111, 1),
-                        width: 27,
-                        height: 27,
-                      ),
-                      onPressed: () => setState(() {
-                        perviouseIndex = 3;
-                        _currentIndex = 3;
-                        print(_currentIndex);
-                      }),
-                    ),
-                    // _currentIndex == 2
-                    //     ? IconButton(
-                    //         onPressed: () {
-                    //           Get.back();
-                    //         },
-                    //         icon: Icon(Icons.arrow_forward))
-                    //     :
-                    _currentIndex == 2
-                        ? IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _currentIndex = perviouseIndex;
+                      // _currentIndex == 2
+                      //     ? IconButton(
+                      //         onPressed: () {
+                      //           Get.back();
+                      //         },
+                      //         icon: Icon(Icons.arrow_forward))
+                      //     :
+                      _currentIndex == 2
+                          ? IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _currentIndex = perviouseIndex;
+                                  print(_currentIndex);
+                                });
+                              },
+                              icon: Image.asset(
+                                'icons/back.png',
+                                scale: 3.5,
+                              ),
+                            )
+                          : IconButton(
+                              icon: SvgPicture.asset(
+                                _currentIndex == 4
+                                    ? 'svg_images/clicked_setting.svg'
+                                    : 'svg_images/setting2.svg',
+                                width: isTablet ? 35 : 25,
+                                height: isTablet ? 35 : 25,
+                              ),
+                              onPressed: () => setState(() {
+                                perviouseIndex = 4;
+                                _currentIndex = 4;
                                 print(_currentIndex);
-                              });
-                            },
-                            icon: Image.asset(
-                              'icons/back.png',
-                              scale: 4.5,
+                              }),
                             ),
-                          )
-                        : IconButton(
-                            icon: SvgPicture.asset(
-                              _currentIndex == 4
-                                  ? 'svg_images/clicked_setting.svg'
-                                  : 'svg_images/setting2.svg',
-                              width: 25,
-                              height: 25,
-                            ),
-                            onPressed: () => setState(() {
-                              perviouseIndex = 4;
-                              _currentIndex = 4;
-                              print(_currentIndex);
-                            }),
-                          ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

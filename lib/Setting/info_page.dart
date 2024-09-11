@@ -39,6 +39,8 @@ class _MylistState extends State<Mylist> {
 
   @override
   Widget build(BuildContext context) {
+    var screenWidth = MediaQuery.of(context).size.width;
+    bool isTable = screenWidth > 600;
     return GestureDetector(
       onTap: widget.OntapLis,
       child: Center(
@@ -63,7 +65,7 @@ class _MylistState extends State<Mylist> {
                     ]
                   : []),
           alignment: Alignment.center,
-          height: 53,
+          height: isTable ? 70 : 53,
           child: Center(
             child: ListTile(
               shape: RoundedRectangleBorder(side: BorderSide.none),
@@ -72,14 +74,14 @@ class _MylistState extends State<Mylist> {
                 color: Theme.of(context)
                     .iconTheme
                     .color, // Use color from iconTheme
-                size: 17,
+                size: isTable ? 23 : 17,
               ),
               leading: Text(
                 widget.listName,
                 style: TextStyle(
                   fontWeight: FontWeight.w700,
                   fontFamily: db.FontFamily,
-                  fontSize: 13,
+                  fontSize: isTable ? 20 : 13,
                 ),
               ),
             ),

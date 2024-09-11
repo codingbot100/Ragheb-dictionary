@@ -22,6 +22,9 @@ class _PanelState extends State<Panel> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    // Define breakpoints for different device types
+    bool isTablet = screenWidth > 600;
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),
       child: Row(
@@ -32,7 +35,7 @@ class _PanelState extends State<Panel> {
             textAlign: TextAlign.end,
             style: TextStyle(
                 fontFamily: Db_Font.FontFamily,
-                fontSize: 20,
+                fontSize: isTablet ? 30 : 20,
                 fontWeight: FontWeight.w900,
                 color: Color.fromRGBO(0, 153, 136, 1)),
           ),
@@ -47,6 +50,7 @@ class _PanelState extends State<Panel> {
                 Color.fromRGBO(0, 150, 136, 1),
                 BlendMode.srcIn,
               ),
+              height: isTablet ? 33 : 23,
             ),
           ),
         ],

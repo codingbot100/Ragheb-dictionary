@@ -22,8 +22,8 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
   ToDoDataBaseFont db_font = new ToDoDataBaseFont();
   ToDo_favorite _todoDatabase = ToDo_favorite();
   final _meBox = Hive.box('mybox');
+
   ToDo_FontController db6 = ToDo_FontController();
-  late double borderRadius;
   ThemeDatabase themeDatabase = ThemeDatabase();
   final thememanger = Get.put(ThemeManager());
   String icons = 'icons/Enable (1).png';
@@ -123,6 +123,10 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    // Define breakpoints for different device types
+    bool isTablet = screenWidth > 600; // Example breakpoint for tablets
     return Scaffold(
         body: Column(
       children: [
@@ -156,57 +160,61 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
                           ],
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  height: 50,
+                  height: isTablet ? 73 : 50,
                   child: Directionality(
                     textDirection: TextDirection.rtl,
-                    child: ListTile(
-                      leading: Padding(
-                        padding: const EdgeInsets.only(bottom: 7),
-                        child: Image.asset(
-                          icons,
-                          scale: 3,
+                    child: Center(
+                      child: ListTile(
+                        leading: Padding(
+                          padding: const EdgeInsets.only(bottom: 7),
+                          child: Image.asset(
+                            icons,
+                            scale: isTablet ? 2 : 3,
+                          ),
                         ),
-                      ),
-                      title: Text(
-                        "${_todoDatabase.favorite[realIndex]['name']}",
-                        style: TextStyle(
-                          fontFamily: db_font.FontFamily,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                      trailing: Text(
-                          formatDateTime(
-                              _todoDatabase.favorite[realIndex]['date']),
+                        title: Text(
+                          "${_todoDatabase.favorite[realIndex]['name']}",
                           style: TextStyle(
-                              color: Colors.grey.shade500,
-                              fontFamily: db_font.FontFamily)),
-                      onTap: () {
-                        Get.to(
-                            () => DetailPage(
-                                  onRemove: remove_Favorite,
-                                  page: "favoritePage",
-                                  name:
-                                      "${_todoDatabase.favorite[realIndex]['name']}",
-                                  description:
-                                      "${_todoDatabase.favorite[realIndex]['description']}",
-                                  footnote:
-                                      "${_todoDatabase.favorite[realIndex]['footnote']}",
-                                  initialPageIndex: realIndex,
-                                  dataList: _todoDatabase.favorite.map((item) {
-                                    return {
-                                      'name': item['name'].toString(),
-                                      'description':
-                                          item['description'].toString(),
-                                      'footnote': item['footnote'].toString(),
-                                    };
-                                  }).toList(),
-                                  showFavorite: false,
-                                ),
-                            transition: Transition.fadeIn,
-                            duration: Duration(milliseconds: 400));
-                        _todoDatabase.updateDataBase();
-                      },
+                            fontFamily: db_font.FontFamily,
+                            fontSize: isTablet ? 28 : 18,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                        trailing: Text(
+                            formatDateTime(
+                                _todoDatabase.favorite[realIndex]['date']),
+                            style: TextStyle(
+                                color: Colors.grey.shade500,
+                                fontSize: isTablet ? 22 : 15,
+                                fontFamily: db_font.FontFamily)),
+                        onTap: () {
+                          Get.to(
+                              () => DetailPage(
+                                    onRemove: remove_Favorite,
+                                    page: "favoritePage",
+                                    name:
+                                        "${_todoDatabase.favorite[realIndex]['name']}",
+                                    description:
+                                        "${_todoDatabase.favorite[realIndex]['description']}",
+                                    footnote:
+                                        "${_todoDatabase.favorite[realIndex]['footnote']}",
+                                    initialPageIndex: realIndex,
+                                    dataList:
+                                        _todoDatabase.favorite.map((item) {
+                                      return {
+                                        'name': item['name'].toString(),
+                                        'description':
+                                            item['description'].toString(),
+                                        'footnote': item['footnote'].toString(),
+                                      };
+                                    }).toList(),
+                                    showFavorite: false,
+                                  ),
+                              transition: Transition.fadeIn,
+                              duration: Duration(milliseconds: 400));
+                          _todoDatabase.updateDataBase();
+                        },
+                      ),
                     ),
                   ),
                 ),

@@ -68,165 +68,193 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     double width = MediaQuery.of(context).size.width;
 
     // Adjust font size based on screen width
-    double adjustedFontSizeTitle = fontSizeTitle;
-    double adjustedFontSizeSubTitle = fontSizeSubTitle;
-    if (width < 300) {
-      adjustedFontSizeTitle = fontSizeTitle * 0.8;
-      adjustedFontSizeSubTitle = fontSizeSubTitle * 0.8;
-    } else if (width > 600) {
-      adjustedFontSizeTitle = fontSizeTitle * 1.2;
-      adjustedFontSizeSubTitle = fontSizeSubTitle * 1.2;
-    }
+    // double adjustedFontSizeTitle = fontSizeTitle;
+    // double adjustedFontSizeSubTitle = fontSizeSubTitle;
+    // if (width < 300) {
+    //   adjustedFontSizeTitle = fontSizeTitle * 0.8;
+    //   adjustedFontSizeSubTitle = fontSizeSubTitle * 0.8;
+    // } else if (width > 600) {
+    //   adjustedFontSizeTitle = fontSizeTitle * 1.2;
+    //   adjustedFontSizeSubTitle = fontSizeSubTitle * 1.2;
+    // }
+    double screenWidth = MediaQuery.of(context).size.width;
 
+    // Define breakpoints for different device types
+    bool isTablet = screenWidth > 600; // Example breakpoint for tablets
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 15, top: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        themeManager.changeMode();
-                        themeManager.updateDataBase();
-                        print(themeManager.themebo);
-                      });
-                    },
-                    icon: themeManager.themebo.value
-                        ? Icon(Icons.sunny,
-                            color: Color.fromRGBO(0, 150, 136, 1))
-                        : SvgPicture.asset(
-                            "svg_images/moon.svg",
-                          ),
-                  ),
-                  Text(
-                    'فرهنگ لغت راغب',
-                    style: TextStyle(
-                      color: Color.fromRGBO(0, 153, 136, 1),
-                      fontSize: adjustedFontSizeTitle,
-                      fontFamily: Db_Font.FontFamily,
-                      fontWeight: FontWeight.w900,
+        child: Padding(
+          padding: EdgeInsets.only(
+              top: isTablet ? 20 : 7,
+              left: isTablet ? 25 : 10,
+              right: isTablet ? 25 : 10),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 15, top: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          themeManager.changeMode();
+                          themeManager.updateDataBase();
+                          print(themeManager.themebo);
+                        });
+                      },
+                      icon: themeManager.themebo.value
+                          ? Icon(Icons.sunny,
+                              size: isTablet ? 40 : 20,
+                              color: Color.fromRGBO(0, 150, 136, 1))
+                          : SvgPicture.asset(
+                              "svg_images/moon.svg",
+                              height: isTablet ? 40 : 23,
+                            ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10.0),
-                        child: TextRow(
-                            1,
-                            "< مرور همه ",
-                            'مقالات وبلاگ',
-                            fontFamile: fontFamile,
-                            fontSizeSubTitle: adjustedFontSizeSubTitle,
-                            colorPrimary: colorPrimary,
-                            onPageChange: widget.onPageChange,
-                            width),
+                    Text(
+                      'فرهنگ لغت راغب',
+                      style: TextStyle(
+                        color: Color.fromRGBO(0, 153, 136, 1),
+                        fontSize: isTablet ? 30 : 20,
+                        fontFamily: Db_Font.FontFamily,
+                        fontWeight: FontWeight.w900,
                       ),
-                      CarouselSlider1(),
-                      SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  top: 70, bottom: height * 0.18),
-                              child: Container(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    widget.SearchPage(2);
-                                  },
-                                  child: Container(
-                                    alignment: Alignment.centerRight,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        width: 2,
-                                        color: Color.fromRGBO(0, 150, 136, 0.5),
-                                      ),
-                                      borderRadius: BorderRadius.circular(50),
-                                    ),
-                                    height: 47,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          "جستجو در واژه گان قرآنکریم",
-                                          style: TextStyle(
-                                            fontFamily: "YekanBakh",
-                                            color:
-                                                Color.fromRGBO(0, 150, 136, 1),
-                                            fontSize: adjustedFontSizeTitle,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15, right: 15),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: isTablet ? 75.0 : 25),
+                          child: TextRow(
+                              1,
+                              "< مرور همه ",
+                              'مقالات وبلاگ',
+                              fontFamile: fontFamile,
+                              colorPrimary: colorPrimary,
+                              context: context,
+                              onPageChange: widget.onPageChange,
+                              width),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: isTablet ? 55 : 10),
+                          child: CarouselSlider1(),
+                        ),
+                        SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: 70, bottom: height * 0.18),
+                                child: Container(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      widget.SearchPage(2);
+                                    },
+                                    child: Container(
+                                      alignment: Alignment.centerRight,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          width: 2,
+                                          color:
+                                              Color.fromRGBO(0, 150, 136, 0.5),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 10, right: 10),
-                                          child: SvgPicture.asset(
-                                            "svg_images/search_button.svg",
-                                            height: 25,
+                                        borderRadius: BorderRadius.circular(50),
+                                      ),
+                                      height: isTablet ? 70 : 47,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            "جستجو در واژه گان قرآنکریم",
+                                            style: TextStyle(
+                                              fontFamily: "YekanBakh",
+                                              color: Color.fromRGBO(
+                                                  0, 150, 136, 1),
+                                              fontSize: isTablet ? 33 : 17,
+                                              fontWeight: FontWeight.w600,
+                                            ),
                                           ),
-                                        )
-                                      ],
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 10, right: 10),
+                                            child: SvgPicture.asset(
+                                              "svg_images/search_button.svg",
+                                              height: 25,
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                            Visibility(
-                              visible: toDo_favorite.favorite.isNotEmpty,
-                              child: TextRow(
-                                  3,
-                                  "< مرور همه ",
-                                  'ذخیره شده ها',
-                                  fontFamile: fontFamile,
-                                  fontSizeSubTitle: adjustedFontSizeSubTitle,
-                                  colorPrimary: colorPrimary,
-                                  onPageChange: widget.onPageChange,
-                                  width),
-                            ),
-                            Container(
-                              height: (toDo_favorite.favorite.length <= 3)
-                                  ? toDo_favorite.favorite.length * 60
-                                  : 3 * 60,
-                              child: GetBuilder<MyController>(
-                                builder: (controller) {
-                                  return FavoritPage_menu(
-                                    length: 0,
-                                  );
-                                },
+                              Visibility(
+                                visible: toDo_favorite.favorite.isNotEmpty,
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: isTablet ? 15 : 0),
+                                  child: TextRow(
+                                      3,
+                                      "< مرور همه ",
+                                      'ذخیره شده ها',
+                                      fontFamile: fontFamile,
+                                      context: context,
+                                      colorPrimary: colorPrimary,
+                                      onPageChange: widget.onPageChange,
+                                      width),
+                                ),
                               ),
-                            ),
-                            Visibility(
-                              visible: toDoRecent.RecentSearch.isNotEmpty,
-                              child: TextRow(
-                                  2,
-                                  "< مرور همه ",
-                                  'جستجو های اخیر',
-                                  fontFamile: fontFamile,
-                                  fontSizeSubTitle: adjustedFontSizeSubTitle,
-                                  colorPrimary: colorPrimary,
-                                  onPageChange: widget.onPageChange,
-                                  width),
-                            ),
-                            RecentPageHomePage(),
-                          ],
-                        ),
-                      )
-                    ],
+                              Container(
+                                height: (toDo_favorite.favorite.length <= 3)
+                                    ? isTablet
+                                        ? toDo_favorite.favorite.length * 90
+                                        : toDo_favorite.favorite.length * 60
+                                    : isTablet
+                                        ? 3 * 90
+                                        : 3 * 60,
+                                child: GetBuilder<MyController>(
+                                  builder: (controller) {
+                                    return FavoritPage_menu(
+                                      length: 0,
+                                    );
+                                  },
+                                ),
+                              ),
+                              Visibility(
+                                visible: toDoRecent.RecentSearch.isNotEmpty,
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: isTablet ? 15 : 0),
+                                  child: TextRow(
+                                      2,
+                                      "< مرور همه ",
+                                      'جستجو های اخیر',
+                                      fontFamile: fontFamile,
+                                      context: context,
+                                      colorPrimary: colorPrimary,
+                                      onPageChange: widget.onPageChange,
+                                      width),
+                                ),
+                              ),
+                              RecentPageHomePage(),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -235,11 +263,15 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   Widget TextRow(
       int currentPage, String firstTitle, String secondTitle, double width,
       {required String fontFamile,
-      required double fontSizeSubTitle,
+      required BuildContext context,
       required Color colorPrimary,
       required Function(int) onPageChange}) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    // Define breakpoints for different device types
+    bool isTablet = screenWidth > 600; // Example breakpoint for tablets
     return Container(
-      height: 50,
+      // height: 50,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -247,14 +279,17 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             onTap: () {
               onPageChange(currentPage);
             },
-            child: Container(
-              height: 30,
-              child: Text(
-                firstTitle,
-                style: TextStyle(
-                  fontFamily: fontFamile,
-                  fontSize: fontSizeSubTitle,
-                  color: colorPrimary,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 5),
+              child: Container(
+                height: 30,
+                child: Text(
+                  firstTitle,
+                  style: TextStyle(
+                    fontFamily: fontFamile,
+                    fontSize: isTablet ? 20 : 12,
+                    color: colorPrimary,
+                  ),
                 ),
               ),
             ),
@@ -262,22 +297,22 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           SizedBox(width: 8),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 14),
+              padding: EdgeInsets.only(bottom: isTablet ? 5 : 17),
               child: Divider(
-                height: 1,
-                thickness: 0.5,
+                // height: 1,
+                // thickness: 0.5,
                 color: colorPrimary,
               ),
             ),
           ),
-          SizedBox(width: 12),
+          SizedBox(width: 5),
           Container(
             height: 30,
             child: Text(
               secondTitle,
               style: TextStyle(
                 fontFamily: fontFamile,
-                fontSize: fontSizeSubTitle,
+                fontSize: isTablet ? 20 : 12,
                 color: colorPrimary,
               ),
             ),

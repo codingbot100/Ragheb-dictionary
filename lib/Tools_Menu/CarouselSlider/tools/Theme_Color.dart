@@ -52,29 +52,30 @@ class ThemeData_1 {
           DividerThemeData(thickness: 0.4, color: Colors.grey.shade200),
       indicatorColor: DarkModeColors.indicatorColor,
       inputDecorationTheme: InputDecorationTheme(
-          border: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: DarkModeColors.TextFieldBorder,
-            ),
-            borderRadius: BorderRadius.circular(25.0),
+          // border: OutlineInputBorder(
+          //   borderSide: BorderSide(
+          //     color: DarkModeColors.TextFieldBorder,
+          //   ),
+          //   borderRadius: BorderRadius.circular(25.0),
+          // ),
+          // focusedBorder: OutlineInputBorder(
+          //     borderRadius: BorderRadius.circular(25.0),
+          //     borderSide: BorderSide(
+          //       color: DarkModeColors.TextFieldBorder,
+          //     )),
+          // disabledBorder: OutlineInputBorder(
+          //   borderSide: BorderSide(
+          //     color: DarkModeColors.TextFieldBorder,
+          //   ),
+          //   borderRadius: BorderRadius.circular(25.0),
+          // ),
+          // enabledBorder: OutlineInputBorder(
+          //   borderSide: BorderSide(
+          //     color: DarkModeColors.TextFieldBorder,
+          //   ),
+          //   borderRadius: BorderRadius.circular(25.0),
+          // )
           ),
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25.0),
-              borderSide: BorderSide(
-                color: DarkModeColors.TextFieldBorder,
-              )),
-          disabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: DarkModeColors.TextFieldBorder,
-            ),
-            borderRadius: BorderRadius.circular(25.0),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: DarkModeColors.TextFieldBorder,
-            ),
-            borderRadius: BorderRadius.circular(25.0),
-          )),
       sliderTheme: SliderThemeData(
           thumbShape: RoundSliderThumbShape(
             enabledThumbRadius: 6.0,
@@ -136,29 +137,30 @@ class ThemeData_1 {
       indicatorColor: LightModeColors.indicatorColor,
 
       inputDecorationTheme: InputDecorationTheme(
-          border: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: LightModeColors.TextFieldBorder,
-            ),
-            borderRadius: BorderRadius.circular(25.0),
+          // border: OutlineInputBorder(
+          //   borderSide: BorderSide(
+          //     color: LightModeColors.TextFieldBorder,
+          //   ),
+          //   borderRadius: BorderRadius.circular(25.0),
+          // ),
+          // focusedBorder: OutlineInputBorder(
+          //     borderRadius: BorderRadius.circular(25.0),
+          //     borderSide: BorderSide(
+          //       color: LightModeColors.TextFieldBorder,
+          //     )),
+          // disabledBorder: OutlineInputBorder(
+          //   borderSide: BorderSide(
+          //     color: LightModeColors.TextFieldBorder,
+          //   ),
+          //   borderRadius: BorderRadius.circular(25.0),
+          // ),
+          // enabledBorder: OutlineInputBorder(
+          //   borderSide: BorderSide(
+          //     color: LightModeColors.TextFieldBorder,
+          //   ),
+          //   borderRadius: BorderRadius.circular(25.0),
+          // )
           ),
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25.0),
-              borderSide: BorderSide(
-                color: LightModeColors.TextFieldBorder,
-              )),
-          disabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: LightModeColors.TextFieldBorder,
-            ),
-            borderRadius: BorderRadius.circular(25.0),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: LightModeColors.TextFieldBorder,
-            ),
-            borderRadius: BorderRadius.circular(25.0),
-          )),
       sliderTheme: SliderThemeData(
           thumbShape: RoundSliderThumbShape(
             enabledThumbRadius: 6.0,

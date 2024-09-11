@@ -74,6 +74,9 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenheight = MediaQuery.of(context).size.height;
+
+    // Define breakpoints for different device types
+    bool isTablet = screenWidth > 600; // Example breakpoint for tablets
     if (csvData.isEmpty || myCurrentIndex >= csvData.length) {
       return Center(
         child:
@@ -104,25 +107,26 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
               items: List.generate(
                 5,
                 (index) => _buildImageContainer(
-                    index,
-                    screenWidth,
-                    screenheight * 20,
-                    csvData.isNotEmpty
-                        ? csvData[myCurrentIndex % csvData.length][1].toString()
-                        : '',
-                    row[0]),
+                  index,
+                  screenWidth,
+                  screenheight * 0.3, // Set appropriate height
+                  csvData.isNotEmpty
+                      ? csvData[myCurrentIndex % csvData.length][1].toString()
+                      : '',
+                  row[0],
+                ),
               ),
               options: CarouselOptions(
+                // Remove aspectRatio and rely on height
+                height: isTablet
+                    ? screenheight * 0.17
+                    : screenheight *
+                        0.12, // Adjust this value based on your needs
                 autoPlayInterval: Duration(seconds: 4),
-                autoPlayCurve: Curves.linear,
-                animateToClosest: true,
-                viewportFraction: 1.0,
-                enlargeFactor: BorderSide.strokeAlignOutside,
+                autoPlayCurve: Curves.fastEaseInToSlowEaseOut,
+                viewportFraction: 1.0, // Ensures each item takes full width
                 autoPlay: true,
-                enlargeCenterPage: true,
-                aspectRatio: 20 / 7
-                //screenheight * 110,
-                ,
+                enlargeCenterPage: false, // Prevents enlargement of pages
                 onPageChanged: (index, reason) {
                   setState(() {
                     myCurrentIndex = index;
@@ -138,8 +142,8 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
             activeIndex: myCurrentIndex,
             count: 5,
             effect: ExpandingDotsEffect(
-                dotHeight: 5,
-                dotWidth: 10,
+                dotHeight: isTablet ? 8 : 5,
+                dotWidth: isTablet ? 15 : 10,
                 activeDotColor: Color.fromRGBO(0, 150, 137, 1),
                 dotColor: themeManger.themebo.value
                     ? Color.fromRGBO(82, 82, 82, 1)
@@ -160,6 +164,9 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
       double scaleFactor = screenWidth / baseWidth;
       double heightScaleFactor = height / height;
 
+      // Define breakpoints for different device types
+      bool isTablet = screenWidth > 600; // Example breakpoint for tablets
+
       return Center(
         child: Container(
           width: screenWidth * 1,
@@ -169,11 +176,15 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
               // The background image
               Container(
                 width: screenWidth * 0.68,
-                height: 96 * heightScaleFactor, // Adjusted height
+                height: isTablet
+                    ? 180 * heightScaleFactor
+                    : 96 * heightScaleFactor, // Adjusted height
                 padding:
                     EdgeInsets.only(left: 8, right: 8, top: 12, bottom: 12),
                 decoration: BoxDecoration(
-                  color: Color.fromRGBO(224, 224, 191, 1),
+                  color: themeManger.themebo.value
+                      ? Color.fromRGBO(23, 23, 23, 1)
+                      : Color.fromRGBO(224, 224, 191, 1),
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(8),
                       bottomLeft: Radius.circular(8)),
@@ -190,23 +201,27 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
                         style: TextStyle(
                             color: Color.fromRGBO(0, 150, 136, 1),
                             fontFamily: "YekanBakh",
-                            fontSize: 12 * scaleFactor, // Adjusted font size
+                            fontSize: isTablet
+                                ? 27 * scaleFactor
+                                : 12 * scaleFactor, // Adjusted font size
                             fontWeight: FontWeight.w700),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 6),
+                        padding: const EdgeInsets.only(top: 17),
                         child: Text(
                           textDirection: TextDirection.rtl,
                           softWrap: true,
                           overflow: TextOverflow
                               .ellipsis, // This will hide the overflow text with ellipsis
-                          maxLines: 2,
+                          maxLines: 3,
 
                           desciption,
                           style: TextStyle(
                               color: Color.fromRGBO(102, 102, 102, 1),
                               fontFamily: "YekanBakh",
-                              fontSize: 11 * scaleFactor, // Adjusted font size
+                              fontSize: isTablet
+                                  ? 23 * scaleFactor
+                                  : 11 * scaleFactor, // Adjusted font size
                               fontWeight: FontWeight.w400),
                         ),
                       ),
@@ -216,7 +231,9 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
               ),
               Container(
                 width: screenWidth * 0.3,
-                height: 96 * heightScaleFactor, // Adjusted height
+                height: isTablet
+                    ? 180 * heightScaleFactor
+                    : 96 * heightScaleFactor, // Ad // Adjusted height
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
                       topRight: Radius.circular(8),
@@ -234,69 +251,3 @@ class _CarouselSlider1State extends State<CarouselSlider1> {
     });
   }
 }
-
-
-// Widget _buildImageContainer(
-//       int index, double width, double height, String title) {
-//     return Center(
-//       child: Container(
-//         height: height,
-//         width: width,
-//         child: Stack(
-//           children: [
-//             // The background image
-//             Container(
-//               decoration: BoxDecoration(
-//                 borderRadius: BorderRadius.circular(8),
-//                 image: DecorationImage(
-//                   image: AssetImage(myItems1[index]),
-//                   fit: BoxFit.cover,
-//                 ),
-//               ),
-//             ),
-//             // The filtered row taking the full width
-//             Positioned(
-//               // left: 0,
-//               // right: 0,
-//               // bottom: 0,
-//               child: ClipRRect(
-//                 borderRadius: BorderRadius.only(
-//                   topLeft: Radius.circular(8),
-//                   topRight: Radius.circular(8),
-//                 ),
-//                 child: BackdropFilter(
-//                   filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-//                   child: Container(
-//                     width: double.infinity,
-//                     color: Colors.black.withOpacity(0.2),
-//                     padding: EdgeInsets.symmetric(vertical: 8.0),
-//                     child: Wrap(
-//                       textDirection: TextDirection.rtl,
-//                       crossAxisAlignment: WrapCrossAlignment.start,
-//                       alignment: WrapAlignment.start,
-//                       // mainAxisAlignment: MainAxisAlignment.end,
-//                       children: [
-//                         Padding(
-//                           padding: const EdgeInsets.only(right: 10, left: 10),
-//                           child: Text(
-//                             textDirection: TextDirection.rtl,
-//                             softWrap: true,
-//                             title,
-//                             style: TextStyle(
-//                                 color: Colors.white,
-//                                 fontFamily: "YekanBakh",
-//                                 fontSize: 18,
-//                                 fontWeight: FontWeight.w400),
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }

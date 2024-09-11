@@ -19,10 +19,14 @@ class CustomeNavBar extends StatefulWidget {
 class _CustomeNavBarState extends State<CustomeNavBar> {
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    // Define breakpoints for different device types
+    bool isTablet = screenWidth > 600;
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
         clipBehavior: Clip.antiAlias,
-        height: 65,
+        height: isTablet ? 110 : 87,
         // color: Theme.of(context).bottomAppBarColor,
         shape: CircularNotchedRectangle(),
         child: Row(
@@ -34,7 +38,7 @@ class _CustomeNavBarState extends State<CustomeNavBar> {
               },
               icon: Image.asset(
                 'icons/back.png',
-                scale: 4.5,
+                scale: isTablet ? 3.5 : 4.5,
               ),
             ),
             IconButton(
@@ -48,7 +52,7 @@ class _CustomeNavBarState extends State<CustomeNavBar> {
               },
               icon: Icon(
                 Icons.arrow_back_ios,
-                size: 23,
+                size: isTablet ? 30 : 23,
                 color: Color.fromRGBO(111, 111, 111, 1),
               ),
             ),
@@ -63,7 +67,7 @@ class _CustomeNavBarState extends State<CustomeNavBar> {
               },
               icon: Icon(
                 Icons.arrow_forward_ios,
-                size: 23,
+                size: isTablet ? 30 : 23,
                 color: Color.fromRGBO(111, 111, 111, 1),
               ),
             ),
@@ -77,6 +81,8 @@ class _CustomeNavBarState extends State<CustomeNavBar> {
                   Color.fromRGBO(111, 111, 111, 1),
                   BlendMode.srcIn,
                 ),
+                width: isTablet ? 29 : 20,
+                height: isTablet ? 29 : 20,
               ),
             ),
           ],

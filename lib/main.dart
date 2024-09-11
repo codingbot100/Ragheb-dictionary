@@ -2,12 +2,12 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:ragheb_dictionary/HomePage/Navigator.dart';  
 import 'package:ragheb_dictionary/Search/DataBase/splashData.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/Theme_Color.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeData.dart';
-import 'package:ragheb_dictionary/splashScreen.dart';
 
 main() async {
   await Hive.initFlutter();
@@ -70,7 +70,9 @@ class _MyAppState extends State<MyApp> {
                 child: child,
               );
             },
-            child: SplashScreen_Animated(),
+            child: MyAppNavigator(
+              
+            ),
             key: Key(themeManager.themebo.value
                 .toString()), // Key to trigger animation on theme change
           ),

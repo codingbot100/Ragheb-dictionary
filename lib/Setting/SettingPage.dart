@@ -61,16 +61,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
     // _loadData();
   }
 
-  // _loadData() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     fontFamile2 = prefs.getString('fontFamile2') ?? 'YekanBakh';
-  //     fontOption = prefs.getInt('value') ?? 0;
-  //     fontSizeSubTitle = prefs.getDouble("value1") ?? 13.0;
-  //   });
-  // }
-
-  List lable_slider = ["ریز", "ریز", "معمولی", "بزرگ ", "بزرگ"];
+  List lable_slider = ["ریز", "کوچک ", "بزرگ"];
   @override
   void updatePrices(double added, int removed) {
     int extra = added ~/ 5 * 2;
@@ -104,25 +95,23 @@ class _MySettingsPageState extends State<MySettingsPage> {
             child: Padding(
               padding: EdgeInsets.only(
                 top: 20,
-                left: isTable ? 50 : 10,
-                right: isTable ? 50 : 10,
+                left: isTable ? 25 : 10,
+                right: isTable ? 25 : 20,
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5, right: 5),
-                    child: Panel(
-                        onChange: () {
-                          widget.onChange();
-                        },
-                        Title: "تنظیمات"),
-                  ),
+                  Panel(
+                      onChange: () {
+                        widget.onChange();
+                      },
+                      Title: "تنظیمات"),
                   Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
-                        height: 240,
+                        height: isTable ? 410 : 240,
                         decoration: BoxDecoration(
                             border: Border.all(
                                 color: Theme.of(context)
@@ -144,32 +133,50 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                   ]
                                 : []),
                         child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 5, right: 15, bottom: 15),
+                          padding: EdgeInsets.only(
+                            left: isTable ? 25 : 15,
+                            right: isTable ? 15 : 15,
+                          ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    ' نوع قلم: ',
-                                    style: TextStyle(
-                                      color: thememanger.themebo.value != true
-                                          ? Color.fromRGBO(82, 82, 82, 1)
-                                          : Color.fromRGBO(153, 153, 153, 1),
-                                      fontFamily: "YekanBakh",
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14,
+                                  Container(
+                                    width: isTable
+                                        ? screenWidth * 0.18
+                                        : screenWidth * 0.15,
+                                    child: Text(
+                                      ' نوع قلم: ',
+                                      style: TextStyle(
+                                        color: thememanger.themebo.value != true
+                                            ? Color.fromRGBO(82, 82, 82, 1)
+                                            : Color.fromRGBO(153, 153, 153, 1),
+                                        fontFamily: "YekanBakh",
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: isTable ? 25 : 14,
+                                      ),
                                     ),
                                   ),
-                                  Container(
-                                      child: FontButton(
-                                          "یکان بخ", 55, 0, 'YekanBakh')),
-                                  FontButton("  یکان", 55, 1, 'IRANSansX'),
-                                  FontButton(" وزیر مت", 60, 2, 'Vazirmatn'),
+                                  Flexible(
+                                    child: Container(
+                                      width:
+                                          isTable ? screenWidth * 0.71 : null,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          FontButton(
+                                              "یکان بخ", 55, 0, 'YekanBakh'),
+                                          FontButton(
+                                              "  یکان", 55, 1, 'IRANSansX'),
+                                          FontButton(
+                                              " وزیر مت", 60, 2, 'Vazirmatn'),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
                               Row(
@@ -184,7 +191,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                           : Color.fromRGBO(153, 153, 153, 1),
                                       fontFamily: "YekanBakh",
                                       fontWeight: FontWeight.w600,
-                                      fontSize: 14.0,
+                                      fontSize: isTable ? 25 : 14,
                                     ),
                                   ),
                                   Flexible(
@@ -193,8 +200,9 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                           left: 7, right: 27),
                                       child: SliderTheme(
                                         data: SliderTheme.of(context).copyWith(
+                                          trackHeight: isTable ? 10 : 5,
                                           valueIndicatorTextStyle: TextStyle(
-                                              fontSize: 12,
+                                              fontSize: isTable ? 22 : 12,
                                               fontFamily: "YekanBakh",
                                               fontWeight: FontWeight.w400,
                                               color: Color.fromRGBO(
@@ -217,8 +225,9 @@ class _MySettingsPageState extends State<MySettingsPage> {
 
                                           thumbShape: RoundSliderThumbShape(
                                             elevation: 0,
-                                            enabledThumbRadius:
-                                                8.0, // Width and height of main dot
+                                            enabledThumbRadius: isTable
+                                                ? 15
+                                                : 8.0, // Width and height of main dot
                                           ),
 
                                           overlayShape: RoundSliderOverlayShape(
@@ -230,30 +239,26 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                               .transparent, // Hiding inactive tick marks
                                         ),
                                         child: Slider(
-                                            value: db.name,
-                                            // min: screenWidth * 0.07,
-                                            // max: screenWidth * 0.12,
-                                            min: 28,
-                                            max: 48,
+                                            value: db.name.clamp(
+                                                isTable ? 50.0 : 28.0,
+                                                isTable
+                                                    ? 80.0
+                                                    : 48.0), // Clamp to ensure it's within range
+                                            min: isTable ? 50.0 : 28.0,
+                                            max: isTable ? 80.0 : 48.0,
                                             divisions: 2,
-                                            label: lable_slider[
-                                                calculateIndex(db.name)],
+                                            label: db.name == 50
+                                                ? "ریز"
+                                                : db.name == 65
+                                                    ? "بزرگ"
+                                                    : "بزرگتر",
                                             onChanged: (double value) {
                                               setState(() {
                                                 db.name = value;
                                                 db.updateDataTypes();
                                                 db.updateDataBase();
-                                                // if (value == 20) {
-
-                                                // } else if (value == 40) {
-                                                //   db.name = 30;
-                                                //   db.updateDataTypes();
-                                                //   db.updateDataBase();
-                                                // } else if (value == 60) {
-                                                //   db.name = 35;
-                                                //   db.updateDataTypes();
-                                                //   db.updateDataBase();
-                                                // }
+                                                print(value);
+                                                print(db.FootNot);
                                               });
                                             }),
                                       ),
@@ -262,7 +267,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                 ],
                               ),
                               Container(
-                                height: 85,
+                                // height: 85,
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
@@ -271,7 +276,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                     Text(
                                       "متن آزمایشی :",
                                       style: TextStyle(
-                                        fontSize: 13,
+                                        fontSize: isTable ? 26 : 13,
                                         fontWeight: FontWeight.w400,
                                         color: thememanger.themebo.value != true
                                             ? Color.fromRGBO(82, 82, 82, 1)
@@ -280,18 +285,13 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.only(right: 10),
+                                      padding: EdgeInsets.only(
+                                          right: 10, top: isTable ? 12 : 0),
                                       child: Text(
                                         softWrap: true,
                                         "بهترین شما نافع ترین تان به بقیه است. (حدیث شریف)",
                                         style: TextStyle(
-                                          fontSize: db.FootNot < 17
-                                              ? 17
-                                              : db.FootNot < 20
-                                                  ? 20
-                                                  : db.FootNot < 22
-                                                      ? 22
-                                                      : 22,
+                                          fontSize: db.testText,
                                           fontWeight: FontWeight.w600,
                                           color: thememanger.themebo.value !=
                                                   true
@@ -313,7 +313,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
                         height: 30,
                       ),
                       Container(
-                        height: 120,
+                        height: isTable ? 160 : 120,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           textDirection: TextDirection.ltr,
@@ -322,15 +322,15 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                 listName: 'درباره فرهنگ لغت راغب',
                                 OntapLis: () {
                                   Get.to(() => about_ragheb_dictionary(),
-                                      transition: Transition.fadeIn,
-                                      duration: Duration(milliseconds: 500));
+                                      transition: Transition.leftToRight,
+                                      duration: Duration(milliseconds: 300));
                                 }),
                             Mylist(
                                 listName: 'درباره سازنده گان اپلیکیشن',
                                 OntapLis: () {
                                   Get.to(() => about_Us(),
-                                      transition: Transition.fadeIn,
-                                      duration: Duration(milliseconds: 500));
+                                      transition: Transition.leftToRight,
+                                      duration: Duration(milliseconds: 300));
                                 }),
                             // Mylist(
                             //     listName: 'ارئه بازخورد',
@@ -365,6 +365,8 @@ class _MySettingsPageState extends State<MySettingsPage> {
 
   Widget FontButton(
       String fontName, double width, int fontBorder, String fontFamily) {
+    var screenWidth = MediaQuery.of(context).size.width;
+    bool isTable = screenWidth > 600;
     return TextButton(
       onPressed: () {
         setState(() {
@@ -377,8 +379,8 @@ class _MySettingsPageState extends State<MySettingsPage> {
       child: AnimatedContainer(
           duration: Duration(milliseconds: 300),
           curve: Curves.bounceInOut,
-          width: width,
-          height: 26,
+          width: isTable ? 89 : 66,
+          height: isTable ? 48 : 26,
           decoration: BoxDecoration(
               shape: BoxShape.rectangle,
               border: Db_Font.borderFont == fontBorder
@@ -401,7 +403,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
                         : Colors.white,
                 fontFamily: 'YekanBakh',
                 fontWeight: FontWeight.w600,
-                fontSize: 13,
+                fontSize: isTable ? 22 : 13,
               ),
             ),
           )),
