@@ -82,66 +82,63 @@ class _WebLogState extends State<WebLog> {
 
     return Scaffold(
       body: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.only(
-                top: isTablet ? 20 : 7,
-                left: isTablet ? 25 : 10,
-                right: isTablet ? 25 : 10),
-            child: Column(
-              children: [
-                Padding(
-                    padding:
-                        const EdgeInsets.only(top: 20, right: 5, bottom: 25),
-                    child: Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: Panel(
-                            onChange: () {
-                              widget.onIndex();
-                            },
-                            Title: "وبلاگ راغب"))),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: csvData.length,
-                    itemBuilder: (context, index) {
-                      final row = csvData[index];
-                      return Padding(
-                        padding: EdgeInsets.only(bottom: isTablet ? 48 : 36),
-                        child: GestureDetector(
-                            onTap: () {
-                              Get.to(
-                                () => Web_Log_Detail(
-                                  image:
-                                      "web_images/${imageList[index % imageList.length]}",
-                                  title: row[1].toString(),
-                                  main_Contant: row[0].toString(),
-                                  csvData: csvData,
-                                  imageList: imageList,
-                                  initialPageIndex: index,
-                                ),
-                                transition: Transition.fadeIn,
-                                duration: Duration(milliseconds: 350),
-                              );
-                            },
-                            child: isTablet
-                                ? Tablet_WebLoge(
-                                    context,
-                                    row,
-                                    height,
+        child: Padding(
+          padding: EdgeInsets.only(
+              top: isTablet ? 20 : 0,
+              left: isTablet ? 25 : 10,
+              right: isTablet ? 25 : 10),
+          child: Column(
+            children: [
+              Padding(
+                  padding: const EdgeInsets.only(top: 20, right: 5, bottom: 25),
+                  child: Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: Panel(
+                          onChange: () {
+                            widget.onIndex();
+                          },
+                          Title: "وبلاگ راغب"))),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: csvData.length,
+                  itemBuilder: (context, index) {
+                    final row = csvData[index];
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: isTablet ? 48 : 36),
+                      child: GestureDetector(
+                          onTap: () {
+                            Get.to(
+                              () => Web_Log_Detail(
+                                image:
                                     "web_images/${imageList[index % imageList.length]}",
-                                    thememanger.themebo.value)
-                                : Phone_WebLoge(
-                                    context,
-                                    row,
-                                    height,
-                                    "web_images/${imageList[index % imageList.length]}",
-                                  )),
-                      );
-                    },
-                  ),
+                                title: row[1].toString(),
+                                main_Contant: row[0].toString(),
+                                csvData: csvData,
+                                imageList: imageList,
+                                initialPageIndex: index,
+                              ),
+                              transition: Transition.fadeIn,
+                              duration: Duration(milliseconds: 350),
+                            );
+                          },
+                          child: isTablet
+                              ? Tablet_WebLoge(
+                                  context,
+                                  row,
+                                  height,
+                                  "web_images/${imageList[index % imageList.length]}",
+                                  thememanger.themebo.value)
+                              : Phone_WebLoge(
+                                  context,
+                                  row,
+                                  height,
+                                  "web_images/${imageList[index % imageList.length]}",
+                                )),
+                    );
+                  },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

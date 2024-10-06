@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
-import 'package:ragheb_dictionary/Search/DataBase/todo_favorite.dart';
+import 'package:ragheb_dictionary/Search/DataBase/Favorite_database.dart';
 import 'package:ragheb_dictionary/Search/components/BottomNavBar.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
 import 'package:share_plus/share_plus.dart';
@@ -16,7 +16,7 @@ class DetailPage extends StatefulWidget {
   final String name;
   final String description;
   final String footnote;
-  final List<Map<String, String>> dataList;
+  final List<Map<String, dynamic>> dataList;
   final int initialPageIndex;
   final bool showFavorite;
   final String page;
@@ -48,15 +48,15 @@ class _DetailPageState extends State<DetailPage> {
   String currentDateAndTime = DateTime.now().toString();
   final _meBox = Hive.box('mybox');
 
-  ToDo_favorite db = new ToDo_favorite();
+  ToDo_favorite favorite_database = new ToDo_favorite();
   ToDo_FontController FontSize_db = new ToDo_FontController();
 
   @override
   void initState() {
     if (_meBox.get('TODOLIST') == null) {
-      db.createInitialData();
+      favorite_database.createInitialData();
     } else {
-      db.loadData();
+      favorite_database.loadData();
     }
 
     DB_fontFamily.loadData();
@@ -75,18 +75,21 @@ class _DetailPageState extends State<DetailPage> {
       });
     });
     setState(() {
-      image = db.favorite.any((item) => item['name'] == widget.name)
-          ? 'images/Enable (1).png'
-          : 'images/Disable (1).png';
+      image =
+          favorite_database.favorite.any((item) => item['name'] == widget.name)
+              ? 'images/Enable (1).png'
+              : 'images/Disable (1).png';
     });
     super.initState();
   }
 
   void addToFavorite(String name, descriprion, footnote) {
     setState(() {
-      bool isAlreadyFavorite = db.favorite.any((item) => item['name'] == name);
-      db.favorite.any((item) => item['description'] == descriprion);
-      db.favorite.any((item) => item['footnote'] == footnote);
+      bool isAlreadyFavorite =
+          favorite_database.favorite.any((item) => item['name'] == name);
+      favorite_database.favorite
+          .any((item) => item['description'] == descriprion);
+      favorite_database.favorite.any((item) => item['footnote'] == footnote);
       if (!isAlreadyFavorite) {
         Map newItem = {
           'name': name,
@@ -96,12 +99,12 @@ class _DetailPageState extends State<DetailPage> {
           'date': DateTime.now(),
           'image': 'images/new.png',
         };
-        db.favorite.add(newItem);
+        favorite_database.favorite.add(newItem);
         updateImage('icons/Enable (1).png'); // Update image immediately
       } else {
         // Find the item with the same name as itemName
         Map<dynamic, dynamic>? itemToRemove;
-        for (var item in db.favorite) {
+        for (var item in favorite_database.favorite) {
           if (item['name'] == name) {
             itemToRemove = item;
             break;
@@ -109,13 +112,14 @@ class _DetailPageState extends State<DetailPage> {
         }
         // Remove the item if found
         if (itemToRemove != null) {
-          db.favorite.remove(itemToRemove);
+          favorite_database.favorite.remove(itemToRemove);
           // widget.onRemove(name, descriprion, footnote);
           updateImage('icons/Disable (1).png'); // Update image immediately
         }
       }
-      db.updateDataBase();
-      db.updateImageState(name, image); // Update image state in Hive database
+      favorite_database.updateDataBase();
+      favorite_database.updateImageState(
+          name, image); // Update image state in Hive database
     });
   }
 
@@ -123,7 +127,7 @@ class _DetailPageState extends State<DetailPage> {
     setState(() {
       // Find the item with the same name, description, and footnote
       Map<dynamic, dynamic>? itemToRemove;
-      for (var item in db.favorite) {
+      for (var item in favorite_database.favorite) {
         if (item['name'] == name &&
             item['description'] == description &&
             item['footnote'] == footnote) {
@@ -134,11 +138,12 @@ class _DetailPageState extends State<DetailPage> {
 
       // Remove the item if found
       if (itemToRemove != null) {
-        db.favorite.remove(itemToRemove);
-        db.updateDataBase(); // Update the database after removing the item
-        db.updateImageState(
+        favorite_database.favorite.remove(itemToRemove);
+        favorite_database
+            .updateDataBase(); // Update the database after removing the item
+        favorite_database.updateImageState(
             name, 'icons/Disable (1).png'); // Update image state in Hive
-        db.updateDataBase();
+        favorite_database.updateDataBase();
       }
     });
     Get.back();
@@ -147,7 +152,8 @@ class _DetailPageState extends State<DetailPage> {
   void updateImage(String newImage) {
     setState(() {
       image = newImage;
-      db.updateImageState(widget.name, newImage); // Call updateImageState
+      favorite_database.updateImageState(
+          widget.name, newImage); // Call updateImageState
     });
   }
 
@@ -240,10 +246,12 @@ class _DetailPageState extends State<DetailPage> {
               final name = widget.dataList[index]['name']!;
               final description = widget.dataList[index]['description']!;
               final footnote = widget.dataList[index]['footnote']!;
-              final isFavorite =
-                  db.favorite.any((item) => item['name'] == name);
-              db.favorite.any((item) => item['description'] == description);
-              db.favorite.any((item) => item['name'] == footnote);
+              final isFavorite = favorite_database.favorite
+                  .any((item) => item['name'] == name);
+              favorite_database.favorite
+                  .any((item) => item['description'] == description);
+              favorite_database.favorite
+                  .any((item) => item['name'] == footnote);
               return Padding(
                 padding: EdgeInsets.only(
                   top: isTablet ? 40 : 15,

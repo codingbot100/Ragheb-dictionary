@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:ragheb_dictionary/Search/RecentPages/RecentPage_Menu.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
-import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/CarouselSlider.dart';
+// import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/My_slider.dart';
+// import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/Custome_CarouselSlider.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
-import 'package:ragheb_dictionary/Search/RecentPage_Menu.dart';
-import 'package:ragheb_dictionary/Search/FavoritePages_menu.dart';
-import 'package:ragheb_dictionary/Search/DataBase/todo_favorite.dart';
+import 'package:ragheb_dictionary/Search/FavoritePages/FavoritePages_menu.dart';
+import 'package:ragheb_dictionary/Search/DataBase/Favorite_database.dart';
 import 'package:ragheb_dictionary/Search/DataBase/recent_Search.dart';
 
 class Home extends StatefulWidget {
@@ -44,7 +45,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   final fontSizeTitle = 18.0;
   final fontSizeSubTitle = 10.0;
   final colorPrimary = Color(0xFF009688);
-  final colorBackground = Color(0xFFF5F5DC);
   var colortitle;
   ToDoRecent toDoRecent = ToDoRecent();
 
@@ -58,7 +58,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       toDo_favorite.loadData();
     }
     Recent_db.loadData();
-
     super.initState();
   }
 
@@ -66,17 +65,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-
-    // Adjust font size based on screen width
-    // double adjustedFontSizeTitle = fontSizeTitle;
-    // double adjustedFontSizeSubTitle = fontSizeSubTitle;
-    // if (width < 300) {
-    //   adjustedFontSizeTitle = fontSizeTitle * 0.8;
-    //   adjustedFontSizeSubTitle = fontSizeSubTitle * 0.8;
-    // } else if (width > 600) {
-    //   adjustedFontSizeTitle = fontSizeTitle * 1.2;
-    //   adjustedFontSizeSubTitle = fontSizeSubTitle * 1.2;
-    // }
     double screenWidth = MediaQuery.of(context).size.width;
 
     // Define breakpoints for different device types
@@ -85,9 +73,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(
-              top: isTablet ? 20 : 7,
-              left: isTablet ? 25 : 10,
-              right: isTablet ? 25 : 10),
+              top: isTablet ? 20 : 0,
+              left: isTablet ? 25 : 0,
+              right: isTablet ? 25 : 0),
           child: Column(
             children: [
               Padding(
@@ -142,10 +130,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                               onPageChange: widget.onPageChange,
                               width),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(bottom: isTablet ? 55 : 10),
-                          child: CarouselSlider1(),
-                        ),
+                        // Padding(
+                        //   padding: EdgeInsets.only(bottom: isTablet ? 55 : 10),
+                        //   child: Container(width: 100, child: My_slider()),
+                        // ),
                         SingleChildScrollView(
                           child: Column(
                             children: [
@@ -212,20 +200,24 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                       width),
                                 ),
                               ),
-                              Container(
-                                height: (toDo_favorite.favorite.length <= 3)
-                                    ? isTablet
-                                        ? toDo_favorite.favorite.length * 90
-                                        : toDo_favorite.favorite.length * 60
-                                    : isTablet
-                                        ? 3 * 90
-                                        : 3 * 60,
-                                child: GetBuilder<MyController>(
-                                  builder: (controller) {
-                                    return FavoritPage_menu(
-                                      length: 0,
-                                    );
-                                  },
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(bottom: isTablet ? 0 : 15),
+                                child: Container(
+                                  height: (toDo_favorite.favorite.length <= 3)
+                                      ? isTablet
+                                          ? toDo_favorite.favorite.length * 90
+                                          : toDo_favorite.favorite.length * 60
+                                      : isTablet
+                                          ? 3 * 90
+                                          : 3 * 60,
+                                  child: GetBuilder<MyController>(
+                                    builder: (controller) {
+                                      return FavoritPage_menu(
+                                        length: 0,
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
                               Visibility(
@@ -244,7 +236,12 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                       width),
                                 ),
                               ),
-                              RecentPageHomePage(),
+                              Container(
+                                height: 220,
+                                child: RecentPageHomePage(
+                                  length: 0,
+                                ),
+                              ),
                             ],
                           ),
                         )

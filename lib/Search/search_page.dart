@@ -2,14 +2,13 @@
 import 'dart:async';
 import 'package:csv/csv.dart';
 import "package:flutter/material.dart";
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:ragheb_dictionary/Search/RecentPages/Recent_database.dart';
 import 'package:ragheb_dictionary/Search/components/secondRow.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
-import 'package:ragheb_dictionary/Search/DataBase/isShow.dart';
 import 'package:ragheb_dictionary/Search/DataBase/recent_Search.dart';
 import 'package:ragheb_dictionary/Search/Detail_Page.dart';
 
@@ -23,17 +22,14 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   int selectedPageIndex = 0;
-  final _meBox = Hive.box('mybox');
   ToDo_FontController db6 = ToDo_FontController();
-  final ShowClass = Get.put(show());
   ToDoRecent RecentData = ToDoRecent();
   late List<Map<String, Widget>> pages;
   final FocusNode _searchFocus = FocusNode();
-  List<Map<String, String>> dataList = [];
-  List<Map<String, String>> dataList2 = [];
+  List<Map<String, dynamic>> dataList = [];
   bool showFouse = false;
-  List<Map<String, String>> filteredList = [];
-  List<Map<String, String>> filteredList2 = [];
+  List<Map<String, dynamic>> filteredList = [];
+  List<Map<String, dynamic>> filteredList2 = [];
 
   ToDoDataBaseFont dbFont = new ToDoDataBaseFont();
   TextEditingController _searchController = TextEditingController();
@@ -41,7 +37,7 @@ class _SearchPageState extends State<SearchPage> {
   bool isShow = false;
   DateTime now = DateTime.now();
   TimeOfDay currentTime = TimeOfDay.now();
-  // final _meBox2 = Hive.box('mybox2');
+  Recent_Database recent_database = Recent_Database();
 
   Future<void> loadData() async {
     try {
@@ -60,7 +56,7 @@ class _SearchPageState extends State<SearchPage> {
           "footnote": row[0].toString(),
           "description": row[1].toString(),
           "name": row[2].toString(),
-          "favorites": row[3].toString()
+          // "favorites": row[3].toString()
         };
         newDataList.add(item);
       }
@@ -92,48 +88,48 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     dbFont.loadData();
+    recent_database.loadData();
 
-    if (_meBox.get('TODORECENT') == null) {
-      RecentData.createInitialData();
-    } else {
-      RecentData.loadData();
-    }
-
-    loadData();
     db6.createInitialData();
     db6.loadData();
+    Timer(Duration(milliseconds: 250), () {
+      loadData();
+    });
 
     super.initState();
   }
 
-  void addToRecentData(String name, description, footnote) {
-    if (name.isNotEmpty) {
-      // Check if searchText exists in dataList based on the "name" field
-      bool searchTextExists = dataList.any((item) => item['name'] == name);
-
-      if (searchTextExists && !RecentData.RecentSearch.contains(name)) {
-        RecentData.RecentSearch.add(name);
-        RecentData.updateDataBase();
-        print(RecentData.RecentSearch);
+  void addToRecentData(String name, descriprion, footnote) {
+    setState(() {
+      bool isAlreadyAddedToRecent =
+          recent_database.Recent_db.any((item) => item['name'] == name);
+      recent_database.Recent_db.any(
+          (item) => item['description'] == descriprion);
+      recent_database.Recent_db.any((item) => item['footnote'] == footnote);
+      if (!isAlreadyAddedToRecent) {
+        Map newItem = {
+          'name': name,
+          'description': descriprion,
+          'footnote': footnote,
+        };
+        recent_database.Recent_db.add(newItem);
+      } else {
+        // Find the item with the same name as itemName
+        Map<dynamic, dynamic>? itemToRemove;
+        for (var item in recent_database.Recent_db) {
+          if (item['name'] == name) {
+            itemToRemove = item;
+            break;
+          }
+        }
+        // Remove the item if found
+        if (itemToRemove != null) {
+          recent_database.Recent_db.remove(itemToRemove);
+          // widget.onRemove(name, descriprion, footnote);
+        }
       }
-
-      // تنظیم خصوصیات TextField
-      _searchController.text = name;
-      _searchController.selection = TextSelection.fromPosition(
-          TextPosition(offset: _searchController.text.length));
-      _searchController.selection =
-          TextSelection.collapsed(offset: _searchController.text.length);
-
-      // Filter dataList based on searchText
-      filteredList = dataList
-          .where((item) =>
-              item['name']!.toLowerCase().contains(name.toLowerCase()))
-          .toList();
-    }
-
-    if (RecentData.RecentSearch.length >= 30) {
-      RecentData.RecentSearch.removeRange(0, 1);
-    }
+      recent_database.updateDataBase();
+    });
   }
 
   void remove(int index) {
@@ -157,8 +153,8 @@ class _SearchPageState extends State<SearchPage> {
     });
   }
 
-  List<Map<String, String>> filterDataList() {
-    List<Map<String, String>> filteredList = [];
+  List<Map<String, dynamic>> filterDataList() {
+    List<Map<String, dynamic>> filteredList = [];
 
     // Filter items based on whether they are in RecentSearch
     for (var item in dataList) {
@@ -177,131 +173,125 @@ class _SearchPageState extends State<SearchPage> {
     return filteredList;
   }
 
-  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+  // final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
   @override
   Widget build(BuildContext context) {
-    final filteredList1 = filterDataList();
+    // final filteredList1 = filterDataList();
     double ScreenWidth = MediaQuery.of(context).size.width;
-
     // Define breakpoints for different device types
     bool isTablet = ScreenWidth > 600;
+    List<Map<String, dynamic>> recentMapList =
+        recent_database.Recent_db.map((item) {
+      return {
+        'name': item['name'],
+        'description': item['description'],
+        'footnote': item['footnote'],
+      };
+    }).toList();
+
     return Scaffold(
       // backgroundColor: Color(0xFFF5F5DC),
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(
-              top: 25, left: isTablet ? 30 : 15, right: isTablet ? 30 : 15),
-          child: Column(
-            children: [
-              Row(
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(
+                  top: 25, left: isTablet ? 30 : 15, right: isTablet ? 30 : 15),
+              child: Row(
                 children: [
                   Expanded(
-                    child: MouseRegion(
-                      onEnter: (event) {
+                    child: Focus(
+                      onFocusChange: (hasFocus) {
                         setState(() {
-                          Get.find<show>().isShow.value = true;
-                          print(ShowClass.isShow.value);
+                          isShow = hasFocus;
+                          widget.isShow = hasFocus;
                         });
                       },
-                      onExit: (event) {
-                        setState(() {
-                          Get.find<show>().isShow.value = false;
-                          print(ShowClass.isShow.value);
-                        });
-                      },
-                      child: Focus(
-                        onFocusChange: (hasFocus) {
-                          setState(() {
-                            isShow = hasFocus;
-                            widget.isShow = hasFocus;
-                            ShowClass.isShow.value = !ShowClass.isShow.value;
-                          });
-                        },
-                        child: Container(
-                          height: isTablet ? 65 : 45,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Color.fromRGBO(0, 150, 136, 1),
-                            ),
-                            borderRadius:
-                                BorderRadius.circular(isTablet ? 30 : 25),
+                      child: Container(
+                        height: isTablet ? 65 : 45,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Color.fromRGBO(0, 150, 136, 1),
                           ),
-                          child: Center(
-                            child: TextField(
-                              // focusNode: _searchFocus,
-                              // autofocus: showFouse,
-                              autofocus: RecentData.RecentSearch.isEmpty
-                                  ? true
-                                  : false,
-                              controller: _searchController,
-                              cursorColor: Color.fromRGBO(0, 150, 136, 0.5),
-                              cursorHeight: 17,
-                              autocorrect: false,
-                              enableSuggestions: false,
-                              cursorOpacityAnimates: true,
-                              keyboardAppearance: Brightness.dark,
-                              keyboardType: TextInputType.name,
-                              textAlignVertical: TextAlignVertical.center,
-                              style: TextStyle(
-                                fontFamily: dbFont.FontFamily,
-                                fontSize: isTablet ? 26 : 17,
-                              ),
-                              textAlign: TextAlign.right,
-                              onChanged: (value) {
-                                setState(() {
-                                  filteredList = dataList
-                                      .where((task) => task['name']!
-                                          .toLowerCase()
-                                          .contains(value.toLowerCase()))
-                                      .toList();
-                                  _performSearch(value);
-                                  showFouse = true;
-                                });
-                              },
-                              decoration: InputDecoration(
-                                prefixIcon: Visibility(
-                                  visible: _searchController.text.isEmpty
-                                      ? false
-                                      : true,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 10),
-                                    child: IconButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          _searchController.clear();
-                                        });
-                                      },
-                                      icon: Icon(
-                                        Icons.clear,
-                                        size: isTablet ? 27 : 15,
-                                        color: Color.fromRGBO(0, 150, 136, 1),
-                                      ),
+                          borderRadius:
+                              BorderRadius.circular(isTablet ? 30 : 25),
+                        ),
+                        child: Center(
+                          child: TextField(
+                            // focusNode: _searchFocus,
+                            // autofocus: showFouse,
+                            autofocus:
+                                RecentData.RecentSearch.isEmpty ? true : false,
+                            controller: _searchController,
+                            cursorColor: Color.fromRGBO(0, 150, 136, 0.5),
+                            cursorHeight: 17,
+                            autocorrect: false,
+                            enableSuggestions: false,
+                            cursorOpacityAnimates: true,
+                            keyboardAppearance: Brightness.dark,
+                            keyboardType: TextInputType.name,
+                            textAlignVertical: TextAlignVertical.center,
+                            style: TextStyle(
+                              fontFamily: dbFont.FontFamily,
+                              fontSize: isTablet ? 26 : 17,
+                            ),
+                            textAlign: TextAlign.right,
+                            onChanged: (value) {
+                              setState(() {
+                                filteredList = dataList
+                                    .where((task) => task['name']!
+                                        .toLowerCase()
+                                        .contains(value.toLowerCase()))
+                                    .toList();
+                                _performSearch(value);
+                                showFouse = true;
+                              });
+                            },
+                            decoration: InputDecoration(
+                              prefixIcon: Visibility(
+                                visible: _searchController.text.isEmpty
+                                    ? false
+                                    : true,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _searchController.clear();
+                                      });
+                                    },
+                                    icon: Icon(
+                                      Icons.clear,
+                                      size: isTablet ? 27 : 15,
+                                      color: Color.fromRGBO(0, 150, 136, 1),
                                     ),
                                   ),
                                 ),
-                                contentPadding:
-                                    EdgeInsets.only(top: 10.0, right: 10.0),
-                                hintText: "  ...جستجو کنید ",
-                                hintStyle: TextStyle(
-                                    fontSize: isTablet ? 26 : 17,
-                                    fontFamily: dbFont.FontFamily),
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                ),
-                                suffixIcon: Padding(
-                                  padding: const EdgeInsets.only(right: 10),
-                                  child: IconButton(
-                                    isSelected: false,
-                                    onPressed: () {},
-                                    icon: SvgPicture.asset(
-                                      "svg_images/search_new.svg",
-                                      width: isTablet ? 32 : 20,
-                                      height: isTablet ? 32 : 20,
-                                      colorFilter: ColorFilter.mode(
-                                        Color.fromRGBO(111, 111, 111, 1),
-                                        BlendMode.srcIn,
-                                      ),
+                              ),
+                              contentPadding:
+                                  EdgeInsets.only(top: 10.0, right: 10.0),
+                              hintText: "  ...جستجو کنید ",
+                              hintStyle: TextStyle(
+                                  color: Color.fromRGBO(0, 150, 136, 1),
+                                  fontSize: isTablet ? 26 : 17,
+                                  fontFamily: dbFont.FontFamily),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                              ),
+                              suffixIcon: Padding(
+                                padding:
+                                    EdgeInsets.only(right: isTablet ? 10 : 0),
+                                child: IconButton(
+                                  isSelected: false,
+                                  onPressed: () {},
+                                  icon: SvgPicture.asset(
+                                    "svg_images/search_new.svg",
+                                    width: isTablet ? 32 : 20,
+                                    height: isTablet ? 32 : 20,
+                                    colorFilter: ColorFilter.mode(
+                                      Color.fromRGBO(111, 111, 111, 1),
+                                      BlendMode.srcIn,
                                     ),
                                   ),
                                 ),
@@ -314,209 +304,217 @@ class _SearchPageState extends State<SearchPage> {
                   ),
                 ],
               ),
-              Visibility(
-                  visible: _searchController.text.isEmpty &&
-                          RecentData.RecentSearch.isNotEmpty
-                      ? true
-                      : false,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 32, bottom: 25),
-                    child: secondRow(onClear: removeAll),
-                  )),
-              Visibility(
-                  visible: RecentData.RecentSearch.isEmpty &&
-                          _searchController.text.isEmpty
-                      ? true
-                      : false,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: Text(
-                      "اخیر هیچ جستجوی انجام نشده است",
-                      style: TextStyle(
-                        fontFamily: dbFont.FontFamily,
-                        fontSize: isTablet ? 26 : 15,
-                      ),
-                    ),
-                  )),
-              Visibility(
-                visible: _searchController.text.isEmpty ? true : false,
-                child: Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 30),
-                    child: ListView.separated(
-                        separatorBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(left: 15, right: 15),
-                            child: Divider(
-                              thickness: 0.5,
-                              color: Color.fromRGBO(0, 150, 136, 1),
+            ),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(
+                    left: isTablet ? 30 : 10, right: isTablet ? 30 : 20),
+                child: Column(
+                  children: [
+                    Visibility(
+                        visible: _searchController.text.isEmpty &&
+                                RecentData.RecentSearch.isNotEmpty
+                            ? true
+                            : false,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              top: isTablet ? 32 : 10,
+                              bottom: isTablet ? 25 : 0),
+                          child: secondRow(onClear: removeAll),
+                        )),
+                    Visibility(
+                        visible: recent_database.Recent_db.isEmpty &&
+                                _searchController.text.isEmpty
+                            ? true
+                            : false,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: Text(
+                            "اخیر هیچ جستجوی انجام نشده است",
+                            style: TextStyle(
+                              fontFamily: dbFont.FontFamily,
+                              fontSize: isTablet ? 26 : 15,
                             ),
-                          );
-                        },
-                        shrinkWrap: true,
-                        itemCount: filteredList1.length,
-                        itemBuilder: (context, index) {
-                          int realIndex = index % filteredList1.length;
-                          final item = filteredList1[realIndex];
-                          return Container(
-                            height: isTablet ? 62 : 42,
-                            child: Padding(
-                              padding: const EdgeInsets.only(),
-                              child: Center(
-                                child: ListTile(
-                                  leading: IconButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          RecentData.RecentSearch.removeAt(
-                                              realIndex);
-                                          RecentData.updateDataBase();
-                                          // print(RecentData.RecentSearch);
-                                          // // print(filteredList1);
-                                          // // print(filteredList1[realIndex]);
-                                          // print(index);
+                          ),
+                        )),
+                    Visibility(
+                      visible: _searchController.text.isEmpty ? true : false,
+                      child: Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: ListView.separated(
+                            separatorBuilder: (context, index) {
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 20, right: 0),
+                                child: Divider(
+                                  thickness: 0.5,
+                                  color: Color.fromRGBO(0, 150, 136, 1),
+                                ),
+                              );
+                            },
+                            shrinkWrap: true,
+                            itemCount: recent_database
+                                .Recent_db.length, // Use dataList length
+                            itemBuilder: (context, index) {
+                              // int realIndex =
+                              //     index % recent_database.Recent_db.length;
+                              final item = recentMapList[index];
 
-                                          // print(realIndex);
-                                        });
-                                      },
-                                      icon: Icon(
-                                        Icons.clear,
-                                        size: isTablet ? 28 : 20,
-                                      ),
-                                      color: Color.fromRGBO(0, 150, 136, 1)),
-                                  horizontalTitleGap:
-                                      BorderSide.strokeAlignInside,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                      side: BorderSide(
-                                        color: Colors.transparent,
-                                      )),
-                                  tileColor: Colors.transparent,
-                                  onFocusChange: (e) {
-                                    setState(() {});
-                                  },
-                                  onTap: () {
-                                    Get.to(
-                                      () => DetailPage(
-                                        onRemove:
-                                            (name, descriprion, footnote) {},
-                                        page: "mainpage",
-                                        name: item['name']!,
-                                        description: item['name']!,
-                                        footnote: item['footnote']!,
-                                        dataList: filteredList1,
-                                        initialPageIndex:
-                                            filteredList1.indexOf(item),
-                                        showFavorite: true,
-                                      ),
-                                      transition: Transition.fadeIn,
-                                      duration: Duration(milliseconds: 500),
-                                    );
-                                    print(item['footnote']);
-                                    setState(() {
-                                      _searchFocus.unfocus();
-                                      _searchController.clear();
-                                    });
-                                  },
-                                  trailing: Text(
-                                    item["name"]!,
-                                    style: TextStyle(
-                                        fontFamily: dbFont.FontFamily,
-                                        fontSize: isTablet ? 26 : 21,
-                                        fontWeight: FontWeight.w900),
+                              return Container(
+                                height: isTablet ? 62 : 42,
+                                child: Center(
+                                  child: myListTile(
+                                    () => RemoveIcon(index),
+                                    () => onDetail(item, recentMapList, false),
+                                    isTablet,
+                                    true,
+                                    "${item['name']}",
                                   ),
                                 ),
-                              ),
-                            ),
-                          );
-                        }),
-                  ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: _searchController.text.isEmpty ? false : true,
+                      child: Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: ListView.separated(
+                            itemCount: _searchController.text.isEmpty
+                                ? dataList.length
+                                : filteredList.length,
+                            itemBuilder: (context, index) {
+                              final item = _searchController.text.isEmpty
+                                  ? dataList[index]
+                                  : filteredList[index];
+                              return Container(
+                                height: isTablet ? 60 : 40,
+                                child: Center(
+                                    child: myListTile(
+                                  () {},
+                                  () => onDetail(item, filteredList, true),
+                                  isTablet,
+                                  false,
+                                  item["name"]!,
+                                )),
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 20, right: 0),
+                                child: Divider(
+                                  thickness: 0.5,
+                                  color: Color.fromRGBO(0, 150, 136, 1),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
               ),
-              Visibility(
-                visible: _searchController.text.isEmpty ? false : true,
-                child: Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: ListView.separated(
-                      itemCount: _searchController.text.isEmpty
-                          ? dataList.length
-                          : filteredList.length,
-                      itemBuilder: (context, index) {
-                        final item = _searchController.text.isEmpty
-                            ? dataList[index]
-                            : filteredList[index];
-                        return Container(
-                          height: isTablet ? 60 : 40,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 12, right: 12),
-                            child: Center(
-                              child: ListTile(
-                                horizontalTitleGap:
-                                    BorderSide.strokeAlignInside,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    side: BorderSide(
-                                      color: Colors.transparent,
-                                    )),
-                                tileColor: Colors.transparent,
-                                trailing: Text(
-                                  item["name"]!,
-                                  style: TextStyle(
-                                      fontFamily: dbFont.FontFamily,
-                                      fontSize: isTablet ? 26 : 21,
-                                      fontWeight: FontWeight.w900),
-                                ),
-                                onTap: () {
-                                  Get.to(
-                                    () => DetailPage(
-                                      onRemove:
-                                          (name, descriprion, footnote) {},
-                                      page: "mainpage",
-                                      name: item['name']!,
-                                      description: item['description']!,
-                                      footnote: item['footnote']!,
-                                      dataList: dataList,
-                                      initialPageIndex: dataList.indexOf(item),
-                                      showFavorite: true,
-                                    ),
-                                    transition: Transition.fade,
-                                    duration: Duration(milliseconds: 200),
-                                  );
-
-                                  Timer(Duration(seconds: 1), () {
-                                    addToRecentData(
-                                        item["name"]!,
-                                        item['description']!,
-                                        item['footnote']!);
-                                    setState(() {
-                                      showFouse = false;
-                                      _searchFocus.unfocus();
-                                      _searchController.clear();
-                                    });
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(left: 20, right: 20),
-                          child: Divider(
-                            thickness: 0.5,
-                            color: Color.fromRGBO(0, 150, 136, 0.5),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );
+  }
+
+  Widget myListTile(void Function() onPress, void Function() Detailpage,
+      bool isTablet, isShowIcon, String title) {
+    return GestureDetector(
+      onTap: Detailpage,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 10),
+        child:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          isShowIcon
+              ? Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: IconButton(
+                    onPressed: onPress,
+                    icon: Icon(Icons.clear,
+                        size: isTablet ? 28 : 20,
+                        color: Color.fromRGBO(0, 150, 136, 1)),
+                  ),
+                )
+              : SizedBox(),
+          Directionality(
+            textDirection: TextDirection.rtl,
+            child: Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 7),
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontFamily: dbFont.FontFamily,
+                    fontSize: isTablet ? 26 : 21,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ]),
+      ),
+    );
+  }
+
+  void RemoveIcon(int realIndex) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        recent_database.Recent_db.removeAt(realIndex);
+        recent_database.updateDataBase();
+      });
+    });
+  }
+
+  void onDetail(final item, dataList, bool isAddToRecentList) {
+    print(
+      item['name'],
+    );
+    // print("dataList:$dataList");
+    Get.to(
+      () => DetailPage(
+        onRemove: (name, descriprion, footnote) {},
+        page: "mainpage",
+        name: item['name']!,
+        description: item['description']!,
+        footnote: item['footnote']!,
+        dataList: dataList,
+        initialPageIndex: dataList.indexOf(item),
+        showFavorite: true,
+      ),
+      transition: Transition.rightToLeft,
+      duration: Duration(milliseconds: 350),
+    );
+    // print(item['footnote']);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (isAddToRecentList) {
+        Timer(Duration(seconds: 1), () {
+          // add to recent list
+          addToRecentData(
+              item["name"]!, item['description']!, item['footnote']!);
+          setState(() {
+            showFouse = false;
+
+            _searchFocus.unfocus();
+            _searchController.clear();
+          });
+        });
+      } else {
+        setState(() {
+          _searchFocus.unfocus();
+          _searchController.clear();
+        });
+      }
+    });
   }
 }

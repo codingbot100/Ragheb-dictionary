@@ -17,7 +17,7 @@ class ToDoRecent {
     dateAndTime = _meBox.get("TODODATEANDTIME") ?? [];
   }
 
-  void addToFavorites(String item) {
+  void addToRecent(String item) {
     RecentSearch.add(item);
     String currentDateAndTime = DateTime.now().toString();
     dateAndTime.add(currentDateAndTime);

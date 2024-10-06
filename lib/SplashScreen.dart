@@ -73,11 +73,11 @@ class SplashScreen_Animated extends StatefulWidget {
 
 class _SplashScreen_AnimatedState extends State<SplashScreen_Animated> {
   final splash = Get.put(splashclass());
-  // @override
-  // void initState() {
-  //   splash.checkPage = false.obs;
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    splash.checkPage = false.obs;
+    super.initState();
+  }
   final ThemeManager themeManager = Get.put(ThemeManager());
 
   @override

@@ -2,7 +2,7 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:ragheb_dictionary/HomePage/Navigator.dart';  
+import 'package:ragheb_dictionary/HomePage/Navigator.dart';
 import 'package:ragheb_dictionary/Search/DataBase/splashData.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/Theme_Color.dart';
@@ -14,7 +14,6 @@ main() async {
   WidgetsFlutterBinding.ensureInitialized();
   var box = await Hive.openBox('mybox');
   var box2 = await Hive.openBox('mybox2');
-
   runApp(
     MyApp(),
   );
@@ -70,9 +69,7 @@ class _MyAppState extends State<MyApp> {
                 child: child,
               );
             },
-            child: MyAppNavigator(
-              
-            ),
+            child: MyAppNavigator(),
             key: Key(themeManager.themebo.value
                 .toString()), // Key to trigger animation on theme change
           ),

@@ -135,7 +135,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
                         child: Padding(
                           padding: EdgeInsets.only(
                             left: isTable ? 25 : 15,
-                            right: isTable ? 15 : 15,
+                            right: 15,
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -257,8 +257,8 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                                 db.name = value;
                                                 db.updateDataTypes();
                                                 db.updateDataBase();
-                                                print(value);
-                                                print(db.FootNot);
+                                                // print(value);
+                                                // print(db.FootNot);
                                               });
                                             }),
                                       ),
