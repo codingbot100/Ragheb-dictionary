@@ -6,8 +6,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/WebLog/WebDetail.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
-import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
-import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeData.dart';
+import 'package:ragheb_dictionary/Tools_Menu/ThemeDatabase.dart';
+import 'package:ragheb_dictionary/Tools_Menu/ThemeData.dart';
 import 'package:ragheb_dictionary/Widgets/Panel.dart';
 
 class WebLog extends StatefulWidget {
@@ -109,6 +109,9 @@ class _WebLogState extends State<WebLog> {
                           onTap: () {
                             Get.to(
                               () => Web_Log_Detail(
+                                changeIndex: (value) {
+                                  widget.onIndex();
+                                },
                                 image:
                                     "web_images/${imageList[index % imageList.length]}",
                                 title: row[1].toString(),

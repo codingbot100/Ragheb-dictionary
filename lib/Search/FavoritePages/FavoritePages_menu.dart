@@ -5,14 +5,15 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
-import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
-import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeData.dart';
+import 'package:ragheb_dictionary/Tools_Menu/ThemeDatabase.dart';
+import 'package:ragheb_dictionary/Tools_Menu/ThemeData.dart';
 import 'package:ragheb_dictionary/Search/DataBase/Favorite_database.dart';
 import 'package:ragheb_dictionary/Search/Detail_Page.dart';
 
 class FavoritPage_menu extends StatefulWidget {
   int length;
-  FavoritPage_menu({required this.length});
+
+  FavoritPage_menu({required this.length,});
 
   @override
   _FavoritPage_menuState createState() => _FavoritPage_menuState();
@@ -190,6 +191,7 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
                         onTap: () {
                           Get.to(
                               () => DetailPage(
+                                
                                     onRemove: remove_Favorite,
                                     page: "favoritePage",
                                     name:
@@ -210,8 +212,8 @@ class _FavoritPage_menuState extends State<FavoritPage_menu> {
                                     }).toList(),
                                     showFavorite: false,
                                   ),
-                              transition: Transition.fadeIn,
-                              duration: Duration(milliseconds: 400));
+                              transition: Transition.rightToLeft,
+                              duration: Duration(milliseconds: 250));
                           _todoDatabase.updateDataBase();
                         },
                       ),

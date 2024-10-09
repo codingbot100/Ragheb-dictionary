@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
-import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
-import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeData.dart';
+import 'package:ragheb_dictionary/Tools_Menu/ThemeDatabase.dart';
+import 'package:ragheb_dictionary/Tools_Menu/ThemeData.dart';
 
 class Mylist extends StatefulWidget {
   final String listName;

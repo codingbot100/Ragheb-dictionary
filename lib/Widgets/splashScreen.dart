@@ -58,11 +58,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:ragheb_dictionary/HomePage/Navigator.dart';
+import 'package:ragheb_dictionary/Widgets/Navigator.dart';
 import 'package:ragheb_dictionary/Search/DataBase/splashData.dart';
 import 'package:ragheb_dictionary/Setting/welcome_screen/Phone_screen.dart';
 import 'package:ragheb_dictionary/Setting/welcome_screen/Tablet_Screen.dart';
-import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
+import 'package:ragheb_dictionary/Tools_Menu/ThemeDatabase.dart';
 
 class SplashScreen_Animated extends StatefulWidget {
   SplashScreen_Animated({super.key});

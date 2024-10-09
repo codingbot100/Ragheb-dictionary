@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
-import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
-import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeData.dart';
+import 'package:ragheb_dictionary/Tools_Menu/ThemeDatabase.dart';
+import 'package:ragheb_dictionary/Tools_Menu/ThemeData.dart';
 import 'package:ragheb_dictionary/Setting/settingsPages/About_us.dart';
 import 'package:ragheb_dictionary/Setting/settingsPages/about_ragheb_dictionary.dart';
 import 'package:ragheb_dictionary/Setting/info_page.dart';
@@ -165,7 +165,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                           isTable ? screenWidth * 0.71 : null,
                                       child: Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceAround,
                                         children: [
                                           FontButton(
                                               "یکان بخ", 55, 0, 'YekanBakh'),
@@ -379,7 +379,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
       child: AnimatedContainer(
           duration: Duration(milliseconds: 300),
           curve: Curves.bounceInOut,
-          width: isTable ? 89 : 66,
+          width: isTable ? 89 : 60,
           height: isTable ? 48 : 26,
           decoration: BoxDecoration(
               shape: BoxShape.rectangle,

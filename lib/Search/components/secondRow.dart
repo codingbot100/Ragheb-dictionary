@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import "package:get/get.dart";
 import "package:ragheb_dictionary/Search/components/dialog_box.dart";
-import "package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart";
+import "package:ragheb_dictionary/Tools_Menu/ThemeDatabase.dart";
 
 class secondRow extends StatefulWidget {
   final void Function() onClear;

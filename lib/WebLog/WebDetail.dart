@@ -8,13 +8,14 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
-import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
+import 'package:ragheb_dictionary/Tools_Menu/ThemeDatabase.dart';
 import 'package:ragheb_dictionary/Search/components/BottomNavBar.dart';
 import 'package:share_plus/share_plus.dart';
 
 class Web_Log_Detail extends StatefulWidget {
   final String title;
   final String main_Contant;
+  void Function(int index) changeIndex;
   final String image;
   final List imageList;
   final int initialPageIndex; // Add this parameter
@@ -27,6 +28,7 @@ class Web_Log_Detail extends StatefulWidget {
     required this.csvData,
     required this.imageList,
     required this.initialPageIndex,
+    required this.changeIndex,
   });
 
   @override
@@ -281,6 +283,7 @@ class _Web_Log_DetailState extends State<Web_Log_Detail> {
         height: isTablet ? 110 : 87,
         child: CustomeNavBar(
           dataList: widget.csvData,
+       
           pageController: _pageController,
         ),
       ),

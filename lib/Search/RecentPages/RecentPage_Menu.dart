@@ -5,13 +5,15 @@ import 'package:ragheb_dictionary/Search/RecentPages/Recent_database.dart';
 import 'package:ragheb_dictionary/Search/Detail_Page.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
-import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeData.dart';
-import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
+import 'package:ragheb_dictionary/Tools_Menu/ThemeData.dart';
+import 'package:ragheb_dictionary/Tools_Menu/ThemeDatabase.dart';
 
 // ignore: must_be_immutable
 class RecentPageHomePage extends StatefulWidget {
   int length;
-  RecentPageHomePage({required this.length});
+      final void Function() changeIndex;
+
+  RecentPageHomePage({required this.length, required this.changeIndex});
 
   @override
   _RecentPageHomePageState createState() => _RecentPageHomePageState();
@@ -41,7 +43,6 @@ class _RecentPageHomePageState extends State<RecentPageHomePage> {
     _initHive();
     widget.length = recentDB.Recent_db.length;
     recentDB.loadData();
-    print(recentDB.Recent_db);
   }
 
   void remove_Favorite(String name, String description, String footnote) {
@@ -110,51 +111,51 @@ class _RecentPageHomePageState extends State<RecentPageHomePage> {
                   height: isTablet ? 73 : 42,
                   child: Directionality(
                     textDirection: TextDirection.rtl,
-                    child: Center(
-                      child: ListTile(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            side: BorderSide(
-                              color: Colors.transparent,
-                            )),
-                        tileColor: Colors.transparent,
-                        title: Padding(
-                          padding: const EdgeInsets.only(top: 12.0),
-                          child: Text(
-                            "${recentDB.Recent_db[realIndex]['name']}",
-                            style: TextStyle(
-                              fontSize: isTablet ? 28 : 18,
-                              fontFamily: db_font.FontFamily,
-                              fontWeight: FontWeight.w900,
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.to(
+                            () => DetailPage(
+                             
+                                  onRemove: remove_Favorite,
+                                  page: "mainpage",
+                                  name:
+                                      "${recentDB.Recent_db[realIndex]['name']}",
+                                  description:
+                                      "${recentDB.Recent_db[realIndex]['description']}",
+                                  footnote:
+                                      "${recentDB.Recent_db[realIndex]['footnote']}",
+                                  initialPageIndex: realIndex,
+                                  dataList: recentDB.Recent_db.map((item) {
+                                    return {
+                                      'name': item['name'].toString(),
+                                      'description':
+                                          item['description'].toString(),
+                                      'footnote': item['footnote'].toString(),
+                                    };
+                                  }).toList(),
+                                  showFavorite: false,
+                                ),
+                            transition: Transition.rightToLeft,
+                            duration: Duration(milliseconds: 250));
+                        recentDB.updateDataBase();
+                      },
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(right: 15, top: 14),
+                              child: Text(
+                                "${recentDB.Recent_db[realIndex]['name']}",
+                                style: TextStyle(
+                                  fontSize: isTablet ? 28 : 18,
+                                  fontFamily: db_font.FontFamily,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                        onTap: () {
-                          Get.to(
-                              () => DetailPage(
-                                    onRemove: remove_Favorite,
-                                    page: "favoritePage",
-                                    name:
-                                        "${recentDB.Recent_db[realIndex]['name']}",
-                                    description:
-                                        "${recentDB.Recent_db[realIndex]['description']}",
-                                    footnote:
-                                        "${recentDB.Recent_db[realIndex]['footnote']}",
-                                    initialPageIndex: realIndex,
-                                    dataList: recentDB.Recent_db.map((item) {
-                                      return {
-                                        'name': item['name'].toString(),
-                                        'description':
-                                            item['description'].toString(),
-                                        'footnote': item['footnote'].toString(),
-                                      };
-                                    }).toList(),
-                                    showFavorite: false,
-                                  ),
-                              transition: Transition.fadeIn,
-                              duration: Duration(milliseconds: 400));
-                          recentDB.updateDataBase();
-                        },
+                        ],
                       ),
                     ),
                   ),

@@ -6,9 +6,9 @@ import 'package:ragheb_dictionary/Search/DataBase/recent_Search.dart';
 import 'package:ragheb_dictionary/Search/DataBase/Favorite_database.dart';
 import 'package:ragheb_dictionary/Search/FavoritePages/FavoritePage%20.dart';
 import 'package:ragheb_dictionary/WebLog/WebLog.dart';
-import 'package:ragheb_dictionary/HomePage/HomePage.dart';
+import 'package:ragheb_dictionary/HomePage.dart';
 import 'package:ragheb_dictionary/Setting/SettingPage.dart';
-import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
+import 'package:ragheb_dictionary/Tools_Menu/ThemeDatabase.dart';
 import 'package:ragheb_dictionary/Search/search_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -39,6 +39,11 @@ class _MyAppNavigatorState extends State<MyAppNavigator>
     _currentIndex = 0;
     buildScreens = [
       Home(
+        changeIndex: () {
+          setState(() {
+            _currentIndex = 2;
+          });
+        },
         SearchPage: (int currentPage) {
           setState(() {
             perviouseIndex = _currentIndex;
@@ -51,7 +56,6 @@ class _MyAppNavigatorState extends State<MyAppNavigator>
             // perviouseIndex = _currentIndex;
 
             _currentIndex = currentPage;
-            
           });
         },
       ),
@@ -66,18 +70,26 @@ class _MyAppNavigatorState extends State<MyAppNavigator>
       ),
       SearchPage(
         isShow: isShow,
+        onIndex: () {
+          setState(() {
+            _currentIndex = 2;
+          });
+        },
       ),
       FavoritPage_Me(
+        changeIndex: () {
+          setState(() {
+            _currentIndex = 2;
+          });
+        },
         onchange: () {
           setState(() {
             perviouseIndex = _currentIndex;
 
             _currentIndex = 2;
-
           });
         },
       ),
-   
       MySettingsPage(
         onChange: () {
           setState(() {
@@ -122,7 +134,7 @@ class _MyAppNavigatorState extends State<MyAppNavigator>
 
       body: AnimatedSwitcher(
         // switchInCurve: Curves.fastOutSlowIn,
-        duration: Duration(milliseconds: 350),
+        duration: Duration(milliseconds: 250),
         child: buildScreens[_currentIndex],
         transitionBuilder: (child, animation) {
           return FadeTransition(opacity: animation, child: child);
@@ -131,7 +143,7 @@ class _MyAppNavigatorState extends State<MyAppNavigator>
       bottomNavigationBar: _isKeyboardVisible
           ? SizedBox.shrink()
           : AnimatedContainer(
-              duration: Duration(milliseconds: 350),
+              duration: Duration(milliseconds: 250),
               height: ShowFab
                   ? isTablet
                       ? 110
@@ -141,7 +153,7 @@ class _MyAppNavigatorState extends State<MyAppNavigator>
                       : 87,
               curve: Curves.fastEaseInToSlowEaseOut,
               child: AnimatedContainer(
-                duration: Duration(milliseconds: 350),
+                duration: Duration(milliseconds: 250),
                 curve: Curves.fastEaseInToSlowEaseOut,
                 decoration: BoxDecoration(
                     // boxShadow: thememanger.themebo.value
@@ -233,7 +245,7 @@ class _MyAppNavigatorState extends State<MyAppNavigator>
                                   },
                                   icon: Image.asset(
                                     'icons/back.png',
-                                    scale: 3.5,
+                                    scale: isTablet ? 3.5 : 4.5,
                                   ),
                                 )
                               : IconButton(
@@ -247,7 +259,6 @@ class _MyAppNavigatorState extends State<MyAppNavigator>
                                   onPressed: () => setState(() {
                                     perviouseIndex = 4;
                                     _currentIndex = 4;
-                                    
                                   }),
                                 ),
                         ],

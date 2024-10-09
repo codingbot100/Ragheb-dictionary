@@ -1,14 +1,17 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:animations/animations.dart';
+import 'package:carousel_slider/carousel_slider.dart' as carousel_slider;
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
+import 'package:ragheb_dictionary/Tools_Menu/ThemeDatabase.dart';
 import 'package:ragheb_dictionary/WebLog/WebDetail.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class My_slider extends StatefulWidget {
-  const My_slider({Key? key}) : super(key: key);
+  final void Function() onIndex;
+
+  const My_slider({Key? key, required this.onIndex}) : super(key: key);
 
   @override
   _My_sliderState createState() => _My_sliderState();
@@ -16,6 +19,7 @@ class My_slider extends StatefulWidget {
 
 class _My_sliderState extends State<My_slider> {
   List<List<dynamic>> csvData = [];
+
   final themeManger = Get.put(ThemeManager());
 
   final myItems1 = [
@@ -87,51 +91,110 @@ class _My_sliderState extends State<My_slider> {
     final row = csvData[myCurrentIndex];
     return Column(
       children: [
-        GestureDetector(
-          onTap: () {
-            if (csvData.isNotEmpty) {
-              int tappedIndex = myCurrentIndex % csvData.length;
-              Get.to(() => Web_Log_Detail(
-                    imageList: myItems,
-                    csvData: csvData,
-                    image: "images2/${myItems1[tappedIndex % myItems1.length]}",
-                    title: csvData[tappedIndex][1].toString(),
-                    main_Contant: csvData[tappedIndex][0].toString(),
-                    initialPageIndex: tappedIndex,
-                  ));
-            }
-          },
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            child: CarouselSlider(
-              items: List.generate(
-                5,
-                (index) => _buildImageContainer(
-                  index,
-                  screenWidth,
-                  screenheight * 0.3,
-                  csvData.isNotEmpty
-                      ? csvData[myCurrentIndex % csvData.length][1].toString()
-                      : '',
-                  row[0],
+        OpenContainer(
+            transitionDuration: Duration(milliseconds: 500),
+            closedElevation: 0,
+            openElevation: 0,
+            closedColor: Colors.transparent,
+            closedBuilder: (context, action) {
+              return Container(
+                width: MediaQuery.of(context).size.width,
+                child: carousel_slider.CarouselSlider(
+                  items: List.generate(
+                    5,
+                    (index) => _buildImageContainer(
+                      index,
+                      screenWidth,
+                      screenheight * 0.3,
+                      csvData.isNotEmpty
+                          ? csvData[myCurrentIndex % csvData.length][1]
+                              .toString()
+                          : '',
+                      row[0],
+                    ),
+                  ),
+                  options: carousel_slider.CarouselOptions(
+                    height:
+                        isTablet ? screenheight * 0.17 : screenheight * 0.12,
+                    autoPlayInterval: Duration(seconds: 4),
+                    autoPlayCurve: Curves.fastEaseInToSlowEaseOut,
+                    viewportFraction: 1.0,
+                    autoPlay: true,
+                    enlargeCenterPage: false,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        myCurrentIndex = index;
+                      });
+                    },
+                  ),
+                  // Use the aliased controller
                 ),
-              ),
-              options: CarouselOptions(
-                height: isTablet ? screenheight * 0.17 : screenheight * 0.12,
-                autoPlayInterval: Duration(seconds: 4),
-                autoPlayCurve: Curves.fastEaseInToSlowEaseOut,
-                viewportFraction: 1.0,
-                autoPlay: true,
-                enlargeCenterPage: false,
-                onPageChanged: (index, reason) {
+              );
+            },
+            openBuilder: (context, action) {
+              int tappedIndex = myCurrentIndex % csvData.length;
+              return Web_Log_Detail(
+                changeIndex: (index) {
                   setState(() {
-                    myCurrentIndex = index;
+                    widget.onIndex;
                   });
                 },
-              ),
-              // Use the aliased controller
-            ),
-          ),
+                imageList: myItems,
+                csvData: csvData,
+                image: "images2/${myItems1[tappedIndex % myItems1.length]}",
+                title: csvData[tappedIndex][1].toString(),
+                main_Contant: csvData[tappedIndex][0].toString(),
+                initialPageIndex: tappedIndex,
+              );
+            }),
+        // GestureDetector(
+        //   onTap: () {
+        //     if (csvData.isNotEmpty) {
+        //       int tappedIndex = myCurrentIndex % csvData.length;
+        //       Get.to(() => Web_Log_Detail(
+        //             imageList: myItems,
+        //             csvData: csvData,
+        //             image: "images2/${myItems1[tappedIndex % myItems1.length]}",
+        //             title: csvData[tappedIndex][1].toString(),
+        //             main_Contant: csvData[tappedIndex][0].toString(),
+        //             initialPageIndex: tappedIndex,
+        //           ));
+        //     }
+        //   },
+        //   child: Container(
+        //     width: MediaQuery.of(context).size.width,
+        //     child: carousel_slider.CarouselSlider(
+        //       items: List.generate(
+        //         5,
+        //         (index) => _buildImageContainer(
+        //           index,
+        //           screenWidth,
+        //           screenheight * 0.3,
+        //           csvData.isNotEmpty
+        //               ? csvData[myCurrentIndex % csvData.length][1].toString()
+        //               : '',
+        //           row[0],
+        //         ),
+        //       ),
+        //       options: carousel_slider.CarouselOptions(
+        //         height: isTablet ? screenheight * 0.17 : screenheight * 0.12,
+        //         autoPlayInterval: Duration(seconds: 4),
+        //         autoPlayCurve: Curves.fastEaseInToSlowEaseOut,
+        //         viewportFraction: 1.0,
+        //         autoPlay: true,
+        //         enlargeCenterPage: false,
+        //         onPageChanged: (index, reason) {
+        //           setState(() {
+        //             myCurrentIndex = index;
+        //           });
+        //         },
+        //       ),
+        //       // Use the aliased controller
+        //     ),
+        //   ),
+        // ),
+        SizedBox(
+          height: 15,
         ),
         Container(
           height: 9,
@@ -175,7 +238,7 @@ class _My_sliderState extends State<My_slider> {
                 width: screenWidth * 0.68,
                 height: isTablet
                     ? 180 * heightScaleFactor
-                    : 96 * heightScaleFactor, // Adjusted height
+                    : 110 * heightScaleFactor, // Adjusted height
                 padding:
                     EdgeInsets.only(left: 8, right: 8, top: 12, bottom: 12),
                 decoration: BoxDecoration(

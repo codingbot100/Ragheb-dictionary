@@ -2,12 +2,13 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:ragheb_dictionary/HomePage/Navigator.dart';
+import 'package:ragheb_dictionary/Widgets/Navigator.dart';
 import 'package:ragheb_dictionary/Search/DataBase/splashData.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
-import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/Theme_Color.dart';
-import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
-import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeData.dart';
+import 'package:ragheb_dictionary/Tools_Menu/Theme_Color.dart';
+import 'package:ragheb_dictionary/Tools_Menu/ThemeDatabase.dart';
+import 'package:ragheb_dictionary/Tools_Menu/ThemeData.dart';
+
 
 main() async {
   await Hive.initFlutter();

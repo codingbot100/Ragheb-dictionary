@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -73,7 +75,7 @@ class _CustomeNavBarState extends State<CustomeNavBar> {
             ),
             IconButton(
               onPressed: () {
-                Get.back();
+            
               },
               icon: SvgPicture.asset(
                 "svg_images/search_new.svg",

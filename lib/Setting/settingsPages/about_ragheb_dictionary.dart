@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
+import 'package:ragheb_dictionary/Tools_Menu/ThemeDatabase.dart';
 
 class about_ragheb_dictionary extends StatefulWidget {
   const about_ragheb_dictionary({super.key});

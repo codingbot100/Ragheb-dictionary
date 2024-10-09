@@ -8,7 +8,7 @@ import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
 import 'package:ragheb_dictionary/Setting/data/sliderData.dart';
 import 'package:ragheb_dictionary/Search/DataBase/Favorite_database.dart';
 import 'package:ragheb_dictionary/Search/components/BottomNavBar.dart';
-import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
+import 'package:ragheb_dictionary/Tools_Menu/ThemeDatabase.dart';
 import 'package:share_plus/share_plus.dart';
 
 // ignore: must_be_immutable
@@ -355,9 +355,8 @@ class _DetailPageState extends State<DetailPage> {
                           Padding(
                             padding: const EdgeInsets.only(),
                             child: Visibility(
-                              visible: widget.dataList[_currentPageIndex]
-                                      ['footnote'] !=
-                                  'n/a',
+                              visible:
+                                  widget.dataList[index]['footnote'] != 'n/a',
                               child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12),
@@ -377,8 +376,7 @@ class _DetailPageState extends State<DetailPage> {
                                             textAlign: TextAlign.justify,
                                             text: TextSpan(
                                               text: addNewLines(
-                                                widget.dataList[
-                                                        _currentPageIndex]
+                                                widget.dataList[index]
                                                     ['footnote']!,
                                                 4, // Insert a new line after approximately 4 lines or at punctuation
                                               ),
@@ -483,7 +481,9 @@ class _DetailPageState extends State<DetailPage> {
       bottomNavigationBar: Container(
         height: isTablet ? 110 : 87,
         child: CustomeNavBar(
-            dataList: widget.dataList, pageController: _pageController),
+           
+            dataList: widget.dataList,
+            pageController: _pageController),
       ),
     );
   }

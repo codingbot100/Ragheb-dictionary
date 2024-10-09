@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:ragheb_dictionary/Widgets/My_slider.dart';
+// import 'package:ragheb_dictionary/HomePage/My_slider.dart';
 import 'package:ragheb_dictionary/Search/RecentPages/RecentPage_Menu.dart';
+import 'package:ragheb_dictionary/Search/RecentPages/Recent_database.dart';
 import 'package:ragheb_dictionary/Setting/data/fontFamilyDataBase.dart';
-// import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/My_slider.dart';
-// import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/Custome_CarouselSlider.dart';
-import 'package:ragheb_dictionary/Tools_Menu/CarouselSlider/tools/ThemeDatabase.dart';
+import 'package:ragheb_dictionary/Tools_Menu/ThemeDatabase.dart';
 import 'package:ragheb_dictionary/Search/FavoritePages/FavoritePages_menu.dart';
 import 'package:ragheb_dictionary/Search/DataBase/Favorite_database.dart';
 import 'package:ragheb_dictionary/Search/DataBase/recent_Search.dart';
@@ -16,11 +17,13 @@ import 'package:ragheb_dictionary/Search/DataBase/recent_Search.dart';
 class Home extends StatefulWidget {
   final void Function(int) onPageChange;
   final void Function(int) SearchPage;
+  final void Function() changeIndex;
 
   const Home({
     Key? key,
     required this.onPageChange,
     required this.SearchPage,
+    required this.changeIndex,
   }) : super(key: key);
 
   @override
@@ -34,6 +37,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   ToDoRecent Recent_db = ToDoRecent();
   ToDo_favorite toDo_favorite = ToDo_favorite();
   final _meBox = Hive.box('mybox');
+
   final myItems = [
     'images2/2.jpg',
     'images2/3.jpg',
@@ -46,7 +50,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   final fontSizeSubTitle = 10.0;
   final colorPrimary = Color(0xFF009688);
   var colortitle;
-  ToDoRecent toDoRecent = ToDoRecent();
+  Recent_Database toDoRecent = Recent_Database();
 
   @override
   void initState() {
@@ -119,66 +123,80 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                     child: Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(top: isTablet ? 75.0 : 25),
-                          child: TextRow(
-                              1,
-                              "< مرور همه ",
-                              'مقالات وبلاگ',
-                              fontFamile: fontFamile,
-                              colorPrimary: colorPrimary,
-                              context: context,
-                              onPageChange: widget.onPageChange,
-                              width),
+                          padding: EdgeInsets.only(
+                            top: isTablet ? 75.0 : 25.0,
+                          ),
+                          child: Container(
+                            height: 30,
+                            child: Center(
+                              child: TextRow(
+                                  1,
+                                  "< مرور همه ",
+                                  'مقالات وبلاگ',
+                                  fontFamile: fontFamile,
+                                  colorPrimary: colorPrimary,
+                                  context: context,
+                                  onPageChange: widget.onPageChange,
+                                  width),
+                            ),
+                          ),
                         ),
-                        // Padding(
-                        //   padding: EdgeInsets.only(bottom: isTablet ? 55 : 10),
-                        //   child: Container(width: 100, child: My_slider()),
-                        // ),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: isTablet ? 55 : 0),
+                          child: My_slider(
+                            onIndex: () {
+                              widget.changeIndex();
+                            },
+                          ),
+                        ),
                         SingleChildScrollView(
                           child: Column(
                             children: [
                               Padding(
                                 padding: EdgeInsets.only(
                                     top: 70, bottom: height * 0.18),
-                                child: Container(
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      widget.SearchPage(2);
-                                    },
-                                    child: Container(
-                                      alignment: Alignment.centerRight,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          width: 2,
-                                          color:
-                                              Color.fromRGBO(0, 150, 136, 0.5),
-                                        ),
-                                        borderRadius: BorderRadius.circular(50),
-                                      ),
-                                      height: isTablet ? 70 : 47,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            "جستجو در واژه گان قرآنکریم",
-                                            style: TextStyle(
-                                              fontFamily: "YekanBakh",
-                                              color: Color.fromRGBO(
-                                                  0, 150, 136, 1),
-                                              fontSize: isTablet ? 33 : 17,
-                                              fontWeight: FontWeight.w600,
-                                            ),
+                                child: Center(
+                                  child: Container(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        widget.SearchPage(2);
+                                      },
+                                      child: Container(
+                                        alignment: Alignment.centerRight,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            width: 2,
+                                            color: Color.fromRGBO(
+                                                0, 150, 136, 0.5),
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 10, right: 10),
-                                            child: SvgPicture.asset(
-                                              "svg_images/search_button.svg",
-                                              height: 25,
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                        ),
+                                        height: isTablet ? 70 : 47,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Text(
+                                              "جستجو در واژه گان قرآنکریم",
+                                              style: TextStyle(
+                                                fontFamily: "YekanBakh",
+                                                color: Color.fromRGBO(
+                                                    0, 150, 136, 1),
+                                                fontSize: isTablet ? 33 : 17,
+                                                fontWeight: FontWeight.w600,
+                                              ),
                                             ),
-                                          )
-                                        ],
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10, right: 10),
+                                              child: SvgPicture.asset(
+                                                "svg_images/search_button.svg",
+                                                height: 25,
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -214,6 +232,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                   child: GetBuilder<MyController>(
                                     builder: (controller) {
                                       return FavoritPage_menu(
+                                      
                                         length: 0,
                                       );
                                     },
@@ -221,7 +240,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                 ),
                               ),
                               Visibility(
-                                visible: toDoRecent.RecentSearch.isNotEmpty,
+                                visible: toDoRecent.Recent_db.isNotEmpty,
                                 child: Padding(
                                   padding: EdgeInsets.only(
                                       bottom: isTablet ? 15 : 0),
@@ -239,6 +258,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                               Container(
                                 height: 220,
                                 child: RecentPageHomePage(
+                                   changeIndex: () {
+                                      setState(() {
+                                        widget.changeIndex();
+                                      });
+                                    },
                                   length: 0,
                                 ),
                               ),

@@ -14,7 +14,9 @@ import 'package:ragheb_dictionary/Search/Detail_Page.dart';
 
 class SearchPage extends StatefulWidget {
   bool isShow;
-  SearchPage({super.key, required this.isShow});
+  final void Function() onIndex;
+
+  SearchPage({super.key, required this.isShow, required this.onIndex});
 
   @override
   State<SearchPage> createState() => _SearchPageState();
@@ -92,7 +94,7 @@ class _SearchPageState extends State<SearchPage> {
 
     db6.createInitialData();
     db6.loadData();
-    Timer(Duration(milliseconds: 250), () {
+    Timer(Duration(milliseconds: 350), () {
       loadData();
     });
 
@@ -142,8 +144,8 @@ class _SearchPageState extends State<SearchPage> {
 
   void removeAll() {
     setState(() {
-      RecentData.RecentSearch.clear();
-      RecentData.updateDataBase();
+      recent_database.Recent_db.clear();
+      recent_database.updateDataBase();
     });
   }
 
@@ -253,19 +255,16 @@ class _SearchPageState extends State<SearchPage> {
                                 visible: _searchController.text.isEmpty
                                     ? false
                                     : true,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 10),
-                                  child: IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        _searchController.clear();
-                                      });
-                                    },
-                                    icon: Icon(
-                                      Icons.clear,
-                                      size: isTablet ? 27 : 15,
-                                      color: Color.fromRGBO(0, 150, 136, 1),
-                                    ),
+                                child: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _searchController.clear();
+                                    });
+                                  },
+                                  icon: Icon(
+                                    Icons.clear,
+                                    size: isTablet ? 27 : 15,
+                                    color: Color.fromRGBO(0, 150, 136, 1),
                                   ),
                                 ),
                               ),
@@ -313,7 +312,7 @@ class _SearchPageState extends State<SearchPage> {
                   children: [
                     Visibility(
                         visible: _searchController.text.isEmpty &&
-                                RecentData.RecentSearch.isNotEmpty
+                                recent_database.Recent_db.isNotEmpty
                             ? true
                             : false,
                         child: Padding(
@@ -340,41 +339,38 @@ class _SearchPageState extends State<SearchPage> {
                     Visibility(
                       visible: _searchController.text.isEmpty ? true : false,
                       child: Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 20),
-                          child: ListView.separated(
-                            separatorBuilder: (context, index) {
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 20, right: 0),
-                                child: Divider(
-                                  thickness: 0.5,
-                                  color: Color.fromRGBO(0, 150, 136, 1),
-                                ),
-                              );
-                            },
-                            shrinkWrap: true,
-                            itemCount: recent_database
-                                .Recent_db.length, // Use dataList length
-                            itemBuilder: (context, index) {
-                              // int realIndex =
-                              //     index % recent_database.Recent_db.length;
-                              final item = recentMapList[index];
+                        child: ListView.separated(
+                          separatorBuilder: (context, index) {
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 12, right: 0),
+                              child: Divider(
+                                thickness: 0.5,
+                                color: Color.fromRGBO(0, 150, 136, 1),
+                              ),
+                            );
+                          },
+                          shrinkWrap: true,
+                          itemCount: recent_database
+                              .Recent_db.length, // Use dataList length
+                          itemBuilder: (context, index) {
+                            // int realIndex =
+                            //     index % recent_database.Recent_db.length;
+                            final item = recentMapList[index];
 
-                              return Container(
-                                height: isTablet ? 62 : 42,
-                                child: Center(
-                                  child: myListTile(
-                                    () => RemoveIcon(index),
-                                    () => onDetail(item, recentMapList, false),
-                                    isTablet,
-                                    true,
-                                    "${item['name']}",
-                                  ),
+                            return Container(
+                              height: isTablet ? 62 : 42,
+                              child: Center(
+                                child: myListTile(
+                                  () => RemoveIcon(index),
+                                  () => onDetail(item, recentMapList, false),
+                                  isTablet,
+                                  true,
+                                  "${item['name']}",
                                 ),
-                              );
-                            },
-                          ),
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ),
@@ -437,7 +433,7 @@ class _SearchPageState extends State<SearchPage> {
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           isShowIcon
               ? Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
+                  padding: const EdgeInsets.only(left: 3),
                   child: IconButton(
                     onPressed: onPress,
                     icon: Icon(Icons.clear,
@@ -477,12 +473,13 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void onDetail(final item, dataList, bool isAddToRecentList) {
-    print(
-      item['name'],
-    );
+    // print(
+    //   item['footnote'],
+    // );
     // print("dataList:$dataList");
     Get.to(
       () => DetailPage(
+      
         onRemove: (name, descriprion, footnote) {},
         page: "mainpage",
         name: item['name']!,
@@ -493,7 +490,7 @@ class _SearchPageState extends State<SearchPage> {
         showFavorite: true,
       ),
       transition: Transition.rightToLeft,
-      duration: Duration(milliseconds: 350),
+      duration: Duration(milliseconds: 250),
     );
     // print(item['footnote']);
     WidgetsBinding.instance.addPostFrameCallback((_) {

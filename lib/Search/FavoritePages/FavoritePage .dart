@@ -10,7 +10,9 @@ import 'package:ragheb_dictionary/Widgets/Panel.dart';
 // ignore: must_be_immutable
 class FavoritPage_Me extends StatefulWidget {
   void Function() onchange;
-  FavoritPage_Me({Key? key, required this.onchange}) : super(key: key);
+      final void Function() changeIndex;
+
+  FavoritPage_Me({Key? key, required this.onchange, required this.changeIndex}) : super(key: key);
   @override
   _FavoritPage_MeState createState() => _FavoritPage_MeState();
 }
@@ -157,6 +159,7 @@ class _FavoritPage_MeState extends State<FavoritPage_Me> {
                                 onTap: () {
                                   Get.to(
                                     () => DetailPage(
+                                   
                                       onRemove: remove_Favorite,
                                       page: "favoritePage",
                                       name:
